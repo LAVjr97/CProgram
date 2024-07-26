@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
-      <width>781</width>
-      <height>561</height>
+      <y>20</y>
+      <width>801</width>
+      <height>581</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -81,45 +81,6 @@
        <string>Customer</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnLaundry">
-      <property name="geometry">
-       <rect>
-        <x>640</x>
-        <y>260</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Laundry</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnDryClean">
-      <property name="geometry">
-       <rect>
-        <x>640</x>
-        <y>320</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Dry Clean</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnAlterations">
-      <property name="geometry">
-       <rect>
-        <x>640</x>
-        <y>380</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Alterations</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="lblDropOff">
       <property name="geometry">
        <rect>
@@ -158,6 +119,49 @@
       <property name="text">
        <string>Return</string>
       </property>
+     </widget>
+     <widget class="QTableView" name="tableView">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>140</y>
+        <width>601</width>
+        <height>371</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>640</x>
+        <y>260</y>
+        <width>82</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="btnLaundry">
+         <property name="text">
+          <string>Laundry</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnDryClean">
+         <property name="text">
+          <string>Dry Clean</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnAlterations">
+         <property name="text">
+          <string>Alterations</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>
