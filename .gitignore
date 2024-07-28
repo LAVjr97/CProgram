@@ -72,3 +72,4 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+build/Qt_6_7_2_for_macOS-Debug/.qmake.stash
