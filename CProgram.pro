@@ -10,7 +10,9 @@ CONFIG += c++17
 
 SOURCES += \
     customer.cpp \
+    customersearchpage.cpp \
     customerselect.cpp \
+    dropoffpage.cpp \
     handle.cpp \
     laundry.cpp \
     main.cpp \
@@ -19,7 +21,9 @@ SOURCES += \
 
 HEADERS += \
     customer.h \
+    customersearchpage.h \
     customerselect.h \
+    dropoffpage.h \
     handle.h \
     laundry.h \
     main.h \
@@ -27,7 +31,9 @@ HEADERS += \
     order.h
 
 FORMS += \
+    customersearchpage.ui \
     customerselect.ui \
+    dropoffpage.ui \
     laundry.ui \
     mainwindow.ui
 

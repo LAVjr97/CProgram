@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "dropoffpage.h"
+#include "customersearchpage.h"
+#include "customer.h"
+#include "order.h"
+#include "qstackedwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,6 +21,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    std::unordered_map<int, std::vector<orderInfo::order>>& getOrders();
+    std::vector<cust::customer>& getCustomers();
+
 
 private slots:
     void on_btnDropOff_clicked();
@@ -26,7 +34,26 @@ private slots:
 
     void on_btnReturn_clicked();
 
+    void showMainPage();
+
+    void showDropOffPage();
+
+    void showSearchPage();
+
+    void on_btnReturn_2_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    //Stacked Widget
+    QStackedWidget *stackedWidget;
+
+    //Pages
+    DropOffPage *dropOffPage;
+    CustomerSearchPage *customerSearchPage;
+
+    //Data Structures to hold the
+    std::unordered_map<int, std::vector<orderInfo::order>> orders;
+    std::vector<cust::customer> customers;
 };
 #endif // MAINWINDOW_H
