@@ -30,6 +30,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//Main Home Page
 void MainWindow::on_btnDropOff_clicked()
 {
     MainWindow::showDropOffPage();
@@ -65,7 +66,7 @@ void MainWindow::showMainPage(){
 }
 
 void MainWindow::showDropOffPage(){
-    ui->stackedWidget->setCurrentWidget(dropOffPage);
+    ui->stackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::showSearchPage(){
@@ -78,6 +79,17 @@ void MainWindow::on_btnReturn_2_clicked()
     MainWindow::showDropOffPage();
 }
 
+void MainWindow::on_btnNewCustomerPg_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+//New Customer Page
+void MainWindow::on_btnReturn_3_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
 //Get Functions
 std::unordered_map<int, std::vector<orderInfo::order>>& MainWindow::getOrders() { //the variable that holds the address should be a pointer
     return this->orders;
@@ -86,4 +98,8 @@ std::unordered_map<int, std::vector<orderInfo::order>>& MainWindow::getOrders() 
 std::vector<cust::customer>& MainWindow::getCustomers() {
     return this->customers;
 }
+
+
+
+
 

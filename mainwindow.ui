@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QPushButton" name="btnDropOff">
@@ -135,7 +135,7 @@
        <rect>
         <x>640</x>
         <y>260</y>
-        <width>82</width>
+        <width>97</width>
         <height>101</height>
        </rect>
       </property>
@@ -313,6 +313,34 @@
        <string>Return</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="btnNewCustomerPg">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>240</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>New Cusomter</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="pgCustomerNew">
+     <widget class="QPushButton" name="btnReturn_3">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>260</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Return</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -322,7 +350,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

@@ -42,6 +42,10 @@ private slots:
 
     void on_btnReturn_2_clicked();
 
+    void on_btnNewCustomerPg_clicked();
+
+    void on_btnReturn_3_clicked();
+
 private:
     Ui::MainWindow *ui;
 
