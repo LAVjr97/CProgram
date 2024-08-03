@@ -202,7 +202,7 @@
        <string>Phone:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="lineFName">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -212,7 +212,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="lineLName">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -222,7 +222,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_3">
+     <widget class="QLineEdit" name="linePhone">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -232,7 +232,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_4">
+     <widget class="QLineEdit" name="lineDropOff">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -242,7 +242,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_5">
+     <widget class="QLineEdit" name="linePickUp">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -278,7 +278,7 @@
        <string>Order ID:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_6">
+     <widget class="QLineEdit" name="lineCustomerID">
       <property name="geometry">
        <rect>
         <x>530</x>
@@ -287,8 +287,11 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_7">
+     <widget class="QLineEdit" name="lineOrderID">
       <property name="geometry">
        <rect>
         <x>530</x>
@@ -326,19 +329,133 @@
        <string>New Cusomter</string>
       </property>
      </widget>
+     <widget class="QLineEdit" name="lineEdit_11">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>250</y>
+        <width>113</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>250</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Last Name:</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="pgCustomerNew">
      <widget class="QPushButton" name="btnReturn_3">
       <property name="geometry">
        <rect>
-        <x>610</x>
-        <y>260</y>
+        <x>660</x>
+        <y>450</y>
         <width>81</width>
         <height>51</height>
        </rect>
       </property>
       <property name="text">
        <string>Return</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblFName_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>50</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>First Name:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblLName_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>80</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Last Name:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblPhone_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>110</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Phone Number:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineFName_2">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>50</y>
+        <width>113</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>lkasduhdfasdgasdg</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineLName_2">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>80</y>
+        <width>113</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>asdfafds</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="linePhone_2">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>110</y>
+        <width>113</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>asdqf</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnCreate">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>380</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Create</string>
       </property>
      </widget>
     </widget>
@@ -350,7 +467,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

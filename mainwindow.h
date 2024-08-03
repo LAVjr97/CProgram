@@ -46,6 +46,8 @@ private slots:
 
     void on_btnReturn_3_clicked();
 
+    void on_btnCreate_clicked();
+
 private:
     Ui::MainWindow *ui;
 

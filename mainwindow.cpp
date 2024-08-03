@@ -90,6 +90,11 @@ void MainWindow::on_btnReturn_3_clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+void MainWindow::on_btnCreate_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
 //Get Functions
 std::unordered_map<int, std::vector<orderInfo::order>>& MainWindow::getOrders() { //the variable that holds the address should be a pointer
     return this->orders;
@@ -98,8 +103,5 @@ std::unordered_map<int, std::vector<orderInfo::order>>& MainWindow::getOrders() 
 std::vector<cust::customer>& MainWindow::getCustomers() {
     return this->customers;
 }
-
-
-
 
 
