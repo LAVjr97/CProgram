@@ -7,6 +7,7 @@
 
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QLineEdit>
 
 //Constructor
 MainWindow::MainWindow(QWidget *parent)
