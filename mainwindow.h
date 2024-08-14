@@ -45,9 +45,9 @@ private slots:
 
     void showNewCustomerPage();
 
-    void on_btnReturn_2_clicked();
+    void on_btnReturnCS_clicked();
 
-    void on_btnNewCustomerPg_clicked();
+    void on_btnNewCustomersCS_clicked();
 
     void on_btnReturn_3_clicked();
 
@@ -81,7 +81,12 @@ private:
     QLineEdit *linePickUpDP;
 
     //
+    //Customer Search Page
     //
+    QLineEdit *lineSearchCustomerCS;
+
+    //
+    //New Customer Page
     //
     QLineEdit *lineFNameNC;
     QLineEdit *lineLNameNC;
