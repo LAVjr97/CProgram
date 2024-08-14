@@ -1,6 +1,4 @@
-#include "../include/handle.h"
-
-
+#include "handle.h"
 
 //To clear the screen, windows uses "cls", mac/linux uses "clear"
 #define screen "cls"

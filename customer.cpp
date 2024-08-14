@@ -1,4 +1,4 @@
-#include "../include/customer.h"
+#include "customer.h"
 
 /* TODO:
 

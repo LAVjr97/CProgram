@@ -10,19 +10,25 @@ CONFIG += c++17
 
 SOURCES += \
     customer.cpp \
+    date.cpp \
     dropoffpage.cpp \
+    file.cpp \
     handle.cpp \
     main.cpp \
     mainwindow.cpp \
-    order.cpp
+    order.cpp \
+    search.cpp
 
 HEADERS += \
     customer.h \
+    date.h \
     dropoffpage.h \
+    file.h \
     handle.h \
     main.h \
     mainwindow.h \
-    order.h
+    order.h \
+    search.h
 
 FORMS += \
     dropoffpage.ui \
@@ -32,3 +38,8 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    customers.txt \
+    orders.txt \
+    temp.txt

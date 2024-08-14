@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QPushButton" name="btnDropOff">
@@ -81,7 +81,7 @@
        <string>Customer</string>
       </property>
      </widget>
-     <widget class="QLabel" name="lblDropOff">
+     <widget class="QLabel" name="lblDropOffDP">
       <property name="geometry">
        <rect>
         <x>240</x>
@@ -94,7 +94,7 @@
        <string>Drop Off:</string>
       </property>
      </widget>
-     <widget class="QLabel" name="lblPickUp">
+     <widget class="QLabel" name="lblPickUpDP">
       <property name="geometry">
        <rect>
         <x>240</x>
@@ -163,7 +163,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QLabel" name="lblFName">
+     <widget class="QLabel" name="lblFNameDP">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -176,7 +176,7 @@
        <string>First Name:</string>
       </property>
      </widget>
-     <widget class="QLabel" name="lblLName">
+     <widget class="QLabel" name="lblLNameDP">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -189,7 +189,7 @@
        <string>Last Name:</string>
       </property>
      </widget>
-     <widget class="QLabel" name="lblPhone">
+     <widget class="QLabel" name="lblPhoneDP">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -202,7 +202,7 @@
        <string>Phone:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineFName">
+     <widget class="QLineEdit" name="lineFNameDP">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -212,7 +212,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineLName">
+     <widget class="QLineEdit" name="lineLNameDP">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -222,7 +222,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="linePhone">
+     <widget class="QLineEdit" name="linePhoneDP">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -232,7 +232,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineDropOff">
+     <widget class="QLineEdit" name="lineDropOffDP">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -242,7 +242,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="linePickUp">
+     <widget class="QLineEdit" name="linePickUpDP">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -278,7 +278,7 @@
        <string>Order ID:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineCustomerID">
+     <widget class="QLineEdit" name="lineCustomerIDDP">
       <property name="geometry">
        <rect>
         <x>530</x>
@@ -291,7 +291,7 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineOrderID">
+     <widget class="QLineEdit" name="lineOrderIDDP">
       <property name="geometry">
        <rect>
         <x>530</x>
@@ -406,7 +406,7 @@
        <string>Phone Number:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineFName_2">
+     <widget class="QLineEdit" name="lineFNameNC">
       <property name="geometry">
        <rect>
         <x>90</x>
@@ -419,7 +419,7 @@
        <string/>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineLName_2">
+     <widget class="QLineEdit" name="lineLNameNC">
       <property name="geometry">
        <rect>
         <x>90</x>
@@ -432,7 +432,7 @@
        <string/>
       </property>
      </widget>
-     <widget class="QLineEdit" name="linePhone_2">
+     <widget class="QLineEdit" name="linePhoneNC">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -467,7 +467,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

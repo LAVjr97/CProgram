@@ -1,3 +1,8 @@
+//Notes: To clear screen on Unix based os', use "clear", windows, "cls"
+#ifndef HANDLE_H
+#define HANDLE_H
+
+#include "main.h"
 #include "order.h"
 #include "customer.h"
 #include "search.h"
