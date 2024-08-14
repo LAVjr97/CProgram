@@ -9,7 +9,9 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 
+//
 //Constructor
+//
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -22,7 +24,21 @@ MainWindow::MainWindow(QWidget *parent)
     stackedWidget->addWidget(this->dropOffPage);
     QPushButton *btnDropOff = new QPushButton("Drop Off", this);
 
+
+    //
+    //DropOffPage
+    //
+    lineCustomerIDDP = ui -> lineCustomerIDDP;
+    lineDropOffDP = ui -> lineOrderIDDP;
+    lineFNameDP = ui -> lineFNameDP;
+    lineLNameDP = ui -> lineLNameDP;
+    lineOrderIDDP = ui -> lineOrderIDDP;
+    linePhoneDP = ui -> linePhoneDP;
+    linePickUpDP = ui -> linePickUpDP;
+
+    //
     //connect buttons to slots
+    //
     connect(btnDropOff, &QPushButton::clicked, this, &MainWindow::showDropOffPage);
 }
 
@@ -31,7 +47,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//
 //Main Home Page
+//
 void MainWindow::on_btnDropOff_clicked()
 {
     MainWindow::showDropOffPage();
@@ -45,7 +63,9 @@ void MainWindow::on_btnLaundry_clicked()
     laundWindow.exec(); //executing object class, opens the window
 }
 
+//
 //Drop Off Page
+//
 void MainWindow::on_btnCustomer_clicked()
 {
     MainWindow::showSearchPage();
@@ -61,12 +81,15 @@ void MainWindow::on_btnReturn_clicked()
     MainWindow::showMainPage();
 }
 
+//
 //Page Movement
+//
 void MainWindow::showMainPage(){
     ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::showDropOffPage(){
+    lineFNameDP -> setText("Hello World");
     ui->stackedWidget->setCurrentIndex(1);
 }
 
@@ -74,7 +97,9 @@ void MainWindow::showSearchPage(){
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+//
 //Search Page
+//
 void MainWindow::on_btnReturn_2_clicked()
 {
     MainWindow::showDropOffPage();
@@ -85,7 +110,9 @@ void MainWindow::on_btnNewCustomerPg_clicked()
     ui->stackedWidget->setCurrentIndex(3);
 }
 
+//
 //New Customer Page
+//
 void MainWindow::on_btnReturn_3_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
@@ -96,7 +123,9 @@ void MainWindow::on_btnCreate_clicked()
     ui->stackedWidget->setCurrentIndex(1);
 }
 
+//
 //Get Functions
+//
 std::unordered_map<int, std::vector<orderInfo::order>>& MainWindow::getOrders() { //the variable that holds the address should be a pointer
     return this->orders;
 }

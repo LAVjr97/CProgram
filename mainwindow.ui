@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QPushButton" name="btnDropOff">
@@ -372,7 +372,7 @@
        <rect>
         <x>20</x>
         <y>50</y>
-        <width>61</width>
+        <width>81</width>
         <height>16</height>
        </rect>
       </property>
@@ -385,7 +385,7 @@
        <rect>
         <x>20</x>
         <y>80</y>
-        <width>61</width>
+        <width>81</width>
         <height>16</height>
        </rect>
       </property>
@@ -398,7 +398,7 @@
        <rect>
         <x>20</x>
         <y>110</y>
-        <width>81</width>
+        <width>101</width>
         <height>16</height>
        </rect>
       </property>
@@ -409,40 +409,40 @@
      <widget class="QLineEdit" name="lineFName_2">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>90</x>
         <y>50</y>
         <width>113</width>
         <height>23</height>
        </rect>
       </property>
       <property name="text">
-       <string>lkasduhdfasdgasdg</string>
+       <string/>
       </property>
      </widget>
      <widget class="QLineEdit" name="lineLName_2">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>90</x>
         <y>80</y>
         <width>113</width>
         <height>23</height>
        </rect>
       </property>
       <property name="text">
-       <string>asdfafds</string>
+       <string/>
       </property>
      </widget>
      <widget class="QLineEdit" name="linePhone_2">
       <property name="geometry">
        <rect>
-        <x>100</x>
+        <x>120</x>
         <y>110</y>
         <width>113</width>
         <height>23</height>
        </rect>
       </property>
       <property name="text">
-       <string>asdqf</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="btnCreate">
@@ -467,7 +467,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

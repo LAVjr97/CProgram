@@ -10,31 +10,22 @@ CONFIG += c++17
 
 SOURCES += \
     customer.cpp \
-    customersearchpage.cpp \
-    customerselect.cpp \
     dropoffpage.cpp \
     handle.cpp \
-    laundry.cpp \
     main.cpp \
     mainwindow.cpp \
     order.cpp
 
 HEADERS += \
     customer.h \
-    customersearchpage.h \
-    customerselect.h \
     dropoffpage.h \
     handle.h \
-    laundry.h \
     main.h \
     mainwindow.h \
     order.h
 
 FORMS += \
-    customersearchpage.ui \
-    customerselect.ui \
     dropoffpage.ui \
-    laundry.ui \
     mainwindow.ui
 
 # Default rules for deployment.

@@ -1,27 +1,29 @@
-#ifndef HANDLE_H
-#define HANDLE_H
-
-#include "main.h"
-#include "customer.h"
 #include "order.h"
+#include "customer.h"
+#include "search.h"
+#include "file.h"
+
+
 
 using namespace std;
 
 namespace menu{
-    class options{
-        public:
-            //Static functions, functions to be used through out run time.
-            static int handleDropOff(std::unordered_map<int, orderInfo::order> &orders, std::vector<cust::customer> &customers);
-            static int handlePickUp();
-            static int handleLookUp();
-            static int handleHistory();
-            static std::array<std::tuple<int, double>, 8> handleArticles();
+class options{
+public:
+    //Static functions, functions to be used through out run time.
+    static int handleDropOff(std::vector<orderInfo::order> &orders, std::vector<cust::customer> &customers, fi::File &manager);
+    static int handlePickUp(std::vector<orderInfo::order> &orders, std::vector<cust::customer> &customers, fi::File &manager);
+    static int handleLookUp(std::vector<orderInfo::order> &orders, std::vector<cust::customer> &customers, fi::File &manager);
+    static int handleHistory(std::vector<orderInfo::order> &orders, std::vector<cust::customer> &customers, fi::File &manager);
+    static int handleRack(std::vector<orderInfo::order> &orders, std::vector<cust::customer> &customers, fi::File &manager);
 
-            static std::string getDate();
+    static std::array<std::tuple<int, double>, 8> handleArticles();
 
-        private:
+private:
 
-    };
+};
+
+
 }
 
-#endif // HANDLE_H
+#endif // !MENU_HEADER_H

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLineEdit>
 #include "dropoffpage.h"
 #include "customersearchpage.h"
 #include "customer.h"
@@ -55,11 +56,22 @@ private:
     QStackedWidget *stackedWidget;
 
     //Pages
-    DropOffPage *dropOffPage;
-    CustomerSearchPage *customerSearchPage;
 
     //Data Structures to hold the
     std::unordered_map<int, std::vector<orderInfo::order>> orders;
     std::vector<cust::customer> customers;
+
+    //
+    //DropOffPage
+    //
+    QLineEdit = *lineCustomerIDDP;
+    QLineEdit = *lineDropOffDP;
+    QLineEdit = *lineFNameDP;
+    QLineEdit = *lineLNameDP;
+    QLineEdit = *lineOrderIDDP;
+    QLineEdit = *linePhoneDP;
+    QLineEdit = *linePickUpDP;
+
+
 };
 #endif // MAINWINDOW_H

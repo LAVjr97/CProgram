@@ -1,4 +1,4 @@
-#include "customer.h"
+#include "../include/customer.h"
 
 /* TODO:
 
@@ -7,13 +7,15 @@
 using namespace cust;
 
 //Constructors
-customer::customer(int customerID, std::string firstName, std::string lastName, std::string phone, int visits, double total){
+//Used to load
+customer::customer(int customerID, std::string firstName, std::string lastName, std::string phone, int visits, double total, std::vector<int> orders){
     this->customerID = customerID;
     this->firstName = firstName;
     this->lastName = lastName;
     this->phone = phone;
     this->visits = visits;
     this->total = total;
+    this->orders = orders;
     return;
 }
 
@@ -22,7 +24,7 @@ customer::customer(int customerID, std::string firstName, std::string lastName, 
     this->customerID = customerID;
     this->firstName = firstName;
     this->lastName = lastName;
-    this->phone = phone;
+    this-> phone = this->createPhone(phone);
     this->visits = 1;
     this->total = 0;
     return;
@@ -53,6 +55,10 @@ std::string customer::getPhone() const{
     return phone;
 }
 
+std::vector<int> customer::getOrders() const {
+    return orders;
+}
+
 std::string customer::getLastVisit() const{
     return lastVisit;
 }
@@ -64,38 +70,52 @@ double customer::getTotal() const{
     return total;
 }
 
+int customer::getOrderSize() const {
+    return this->orders.size();
+}
+
+int customer::getOrderID(int i) const {
+    return this->orders[i];
+}
+
 //Set functions
 int customer::setCustomerID(int id) {
     this->customerID = id;
     return 0;
 }
-// int customer::setName(std::string name) {
-// 	this->name = name;
-// 	return 0;
-// }
 
-int customer::setFirstName(std::string firstName){
+int customer::setFirstName(std::string firstName) {
     this->firstName = firstName;
     return 0;
 }
 
-int customer::setLastName(std::string lastName){
+int customer::setLastName(std::string lastName) {
     this->lastName = lastName;
     return 0;
 }
 
 
-int customer::setPhone(std::string phone){
+int customer::setPhone(std::string phone) {
     this->phone = phone;
     return 0;
 }
 
-int customer::updateLastVisit(std::string lastVisit){
+int customer::setOrders(std::vector<int> orders) {
+    this->orders = orders;
+    return 0;
+}
+
+int customer::setLatestOrder(int orderID) {
+    this->orders.emplace_back(orderID);
+    return 0;
+}
+
+int customer::updateLastVisit(std::string lastVisit) {
     this->lastVisit = lastVisit;
     return 0;
 }
 
-int customer::updateVisits(int visits){
+int customer::updateVisits(int visits) {
     this->visits = visits;
     return 0;
 }
@@ -106,52 +126,15 @@ int customer::updateTotal(double total){
 }
 
 
-//Serialize functions
-void customer::serialize(std::ofstream &ofs) const{
-    //size_t = unsigned integer type of the result of sizeof
+//Helper functions
+std::string customer::createPhone(std::string phone) {
+    int i, j = 1;
+    std::string temp;
 
-    ofs.write(reinterpret_cast<const char*>(&this->customerID), sizeof(this->customerID));
+    for (i = 0; i < phone.size(); i++)
+        if (phone[i] != '(' && phone[i] != ')' && phone[i] != '-' && phone[i] != ' ')
+            temp += phone[i];
 
-    size_t nameSize = firstName.size();
-    ofs.write(reinterpret_cast<const char*>(&this->firstName), sizeof(nameSize));
-    ofs.write(firstName.c_str(), nameSize);
-
-    nameSize = lastName.size();
-    ofs.write(reinterpret_cast<const char*>(&this->lastName), sizeof(nameSize));
-    ofs.write(lastName.c_str(), nameSize);
-
-    size_t phoneSize = phone.size();
-    ofs.write(reinterpret_cast<const char*>(&this->phone), sizeof(phoneSize));
-    ofs.write(phone.c_str(), phoneSize);
-
-    ofs.write(reinterpret_cast<const char*>(&this->visits), sizeof(visits));
-    ofs.write(reinterpret_cast<const char*>(&this->total), sizeof(total));
-
-    return;
+    return temp;
 }
 
-customer customer::deserialize(std::ifstream& ifs){
-    int customerID = 0, visits = 0;
-    double total = 0;
-    size_t nameSize = 0, phoneSize = 0;
-
-    ifs.read(reinterpret_cast<char*>(&customerID), sizeof(customerID));
-
-    ifs.read(reinterpret_cast<char*>(&nameSize), sizeof(nameSize));
-    std::string firstName(nameSize, ' ');
-    ifs.read(&firstName[0], nameSize);
-
-    ifs.read(reinterpret_cast<char*>(&nameSize), sizeof(nameSize));
-    std::string lastName(nameSize, ' ');
-    ifs.read(&lastName[0], nameSize);
-
-    ifs.read(reinterpret_cast<char*>(&phoneSize), sizeof(phoneSize));
-    std::string phone(phoneSize, ' ');
-    ifs.read(&phone[0], phoneSize);
-
-    ifs.read(reinterpret_cast<char*>(&visits), sizeof(visits));
-
-    ifs.read(reinterpret_cast<char*>(&total), sizeof(total));
-
-    return customer(customerID, firstName, lastName, phone, visits, total);
-}

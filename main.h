@@ -1,3 +1,4 @@
+//main.h
 #ifndef MAIN_H
 #define MAIN_H
 
@@ -12,5 +13,12 @@
 #include <ctime>
 #include <tuple>
 #include <array>
+#include <algorithm>  // For std::all_of
+#include <regex>
+#include <cctype>
+#include <regex>
+#include <sstream>
+#include <thread>
+#include <functional>
 
-#endif // MAIN_H
+#endif
