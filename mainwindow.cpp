@@ -17,9 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     //Setting up database
-    std::string customerFile = "/Users/luisvillalta/CProgram/customers.txt";
-    std::string orderFile = "/Users/luisvillalta/CProgram/orders.txt";
-    std::string tempFile = "/Users/luisvillalta/CProgram/temp.txt";
+    std::string customerFile = "C:/Code/repos/LAVjr97/CProgram/customers.txt";
+    std::string orderFile = "C:/Code/repos/LAVjr97/CProgram/orders.txt";
+    std::string tempFile = "C:/Code/repos/LAVjr97/CProgram/temp.txt";
 
     //vector<cust::customer> customers;
     //vector<orderInfo::order> orders;

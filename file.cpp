@@ -7,7 +7,7 @@ File::File(std::string customerFile, std::string orderFile, std::string tempFile
 {}
 
 void File::saveCustomers(cust::customer& customer) const{
-    std::ofstream ofs(this->customerFile, std::ios::app);
+    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/customers.txt", std::ios::app);
     std::cout << std::endl << "In saveCustomers" << std::endl;
 
     if (!ofs) {
@@ -216,4 +216,18 @@ void File::updateCustomer(const int id) {
         std::remove(this->tempFile.c_str());
 
     return;
+}
+
+//Get functions
+
+std::string File::getCustomerFile() const{
+    return this->customerFile;
+}
+
+std::string File::getOrderFile() const{
+    return this->orderFile;
+}
+
+std::string File::getTempFile() const{
+    return this->tempFile;
 }

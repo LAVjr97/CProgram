@@ -27,6 +27,11 @@ public:
     //Helper Functions;
     void updateCustomer(const int id);
 
+    //Get Functions
+    std::string getCustomerFile() const;
+    std::string getOrderFile() const;
+    std::string getTempFile() const;
+
     std::string customerFile;
     std::string orderFile;
     std::string tempFile;
