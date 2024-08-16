@@ -1,12 +1,10 @@
-#include "order.h"
-#include "customer.h"
 #include "search.h"
 
 using namespace search;
 
 //Customer search functions
-std::vector<cust::customer> Search::searchCustAlgo(const std::string& entry, std::vector<cust::customer>& customers){
-    std::vector<cust::customer> customer;
+std::vector<cust::customer*> Search::searchCustAlgo(const std::string& entry, std::vector<cust::customer>& customers){
+    std::vector<cust::customer*> customer;
 
     if (isName(entry))
         customer = searchCustLastName(entry, customers);
@@ -25,76 +23,85 @@ std::vector<cust::customer> Search::searchCustAlgo(const std::string& entry, std
     return customer;
 }
 
-std::vector<cust::customer> Search::searchCustName(const std::string& entry, std::vector<cust::customer>& customers){
-    std::vector<cust::customer> customer;
+std::vector<cust::customer*> Search::searchCustName(const std::string& entry, std::vector<cust::customer>& customers){
+    std::vector<cust::customer*> customer;
     int i = 0;
 
     for (i = 0; i < customers.size(); i++)
         if (entry == customers[i].getName())
-            customer.emplace_back(customers[i].getCustomerID(), customers[i].getFirstName(), customers[i].getLastName(), customers[i].getPhone(), customers[i].getVisit(), customers[i].getTotal(), customers[i].getOrders());
-
+            customer.push_back(&customers[i]);
     return customer;
 }
 
 
-std::vector<cust::customer> Search::searchCustLastName(const std::string& entry, std::vector<cust::customer>& customers){
-    std::vector<cust::customer> customer;
-    std::string phone;
-
-    phone = cust::customer::createPhone(entry);
+std::vector<cust::customer*> Search::searchCustLastName(const std::string& entry, std::vector<cust::customer>& customers){
+    std::vector<cust::customer*> customer;
 
     int i = 0;
 
     for (i = 0; i < customers.size(); i++) {
-        if (entry == customers[i].getLastName()) {
-            customer.emplace_back(customers[i].getCustomerID(), customers[i].getFirstName(), customers[i].getLastName(), customers[i].getPhone(), customers[i].getVisit(), customers[i].getTotal(), customers[i].getOrders());
-        }
+        if (entry == customers[i].getLastName())
+            customer.push_back(&customers[i]);
+
     }
     return customer;
 }
-std::vector<cust::customer> Search::searchCustPhone(const std::string& entry, std::vector<cust::customer>& customers) {
-    std::vector<cust::customer> customer;
+std::vector<cust::customer*> Search::searchCustPhone(const std::string& entry, std::vector<cust::customer>& customers) {
+    std::vector<cust::customer*> customer;
     int i;
 
-    for(i = 0; i < customers.size(); i++)
-        if(entry == customers[i].getPhone())
-            customer.emplace_back(customers[i].getCustomerID(), customers[i].getFirstName(), customers[i].getLastName(), customers[i].getPhone(), customers[i].getVisit(), customers[i].getTotal(), customers[i].getOrders());
+    for (i = 0; i < customers.size(); i++)
+        if (entry == customers[i].getPhone())
+            customer.push_back(&customers[i]);
 
     return customer;
 }
 
-std::vector<cust::customer> Search::searchCustID(const std::string& entry, std::vector<cust::customer>& customers) {
-    std::vector<cust::customer> customer;
+std::vector<cust::customer*> Search::searchCustID(const std::string& entry, std::vector<cust::customer>& customers) {
+    std::vector<cust::customer*> customer;
     int id = std::stoi(entry), i = 0;
 
     for (i = 0; i < customers.size(); i++)
         if (id == customers[i].getCustomerID()){
-            customer.emplace_back(customers[i].getCustomerID(), customers[i].getFirstName(), customers[i].getLastName(), customers[i].getPhone(), customers[i].getVisit(), customers[i].getTotal(), customers[i].getOrders());
+            customer.push_back(&customers[i]);
             break;
         }
     return customer;
 }
 
 //Order search functions
-std::vector<orderInfo::order> Search::searchOrderAlgo(const std::string& entry, std::vector<orderInfo::order> &orders){
-    std::vector<orderInfo::order> order;
+std::vector<orderInfo::order*> Search::searchOrderAlgo(const std::string& entry, std::vector<orderInfo::order> &orders){
+    std::vector<orderInfo::order*> order;
 
     if (isID(entry))
-        order = searchOrderID(entry, orders);
+        order = searchOrderCustomerID(entry, orders);
 
     return order;
 }
 
-std::vector<orderInfo::order> Search::searchOrderID(const std::string& entry, const std::vector<orderInfo::order> &orders){
+std::vector<orderInfo::order*> Search::searchOrderID(const std::string& entry, std::vector<orderInfo::order>& orders) {
     int id = stoi(entry), i, j = 0;
-    std::vector<orderInfo::order> order;
+    std::vector<orderInfo::order*> order;
 
     for(i = 0; i < orders.size(); i++){
         if(orders[i].getOrderID() == id){
-            order.emplace_back(orders[i].getCustomerID(), orders[i].getCustomerID(), orders[i].getDetails(), orders[i].getCost());
+            order.push_back(&orders[i]);
             break;
         }
     }
+    return order;
+}
+
+std::vector<orderInfo::order*> Search::searchOrderCustomerID(const std::string& entry, std::vector<orderInfo::order>& orders) {
+    std::vector<orderInfo::order*> order;
+    int id = stoi(entry), i, j = 0;
+
+    for (i = 0; i < orders.size(); i++) {
+        if (orders[i].getCustomerID() == id) {
+            order.push_back(&orders[i]);
+        }
+    }
+
     return order;
 }
 
@@ -129,6 +136,8 @@ bool Search::isPhoneNumber(const std::string& entry){
 bool Search::isID(const std::string& entry){
     return std::all_of(entry.begin(), entry.end(), ::isdigit) && entry.length() <= 7;
 }
+
+
 
 
 

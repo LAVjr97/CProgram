@@ -14,7 +14,7 @@ int options::handleDropOff(std::vector<orderInfo::order> &orders, std::vector<cu
     double cost = 0.99;
     int customerID = 0, intChoice, orderID;
     search::Search search;
-    std::vector<cust::customer> customer;
+    std::vector<cust::customer*> customer;
 
     //Customer Info
     cout << "\nIs this a first-time cusomter? <Yes/No>\n";
@@ -44,14 +44,14 @@ int options::handleDropOff(std::vector<orderInfo::order> &orders, std::vector<cu
         cin >> lastName;
         customer = search.searchCustAlgo(lastName, customers);
         for (int i = 0; i < customer.size(); i++) {
-            cout << std::to_string(i + 1) << ") " << customer[i].getName() << std::endl;
+            cout << std::to_string(i + 1) << ") " << customer[i]->getName() << std::endl;
         }
 
         std::cout << std::endl << "Which Customer is the correct one?" << std::endl;
         cin >> choice;
         intChoice = std::stoi(choice) - 1;
 
-        customerID = customer[intChoice].getCustomerID();
+        customerID = customer[intChoice]->getCustomerID();
     }
 
     //Handle Orders
@@ -86,8 +86,8 @@ int options::handlePickUp(std::vector<orderInfo::order> &orders, std::vector<cus
     std::string entry;
     int input;
     search::Search search;
-    std::vector<cust::customer> customer;
-    std::vector<orderInfo::order> order;
+    std::vector<cust::customer*> customer;
+    std::vector<orderInfo::order*> order;
     int i;
 
     system(screen);
@@ -121,13 +121,13 @@ int options::handlePickUp(std::vector<orderInfo::order> &orders, std::vector<cus
     //customer = search.searchCustAlgo(entry, customers);
     if (input == 1) {
         for (i = 0; i < customer.size(); i++) {
-            std::cout << i + 1 << ") " << customer[i].getName() << "\n";
+            std::cout << i + 1 << ") " << customer[i]->getName() << "\n";
         }
         std::cout << "\nWhich customer's information would you like to see?\n";
         cin >> input;
         input--;
 
-        int customerID = customer[input].getCustomerID();
+        int customerID = customer[input]->getCustomerID();
 
         system(screen);
         std::cout << std::endl << customers[customerID].getCustomerID() << ", " << customers[customerID].getName() << ", " << customers[customerID].getPhone() << ", " << customers[customerID].getTotal() << ", " << customers[customerID].getVisit() << std::endl;
@@ -136,6 +136,7 @@ int options::handlePickUp(std::vector<orderInfo::order> &orders, std::vector<cus
 
     if (input == 2) {
         for (i = 0; i < order.size(); i++) {
+            std::cout << order[i]->dropOff->getDate_Time() << std::endl;
             //    std::cout << i + 1 << ") " << order[i].get
         }
     }
@@ -246,4 +247,5 @@ std::array<std::tuple<int, double>, 8> options::handleArticles() {
     }
     return articles;
 }
+
 

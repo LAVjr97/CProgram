@@ -54,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
     lineOrderIDDP = ui -> lineOrderIDDP;
     linePhoneDP = ui -> linePhoneDP;
     linePickUpDP = ui -> linePickUpDP;
+    model = new QStandardItemModel(this);
+    ui -> listViewDP ->setModel(model);
 
     //
     //Search Customer Page
@@ -66,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
     lineFNameNC = ui -> lineFNameNC;
     lineLNameNC = ui -> lineLNameNC;
     linePhoneNC = ui -> linePhoneNC;
+
 
     //
     //connect buttons to slots
@@ -134,8 +137,12 @@ void MainWindow::showSearchPage(){
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::showNewCustomerPage(){
+void MainWindow::showCustomerSearchResultsPage(){
     ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::showNewCustomerPage(){
+    ui->stackedWidget->setCurrentIndex(4);
 }
 
 //
@@ -151,8 +158,40 @@ void MainWindow::on_btnNewCustomersCS_clicked()
     MainWindow::showNewCustomerPage();
 }
 
+void MainWindow::on_btnSearchCS_clicked()
+{
+    QString entryQ;
+    std::string entry;
+    search::Search search;
+
+    //Makes sure that the line entry isnt empyt before continuing
+    entryQ = lineSearchCustomerCS -> text();
+    if(entryQ.isEmpty())
+        return;
+
+    entry = entryQ.toStdString();
+
+    if(search.isID(entry)){
+
+    }
+    else if(search.isPhoneNumber(entry) || search.isName(entry))
+        search.searchCustAlgo(entry, this->customers)
+    MainWindow::showCustomerSearchResultsPage();
+}
+
+
 //
-//New Customer Page (3)
+//Customer Search Results Page (3)
+//
+void MainWindow::on_btnReturnCSR_clicked()
+{
+    MainWindow::showSearchPage();
+}
+
+
+
+//
+//New Customer Page (4)
 //
 void MainWindow::on_btnReturn_3_clicked()
 {
@@ -188,5 +227,6 @@ void MainWindow::custom_on_btnCreate_clicked(fi::File &manager){
 //
 //Get Functions
 //
+
 
 

@@ -8,6 +8,8 @@
 #include "order.h"
 #include "file.h"
 #include "qstackedwidget.h"
+#include <QStandardItemModel>
+#include <QStandardItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -43,6 +45,8 @@ private slots:
 
     void showSearchPage();
 
+    void showCustomerSearchResultsPage();
+
     void showNewCustomerPage();
 
     void on_btnReturnCS_clicked();
@@ -54,10 +58,18 @@ private slots:
     void on_btnCreate_clicked();
 
     //
-    //Custom Private Slots
+    //Custom Private Slots For...
     //
+
+    //Customer Search Page
     void custom_on_btnCreate_clicked(fi::File &manager);
 
+    //Customer Search Results
+    //void custom_on_btnSearchCS_clicked(fi::File &manager);
+
+    void on_btnReturnCSR_clicked();
+
+    void on_btnSearchCS_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -80,10 +92,15 @@ private:
     QLineEdit *linePhoneDP;
     QLineEdit *linePickUpDP;
 
+    QStandardItemModel *model;
+
     //
     //Customer Search Page
     //
     QLineEdit *lineSearchCustomerCS;
+
+    QString lastName;
+    QString phone;
 
     //
     //New Customer Page
