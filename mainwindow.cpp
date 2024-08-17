@@ -164,8 +164,9 @@ void MainWindow::on_btnSearchCS_clicked()
     QString entryQ;
     std::string entry;
     search::Search search;
+    int i;
 
-    std::vector<cust::customer> customer;
+    std::vector<cust::customer*> customer;
 
     //Makes sure that the line entry isnt empyt before continuing
     entryQ = lineSearchCustomerCS -> text();
@@ -175,9 +176,15 @@ void MainWindow::on_btnSearchCS_clicked()
     entry = entryQ.toStdString();
 
     if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
-        search::Search::searchCustAlgo(entry, this->customers);
+        customer = search::Search::searchCustAlgo(entry, this->customers);
 
-//look at latest chatgpt to get context for how to populate list view model
+    //look at latest chatgpt to get context for how to populate list view model
+
+    for(i = 0; i < customer.size(); i++){
+        QString itemText = QString("%1, %2").arg(QString::fromStdString(customer[i]->getName())).arg(QString::fromStdString(customer[i]->getPhone()));
+        QStandardItem *item = new QStandardItem(itemText);
+        model->appendRow(item);
+    }
 
     MainWindow::showCustomerSearchResultsPage();
 
