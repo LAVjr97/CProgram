@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     lineOrderIDDP = ui -> lineOrderIDDP;
     linePhoneDP = ui -> linePhoneDP;
     linePickUpDP = ui -> linePickUpDP;
+
     model = new QStandardItemModel(this);
     ui -> listViewDP ->setModel(model);
 
@@ -164,6 +165,8 @@ void MainWindow::on_btnSearchCS_clicked()
     std::string entry;
     search::Search search;
 
+    std::vector<cust::customer> customer;
+
     //Makes sure that the line entry isnt empyt before continuing
     entryQ = lineSearchCustomerCS -> text();
     if(entryQ.isEmpty())
@@ -171,12 +174,14 @@ void MainWindow::on_btnSearchCS_clicked()
 
     entry = entryQ.toStdString();
 
-    if(search.isID(entry)){
+    if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
+        search::Search::searchCustAlgo(entry, this->customers);
 
-    }
-    else if(search.isPhoneNumber(entry) || search.isName(entry))
-        search.searchCustAlgo(entry, this->customers)
+//look at latest chatgpt to get context for how to populate list view model
+
     MainWindow::showCustomerSearchResultsPage();
+
+
 }
 
 
