@@ -25,7 +25,7 @@ std::vector<cust::customer*> Search::searchCustAlgo(const std::string& entry, st
 
 std::vector<cust::customer*> Search::searchCustName(const std::string& entry, std::vector<cust::customer>& customers){
     std::vector<cust::customer*> customer;
-    int i = 0;
+    size_t i;
 
     for (i = 0; i < customers.size(); i++)
         if (entry == customers[i].getName())
@@ -36,8 +36,7 @@ std::vector<cust::customer*> Search::searchCustName(const std::string& entry, st
 
 std::vector<cust::customer*> Search::searchCustLastName(const std::string& entry, std::vector<cust::customer>& customers){
     std::vector<cust::customer*> customer;
-
-    int i = 0;
+    size_t i;
 
     for (i = 0; i < customers.size(); i++) {
         if (entry == customers[i].getLastName())
@@ -48,7 +47,7 @@ std::vector<cust::customer*> Search::searchCustLastName(const std::string& entry
 }
 std::vector<cust::customer*> Search::searchCustPhone(const std::string& entry, std::vector<cust::customer>& customers) {
     std::vector<cust::customer*> customer;
-    int i;
+    size_t i;
 
     for (i = 0; i < customers.size(); i++)
         if (entry == customers[i].getPhone())
@@ -59,7 +58,8 @@ std::vector<cust::customer*> Search::searchCustPhone(const std::string& entry, s
 
 std::vector<cust::customer*> Search::searchCustID(const std::string& entry, std::vector<cust::customer>& customers) {
     std::vector<cust::customer*> customer;
-    int id = std::stoi(entry), i = 0;
+    int id = std::stoi(entry);
+    size_t i;
 
     for (i = 0; i < customers.size(); i++)
         if (id == customers[i].getCustomerID()){
@@ -80,7 +80,8 @@ std::vector<orderInfo::order*> Search::searchOrderAlgo(const std::string& entry,
 }
 
 std::vector<orderInfo::order*> Search::searchOrderID(const std::string& entry, std::vector<orderInfo::order>& orders) {
-    int id = stoi(entry), i, j = 0;
+    int id = stoi(entry);
+    size_t i;
     std::vector<orderInfo::order*> order;
 
     for(i = 0; i < orders.size(); i++){
@@ -94,7 +95,8 @@ std::vector<orderInfo::order*> Search::searchOrderID(const std::string& entry, s
 
 std::vector<orderInfo::order*> Search::searchOrderCustomerID(const std::string& entry, std::vector<orderInfo::order>& orders) {
     std::vector<orderInfo::order*> order;
-    int id = stoi(entry), i, j = 0;
+    int id = stoi(entry);
+    size_t i;
 
     for (i = 0; i < orders.size(); i++) {
         if (orders[i].getCustomerID() == id) {
@@ -107,7 +109,7 @@ std::vector<orderInfo::order*> Search::searchOrderCustomerID(const std::string& 
 
 //Determining Functions
 bool Search::isNameWithSpace(const std::string& entry){
-    int i, j;
+    size_t i;
     std::string temp;
     bool found = false;
 

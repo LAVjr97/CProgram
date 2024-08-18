@@ -55,13 +55,30 @@ MainWindow::MainWindow(QWidget *parent)
     linePhoneDP = ui -> linePhoneDP;
     linePickUpDP = ui -> linePickUpDP;
 
-    model = new QStandardItemModel(this);
-    ui -> listViewDP ->setModel(model);
+    modelDP = new QStandardItemModel(this);
+    ui -> listViewDP ->setModel(modelDP);
 
     //
     //Search Customer Page
     //
     lineSearchCustomerCS = ui -> lineSearchCustomerCS;
+
+    connect(lineSearchCustomerCS, &QLineEdit::returnPressed, this, &MainWindow::on_btnSearchCS_clicked);
+
+    //
+    //Search Customer Results Page
+    //
+    tableViewCSR = new QTableView(this);
+
+    modelCSR = new QStandardItemModel(this);
+    modelCSR -> setColumnCount(3);
+    modelCSR->setHorizontalHeaderLabels({"First Name", "Last Name", "Phone Number"});
+
+    ui -> tableViewCSR -> setModel(modelCSR);
+    ui -> tableViewCSR -> setModel(modelCSR);
+    ui->tableViewCSR->resizeColumnsToContents();
+
+    connect(tableViewCSR, &QTableView::entered, this, &MainWindow::on_btnSearchCS_clicked);
 
     //
     //new Customer Page
@@ -78,6 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnCreate, &QPushButton::clicked, this, [this, &manager](){
         custom_on_btnCreate_clicked(manager);
     });
+
     //connect(btnDropOff, &QPushButton::clicked, this, &MainWindow::showDropOffPage);
 }
 
@@ -111,16 +129,16 @@ void MainWindow::updateDropOffPage(){
 void MainWindow::on_btnCustomer_clicked()
 {
     MainWindow::showSearchPage();
-
-    //CustomerSelect custWindow;
-    //custWindow.setModal(true);
-    //custWindow.exec();
 }
 
 
 void MainWindow::on_btnReturn_clicked()
 {
     MainWindow::showMainPage();
+    customer.clear();
+    lineFNameDP -> clear();
+    lineLNameDP -> clear();
+    linePhoneDP -> clear();
 }
 
 //
@@ -163,10 +181,9 @@ void MainWindow::on_btnSearchCS_clicked()
 {
     QString entryQ;
     std::string entry;
-    search::Search search;
-    int i;
-
-    std::vector<cust::customer*> customer;
+    //search::Search search;
+    size_t i;
+    customer.clear();
 
     //Makes sure that the line entry isnt empyt before continuing
     entryQ = lineSearchCustomerCS -> text();
@@ -181,15 +198,28 @@ void MainWindow::on_btnSearchCS_clicked()
     //look at latest chatgpt to get context for how to populate list view model
 
     for(i = 0; i < customer.size(); i++){
-        QString itemText = QString("%1, %2").arg(QString::fromStdString(customer[i]->getName())).arg(QString::fromStdString(customer[i]->getPhone()));
-        QStandardItem *item = new QStandardItem(itemText);
-        model->appendRow(item);
+        //QString itemText = QString("%1, %2").arg(QString::fromStdString(customer[i]->getName())).arg(QString::fromStdString(customer[i]->getPhone()));
+        //QStandardItem *item = new QStandardItem(itemText);
+        //this->modelCSR->appendRow(item);
+        QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
+        QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
+        QStandardItem *phoneItem = new QStandardItem(QString::fromStdString(customer[i]->getPhone()));
+
+        modelCSR->setItem(i, 0, firstNameItem);
+        modelCSR->setItem(i, 1, lastNameItem);
+        modelCSR->setItem(i, 2, phoneItem);
     }
+
+    tableViewCSR -> setColumnWidth(0, 300);
+    tableViewCSR -> setColumnWidth(1, 300);
+    tableViewCSR -> setColumnWidth(2, 300);
+    tableViewCSR -> setSelectionBehavior(QAbstractItemView::SelectRows);
 
     MainWindow::showCustomerSearchResultsPage();
 
-
 }
+
+
 
 
 //
@@ -197,8 +227,28 @@ void MainWindow::on_btnSearchCS_clicked()
 //
 void MainWindow::on_btnReturnCSR_clicked()
 {
+    modelCSR -> removeRows(0, modelCSR -> rowCount());
     MainWindow::showSearchPage();
 }
+
+void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index)
+{
+    cust::customer* temp = customer[index.row()];
+    //cout << std::endl << "custom_on_tableViewCSR_Clicked" << i << std::endl;
+
+    lineFNameDP -> setText(QString::fromStdString(temp->getFirstName()));
+    lineLNameDP -> setText(QString::fromStdString(temp->getLastName()));
+    linePhoneDP -> setText(QString::fromStdString(temp->getPhone()));
+
+    modelCSR -> removeRows(0, modelCSR -> rowCount());
+    customer.clear();
+    customer.push_back(temp);
+
+    lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner
+
+    MainWindow::showDropOffPage();
+}
+
 
 
 
@@ -236,6 +286,10 @@ void MainWindow::custom_on_btnCreate_clicked(fi::File &manager){
 
     MainWindow::showDropOffPage();
 }
+
+
+
+
 //
 //Get Functions
 //

@@ -10,6 +10,7 @@
 #include "qstackedwidget.h"
 #include <QStandardItemModel>
 #include <QStandardItem>
+#include <QTableView>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,6 +28,9 @@ public:
 
     std::vector<orderInfo::order> orders;
     std::vector<cust::customer> customers;
+
+    std::vector<cust::customer*> customer;
+    std::vector<orderInfo::order*> order;
 
 private slots:
     void updateDropOffPage();
@@ -66,10 +70,14 @@ private slots:
 
     //Customer Search Results
     //void custom_on_btnSearchCS_clicked(fi::File &manager);
+    //void custom_on_tableViewCSR_Row_Clicked(const QModelIndex &index);
 
     void on_btnReturnCSR_clicked();
 
     void on_btnSearchCS_clicked();
+
+    void on_tableViewCSR_clicked(const QModelIndex &index);
+
 
 private:
     Ui::MainWindow *ui;
@@ -92,7 +100,7 @@ private:
     QLineEdit *linePhoneDP;
     QLineEdit *linePickUpDP;
 
-    QStandardItemModel *model;
+    QStandardItemModel *modelDP;
 
     //
     //Customer Search Page
@@ -101,6 +109,12 @@ private:
 
     QString lastName;
     QString phone;
+
+    //
+    //Custome Search Resutls Page
+    //
+    QStandardItemModel *modelCSR;
+    QTableView *tableViewCSR;
 
     //
     //New Customer Page

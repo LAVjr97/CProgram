@@ -2,12 +2,15 @@
 
 using namespace fi;
 
+//Mac: /Users/luisvillalta/CProgram
+//Windows: C:/Code/repos/LAVjr97/CProgram/
+
 //Constructors
 File::File(std::string customerFile, std::string orderFile, std::string tempFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders) : customerFile(customerFile), orderFile(orderFile), tempFile(tempFile), customers(customers), orders(orders)
 {}
 
 void File::saveCustomers(cust::customer& customer) const{
-    std::ofstream ofs("/Users/luisvillalta/CProgram/customers.txt", std::ios::app);
+    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/customers.txt", std::ios::app);
     std::cout << std::endl << "In saveCustomers" << std::endl;
 
     if (!ofs) {
@@ -30,15 +33,13 @@ void File::loadCustomers(){
     int id, visits, total;
     std::string line, firstName, lastName, phone, temp; //using a temp variable because not everything that is being read from the file will be a string.
 
-    std::ifstream ifs("/Users/luisvillalta/CProgram/customers.txt");
+    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/customers.txt");
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << std::endl;
         return;
     }
-    //std::cout << std::endl << "Before while loop that reads file" << std::endl;
 
     while (std::getline(ifs, line)) {
-        //std::cout << std::endl << "In while loop that reads file" << std::endl;
         std::stringstream ss(line);
 
         std::getline(ss, temp, ',');
@@ -56,16 +57,16 @@ void File::loadCustomers(){
         while (std::getline(ss, temp, ','))
             orders.emplace_back(std::stoi(temp));
 
-
         customers.emplace_back(id, firstName, lastName, phone, visits, total, orders);
     }
 
+    std::cout << std::endl << "Successfully loaded customer data..." <<std::endl;
     ifs.close();
 }
 
 //Orders
 void File::saveOrders(orderInfo::order &order) const{
-    std::ofstream ofs("/Users/luisvillalta/CProgram/orders.txt", std::ios::app);
+    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/orders.txt", std::ios::app);
     std::cout << std::endl << "In saveOrders" << std::endl;
 
     if (!ofs) {
@@ -105,9 +106,10 @@ void File::loadOrders() {
     int n, orderID, customerID, rack, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin;
     double cost, price;
     bool pickedUp;
+    size_t i;
     std::string dropOffAm_Pm, pickUpAm_Pm, line, temp;
     std::array<std::tuple<int, double>, 8> articles;
-    std::ifstream ifs("/Users/luisvillalta/CProgram/orders.txt");
+    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << std::endl;
@@ -150,7 +152,7 @@ void File::loadOrders() {
         pickUpMin = std::stoi(temp);
         std::getline(ss, pickUpAm_Pm, ',');
 
-        for (int i = 0; i < articles.size(); i++) {
+        for (i = 0; i < articles.size(); i++) {
             std::getline(ss, temp, ',');
             n = std::stoi(temp);
             std::getline(ss, temp, ',');
@@ -160,7 +162,7 @@ void File::loadOrders() {
 
         orders.emplace_back(orderID, customerID, cost, rack, pickedUp, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, articles);
     }
-
+    std::cout << std::endl << "Successfully loaded order data..." <<std::endl;
     ifs.close();
 
     return;
@@ -171,8 +173,8 @@ void File::updateCustomer(const int id) {
     std::string current, line;
     bool found;
 
-    std::ifstream ifs("/Users/luisvillalta/CProgram/customers.txt");
-    std::ofstream tempF("/Users/luisvillalta/CProgram/temp.txt");
+    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/customers.txt");
+    std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/temp.txt");
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << std::endl;

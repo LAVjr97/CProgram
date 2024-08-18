@@ -128,7 +128,7 @@ int customer::updateTotal(double total){
 
 //Helper functions
 std::string customer::createPhone(std::string phone) {
-    int i, j = 1;
+    size_t i;
     std::string temp;
 
     for (i = 0; i < phone.size(); i++)
