@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QPushButton" name="btnDropOff">
@@ -396,7 +396,7 @@
        </rect>
       </property>
       <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
+       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
       </property>
       <property name="showGrid">
        <bool>false</bool>
@@ -515,7 +515,19 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="pgLaundryOrder"/>
+    <widget class="QWidget" name="pgLaundryOrder">
+     <widget class="QWidget" name="gridLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>50</y>
+        <width>671</width>
+        <height>421</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout"/>
+     </widget>
+    </widget>
     <widget class="QWidget" name="pgDryCleanOrder"/>
     <widget class="QWidget" name="pgAlterationOrder"/>
    </widget>
@@ -526,7 +538,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
