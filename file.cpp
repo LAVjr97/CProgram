@@ -66,7 +66,9 @@ void File::loadCustomers(){
 
 //Orders
 void File::saveOrders(orderInfo::order &order) const{
-    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/orders.txt", std::ios::app);
+    std::vector<std::vector<std::pair<int, double>>> articles = order.getDetails();
+    size_t outerVectorSize = articles.size(), innerVectorSize;
+    std::ofstream ofs(this->orderFile, std::ios::app);
     std::cout << std::endl << "In saveOrders" << std::endl;
 
     if (!ofs) {
@@ -90,26 +92,31 @@ void File::saveOrders(orderInfo::order &order) const{
         << order.pickUp->getYear() << ","
         << order.pickUp->getHour() << ","
         << order.pickUp->getMin() << ","
-        << order.pickUp->getAm_Pm();
-    for (const auto& i : order.getDetails()) {
-        ofs << "," << std::get<0>(i);
-        ofs << "," << std::get<1>(i);
+        << order.pickUp->getAm_Pm() << ",";
+
+    ofs << outerVectorSize;
+
+    for (const auto& innerVector : articles) {
+        innerVectorSize = innerVector.size();
+        ofs << "," << innerVectorSize;
+        for (const auto& pair : innerVector) {
+            ofs << "," << pair.first;
+            ofs << "," << pair.second;
+        }
     }
-    ofs << std::endl;
 
     ofs.close();
     return;
 }
 
 void File::loadOrders() {
-    //When .emplace_back is being used, the first and last name will be using the address of the variables from that customer's object in case any changes are made to the class, its reflected in the order class.
-    int n, orderID, customerID, rack, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin;
-    double cost, price;
+    int n, orderID, customerID, rack, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, first;
+    double cost, price, second;
     bool pickedUp;
-    size_t i;
     std::string dropOffAm_Pm, pickUpAm_Pm, line, temp;
-    std::array<std::tuple<int, double>, 8> articles;
-    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
+    std::vector<std::vector<std::pair<int, double>>> articles;
+    size_t outersize, innersize, i, j;
+    std::ifstream ifs(this->orderFile);
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << std::endl;
@@ -152,17 +159,25 @@ void File::loadOrders() {
         pickUpMin = std::stoi(temp);
         std::getline(ss, pickUpAm_Pm, ',');
 
-        for (i = 0; i < articles.size(); i++) {
-            std::getline(ss, temp, ',');
-            n = std::stoi(temp);
-            std::getline(ss, temp, ',');
-            price = std::stod(temp);
-            articles[i] = std::make_tuple(n, price);
-        }
+        std::getline(ss, temp, ',');
+        outersize = std::stoull(temp);
+        articles.resize(outersize);
 
+        for (i = 0; i < outersize; i++) {
+            std::getline(ss, temp, ',');
+            innersize = std::stoull(temp);
+            articles[i].resize(innersize);
+            for (j = 0; j < innersize; j++) {
+                std::getline(ss, temp, ',');
+                first = std::stoull(temp);
+                std::getline(ss, temp, ',');
+                second = std::stoull(temp);
+                articles[i][j] = std::make_pair(first, second);
+            }
+        }
         orders.emplace_back(orderID, customerID, cost, rack, pickedUp, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, articles);
     }
-    std::cout << std::endl << "Successfully loaded order data..." <<std::endl;
+
     ifs.close();
 
     return;

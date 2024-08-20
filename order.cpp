@@ -3,7 +3,7 @@
 using namespace orderInfo;
 
 //Constructor
-order::order(int customerID, std::array<std::tuple<int, double>, 8> articles){
+order::order(int customerID, std::vector<std::vector<std::pair<int, double>>> articles){
     this->articles = articles;
     this->customerID = customerID;
     this->rackNumber = -1;
@@ -11,7 +11,7 @@ order::order(int customerID, std::array<std::tuple<int, double>, 8> articles){
     this->calculateCost();
 }
 
-order::order(int orderID, int customerID, std::array<std::tuple<int, double>, 8> articles, double cost){
+order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> articles, double cost){
     this->orderID = orderID;
     this->customerID = customerID;
     this->articles = articles;
@@ -23,7 +23,7 @@ order::order(int orderID, int customerID, std::array<std::tuple<int, double>, 8>
 }
 
 //Used in handle.cpp
-order::order(int orderID, int customerID, std::array<std::tuple<int, double>, 8> articles){
+order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> articles){
     this->orderID = orderID;
     this->customerID = customerID;
     this->articles = articles;
@@ -35,7 +35,7 @@ order::order(int orderID, int customerID, std::array<std::tuple<int, double>, 8>
 }
 
 //Constructor used when loading in orders from orderFile into the program memory
-order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::array<std::tuple<int, double>, 8> articles){
+order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> articles){
     this->orderID = orderID;
     this->customerID = customerID;
     this->cost = cost;
@@ -71,7 +71,7 @@ std::string order::getPickUpDate() const{
     return pickUpDate;
 }*/
 
-std::array<std::tuple<int, double>, 8> order::getDetails() const{
+std::vector<std::vector<std::pair<int, double>>> order::getDetails() const{
     return articles;
 }
 
@@ -88,7 +88,7 @@ bool order::getPickUp() const{
 }
 
 int order::getArticlesLength() const {
-    return std::tuple_size<decltype(articles)>::value;
+    return articles.size();
 }
 
 /*Set Functions*/
@@ -97,7 +97,7 @@ int order::setCustomerID(int id){
     return 0;
 }
 
-int order::setDetails(std::array<std::tuple<int, double>, 8> articles){
+int order::setDetails(std::vector<std::vector<std::pair<int, double>>> articles){
     this->articles = articles;
     return 0;
 }
@@ -120,8 +120,19 @@ int order::setPickUp(bool pickUp){
 void order::calculateCost() {
     this->cost = 0;
 
-    for (const auto& i : articles)
-        this->cost = this->cost + (std::get<0>(i) * std::get<1>(i));
+    size_t i, j;
+
+    for (i = 0; i < this->articles.size(); i++)
+        for (j = 0; j < this->articles[i].size(); i++)
+            this->cost = cost + this->articles[i][j].second;
+
+
+
+
+
+    //for (const auto& i : articles)
+
+    //this->cost = this->cost + (std::get<0>(i) * std::get<1>(i));
 
     return;
 }

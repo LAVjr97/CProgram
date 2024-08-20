@@ -1,5 +1,7 @@
 #include "handle.h"
 
+
+
 //To clear the screen, windows uses "cls", mac/linux uses "clear"
 #define screen "cls"
 
@@ -10,28 +12,28 @@ int options::handleDropOff(std::vector<orderInfo::order> &orders, std::vector<cu
 
     //Initialize variables
     std::string date, time, firstName, lastName, firstTime, number, choice;
-    std::array<std::tuple<int, double>, 8> articles;
+    std::vector<std::vector<std::pair<int, double>>> articles;
     double cost = 0.99;
     int customerID = 0, intChoice, orderID;
     search::Search search;
     std::vector<cust::customer*> customer;
 
     //Customer Info
-    cout << "\nIs this a first-time cusomter? <Yes/No>\n";
-    cin >> firstTime;
+    std::cout << "\nIs this a first-time cusomter? <Yes/No>\n";
+    std::cin >> firstTime;
 
     //Handle First time customer
     if(firstTime == "Yes" || firstTime == "yes" || firstTime == "y" || firstTime == "Y"){
-        cout << "\nCustomer First Name:\n";
-        cin >> firstName;
-        cout << "\nCusotmer Last Name:\n";
-        cin >> lastName;
-        cout << "\nCustomer Phone Number?\n";
+        std::cout << "\nCustomer First Name:\n";
+        std::cin >> firstName;
+        std::cout << "\nCusotmer Last Name:\n";
+        std::cin >> lastName;
+        std::cout << "\nCustomer Phone Number?\n";
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin ,number);
 
         customerID = customers.size();
-        cout << customerID;
+        std::cout << customerID;
 
         //Create customer object, and save to database.
         customers.emplace_back(customerID, firstName, lastName, number);
@@ -40,15 +42,15 @@ int options::handleDropOff(std::vector<orderInfo::order> &orders, std::vector<cu
 
     //Already a pre-existing customer
     else {
-        cout << "\nCusotmer Last Name:\n";
-        cin >> lastName;
+        std::cout << "\nCusotmer Last Name:\n";
+        std::cin >> lastName;
         customer = search.searchCustAlgo(lastName, customers);
         for (int i = 0; i < customer.size(); i++) {
-            cout << std::to_string(i + 1) << ") " << customer[i]->getName() << std::endl;
+            std::cout << std::to_string(i + 1) << ") " << customer[i]->getName() << std::endl;
         }
 
         std::cout << std::endl << "Which Customer is the correct one?" << std::endl;
-        cin >> choice;
+        std::cin >> choice;
         intChoice = std::stoi(choice) - 1;
 
         customerID = customer[intChoice]->getCustomerID();
@@ -94,7 +96,7 @@ int options::handlePickUp(std::vector<orderInfo::order> &orders, std::vector<cus
 
     while (true) {
         std::cout << "\nSearch by:\n1) Customer Name or Phone Number\n2) Order Number\n";
-        cin >> input;
+        std::cin >> input;
 
         if (input == 1) {
             system(screen);
@@ -124,7 +126,7 @@ int options::handlePickUp(std::vector<orderInfo::order> &orders, std::vector<cus
             std::cout << i + 1 << ") " << customer[i]->getName() << "\n";
         }
         std::cout << "\nWhich customer's information would you like to see?\n";
-        cin >> input;
+        std::cin >> input;
         input--;
 
         int customerID = customer[input]->getCustomerID();
@@ -153,13 +155,13 @@ int options::handlePickUp(std::vector<orderInfo::order> &orders, std::vector<cus
 
 int options::handleLookUp(std::vector<orderInfo::order> &orders, std::vector<cust::customer> &customers, fi::File &manager) {
     system(screen);
-    cout << "\nhandleLookUp";
+    std::cout << "\nhandleLookUp";
     return 0;
 }
 
 int options::handleHistory(std::vector<orderInfo::order> &orders, std::vector<cust::customer> &customers, fi::File &manager) {
     system(screen);
-    cout << "\nhandleDropOff";
+    std::cout << "\nhandleDropOff";
     return 0;
 }
 
@@ -180,63 +182,65 @@ int options::handleRack(std::vector<orderInfo::order> &orders, std::vector<cust:
 }
 
 //Creates a menu from where the user selects a piece of clothing and then inputs the number of pieces of that particular clothing
-std::array<std::tuple<int, double>, 8> options::handleArticles() {
+std::vector<std::vector<std::pair<int, double>>> options::handleArticles() {
     //[0]: Shirts, [1]: Pants, [2]:Sweaters, [3]:Coats, [4]:Blouses, [5]:2pc Suit, [6]:Jacket, [7]:Vest
-    std::array<std::tuple<int, double>, 8> articles;
+    std::vector<std::vector<std::pair<int, double>>> articles;
     int article, n;
+
+    articles.resize(8);
 
     while(true){
         //system(screen);
-        cout << "\nEnter article number (or '0' to go save and return):\n1) Shirts\n2) Pants\n3) Sweaters\n4) Coats\n5) Blouses\n6) 2pc Suit\n7) Jackets\n7) Vest\n";
-        cin >> article;
+        std::cout << "\nEnter article number (or '0' to go save and return):\n1) Shirts\n2) Pants\n3) Sweaters\n4) Coats\n5) Blouses\n6) 2pc Suit\n7) Jackets\n8) Vest\n";
+        std::cin >> article;
 
         switch(article){
         case 1:
-            cout << "\nNumber of Shirt(s)?\n";
-            cin >> n;
-            articles[0] = std::make_tuple(n, 4.99);
+            std::cout << "\nNumber of Shirt(s)?\n";
+            std::cin >> n;
+            articles[0].push_back(std::make_pair(n, 4.99)); // = std::make_tuple(n, 4.99);
             break;
 
         case 2:
-            cout << "\nNumber of Pant(s)?\n";
-            cin >> n;
-            articles[1] = std::make_tuple(n, 4.99);
+            std::cout << "\nNumber of Pant(s)?\n";
+            std::cin >> n;
+            articles[1].push_back(std::make_pair(n, 4.99));
             break;
 
         case 3:
-            cout << "\nNumber of Sweater(s)?\n";
-            cin >> n;
-            articles[2] = std::make_tuple(n, 5.99);
+            std::cout << "\nNumber of Sweater(s)?\n";
+            std::cin >> n;
+            articles[2].push_back(std::make_pair(n, 5.99));
             break;
 
         case 4:
-            cout << "\nNumber of Coat(s)?\n";
-            cin >> n;
-            articles[3] = std::make_tuple(n, 6.99);
+            std::cout << "\nNumber of Coat(s)?\n";
+            std::cin >> n;
+            articles[3].push_back(std::make_pair(n, 6.99));
             break;
 
         case 5:
-            cout << "\nNumber of Blouse(s)?\n";
-            cin >> n;
-            articles[3] = std::make_tuple(n, 4.50);
+            std::cout << "\nNumber of Blouse(s)?\n";
+            std::cin >> n;
+            articles[5].push_back(std::make_pair(n, 4.50));
             break;
 
         case 6:
-            cout << "\nNumber of 2pc Suit(s)?\n";
-            cin >> n;
-            articles[4] = std::make_tuple(n, 12.99);
+            std::cout << "\nNumber of 2pc Suit(s)?\n";
+            std::cin >> n;
+            articles[6].push_back(std::make_pair(n, 12.99));
             break;
 
         case 7:
-            cout << "\nNumber of Jacket(s)?\n";
-            cin >> n;
-            articles[4] = std::make_tuple(n, 6.99);
+            std::cout << "\nNumber of Jacket(s)?\n";
+            std::cin >> n;
+            articles[7].push_back(std::make_pair(n, 6.99));
             break;
 
         case 8:
-            cout << "\nNumber of Vest(s)?\n";
-            cin >> n;
-            articles[4] = std::make_tuple(n, 3.99);
+            std::cout << "\nNumber of Vest(s)?\n";
+            std::cin >> n;
+            articles[8].push_back(std::make_pair(n, 3.99));
             break;
 
         case 0:
@@ -247,5 +251,3 @@ std::array<std::tuple<int, double>, 8> options::handleArticles() {
     }
     return articles;
 }
-
-

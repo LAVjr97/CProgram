@@ -8,10 +8,6 @@
 #include "search.h"
 #include "file.h"
 
-
-
-using namespace std;
-
 namespace menu{
 class options{
 public:
@@ -22,7 +18,7 @@ public:
     static int handleHistory(std::vector<orderInfo::order> &orders, std::vector<cust::customer> &customers, fi::File &manager);
     static int handleRack(std::vector<orderInfo::order> &orders, std::vector<cust::customer> &customers, fi::File &manager);
 
-    static std::array<std::tuple<int, double>, 8> handleArticles();
+    static std::vector<std::vector<std::pair<int, double>>> handleArticles();
 
 private:
 
