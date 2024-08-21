@@ -53,6 +53,10 @@ namespace orderInfo{
 
             //[0]: Shirts, [1]: Pants, [2]:Sweaters, [3]:Coats, [4]:Blouses, [5]:2pc Suit, [6]:Jacket, [7]:Vest
             std::vector<std::vector<std::pair<int, double>>> articles;
+            //
+            std::vector<std::vector<std::pair<int, double>>> dryClean;
+            //
+            std::vector<std::vector<std::pair<int, double>>> alterations;
             double cost;
             int rackNumber;
             bool pickedUp;
