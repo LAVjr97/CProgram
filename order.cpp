@@ -3,18 +3,31 @@
 using namespace orderInfo;
 
 //Constructor
-order::order(int customerID, std::vector<std::vector<std::pair<int, double>>> articles){
-    this->articles = articles;
+order::order(int customerID, int orderID){ //used when creating order in the dropoff page
+    this->customerID = customerID;
+    this->orderID = orderID;
+    this->rackNumber = -1;
+    this->pickedUp = false;
+    this->dropOff = new date::Date();
+    this->pickUp = new date::Date(2);
+
+    laundry.resize(8);
+    dryClean.resize(8);
+    alterations.resize(8);
+}
+
+order::order(int customerID, std::vector<std::vector<std::pair<int, double>>> laundry){
+    this->laundry = laundry;
     this->customerID = customerID;
     this->rackNumber = -1;
     this->pickedUp = false;
     this->calculateCost();
 }
 
-order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> articles, double cost){
+order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> laundry, double cost){
     this->orderID = orderID;
     this->customerID = customerID;
-    this->articles = articles;
+    this->laundry = laundry;
     this->cost = cost;
     this->rackNumber = -1;
     this->pickedUp = false;
@@ -23,10 +36,10 @@ order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int,
 }
 
 //Used in handle.cpp
-order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> articles){
+order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> laundry){
     this->orderID = orderID;
     this->customerID = customerID;
-    this->articles = articles;
+    this->laundry = laundry;
     this->calculateCost();
     this->rackNumber = -1;
     this->pickedUp = false;
@@ -35,7 +48,7 @@ order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int,
 }
 
 //Constructor used when loading in orders from orderFile into the program memory
-order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> articles){
+order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry){
     this->orderID = orderID;
     this->customerID = customerID;
     this->cost = cost;
@@ -43,7 +56,7 @@ order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, 
     this->pickedUp = pickedUp;
     this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
     this->pickUp = new date::Date(pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm);
-    this->articles = articles;
+    this->laundry = laundry;
 }
 
 /*order::~order() {
@@ -62,17 +75,8 @@ int order::getOrderID() const{
     return orderID;
 }
 
-/*
-std::string order::getDropOffDate() const{
-    return dropOffDate;
-}
-
-std::string order::getPickUpDate() const{
-    return pickUpDate;
-}*/
-
 std::vector<std::vector<std::pair<int, double>>> order::getDetails() const{
-    return articles;
+    return laundry;
 }
 
 double order::getCost() const{
@@ -87,8 +91,8 @@ bool order::getPickUp() const{
     return pickedUp;
 }
 
-int order::getArticlesLength() const {
-    return articles.size();
+int order::getlaundryLength() const {
+    return laundry.size();
 }
 
 /*Set Functions*/
@@ -97,9 +101,68 @@ int order::setCustomerID(int id){
     return 0;
 }
 
-int order::setDetails(std::vector<std::vector<std::pair<int, double>>> articles){
-    this->articles = articles;
+int order::setDetails(std::vector<std::vector<std::pair<int, double>>> laundry){
+    this->laundry = laundry;
     return 0;
+}
+
+void order::setLaundryPiece(int pos, int n, double price){
+    //this->laundry[pos].push_back(std::make_pair(n, price));
+    size_t i;
+    bool foundPrice = false;
+
+    for(i = 0; i < laundry[pos].size(); i++)
+        if(price == laundry[pos][i].second){
+            laundry[pos][i].first = laundry[pos][i].first + n;
+            foundPrice = true;
+        }
+
+    if(foundPrice == false)
+        laundry[pos].push_back(std::make_pair(n, price));
+
+    return;
+}
+
+int order::setDryClean(std::vector<std::vector<std::pair<int, double>>> dryClean){
+    this->dryClean = dryClean;
+    return 0;
+}
+
+void order::setDryCleanPiece(int pos, int n, double price){
+    size_t i;
+    bool foundPrice = false;
+
+    for(i = 0; i < dryClean[pos].size(); i++)
+        if(price == dryClean[pos][i].second){
+            dryClean[pos][i].first = dryClean[pos][i].first + n;
+            foundPrice = true;
+        }
+
+    if(foundPrice == false)
+        dryClean[pos].push_back(std::make_pair(n, price));
+
+    return;
+}
+
+int order::setAlterations(std::vector<std::vector<std::pair<int, double>>> alterations){
+    this->alterations = alterations;
+    return 0;
+}
+
+void order::setAlterationsPiece(int pos, int n, double price){
+    size_t i;
+    bool foundPrice = false;
+
+    for(i = 0; i < alterations[pos].size(); i++)
+        if(price == alterations[pos][i].second){
+            alterations[pos][i].first = alterations[pos][i].first + n;
+            foundPrice = true;
+        }
+
+    if(foundPrice == false)
+        alterations[pos].push_back(std::make_pair(n, price));
+
+    return;
 }
 
 int order::setCost(double cost){
@@ -122,15 +185,19 @@ void order::calculateCost() {
 
     size_t i, j;
 
-    for (i = 0; i < this->articles.size(); i++)
-        for (j = 0; j < this->articles[i].size(); i++)
-            this->cost = cost + this->articles[i][j].second;
+    for (i = 0; i < this->laundry.size(); i++)
+        for (j = 0; j < this->laundry[i].size(); i++)
+            this->cost = cost + this->laundry[i][j].second;
 
+    for (i = 0; i < this->dryClean.size(); i++)
+        for (j = 0; j < this->dryClean[i].size(); i++)
+            this->cost = cost + this->dryClean[i][j].second;
 
+    for (i = 0; i < this->alterations.size(); i++)
+        for (j = 0; j < this->alterations[i].size(); i++)
+            this->cost = cost + this->alterations[i][j].second;
 
-
-
-    //for (const auto& i : articles)
+    //for (const auto& i : laundry)
 
     //this->cost = this->cost + (std::get<0>(i) * std::get<1>(i));
 
@@ -145,7 +212,7 @@ order& order::operator=(const order& other){
     this->lastName = other.getLastName();
     this->dropOffDate = other.getFirstName();
     this->pickUpDate = other.getPickUpDate();
-    this->articles = other.getDetails();
+    this->laundry = other.getDetails();
     this->cost = other.getCost();
 
     return *this;

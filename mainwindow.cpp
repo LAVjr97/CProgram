@@ -9,6 +9,7 @@
 //Mac: /Users/luisvillalta/CProgram
 //Windows: C:/Code/repos/LAVjr97/CProgram/
 
+
 //
 //Constructor
 //
@@ -24,11 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
     //vector<cust::customer> customers;
     //vector<orderInfo::order> orders;
 
-    fi::File manager = fi::File(customerFile, orderFile, tempFile, this->customers, this->orders);
+     manager = new fi::File(customerFile, orderFile, tempFile, this->customers, this->orders);
 
     //Indepently load up customers and orders
-    std::thread threadCust(&fi::File::loadCustomers, &manager);
-    std::thread threadOrder(&fi::File::loadOrders, &manager);
+    std::thread threadCust(&fi::File::loadCustomers, manager);
+    std::thread threadOrder(&fi::File::loadOrders, manager);
 
     threadCust.join();
     threadOrder.join();
@@ -57,7 +58,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     modelDP = new QStandardItemModel(this);
     ui -> listViewDP ->setModel(modelDP);
-
+    /*
+    connect(ui->btnSaveDP, &QPushButton::clicked, this, [this, &manager](){
+        custom_on_btnSaveDP_clicked(manager);
+    });
+    */
     //
     //Search Customer Page
     //
@@ -81,7 +86,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(tableViewCSR, &QTableView::entered, this, &MainWindow::on_btnSearchCS_clicked);
 
     //
-    //new Customer Page
+    //New Customer Page
     //
     lineFNameNC = ui -> lineFNameNC;
     lineLNameNC = ui -> lineLNameNC;
@@ -89,13 +94,21 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //
-    //connect buttons to slots
+    //Order Laundry Page
     //
 
-    connect(ui->btnCreate, &QPushButton::clicked, this, [this, &manager](){
+    //Pants
+    lineLaundryPantsPrice = ui -> lineLaundryPricePants;
+    spinLaundryPants = ui -> spinLaundryPants;
+
+    //
+    //connect buttons to slots
+    //
+    /*
+    connect(ui->btnCreate, &QPushButton::clicked, this, [this, manager](){
         custom_on_btnCreate_clicked(manager);
     });
-
+    */
     //connect(btnDropOff, &QPushButton::clicked, this, &MainWindow::showDropOffPage);
 }
 
@@ -112,12 +125,6 @@ void MainWindow::on_btnDropOff_clicked()
     MainWindow::showDropOffPage();
 }
 
-
-void MainWindow::on_btnLaundry_clicked()
-{
-
-}
-
 //
 //Drop Off Page
 //
@@ -131,6 +138,30 @@ void MainWindow::on_btnCustomer_clicked()
     MainWindow::showSearchPage();
 }
 
+void MainWindow::on_btnLaundry_clicked()
+{
+    if(lineFNameDP->text().isEmpty())
+        return;
+
+    MainWindow::showOrderLaundryPage();
+}
+
+void MainWindow::on_btnSaveDP_clicked()//fi::File &manager)
+{
+    size_t orderID = orders.size() - 1; //really the real order ID is just order.size() but because the size changed with the latest order, it must be subtracted
+    customer[0]->setLatestOrder(orderID);
+    customer[0]->updateVisits(customer[0]->getVisit() + 1);
+
+    orders[orderID].calculateCost();
+
+    manager->saveOrders(orders[orderID]);
+    manager->updateCustomer(customer[0]->getCustomerID());
+
+    customer.clear();
+    order.clear();
+
+    MainWindow::showMainPage();
+}
 
 void MainWindow::on_btnReturn_clicked()
 {
@@ -163,6 +194,21 @@ void MainWindow::showCustomerSearchResultsPage(){
 void MainWindow::showNewCustomerPage(){
     ui->stackedWidget->setCurrentIndex(4);
 }
+
+void MainWindow::showOrderLaundryPage(){
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+void MainWindow::showOrderDryCleanPage(){
+    ui->stackedWidget->setCurrentIndex(6);
+}
+
+void MainWindow::showOrderAlterationsPage(){
+    ui->stackedWidget->setCurrentIndex(7);
+}
+
+
+
 
 //
 //Customer Search Page (2)
@@ -234,17 +280,24 @@ void MainWindow::on_btnReturnCSR_clicked()
 void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index)
 {
     cust::customer* temp = customer[index.row()];
+    size_t orderID = orders.size();
     //cout << std::endl << "custom_on_tableViewCSR_Clicked" << i << std::endl;
 
     lineFNameDP -> setText(QString::fromStdString(temp->getFirstName()));
     lineLNameDP -> setText(QString::fromStdString(temp->getLastName()));
     linePhoneDP -> setText(QString::fromStdString(temp->getPhone()));
+    lineCustomerIDDP->setText(QString::number(temp->getCustomerID()));
 
     modelCSR -> removeRows(0, modelCSR -> rowCount());
     customer.clear();
-    customer.push_back(temp);
+    customer.push_back(temp); //Customer contains the pointer that points to the current customer that will be worked on
 
     lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner
+
+    //customer[0]->setLatestOrder(orderID);
+
+    orders.emplace_back(customer[0]->getCustomerID(), orderID);
+    order.push_back(&orders[orderID - 1]);
 
     MainWindow::showDropOffPage();
 }
@@ -260,29 +313,39 @@ void MainWindow::on_btnReturn_3_clicked()
     MainWindow::showSearchPage();
 }
 
+/*
 void MainWindow::on_btnCreate_clicked()
 {
 
 }
+*/
 
-void MainWindow::custom_on_btnCreate_clicked(fi::File &manager){
+void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     int customerID;
+    size_t orderID = orders.size();
     QString firstName, lastName, phone;
+
     firstName = lineFNameNC ->text();
     lastName = lineLNameNC -> text();
     phone = linePhoneNC -> text();
 
-    customerID = this->customers.size();
-    this->customers.emplace_back(customerID, firstName.toStdString(), lastName.toStdString(), phone.toStdString());
+    //Setting up the new customer and updating the file
+    customerID = customers.size();
+    customers.emplace_back(customerID, firstName.toStdString(), lastName.toStdString(), phone.toStdString());
+    customer.push_back(&customers[customerID]); //contains only the customer that will be worked on
+    manager->saveCustomers(customers[customerID]);
 
-    manager.saveCustomers(this->customers[customerID]);
+    //Creating a new order object
+    orders.emplace_back(customerID, orderID);
+    order.push_back(&orders[orderID - 1]);
 
     std::cout << "\nafter creating customer\n";
 
+    //Update on-screen information
     lineFNameDP->setText(QString::fromStdString(customers[customerID].getFirstName()));
     lineLNameDP->setText(QString::fromStdString(customers[customerID].getLastName()));
     linePhoneDP->setText(QString::fromStdString(customers[customerID].getPhone()));
-    lineCustomerIDDP->setText(QString::number(customers[customerID].getCustomerID()));
+    lineCustomerIDDP->setText(QString::number(customerID));
 
     MainWindow::showDropOffPage();
 }
@@ -291,8 +354,31 @@ void MainWindow::custom_on_btnCreate_clicked(fi::File &manager){
 
 
 //
+//Laundry Order Page (5)
+//
+
+
+void MainWindow::on_btnLaundryPants_clicked()
+{
+    double price;
+    int n, pants = 0;
+
+    price = lineLaundryPantsPrice -> text().toDouble();
+    n = spinLaundryPants -> value();
+
+    order[pants]->setLaundryPiece(pants, n, price);
+
+
+}
+
+
+//
 //Get Functions
 //
+
+
+
+
 
 
 

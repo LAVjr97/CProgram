@@ -66,8 +66,12 @@ void File::loadCustomers(){
 
 //Orders
 void File::saveOrders(orderInfo::order &order) const{
-    std::vector<std::vector<std::pair<int, double>>> articles = order.getDetails();
-    size_t outerVectorSize = articles.size(), innerVectorSize;
+    std::vector<std::vector<std::pair<int, double>>> laundry = order.getDetails();
+    std::vector<std::vector<std::pair<int, double>>> dryClean = order.getDryClean();
+    std::vector<std::vector<std::pair<int, double>>> alterations = order.getAlterations();
+
+
+    size_t outerVectorSize = laundry.size(), innerVectorSize;
     std::ofstream ofs(this->orderFile, std::ios::app);
     std::cout << std::endl << "In saveOrders" << std::endl;
 
@@ -81,12 +85,14 @@ void File::saveOrders(orderInfo::order &order) const{
         << order.getCost() << ","
         << order.getRack() << ","
         << order.getPickUp() << ",";
+
     ofs << order.dropOff->getDay() << ","
         << order.dropOff->getMonth() << ","
         << order.dropOff->getYear() << ","
         << order.dropOff->getHour() << ","
         << order.dropOff->getMin() << ","
         << order.dropOff->getAm_Pm() << ",";
+
     ofs << order.pickUp->getDay() << ","
         << order.pickUp->getMonth() << ","
         << order.pickUp->getYear() << ","
@@ -94,9 +100,38 @@ void File::saveOrders(orderInfo::order &order) const{
         << order.pickUp->getMin() << ","
         << order.pickUp->getAm_Pm() << ",";
 
-    ofs << outerVectorSize;
 
-    for (const auto& innerVector : articles) {
+    //Check chatgpt to see how delimiter works, fix delimiterand how data is being stored and how to read the ";"
+
+    //Laundry
+    ofs << outerVectorSize;
+    for (const auto& innerVector : laundry) {
+        innerVectorSize = innerVector.size();
+        ofs << "," << innerVectorSize;
+        for (const auto& pair : innerVector) {
+            ofs << "," << pair.first;
+            ofs << "," << pair.second;
+        }
+    }
+    ofs << ";";
+
+    //Dry Clean
+    outerVectorSize = dryClean.size();
+    ofs << outerVectorSize;
+    for (const auto& innerVector : dryClean) {
+        innerVectorSize = innerVector.size();
+        ofs << "," << innerVectorSize;
+        for (const auto& pair : innerVector) {
+            ofs << "," << pair.first;
+            ofs << "," << pair.second;
+        }
+    }
+    ofs << ";";
+
+    //Alterations
+    outerVectorSize = alterations.size();
+    ofs << outerVectorSize;
+    for (const auto& innerVector : alterations) {
         innerVectorSize = innerVector.size();
         ofs << "," << innerVectorSize;
         for (const auto& pair : innerVector) {
@@ -112,10 +147,13 @@ void File::saveOrders(orderInfo::order &order) const{
 void File::loadOrders() {
     int n, orderID, customerID, rack, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, first;
     double cost, price, second;
-    bool pickedUp;
-    std::string dropOffAm_Pm, pickUpAm_Pm, line, temp;
-    std::vector<std::vector<std::pair<int, double>>> articles;
     size_t outersize, innersize, i, j;
+    bool pickedUp;    
+    std::string dropOffAm_Pm, pickUpAm_Pm, line, temp;
+    std::vector<std::vector<std::pair<int, double>>> laundry;
+    std::vector<std::vector<std::pair<int, double>>> dryClean;
+    std::vector<std::vector<std::pair<int, double>>> alterations;
+
     std::ifstream ifs(this->orderFile);
 
     if (!ifs) {
@@ -136,6 +174,7 @@ void File::loadOrders() {
         rack = std::stoi(temp);
         std::getline(ss, temp, ',');
         pickedUp = std::stoi(temp);
+
         std::getline(ss, temp, ',');
         dropOffDay = std::stoi(temp);
         std::getline(ss, temp, ',');
@@ -147,6 +186,7 @@ void File::loadOrders() {
         std::getline(ss, temp, ',');
         dropOffMin = std::stoi(temp);
         std::getline(ss, dropOffAm_Pm, ',');
+
         std::getline(ss, temp, ',');
         pickUpDay = std::stoi(temp);
         std::getline(ss, temp, ',');
@@ -161,20 +201,24 @@ void File::loadOrders() {
 
         std::getline(ss, temp, ',');
         outersize = std::stoull(temp);
-        articles.resize(outersize);
+        laundry.resize(outersize);
 
         for (i = 0; i < outersize; i++) {
             std::getline(ss, temp, ',');
             innersize = std::stoull(temp);
-            articles[i].resize(innersize);
+            laundry[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
                 std::getline(ss, temp, ',');
                 first = std::stoull(temp);
                 std::getline(ss, temp, ',');
                 second = std::stoull(temp);
-                articles[i][j] = std::make_pair(first, second);
+                laundry[i][j] = std::make_pair(first, second);
             }
         }
+
+
+
+
         orders.emplace_back(orderID, customerID, cost, rack, pickedUp, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, articles);
     }
 

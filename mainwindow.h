@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QLineEdit>
+#include <QSpinBox>
 #include "main.h"
 #include "customer.h"
 #include "order.h"
@@ -31,6 +32,7 @@ public:
 
     std::vector<cust::customer*> customer;
     std::vector<orderInfo::order*> order;
+    fi::File* manager;
 
 private slots:
     void updateDropOffPage();
@@ -43,6 +45,9 @@ private slots:
 
     void on_btnReturn_clicked();
 
+    void on_btnSaveDP_clicked();//fi::File &manager);
+
+    //Page Movement
     void showMainPage();
 
     void showDropOffPage();
@@ -52,6 +57,12 @@ private slots:
     void showCustomerSearchResultsPage();
 
     void showNewCustomerPage();
+
+    void showOrderLaundryPage();
+
+    void showOrderDryCleanPage();
+
+    void showOrderAlterationsPage();
 
     void on_btnReturnCS_clicked();
 
@@ -66,7 +77,7 @@ private slots:
     //
 
     //Customer Search Page
-    void custom_on_btnCreate_clicked(fi::File &manager);
+    //void custom_on_btnCreate_clicked(fi::File &manager);
 
     //Customer Search Results
     //void custom_on_btnSearchCS_clicked(fi::File &manager);
@@ -77,6 +88,12 @@ private slots:
     void on_btnSearchCS_clicked();
 
     void on_tableViewCSR_clicked(const QModelIndex &index);
+
+    //
+    //Order Laundry Page(5)
+    //
+    void on_btnLaundryPants_clicked();
+
 
 
 private:
@@ -122,5 +139,14 @@ private:
     QLineEdit *lineFNameNC;
     QLineEdit *lineLNameNC;
     QLineEdit *linePhoneNC;
+
+    //
+    //Order Laundry Page
+    //
+
+    //Pants
+    QLineEdit *lineLaundryPantsPrice;
+    QSpinBox *spinLaundryPants;
+
 };
 #endif // MAINWINDOW_H
