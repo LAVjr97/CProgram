@@ -101,7 +101,7 @@ void File::saveOrders(orderInfo::order &order) const{
         << order.pickUp->getAm_Pm() << ",";
 
 
-    //Check chatgpt to see how delimiter works, fix delimiterand how data is being stored and how to read the ";"
+    //Check chatgpt to see how delimiter works, fix delimiter and how data is being stored and how to read the ";"
 
     //Laundry
     ofs << outerVectorSize;
@@ -113,7 +113,7 @@ void File::saveOrders(orderInfo::order &order) const{
             ofs << "," << pair.second;
         }
     }
-    ofs << ";";
+    ofs << "DC" << ";";
 
     //Dry Clean
     outerVectorSize = dryClean.size();
@@ -126,7 +126,7 @@ void File::saveOrders(orderInfo::order &order) const{
             ofs << "," << pair.second;
         }
     }
-    ofs << ";";
+    ofs << "A" << ";";
 
     //Alterations
     outerVectorSize = alterations.size();
