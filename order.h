@@ -16,7 +16,7 @@ namespace orderInfo{
 
 
             //Loads orders at the start of program
-            order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry);
+            order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations);
 
             //Get functions, set to const to insure that data isn't being changed
             int getCustomerID() const;
@@ -24,6 +24,7 @@ namespace orderInfo{
             //std::string getDropOffDate() const;
             //std::string getPickUpDate() const;
             std::vector<std::vector<std::pair<int, double>>> getDetails() const;
+            int getLaundryNumber(int pos, double price);
             int getlaundryLength() const;
             std::vector<std::vector<std::pair<int, double>>> getDryClean() const;
             int getDryCleanLength() const;
@@ -39,11 +40,11 @@ namespace orderInfo{
             //int setDropOffDate(std::string date);
             //int setPickUpDate(std::string date);
             int setDetails(std::vector<std::vector<std::pair<int, double>>> laundry);
-            void setLaundryPiece(int pos, int n, double price);
+            bool setLaundryPiece(int pos, int n, double price);
             int setDryClean(std::vector<std::vector<std::pair<int, double>>> dryClean);
-            void setDryCleanPiece(int pos, int n, double price);
+            bool setDryCleanPiece(int pos, int n, double price);
             int setAlterations(std::vector<std::vector<std::pair<int, double>>> alterations);
-            void setAlterationsPiece(int pos, int n, double price);
+            bool setAlterationsPiece(int pos, int n, double price);
 
 
             int setCost(double cost);

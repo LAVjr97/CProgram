@@ -48,7 +48,7 @@ order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int,
 }
 
 //Constructor used when loading in orders from orderFile into the program memory
-order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry){
+order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations){
     this->orderID = orderID;
     this->customerID = customerID;
     this->cost = cost;
@@ -57,6 +57,8 @@ order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, 
     this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
     this->pickUp = new date::Date(pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm);
     this->laundry = laundry;
+    this->dryClean = dryClean;
+    this->alterations = alterations;
 }
 
 /*order::~order() {
@@ -77,6 +79,25 @@ int order::getOrderID() const{
 
 std::vector<std::vector<std::pair<int, double>>> order::getDetails() const{
     return laundry;
+}
+
+std::vector<std::vector<std::pair<int, double>>> order::getDryClean() const{
+    return dryClean;
+}
+
+std::vector<std::vector<std::pair<int, double>>> order::getAlterations() const{
+    return alterations;
+}
+
+int order::getLaundryNumber(int pos, double price){
+    size_t i;
+
+    for(i = 0; i < laundry[pos].size(); i++){
+        if(price == laundry[pos][i].second)
+            return laundry[pos][i].first;
+    }
+
+    return 0;
 }
 
 double order::getCost() const{
@@ -106,7 +127,7 @@ int order::setDetails(std::vector<std::vector<std::pair<int, double>>> laundry){
     return 0;
 }
 
-void order::setLaundryPiece(int pos, int n, double price){
+bool order::setLaundryPiece(int pos, int n, double price){
     //this->laundry[pos].push_back(std::make_pair(n, price));
     size_t i;
     bool foundPrice = false;
@@ -115,12 +136,13 @@ void order::setLaundryPiece(int pos, int n, double price){
         if(price == laundry[pos][i].second){
             laundry[pos][i].first = laundry[pos][i].first + n;
             foundPrice = true;
+            break;
         }
 
     if(foundPrice == false)
         laundry[pos].push_back(std::make_pair(n, price));
 
-    return;
+    return foundPrice;
 }
 
 int order::setDryClean(std::vector<std::vector<std::pair<int, double>>> dryClean){
@@ -128,7 +150,7 @@ int order::setDryClean(std::vector<std::vector<std::pair<int, double>>> dryClean
     return 0;
 }
 
-void order::setDryCleanPiece(int pos, int n, double price){
+bool order::setDryCleanPiece(int pos, int n, double price){
     size_t i;
     bool foundPrice = false;
 
@@ -141,7 +163,7 @@ void order::setDryCleanPiece(int pos, int n, double price){
     if(foundPrice == false)
         dryClean[pos].push_back(std::make_pair(n, price));
 
-    return;
+    return foundPrice;
 }
 
 int order::setAlterations(std::vector<std::vector<std::pair<int, double>>> alterations){
@@ -149,7 +171,7 @@ int order::setAlterations(std::vector<std::vector<std::pair<int, double>>> alter
     return 0;
 }
 
-void order::setAlterationsPiece(int pos, int n, double price){
+bool order::setAlterationsPiece(int pos, int n, double price){
     size_t i;
     bool foundPrice = false;
 
@@ -162,7 +184,7 @@ void order::setAlterationsPiece(int pos, int n, double price){
     if(foundPrice == false)
         alterations[pos].push_back(std::make_pair(n, price));
 
-    return;
+    return foundPrice;
 }
 
 int order::setCost(double cost){

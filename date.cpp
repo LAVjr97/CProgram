@@ -140,7 +140,11 @@ int Date::createDate() {
 }
 
 int Date::createTime() {
-    this->time = std::to_string(this->hour) + ":" + std::to_string(this->min) + this->am_pm;
+    if (this->min < 10)
+        this->time = std::to_string(this->hour) + ":" + "0" + std::to_string(this->min) + this->am_pm;
+    else
+        this->time = std::to_string(this->hour) + ":" + std::to_string(this->min) + this->am_pm;
+
     return 0;
 }
 
@@ -237,6 +241,7 @@ int Date::addDays(int daysToAdd) {
         if (dayOfWeek() != 0) //Remmeber, 0 = Sunday
             daysAdded++;
     }
+    this->min = 0;
     updateClass();
     return 0;
 }

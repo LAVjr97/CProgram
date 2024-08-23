@@ -8,6 +8,7 @@
 #include "customer.h"
 #include "order.h"
 #include "file.h"
+#include "search.h"
 #include "qstackedwidget.h"
 #include <QStandardItemModel>
 #include <QStandardItem>
@@ -92,12 +93,14 @@ private slots:
     //
     //Order Laundry Page(5)
     //
+    void on_btnLaundryReturn_clicked();
     void on_btnLaundryPants_clicked();
-
 
 
 private:
     Ui::MainWindow *ui;
+
+    size_t curOrderID;
 
     //Stacked Widget
     QStackedWidget *stackedWidget;
@@ -118,6 +121,8 @@ private:
     QLineEdit *linePickUpDP;
 
     QStandardItemModel *modelDP;
+    QTableView *tableViewOrdersDP;
+
 
     //
     //Customer Search Page

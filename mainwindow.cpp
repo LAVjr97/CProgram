@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "handle.h"
+//#include "handle.h"
 
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -48,25 +48,37 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //Drop Off Page
     //
-    lineCustomerIDDP = ui -> lineCustomerIDDP;
-    lineDropOffDP = ui -> lineOrderIDDP;
-    lineFNameDP = ui -> lineFNameDP;
-    lineLNameDP = ui -> lineLNameDP;
-    lineOrderIDDP = ui -> lineOrderIDDP;
-    linePhoneDP = ui -> linePhoneDP;
-    linePickUpDP = ui -> linePickUpDP;
+    lineCustomerIDDP = ui->lineCustomerIDDP;
+    lineDropOffDP = ui->lineDropOffDP;
+    lineFNameDP = ui->lineFNameDP;
+    lineLNameDP = ui->lineLNameDP;
+    lineOrderIDDP = ui->lineOrderIDDP;
+    linePhoneDP = ui->linePhoneDP;
+    linePickUpDP = ui->linePickUpDP;
+
+    tableViewOrdersDP = new QTableView(this);
 
     modelDP = new QStandardItemModel(this);
-    ui -> listViewDP ->setModel(modelDP);
+    modelDP->setColumnCount(5);
+    modelDP->setHorizontalHeaderLabels({"Number", "Type", "Piece", "Price Per Piece", "Price Total"});
+
+    ui->tableViewOrdersDP->setModel(modelDP);
+    ui->tableViewOrdersDP->resizeColumnsToContents();
+
+    //connect(tableViewCSR, &QTableView::entered, this, &MainWindow::on)
+
     /*
     connect(ui->btnSaveDP, &QPushButton::clicked, this, [this, &manager](){
         custom_on_btnSaveDP_clicked(manager);
     });
     */
+
+
+
     //
     //Search Customer Page
     //
-    lineSearchCustomerCS = ui -> lineSearchCustomerCS;
+    lineSearchCustomerCS = ui->lineSearchCustomerCS;
 
     connect(lineSearchCustomerCS, &QLineEdit::returnPressed, this, &MainWindow::on_btnSearchCS_clicked);
 
@@ -76,14 +88,14 @@ MainWindow::MainWindow(QWidget *parent)
     tableViewCSR = new QTableView(this);
 
     modelCSR = new QStandardItemModel(this);
-    modelCSR -> setColumnCount(3);
+    modelCSR->setColumnCount(3);
     modelCSR->setHorizontalHeaderLabels({"First Name", "Last Name", "Phone Number"});
 
-    ui -> tableViewCSR -> setModel(modelCSR);
-    ui -> tableViewCSR -> setModel(modelCSR);
+    //ui->tableViewCSR->setModel(modelCSR);
+    ui->tableViewCSR->setModel(modelCSR);
     ui->tableViewCSR->resizeColumnsToContents();
 
-    connect(tableViewCSR, &QTableView::entered, this, &MainWindow::on_btnSearchCS_clicked);
+    //connect(tableViewCSR, &QTableView::entered, this, &MainWindow::on_btnSearchCS_clicked);
 
     //
     //New Customer Page
@@ -280,7 +292,7 @@ void MainWindow::on_btnReturnCSR_clicked()
 void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index)
 {
     cust::customer* temp = customer[index.row()];
-    size_t orderID = orders.size();
+    curOrderID = orders.size();
     //cout << std::endl << "custom_on_tableViewCSR_Clicked" << i << std::endl;
 
     lineFNameDP -> setText(QString::fromStdString(temp->getFirstName()));
@@ -296,8 +308,13 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index)
 
     //customer[0]->setLatestOrder(orderID);
 
-    orders.emplace_back(customer[0]->getCustomerID(), orderID);
-    order.push_back(&orders[orderID - 1]);
+    //Add order to orders
+    orders.emplace_back(customer[0]->getCustomerID(), curOrderID);
+    order.push_back(&orders[curOrderID]);
+
+    lineDropOffDP->setText(QString::fromStdString(order[0]->dropOff->getDate_Time()));
+    linePickUpDP->setText(QString::fromStdString(order[0]->pickUp->getDate_Time()));
+    lineOrderIDDP->setText(QString::number(curOrderID));
 
     MainWindow::showDropOffPage();
 }
@@ -322,7 +339,7 @@ void MainWindow::on_btnCreate_clicked()
 
 void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     int customerID;
-    size_t orderID = orders.size();
+    curOrderID = orders.size();
     QString firstName, lastName, phone;
 
     firstName = lineFNameNC ->text();
@@ -336,8 +353,8 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     manager->saveCustomers(customers[customerID]);
 
     //Creating a new order object
-    orders.emplace_back(customerID, orderID);
-    order.push_back(&orders[orderID - 1]);
+    orders.emplace_back(customerID, curOrderID);
+    order.push_back(&orders[curOrderID]);
 
     std::cout << "\nafter creating customer\n";
 
@@ -358,27 +375,48 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
 //
 
 
+void MainWindow::on_btnLaundryReturn_clicked()
+{
+    size_t i;
+    std::vector<std::vector<std::pair<int, double>>> laundry = order[curOrderID]->getDetails();
+    QStandardItem *number, *type, *piece, *pricePerPiece, *priceTotal;
+
+
+    for(i = 0; i < laundry.size(); i++){
+        if(laundry[i].empty() != false)
+            number = new QStandardItem(QString::number(orders[curOrderID]->));
+
+    MainWindow::showDropOffPage();
+}
+
 void MainWindow::on_btnLaundryPants_clicked()
 {
     double price;
     int n, pants = 0;
+    bool foundPrice;
 
     price = lineLaundryPantsPrice -> text().toDouble();
     n = spinLaundryPants -> value();
 
-    order[pants]->setLaundryPiece(pants, n, price);
+    if(n == 0)
+        return;
 
+    foundPrice = order[0]->setLaundryPiece(pants, n, price);
+
+    //Updates the number in the spinBox if
+    if(foundPrice == true){
+        n = orders[curOrderID].getLaundryNumber(pants, price);
+        spinLaundryPants->setValue(n);
+    }
 
 }
+
+
 
 
 //
 //Get Functions
 //
-
-
-
-
 
 
 
