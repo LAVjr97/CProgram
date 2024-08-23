@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QPushButton" name="btnDropOff">
@@ -611,7 +611,7 @@
            </rect>
           </property>
           <property name="text">
-           <string>Pants</string>
+           <string>Shirts</string>
           </property>
          </widget>
          <widget class="QLineEdit" name="lineLaundryPricePants">

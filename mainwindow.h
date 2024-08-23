@@ -100,7 +100,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    size_t curOrderID;
+    size_t curOrderID, lau, dc, alt;
 
     //Stacked Widget
     QStackedWidget *stackedWidget;

@@ -34,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent)
     threadCust.join();
     threadOrder.join();
 
+    lau = 0;
+    dc = 0;
+    alt = 0;
+
     //Everything after this point is GUI related
     ui->setupUi(this);
     stackedWidget = new QStackedWidget(this);
@@ -154,6 +158,8 @@ void MainWindow::on_btnLaundry_clicked()
 {
     if(lineFNameDP->text().isEmpty())
         return;
+    //Assign prices
+    lineLaundryPantsPrice->setText(QString::number(4.99));
 
     MainWindow::showOrderLaundryPage();
 }
@@ -178,10 +184,16 @@ void MainWindow::on_btnSaveDP_clicked()//fi::File &manager)
 void MainWindow::on_btnReturn_clicked()
 {
     MainWindow::showMainPage();
+    modelDP -> removeRows(0, modelDP -> rowCount());
     customer.clear();
+    order.clear();
     lineFNameDP -> clear();
     lineLNameDP -> clear();
     linePhoneDP -> clear();
+    lineDropOffDP -> clear();
+    linePickUpDP->clear();
+    lineCustomerIDDP->clear();
+    lineOrderIDDP->clear();
 }
 
 //
@@ -363,6 +375,9 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     lineLNameDP->setText(QString::fromStdString(customers[customerID].getLastName()));
     linePhoneDP->setText(QString::fromStdString(customers[customerID].getPhone()));
     lineCustomerIDDP->setText(QString::number(customerID));
+    lineDropOffDP->setText(QString::fromStdString(order[0]->dropOff->getDate_Time()));
+    linePickUpDP->setText(QString::fromStdString(order[0]->pickUp->getDate_Time()));
+    lineOrderIDDP->setText(QString::number(curOrderID));
 
     MainWindow::showDropOffPage();
 }
@@ -377,14 +392,34 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
 
 void MainWindow::on_btnLaundryReturn_clicked()
 {
-    size_t i;
+    double pTotal;
+    QString pieces[] = {"Shirts", "Pants", "Sweaters", "Coats", "Blouses", "2pc Suit", "Jacket", "Vest"};
+    size_t i, j, temp=0;
     std::vector<std::vector<std::pair<int, double>>> laundry = order[curOrderID]->getDetails();
     QStandardItem *number, *type, *piece, *pricePerPiece, *priceTotal;
 
+    modelDP -> removeRows(0, modelDP -> rowCount());
 
-    for(i = 0; i < laundry.size(); i++){
-        if(laundry[i].empty() != false)
-            number = new QStandardItem(QString::number(orders[curOrderID]->));
+    for(i = 0; i < laundry.size(); i++)
+        if(laundry[i].empty() == false)
+            for(j = 0; j < laundry[i].size(); i++){
+                number = new QStandardItem(QString::number(laundry[i][j].first));
+                type = new QStandardItem("Laundry");
+                piece = new QStandardItem(pieces[i]);
+                pricePerPiece = new QStandardItem(QString::number(laundry[i][j].second));
+                pTotal = laundry[i][j].first * laundry[i][j].second;
+                priceTotal = new QStandardItem(QString::number(pTotal));
+
+                modelDP->setItem(temp, 0, number);
+                modelDP->setItem(temp, 1, type);
+                modelDP->setItem(temp, 2, piece);
+                modelDP->setItem(temp, 3, pricePerPiece);
+                modelDP->setItem(temp, 4, priceTotal);
+
+                temp++;
+            }
+
+    this->lau = temp;
 
     MainWindow::showDropOffPage();
 }
