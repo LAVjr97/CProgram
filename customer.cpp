@@ -25,7 +25,7 @@ customer::customer(int customerID, std::string firstName, std::string lastName, 
     this->firstName = firstName;
     this->lastName = lastName;
     this-> phone = this->createPhone(phone);
-    this->visits = 1;
+    this->visits = 0;
     this->total = 0;
     return;
 }

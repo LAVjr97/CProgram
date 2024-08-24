@@ -113,8 +113,12 @@ MainWindow::MainWindow(QWidget *parent)
     //Order Laundry Page
     //
 
+    //Shirts
+    lineLaundryPriceShirts = ui->lineLaundryPriceShirts;
+    spinLaundryShirts = ui->spinLaundryShirts;
+
     //Pants
-    lineLaundryPantsPrice = ui -> lineLaundryPricePants;
+    lineLaundryPricePants = ui -> lineLaundryPricePants;
     spinLaundryPants = ui -> spinLaundryPants;
 
     //
@@ -158,35 +162,44 @@ void MainWindow::on_btnLaundry_clicked()
 {
     if(lineFNameDP->text().isEmpty())
         return;
+
     //Assign prices
-    lineLaundryPantsPrice->setText(QString::number(4.99));
+    lineLaundryPriceShirts->setText(QString::number(4.99));
+    lineLaundryPricePants->setText(QString::number(5.99));
+
 
     MainWindow::showOrderLaundryPage();
 }
 
 void MainWindow::on_btnSaveDP_clicked()//fi::File &manager)
 {
-    size_t orderID = orders.size() - 1; //really the real order ID is just order.size() but because the size changed with the latest order, it must be subtracted
-    customer[0]->setLatestOrder(orderID);
+    //size_t orderID = orders.size() - 1; //really the real order ID is just order.size() but because the size changed with the latest order, it must be subtracted
+
+    customer[0]->setLatestOrder(curOrderID);
     customer[0]->updateVisits(customer[0]->getVisit() + 1);
 
-    orders[orderID].calculateCost();
+    orders[curOrderID].calculateCost();
 
-    manager->saveOrders(orders[orderID]);
+    manager->saveOrders(orders[curOrderID]);
     manager->updateCustomer(customer[0]->getCustomerID());
 
     customer.clear();
     order.clear();
 
     MainWindow::showMainPage();
+    clearScreenDP();
 }
 
 void MainWindow::on_btnReturn_clicked()
 {
     MainWindow::showMainPage();
-    modelDP -> removeRows(0, modelDP -> rowCount());
     customer.clear();
     order.clear();
+    clearScreenDP();
+}
+
+void MainWindow::clearScreenDP(){
+    modelDP -> removeRows(0, modelDP -> rowCount());
     lineFNameDP -> clear();
     lineLNameDP -> clear();
     linePhoneDP -> clear();
@@ -390,19 +403,25 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
 //
 
 
+
 void MainWindow::on_btnLaundryReturn_clicked()
 {
+    if(!spinLaundryShirts -> value() && !spinLaundryPants -> value()){
+        MainWindow::showDropOffPage();
+        return;
+    }
+
     double pTotal;
     QString pieces[] = {"Shirts", "Pants", "Sweaters", "Coats", "Blouses", "2pc Suit", "Jacket", "Vest"};
-    size_t i, j, temp=0;
+    size_t i, j, temp = 0;
     std::vector<std::vector<std::pair<int, double>>> laundry = order[curOrderID]->getDetails();
     QStandardItem *number, *type, *piece, *pricePerPiece, *priceTotal;
 
-    modelDP -> removeRows(0, modelDP -> rowCount());
+    modelDP -> removeRows(0, modelDP->rowCount());
 
     for(i = 0; i < laundry.size(); i++)
         if(laundry[i].empty() == false)
-            for(j = 0; j < laundry[i].size(); i++){
+            for(j = 0; j < laundry[i].size(); j++){
                 number = new QStandardItem(QString::number(laundry[i][j].first));
                 type = new QStandardItem("Laundry");
                 piece = new QStandardItem(pieces[i]);
@@ -424,13 +443,34 @@ void MainWindow::on_btnLaundryReturn_clicked()
     MainWindow::showDropOffPage();
 }
 
+
+void MainWindow::on_btnLaundryShirts_clicked(){
+    double price;
+    int n, shirts = 0;
+    bool foundPrice;
+
+    price = lineLaundryPriceShirts -> text().toDouble();
+    n = spinLaundryShirts -> value();
+
+    if(n == 0)
+        return;
+
+    foundPrice = order[0]->setLaundryPiece(shirts, n, price);
+
+    //Updates the number in the spinBox if
+    if(foundPrice == true){
+        n = orders[curOrderID].getLaundryNumber(shirts, price);
+        spinLaundryPants->setValue(n);
+    }
+}
+
 void MainWindow::on_btnLaundryPants_clicked()
 {
     double price;
-    int n, pants = 0;
+    int n, pants = 1;
     bool foundPrice;
 
-    price = lineLaundryPantsPrice -> text().toDouble();
+    price = lineLaundryPricePants -> text().toDouble();
     n = spinLaundryPants -> value();
 
     if(n == 0)

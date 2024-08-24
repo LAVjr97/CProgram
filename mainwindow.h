@@ -65,6 +65,8 @@ private slots:
 
     void showOrderAlterationsPage();
 
+
+
     void on_btnReturnCS_clicked();
 
     void on_btnNewCustomersCS_clicked();
@@ -90,12 +92,23 @@ private slots:
 
     void on_tableViewCSR_clicked(const QModelIndex &index);
 
+
+
+
     //
     //Order Laundry Page(5)
     //
     void on_btnLaundryReturn_clicked();
+
+    //Shirts
+    void on_btnLaundryShirts_clicked();
+
+    //Pants
     void on_btnLaundryPants_clicked();
 
+
+    //Help functions
+    void clearScreenDP();
 
 private:
     Ui::MainWindow *ui;
@@ -149,8 +162,12 @@ private:
     //Order Laundry Page
     //
 
+    //Shirts
+    QLineEdit *lineLaundryPriceShirts;
+    QSpinBox *spinLaundryShirts;
+
     //Pants
-    QLineEdit *lineLaundryPantsPrice;
+    QLineEdit *lineLaundryPricePants;
     QSpinBox *spinLaundryPants;
 
 };

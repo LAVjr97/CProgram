@@ -209,15 +209,15 @@ void order::calculateCost() {
 
     for (i = 0; i < this->laundry.size(); i++)
         for (j = 0; j < this->laundry[i].size(); i++)
-            this->cost = cost + this->laundry[i][j].second;
+            this->cost = cost + this->laundry[i][j].first * this->laundry[i][j].second;
 
     for (i = 0; i < this->dryClean.size(); i++)
         for (j = 0; j < this->dryClean[i].size(); i++)
-            this->cost = cost + this->dryClean[i][j].second;
+            this->cost = cost + this->dryClean[i][j].first * this->dryClean[i][j].second;
 
     for (i = 0; i < this->alterations.size(); i++)
         for (j = 0; j < this->alterations[i].size(); i++)
-            this->cost = cost + this->alterations[i][j].second;
+            this->cost = cost + this->alterations[i][j].first * this->alterations[i][j].second;
 
     //for (const auto& i : laundry)
 

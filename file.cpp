@@ -113,7 +113,7 @@ void File::saveOrders(orderInfo::order &order) const{
             ofs << "," << pair.second;
         }
     }
-    ofs << "DC" << ",";
+    ofs << "," << "DC" << ";";
 
     //Dry Clean
     outerVectorSize = dryClean.size();
@@ -126,7 +126,7 @@ void File::saveOrders(orderInfo::order &order) const{
             ofs << "," << pair.second;
         }
     }
-    ofs << "ALT" << ";";
+    ofs << "," << "ALT" << ";";
 
     //Alterations
     outerVectorSize = alterations.size();
@@ -205,13 +205,13 @@ void File::loadOrders() {
 
         for (i = 0; i < outersize; i++) {
             std::getline(ss, temp, ',');
-            innersize = std::stoull(temp);
+            innersize = std::stoi(temp);
             laundry[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
                 std::getline(ss, temp, ',');
-                n = std::stoull(temp);
+                n = std::stoi(temp);
                 std::getline(ss, temp, ',');
-                price = std::stoull(temp);
+                price = std::stod(temp);
                 laundry[i][j] = std::make_pair(n, price);
             }
         }
@@ -223,13 +223,13 @@ void File::loadOrders() {
 
         for (i = 0; i < outersize; i++) {
             std::getline(ss, temp, ',');
-            innersize = std::stoull(temp);
+            innersize = std::stoi(temp);
             dryClean[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
                 std::getline(ss, temp, ',');
-                n = std::stoull(temp);
+                n = std::stoi(temp);
                 std::getline(ss, temp, ',');
-                price = std::stoull(temp);
+                price = std::stod(temp);
                 dryClean[i][j] = std::make_pair(n, price);
             }
         }
@@ -241,13 +241,13 @@ void File::loadOrders() {
 
         for (i = 0; i < outersize; i++) {
             std::getline(ss, temp, ',');
-            innersize = std::stoull(temp);
+            innersize = std::stoi(temp);
             alterations[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
                 std::getline(ss, temp, ',');
-                n = std::stoull(temp);
+                n = std::stoi(temp);
                 std::getline(ss, temp, ',');
-                price = std::stoull(temp);
+                price = std::stod(temp);
                 alterations[i][j] = std::make_pair(n, price);
             }
         }
