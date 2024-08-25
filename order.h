@@ -13,10 +13,10 @@ namespace orderInfo{
             order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> laundry, double cost);
             order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> laundry);
 
-
-
             //Loads orders at the start of program
             order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations);
+
+            ~order();
 
             //Get functions, set to const to insure that data isn't being changed
             int getCustomerID() const;
@@ -52,7 +52,7 @@ namespace orderInfo{
             int setPickUp(bool pickUp);
 
             //Helper functions
-            void calculateCost();
+            double calculateCost();
 
             //order& operator=(const order& other);
 

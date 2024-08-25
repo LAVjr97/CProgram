@@ -6,6 +6,7 @@ using namespace orderInfo;
 order::order(int customerID, int orderID){ //used when creating order in the dropoff page
     this->customerID = customerID;
     this->orderID = orderID;
+    this->cost = 0;
     this->rackNumber = -1;
     this->pickedUp = false;
     this->dropOff = new date::Date();
@@ -61,10 +62,13 @@ order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, 
     this->alterations = alterations;
 }
 
-/*order::~order() {
-    delete this->dropOff;
-    delete this->pickUp;
-}*/
+order::~order() {
+    //delete this->dropOff;
+    dropOff = nullptr;
+
+    //delete this->pickUp;
+    pickUp = nullptr;
+}
 
 
 /*Get Functions*/
@@ -202,28 +206,31 @@ int order::setPickUp(bool pickUp){
     return 0;
 }
 
-void order::calculateCost() {
+double order::calculateCost() {
     this->cost = 0;
 
     size_t i, j;
 
     for (i = 0; i < this->laundry.size(); i++)
-        for (j = 0; j < this->laundry[i].size(); i++)
-            this->cost = cost + this->laundry[i][j].first * this->laundry[i][j].second;
+        if(laundry[i].empty() == false)
+            for (j = 0; j < this->laundry[i].size(); i++)
+                this->cost = cost + (this->laundry[i][j].first * this->laundry[i][j].second);
 
     for (i = 0; i < this->dryClean.size(); i++)
-        for (j = 0; j < this->dryClean[i].size(); i++)
-            this->cost = cost + this->dryClean[i][j].first * this->dryClean[i][j].second;
+        if(dryClean[i].empty() == false)
+            for (j = 0; j < this->dryClean[i].size(); i++)
+                this->cost = cost + (this->dryClean[i][j].first * this->dryClean[i][j].second);
 
     for (i = 0; i < this->alterations.size(); i++)
-        for (j = 0; j < this->alterations[i].size(); i++)
-            this->cost = cost + this->alterations[i][j].first * this->alterations[i][j].second;
+        if(alterations[i].empty() == false)
+            for (j = 0; j < this->alterations[i].size(); i++)
+                this->cost = cost + (this->alterations[i][j].first * this->alterations[i][j].second);
 
     //for (const auto& i : laundry)
 
     //this->cost = this->cost + (std::get<0>(i) * std::get<1>(i));
 
-    return;
+    return this->cost;
 }
 
 /*

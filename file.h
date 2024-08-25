@@ -26,6 +26,7 @@ public:
 
     //Helper Functions;
     void updateCustomer(const int id);
+    void updateOrder(const int id);
 
     //Get Functions
     std::string getCustomerFile() const;

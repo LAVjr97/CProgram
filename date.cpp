@@ -121,8 +121,11 @@ int Date::setTodaysDate() {
 
 
     //Sets the time to am or pm depending on the time of day.
-    if (this->hour > 12) {
+    if (this->hour > 12 && this->hour != 24) {
         this->hour = this->hour % 12;
+        this->am_pm = "pm";
+    }
+    else if(this->hour == 12){
         this->am_pm = "pm";
     }
     else

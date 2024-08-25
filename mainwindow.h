@@ -38,7 +38,10 @@ public:
 private slots:
     void updateDropOffPage();
 
+    //Main Page
     void on_btnDropOff_clicked();
+    void on_btnPickUp_clicked();
+
 
     void on_btnLaundry_clicked();
 
@@ -50,21 +53,16 @@ private slots:
 
     //Page Movement
     void showMainPage();
-
     void showDropOffPage();
-
     void showSearchPage();
-
     void showCustomerSearchResultsPage();
-
     void showNewCustomerPage();
-
     void showOrderLaundryPage();
-
     void showOrderDryCleanPage();
-
     void showOrderAlterationsPage();
-
+    void showPickUpPage();
+    void showCustomerSearchPagePU();
+    void showOrderSearchPagePU();
 
 
     void on_btnReturnCS_clicked();
@@ -93,11 +91,17 @@ private slots:
     void on_tableViewCSR_clicked(const QModelIndex &index);
 
 
+    //
+    //New Customer Page (4)
+    //
 
+    void clearScreenNC();
 
     //
     //Order Laundry Page(5)
     //
+
+    void setLaundryPage();
     void on_btnLaundryReturn_clicked();
 
     //Shirts
@@ -107,8 +111,26 @@ private slots:
     void on_btnLaundryPants_clicked();
 
 
+    //
+    //Pick Up Page()
+    //
+    void on_btnCustomerPU_clicked();
+    void on_btnOrderSearchPU_clicked();
+    void on_btnSavePU_clicked();
+    void on_btnReturnPU_clicked();
+
+
+
+    //
+    //Order Search Page PU()
+    //
+    void on_btnReturnOS_clicked();
+    void on_btnSearchOrderOS_clicked();
+
+
     //Help functions
     void clearScreenDP();
+    size_t updateTableView(std::vector<std::vector<std::pair<int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
 
 private:
     Ui::MainWindow *ui;
@@ -132,10 +154,25 @@ private:
     QLineEdit *lineOrderIDDP;
     QLineEdit *linePhoneDP;
     QLineEdit *linePickUpDP;
+    QLineEdit *lineOrderTotalDP;
 
     QStandardItemModel *modelDP;
     QTableView *tableViewOrdersDP;
 
+    //
+    //PickUp Page
+    //
+    QLineEdit *lineCustomerIDPU;
+    QLineEdit *lineDropOffPU;
+    QLineEdit *lineFNamePU;
+    QLineEdit *lineLNamePU;
+    QLineEdit *lineOrderIDPU;
+    QLineEdit *linePhonePU;
+    QLineEdit *linePickUpPU;
+    QLineEdit *lineOrderTotalPU;
+
+    QStandardItemModel *modelPU;
+    QTableView *tableViewOrdersPU;
 
     //
     //Customer Search Page
@@ -165,10 +202,16 @@ private:
     //Shirts
     QLineEdit *lineLaundryPriceShirts;
     QSpinBox *spinLaundryShirts;
+    QDoubleSpinBox *spinLaundryPriceShirts;
 
     //Pants
     QLineEdit *lineLaundryPricePants;
     QSpinBox *spinLaundryPants;
+
+    //
+    //Order Search PagePU
+    //
+    QLineEdit *lineSearchOrderIDOS;
 
 };
 #endif // MAINWINDOW_H

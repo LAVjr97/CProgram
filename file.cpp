@@ -11,13 +11,11 @@ File::File(std::string customerFile, std::string orderFile, std::string tempFile
 
 void File::saveCustomers(cust::customer& customer) const{
     std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/customers.txt", std::ios::app);
-    std::cout << std::endl << "In saveCustomers" << std::endl;
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << std::endl;
         return;
     }
-    std::cout << std::endl << "before saving to customers.txt" << std::endl;
 
     ofs << customer.getCustomerID() << ","
         << customer.getFirstName() << ","
@@ -26,7 +24,8 @@ void File::saveCustomers(cust::customer& customer) const{
         << customer.getTotal() << ","
         << customer.getVisit() << std::endl;
     ofs.close();
-    return;
+
+    std::cout << std::endl << "Successfully saved customer data..." << std::endl;
 }
 
 void File::loadCustomers(){
@@ -60,8 +59,9 @@ void File::loadCustomers(){
         customers.emplace_back(id, firstName, lastName, phone, visits, total, orders);
     }
 
-    std::cout << std::endl << "Successfully loaded customer data..." <<std::endl;
     ifs.close();
+    std::cout << std::endl << "Successfully loaded customer data..." <<std::endl;
+
 }
 
 //Orders
@@ -73,7 +73,6 @@ void File::saveOrders(orderInfo::order &order) const{
 
     size_t outerVectorSize = laundry.size(), innerVectorSize;
     std::ofstream ofs(this->orderFile, std::ios::app);
-    std::cout << std::endl << "In saveOrders" << std::endl;
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << std::endl;
@@ -140,8 +139,12 @@ void File::saveOrders(orderInfo::order &order) const{
         }
     }
 
+    ofs << std::endl;
+
     ofs.close();
-    return;
+
+    std::cout << std::endl << "Successfully saved order data..." << std::endl;
+
 }
 
 void File::loadOrders() {
@@ -257,10 +260,115 @@ void File::loadOrders() {
 
     ifs.close();
 
-    return;
+    std::cout << std::endl << "Successfully loaded order data..." << std::endl;
+
 }
 
 //random functions to go to certain customers to update.
+void File::updateOrder(const int id){
+    std::string current, line;
+    bool found;
+    std::vector<std::vector<std::pair<int, double>>> laundry = orders[id].getDetails();
+    std::vector<std::vector<std::pair<int, double>>> dryClean = orders[id].getDryClean();
+    std::vector<std::vector<std::pair<int, double>>> alterations = orders[id].getAlterations();
+
+    size_t outerVectorSize = laundry.size(), innerVectorSize;
+
+    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
+    std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/temp.txt");
+
+    if (!ifs) {
+        std::cerr << "Error opening file to write to: " << this->customerFile << std::endl;
+        return;
+    }
+
+    if (!tempF) {
+        std::cerr << "Error opening file to write to: " << this->tempFile << std::endl;
+        return;
+    }
+
+    while(std::getline(ifs, line)){
+        std::stringstream ss(line);
+        std::getline(ss, current, ',');
+
+        if(std::stoi(current) == id){
+            found = true;
+
+            tempF   << orders[id].getOrderID() << ","
+                    << orders[id].getCustomerID() << ","
+                    << orders[id].getCost() << ","
+                    << orders[id].getRack() << ","
+                    << orders[id].getPickUp() << ",";
+
+            tempF   << orders[id].dropOff->getDay() << ","
+                    << orders[id].dropOff->getMonth() << ","
+                    << orders[id].dropOff->getYear() << ","
+                    << orders[id].dropOff->getHour() << ","
+                    << orders[id].dropOff->getMin() << ","
+                    << orders[id].dropOff->getAm_Pm() << ",";
+
+            tempF   << orders[id].pickUp->getDay() << ","
+                    << orders[id].pickUp->getMonth() << ","
+                    << orders[id].pickUp->getYear() << ","
+                    << orders[id].pickUp->getHour() << ","
+                    << orders[id].pickUp->getMin() << ","
+                    << orders[id].pickUp->getAm_Pm() << ",";
+            //Laundry
+            tempF << outerVectorSize;
+            for (const auto& innerVector : laundry) {
+                innerVectorSize = innerVector.size();
+                tempF << "," << innerVectorSize;
+                for (const auto& pair : innerVector) {
+                    tempF << "," << pair.first;
+                    tempF << "," << pair.second;
+                }
+            }
+            tempF << "," << "DC" << ";";
+
+            //Dry Clean
+            outerVectorSize = dryClean.size();
+            tempF << outerVectorSize;
+            for (const auto& innerVector : dryClean) {
+                innerVectorSize = innerVector.size();
+                tempF << "," << innerVectorSize;
+                for (const auto& pair : innerVector) {
+                    tempF << "," << pair.first;
+                    tempF << "," << pair.second;
+                }
+            }
+            tempF << "," << "ALT" << ";";
+
+            //Alterations
+            outerVectorSize = alterations.size();
+            tempF << outerVectorSize;
+            for (const auto& innerVector : alterations) {
+                innerVectorSize = innerVector.size();
+                tempF << "," << innerVectorSize;
+                for (const auto& pair : innerVector) {
+                    tempF << "," << pair.first;
+                    tempF << "," << pair.second;
+                }
+            }
+
+            tempF << std::endl;
+        }
+        else
+            tempF << line << std::endl;
+    }
+
+    ifs.close();
+    tempF.close();
+
+    if(found){
+        std::remove(this->orderFile.c_str());
+        std::rename(this->tempFile.c_str(), this->customerFile.c_str());
+    }
+    else
+        std::remove(this->tempFile.c_str());
+    return;
+
+}
+
 void File::updateCustomer(const int id) {
     std::string current, line;
     bool found;
@@ -284,6 +392,7 @@ void File::updateCustomer(const int id) {
 
         if (std::stoi(current) == id) {
             found = true;
+
             tempF << customers[id].getCustomerID() << ","
                   << customers[id].getFirstName() << ","
                   << customers[id].getLastName() << ","
@@ -311,6 +420,8 @@ void File::updateCustomer(const int id) {
 
     return;
 }
+
+
 
 //Get functions
 
