@@ -139,6 +139,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    std::vector<std::vector<std::pair<std::string, double>>> laundryPrices;
+    std::vector<std::vector<std::pair<std::string, double>>> dryCleanPrices;
+    std::vector<std::vector<std::pair<std::string, double>>> alterations;
+
     size_t curOrderID, lau, dc, alt;
 
     //Stacked Widget

@@ -25,11 +25,17 @@ MainWindow::MainWindow(QWidget *parent)
     //vector<cust::customer> customers;
     //vector<orderInfo::order> orders;
 
-     manager = new fi::File(customerFile, orderFile, tempFile, this->customers, this->orders);
+    manager = new fi::File(customerFile, orderFile, tempFile, this->customers, this->orders);
 
     //Indepently load up customers and orders
     std::thread threadCust(&fi::File::loadCustomers, manager);
     std::thread threadOrder(&fi::File::loadOrders, manager);
+
+    std::vector<std::vector<std::pair<std::string, double>>> laundryPrices = {{{"Pants", 4.99}, {"Jeans", 4.59}}, {{"Shirts", 3.99},{"T-Shirts", 3.49}}};
+    std::vector<std::vector<std::pair<std::string, double>>> dryCleanPrices = {{{"Pants", 6.99}, {"Jeans", 5.59}}, {{"Shirts", 4.99},{"T-Shirts", 4.49}}};
+    std::vector<std::vector<std::pair<std::string, double>>> alterationsPrices = {{{"Pants", 3.99}, {"Jeans", 3.59}}, {{"Shirts", 2.99},{"T-Shirts", 1.49}}};
+
+
 
     threadCust.join();
     threadOrder.join();

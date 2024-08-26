@@ -28,6 +28,10 @@ public:
     void updateCustomer(const int id);
     void updateOrder(const int id);
 
+    //Prices
+    void savePrices();
+    void loadPrices();
+
     //Get Functions
     std::string getCustomerFile() const;
     std::string getOrderFile() const;
@@ -39,6 +43,11 @@ public:
 
     std::vector<cust::customer> &customers;
     std::vector<orderInfo::order> &orders;
+
+    std::vector<std::vector<std::pair<std::string, double>>> laundryPrices;
+    std::vector<std::vector<std::pair<std::string, double>>> dryCleanPrices;
+    std::vector<std::vector<std::pair<std::string, double>>> alterationsPrices;
+
 };
 
 }
