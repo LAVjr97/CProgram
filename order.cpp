@@ -49,12 +49,13 @@ order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int,
 }
 
 //Constructor used when loading in orders from orderFile into the program memory
-order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations){
+order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations){
     this->orderID = orderID;
     this->customerID = customerID;
     this->cost = cost;
     this->rackNumber = rack;
     this->pickedUp = pickedUp;
+    this->paid = paid;
     this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
     this->pickUp = new date::Date(pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm);
     this->laundry = laundry;
@@ -114,6 +115,10 @@ int order::getRack() const{
 
 bool order::getPickUp() const{
     return pickedUp;
+}
+
+bool order::getPaid() const{
+    return paid;
 }
 
 int order::getlaundryLength() const {
@@ -203,6 +208,11 @@ int order::setRack(int rack){
 
 int order::setPickUp(bool pickUp){
     this->pickedUp = pickUp;
+    return 0;
+}
+
+int order::setPaid(bool paid){
+    this->paid = paid;
     return 0;
 }
 

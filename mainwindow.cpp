@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
     linePhoneDP = ui->linePhoneDP;
     linePickUpDP = ui->linePickUpDP;
     lineOrderTotalDP = ui->lineOrderTotalDP;
+    checkBoxPaidDP = ui->checkBoxPaidDP;
 
     tableViewOrdersDP = new QTableView(this);
 
@@ -68,7 +69,8 @@ MainWindow::MainWindow(QWidget *parent)
     modelDP->setHorizontalHeaderLabels({"Number", "Type", "Piece", "Price Per Piece", "Price Total"});
 
     ui->tableViewOrdersDP->setModel(modelDP);
-    ui->tableViewOrdersDP->resizeColumnsToContents();
+    headerTVODP = ui->tableViewOrdersDP->horizontalHeader();
+    ui->tableViewOrdersDP->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     //connect(tableViewCSR, &QTableView::entered, this, &MainWindow::on)
 
@@ -137,6 +139,10 @@ MainWindow::MainWindow(QWidget *parent)
     linePhonePU = ui->linePhonePU;
     linePickUpPU = ui->linePickUpPU;
     lineOrderTotalPU = ui->lineOrderTotalPU;
+    lineRackPU = ui->lineRackPU;
+    checkBoxPUPU = ui->checkBoxPUPU;
+    checkBoxPaidPU = ui->checkBoxPaidPU;
+
 
     tableViewOrdersPU = new QTableView(this);
 
@@ -147,6 +153,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableViewOrdersPU->setModel(modelPU);
     ui->tableViewOrdersPU->resizeColumnsToContents();
 
+    //connect(checkBoxPUPU, &QCheckBox::stateChanged, this, &MainWindow::on_checkBoxPUPU_stateChange);
+    //connect(check)
+
     //
     //Customer Search PagePU
     //
@@ -156,6 +165,7 @@ MainWindow::MainWindow(QWidget *parent)
     //
     lineSearchOrderIDOS = ui->lineSearchOrderIDOS;
 
+    connect(lineSearchOrderIDOS, &QLineEdit::returnPressed, this, &MainWindow::on_btnSearchOrderOS_clicked);
     //
     //connect buttons to slots
     //
@@ -165,6 +175,7 @@ MainWindow::MainWindow(QWidget *parent)
     });
     */
     //connect(btnDropOff, &QPushButton::clicked, this, &MainWindow::showDropOffPage);
+    curOrderID = 0;
 }
 
 MainWindow::~MainWindow()
@@ -244,6 +255,12 @@ void MainWindow::updateDropOffPage(){
 
 void MainWindow::on_btnCustomer_clicked()
 {
+    if(!order.empty()){
+        orders.pop_back();
+        order.clear();
+        curOrderID--;
+    }
+
     MainWindow::showSearchPage();
 }
 
@@ -259,10 +276,11 @@ void MainWindow::on_btnLaundry_clicked()
 
 void MainWindow::on_btnSaveDP_clicked()//fi::File &manager)
 {
-    //size_t orderID = orders.size() - 1; //really the real order ID is just order.size() but because the size changed with the latest order, it must be subtracted
-
+    if(modelDP->rowCount() == 0)
+        return;
     customer[0]->setLatestOrder(curOrderID);
     customer[0]->updateVisits(customer[0]->getVisit() + 1);
+    orders[curOrderID].setPaid(checkBoxPaidDP->isChecked());
 
     orders[curOrderID].calculateCost();
 
@@ -271,6 +289,7 @@ void MainWindow::on_btnSaveDP_clicked()//fi::File &manager)
 
     customer.clear();
     order.clear();
+    curOrderID = NULL;
 
     MainWindow::showMainPage();
     clearScreenDP();
@@ -300,6 +319,8 @@ void MainWindow::clearScreenDP(){
     linePickUpDP->clear();
     lineCustomerIDDP->clear();
     lineOrderIDDP->clear();
+    lineOrderTotalDP ->clear();
+    checkBoxPaidDP->setCheckState(Qt::Unchecked);
 }
 
 
@@ -309,12 +330,15 @@ void MainWindow::clearScreenDP(){
 //
 void MainWindow::on_btnReturnCS_clicked()
 {
+    clearScreenDP();
     MainWindow::showDropOffPage();
+    lineSearchCustomerCS -> clear();
 }
 
 void MainWindow::on_btnNewCustomersCS_clicked()
 {
     MainWindow::showNewCustomerPage();
+    lineSearchCustomerCS -> clear();
 }
 
 void MainWindow::on_btnSearchCS_clicked()
@@ -335,12 +359,7 @@ void MainWindow::on_btnSearchCS_clicked()
     if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
         customer = search::Search::searchCustAlgo(entry, this->customers);
 
-    //look at latest chatgpt to get context for how to populate list view model
-
     for(i = 0; i < customer.size(); i++){
-        //QString itemText = QString("%1, %2").arg(QString::fromStdString(customer[i]->getName())).arg(QString::fromStdString(customer[i]->getPhone()));
-        //QStandardItem *item = new QStandardItem(itemText);
-        //this->modelCSR->appendRow(item);
         QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
         QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
         QStandardItem *phoneItem = new QStandardItem(QString::fromStdString(customer[i]->getPhone()));
@@ -373,28 +392,20 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index)
 {
     cust::customer* temp = customer[index.row()];
     curOrderID = orders.size();
-    //cout << std::endl << "custom_on_tableViewCSR_Clicked" << i << std::endl;
-
-    lineFNameDP -> setText(QString::fromStdString(temp->getFirstName()));
-    lineLNameDP -> setText(QString::fromStdString(temp->getLastName()));
-    linePhoneDP -> setText(QString::fromStdString(temp->getPhone()));
-    lineCustomerIDDP->setText(QString::number(temp->getCustomerID()));
 
     modelCSR -> removeRows(0, modelCSR -> rowCount());
+
     customer.clear();
     customer.push_back(temp); //Customer contains the pointer that points to the current customer that will be worked on
 
-    lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner
-
-    //customer[0]->setLatestOrder(orderID);
+    lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner    
 
     //Add order to orders
     orders.emplace_back(customer[0]->getCustomerID(), curOrderID);
+    order.clear();
     order.push_back(&orders[curOrderID]);
 
-    lineDropOffDP->setText(QString::fromStdString(order[0]->dropOff->getDate_Time()));
-    linePickUpDP->setText(QString::fromStdString(order[0]->pickUp->getDate_Time()));
-    lineOrderIDDP->setText(QString::number(curOrderID));
+    updateCOInformationDP();
 
     MainWindow::showDropOffPage();
 }
@@ -411,6 +422,10 @@ void MainWindow::on_btnReturn_3_clicked()
 }
 
 void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
+    if(lineFNameNC->text().isEmpty() || lineLNameNC->text().isEmpty() || linePhoneNC->text().isEmpty()){
+        return;
+    }
+
     int customerID;
     curOrderID = orders.size();
     QString firstName, lastName, phone;
@@ -419,28 +434,23 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     lastName = lineLNameNC -> text();
     phone = linePhoneNC -> text();
 
-    //Setting up the new customer and updating the file
+    clearScreenNC();
+
+    //Setting up the new customer
     customerID = customers.size();
     customers.emplace_back(customerID, firstName.toStdString(), lastName.toStdString(), phone.toStdString());
+    customer.clear();
     customer.push_back(&customers[customerID]); //contains only the customer that will be worked on
-    manager->saveCustomers(customers[customerID]);
 
     //Creating a new order object
     orders.emplace_back(customerID, curOrderID);
-    order.push_back(&orders[curOrderID]);
-
-    std::cout << "\nafter creating customer\n";
+    order.clear();
+    order.push_back(&orders[curOrderID]); //have only 1 order
 
     //Update on-screen information
-    lineFNameDP->setText(QString::fromStdString(customers[customerID].getFirstName()));
-    lineLNameDP->setText(QString::fromStdString(customers[customerID].getLastName()));
-    linePhoneDP->setText(QString::fromStdString(customers[customerID].getPhone()));
-    lineCustomerIDDP->setText(QString::number(customerID));
-    lineDropOffDP->setText(QString::fromStdString(order[0]->dropOff->getDate_Time()));
-    linePickUpDP->setText(QString::fromStdString(order[0]->pickUp->getDate_Time()));
-    lineOrderIDDP->setText(QString::number(curOrderID));
+    updateCOInformationDP();
 
-    clearScreenNC();
+    manager->saveCustomers(customers[customerID]);
     MainWindow::showDropOffPage();
 }
 
@@ -534,17 +544,42 @@ void MainWindow::on_btnCustomerPU_clicked(){
 
 void MainWindow::on_btnOrderSearchPU_clicked(){
     MainWindow::showOrderSearchPagePU();
+    lineSearchOrderIDOS -> setFocus();
 }
 
 void MainWindow::on_btnSavePU_clicked(){
+    orders[curOrderID].setPaid(checkBoxPaidPU->isChecked());
+    orders[curOrderID].setPickUp(checkBoxPUPU->isChecked());
 
+    manager->updateOrder(curOrderID);
+    manager->updateCustomer(orders[curOrderID].getCustomerID());
+
+    customer.clear();
+    order.clear();
+    curOrderID = NULL;
+
+    MainWindow::showMainPage();
+    clearScreenPU();
 }
 
 void MainWindow::on_btnReturnPU_clicked(){
     MainWindow::showMainPage();
+    clearScreenPU();
 }
 
-
+void MainWindow::clearScreenPU(){
+    modelPU -> removeRows(0, modelPU -> rowCount());
+    lineFNamePU -> clear();
+    lineLNamePU -> clear();
+    linePhonePU -> clear();
+    lineDropOffPU -> clear();
+    linePickUpPU->clear();
+    lineCustomerIDPU->clear();
+    lineOrderIDPU->clear();
+    lineOrderTotalPU->clear();
+    checkBoxPaidPU->setCheckState(Qt::Unchecked);
+    checkBoxPUPU->setCheckState(Qt::Unchecked);
+}
 
 //
 //***Customer Search Page (9)***
@@ -561,25 +596,33 @@ void MainWindow::on_btnReturnOS_clicked(){
 }
 
 void MainWindow::on_btnSearchOrderOS_clicked(){
-    int customerID;
+    int customerID, rack;
     size_t row = 0;
     std::string orderID = lineSearchOrderIDOS->text().toStdString();
     std::vector<std::vector<std::pair<int, double>>> laundry, dryClean, alterations;
-
 
     if(orderID.empty())
         return;
 
     order.clear();
-    modelPU -> removeRows(0, modelPU->rowCount());
+    lineSearchOrderIDOS->clear();
+    clearScreenPU();
 
-    order = search::Search::searchOrderAlgo(orderID, orders);
+
+    order = search::Search::searchOrderID(orderID, orders);
+
+    if(order.empty() == true)
+        return;
+
     laundry = order[0]->getDetails();
     dryClean = order[0]->getDryClean();
     alterations = order[0]->getAlterations();
+    rack = order[0]->getRack();
 
     customerID = order[0]->getCustomerID();
+    curOrderID = std::stoi(orderID);
 
+    //Set Forms
     lineFNamePU->setText(QString::fromStdString(customers[customerID].getFirstName()));
     lineLNamePU->setText(QString::fromStdString(customers[customerID].getLastName()));
     linePhonePU->setText(QString::fromStdString(customers[customerID].getPhone()));
@@ -588,21 +631,37 @@ void MainWindow::on_btnSearchOrderOS_clicked(){
     linePickUpPU->setText(QString::fromStdString(order[0]->pickUp->getDate_Time()));
     lineOrderIDPU->setText(QString::fromStdString(orderID));
 
+    if(order[0]->getPaid() == true)
+        checkBoxPaidPU->setCheckState(Qt::Checked);
+    if(order[0]->getPickUp() == true)
+        checkBoxPUPU->setCheckState(Qt::Checked);
 
-    //Make this into a function, passing the model and vector
+    if(rack != -1)
+        lineRackPU->setText(QString::number(rack));
+
     modelDP->removeRows(0, modelDP->rowCount());
     row = updateTableView(laundry, modelPU, "Laundry", row);
     row = updateTableView(dryClean, modelPU, "Dry Clean", row);
     updateTableView(alterations, modelPU, "Alteration", row);
 
-    lineOrderTotalDP ->setText(QString::number(orders[curOrderID].getCost()));
+    lineOrderTotalPU->setText(QString::number(order[0]->getCost()));
 
     MainWindow::showPickUpPage();
 }
 
+
 //
 //Helper Functions
 //
+void MainWindow::updateCOInformationDP(){
+    lineFNameDP->setText(QString::fromStdString(customer[0]->getFirstName()));
+    lineLNameDP->setText(QString::fromStdString(customer[0]->getLastName()));
+    linePhoneDP->setText(QString::fromStdString(customer[0]->getPhone()));
+    lineCustomerIDDP->setText(QString::number(customer[0]->getCustomerID()));
+    lineDropOffDP->setText(QString::fromStdString(order[0]->dropOff->getDate_Time()));
+    linePickUpDP->setText(QString::fromStdString(order[0]->pickUp->getDate_Time()));
+    lineOrderIDDP->setText(QString::number(order[0]->getOrderID()));
+}
 
 size_t MainWindow::updateTableView(std::vector<std::vector<std::pair<int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row){
     double pTotal;

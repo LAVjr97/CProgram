@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>10</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -45,6 +45,9 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>Drop Off</string>
          </property>
@@ -58,6 +61,9 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>Pick Up</string>
          </property>
@@ -70,6 +76,9 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="text">
           <string>Edit Order</string>
@@ -89,6 +98,9 @@
         <height>51</height>
        </rect>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="text">
        <string>Customer</string>
       </property>
@@ -102,6 +114,18 @@
         <height>361</height>
        </rect>
       </property>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>45</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>120</number>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
      </widget>
      <widget class="QWidget" name="gridLayoutWidget_3">
       <property name="geometry">
@@ -126,10 +150,36 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="lineDropOffDP"/>
+          <widget class="QLineEdit" name="lineDropOffDP">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="linePickUpDP"/>
+          <widget class="QLineEdit" name="linePickUpDP">
+           <property name="cursor">
+            <cursorShape>IBeamCursor</cursorShape>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="lblPickUpDP">
@@ -157,6 +207,15 @@
            <property name="cursor">
             <cursorShape>ArrowCursor</cursorShape>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="inputMethodHints">
+            <set>Qt::ImhNone</set>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
            <property name="readOnly">
             <bool>true</bool>
            </property>
@@ -170,7 +229,20 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="lineLNameDP"/>
+          <widget class="QLineEdit" name="lineLNameDP">
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="lblPhoneDP">
@@ -180,7 +252,20 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="linePhoneDP"/>
+          <widget class="QLineEdit" name="linePhoneDP">
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -196,6 +281,22 @@
            </property>
           </widget>
          </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineCustomerIDDP">
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
          <item row="1" column="0">
           <widget class="QLabel" name="lblOrderIDDP">
            <property name="text">
@@ -203,20 +304,19 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineCustomerIDDP">
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineOrderIDDP">
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
            <property name="readOnly">
             <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="lineOrderIDDP"/>
-         </item>
-         <item row="2" column="1">
-          <widget class="QCheckBox" name="checkBoxPaidDP">
-           <property name="text">
-            <string>Paid</string>
            </property>
           </widget>
          </item>
@@ -244,6 +344,14 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="text">
             <string>Laundry</string>
            </property>
@@ -257,6 +365,14 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="text">
             <string>Dry Clean</string>
            </property>
@@ -269,6 +385,14 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="text">
             <string>Alterations</string>
@@ -290,6 +414,15 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="text">
             <string>Save</string>
            </property>
@@ -303,8 +436,16 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="text">
-            <string>Return</string>
+            <string>Cancel</string>
            </property>
           </widget>
          </item>
@@ -324,6 +465,12 @@
            <property name="cursor">
             <cursorShape>ArrowCursor</cursorShape>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
            <property name="readOnly">
             <bool>true</bool>
            </property>
@@ -332,6 +479,22 @@
         </layout>
        </item>
       </layout>
+     </widget>
+     <widget class="QCheckBox" name="checkBoxPaidDP">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>140</y>
+        <width>130</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="text">
+       <string>Paid</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="pgCustomerSearch">
@@ -343,6 +506,9 @@
         <width>81</width>
         <height>51</height>
        </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="text">
        <string>Return</string>
@@ -393,6 +559,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="btnSearchCS">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>Search</string>
          </property>
@@ -400,6 +569,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="btnNewCustomersCS">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>New Cusomter</string>
          </property>
@@ -418,6 +590,9 @@
         <height>51</height>
        </rect>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="text">
        <string>Return</string>
       </property>
@@ -430,6 +605,9 @@
         <width>621</width>
         <height>441</height>
        </rect>
+      </property>
+      <property name="cursor" stdset="0">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>
@@ -451,8 +629,8 @@
        <rect>
         <x>60</x>
         <y>70</y>
-        <width>221</width>
-        <height>100</height>
+        <width>211</width>
+        <height>91</height>
        </rect>
       </property>
       <layout class="QFormLayout" name="formLayoutCustomerNC">
@@ -521,6 +699,9 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>Create</string>
          </property>
@@ -533,6 +714,9 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="text">
           <string>Return</string>
@@ -713,6 +897,9 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
              <property name="text">
               <string>Shirts</string>
              </property>
@@ -793,6 +980,9 @@
             <height>41</height>
            </rect>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="text">
            <string>Pants</string>
           </property>
@@ -819,6 +1009,9 @@
         <width>81</width>
         <height>41</height>
        </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="text">
        <string>Return</string>
@@ -861,15 +1054,37 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="lineDropOffPU"/>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="linePickUpPU"/>
+          <widget class="QLineEdit" name="lineDropOffPU">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+          </widget>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="lblPickUpPU">
            <property name="text">
             <string>Pick Up:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="linePickUpPU">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="lineRackPU">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="lblRackPU">
+           <property name="text">
+            <string>Rack:</string>
            </property>
           </widget>
          </item>
@@ -890,7 +1105,7 @@
          <item row="0" column="1">
           <widget class="QLineEdit" name="lineFNamePU">
            <property name="cursor">
-            <cursorShape>ArrowCursor</cursorShape>
+            <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -905,7 +1120,11 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="lineLNamePU"/>
+          <widget class="QLineEdit" name="lineLNamePU">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+          </widget>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="lblPhonePU">
@@ -915,7 +1134,11 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="linePhonePU"/>
+          <widget class="QLineEdit" name="linePhonePU">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -931,6 +1154,16 @@
            </property>
           </widget>
          </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineCustomerIDPU">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
          <item row="1" column="0">
           <widget class="QLabel" name="lblOrderIDPU">
            <property name="text">
@@ -938,20 +1171,30 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineCustomerIDPU">
-           <property name="readOnly">
-            <bool>true</bool>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineOrderIDPU">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="lineOrderIDPU"/>
-         </item>
-         <item row="2" column="1">
+         <item row="2" column="0">
           <widget class="QCheckBox" name="checkBoxPaidPU">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="text">
             <string>Paid</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QCheckBox" name="checkBoxPUPU">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>Picked Up</string>
            </property>
           </widget>
          </item>
@@ -992,6 +1235,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="text">
             <string>Save</string>
            </property>
@@ -1005,8 +1251,11 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="text">
-            <string>Return</string>
+            <string>Cancel</string>
            </property>
           </widget>
          </item>
@@ -1024,7 +1273,7 @@
          <item row="0" column="1">
           <widget class="QLineEdit" name="lineOrderTotalPU">
            <property name="cursor">
-            <cursorShape>ArrowCursor</cursorShape>
+            <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -1053,6 +1302,9 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>Customer</string>
          </property>
@@ -1065,6 +1317,9 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="text">
           <string>Order ID</string>
@@ -1121,6 +1376,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="btnSearchOrderOS">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>Search</string>
          </property>
@@ -1136,6 +1394,9 @@
         <width>81</width>
         <height>51</height>
        </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="text">
        <string>Return</string>

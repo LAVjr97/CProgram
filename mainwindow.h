@@ -13,6 +13,7 @@
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QTableView>
+#include <QCheckBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -121,15 +122,18 @@ private slots:
 
 
 
+
+
     //
     //Order Search Page PU()
     //
     void on_btnReturnOS_clicked();
     void on_btnSearchOrderOS_clicked();
 
-
     //Help functions
     void clearScreenDP();
+    void clearScreenPU();
+    void updateCOInformationDP();
     size_t updateTableView(std::vector<std::vector<std::pair<int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
 
 private:
@@ -156,8 +160,11 @@ private:
     QLineEdit *linePickUpDP;
     QLineEdit *lineOrderTotalDP;
 
+    QCheckBox *checkBoxPaidDP;
+
     QStandardItemModel *modelDP;
     QTableView *tableViewOrdersDP;
+    QHeaderView* headerTVODP;
 
     //
     //PickUp Page
@@ -170,6 +177,10 @@ private:
     QLineEdit *linePhonePU;
     QLineEdit *linePickUpPU;
     QLineEdit *lineOrderTotalPU;
+    QLineEdit *lineRackPU;
+
+    QCheckBox *checkBoxPUPU;
+    QCheckBox *checkBoxPaidPU;
 
     QStandardItemModel *modelPU;
     QTableView *tableViewOrdersPU;
