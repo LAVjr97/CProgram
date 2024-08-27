@@ -17,7 +17,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     order.cpp \
-    search.cpp
+    search.cpp \
+    spinboxdelegate.cpp
 
 HEADERS += \
     customer.h \
@@ -28,7 +29,8 @@ HEADERS += \
     main.h \
     mainwindow.h \
     order.h \
-    search.h
+    search.h \
+    spinboxdelegate.h
 
 FORMS += \
     dropoffpage.ui \

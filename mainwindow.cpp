@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Everything after this point is GUI related
     ui->setupUi(this);
-    stackedWidget = new QStackedWidget(this);
+    //stackedWidget = new QStackedWidget(this);
 
     /*this->dropOffPage = new DropOffPage(this);
     this->dropOffPage->setDataStructures(&orders, &customers);
@@ -68,17 +68,16 @@ MainWindow::MainWindow(QWidget *parent)
     lineOrderTotalDP = ui->lineOrderTotalDP;
     checkBoxPaidDP = ui->checkBoxPaidDP;
 
-    tableViewOrdersDP = new QTableView(this);
+    //tableViewOrdersDP = new QTableView(this);
 
     modelDP = new QStandardItemModel(this);
     modelDP->setColumnCount(5);
     modelDP->setHorizontalHeaderLabels({"Number", "Type", "Piece", "Price Per Piece", "Price Total"});
 
-    ui->tableViewOrdersDP->setModel(modelDP);
-    headerTVODP = ui->tableViewOrdersDP->horizontalHeader();
-    ui->tableViewOrdersDP->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-    //connect(tableViewCSR, &QTableView::entered, this, &MainWindow::on)
+    tableViewOrdersDP = ui->tableViewOrdersDP;
+    tableViewOrdersDP->setModel(modelDP);
+    headerTVODP = tableViewOrdersDP->horizontalHeader();
+    tableViewOrdersDP->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     /*
     connect(ui->btnSaveDP, &QPushButton::clicked, this, [this, &manager](){
@@ -98,15 +97,14 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //Search Customer Results Page
     //
-    tableViewCSR = new QTableView(this);
 
     modelCSR = new QStandardItemModel(this);
     modelCSR->setColumnCount(3);
     modelCSR->setHorizontalHeaderLabels({"First Name", "Last Name", "Phone Number"});
 
-    //ui->tableViewCSR->setModel(modelCSR);
-    ui->tableViewCSR->setModel(modelCSR);
-    ui->tableViewCSR->resizeColumnsToContents();
+    tableViewCSR = ui->tableViewCSR;
+    tableViewCSR->setModel(modelCSR);
+    tableViewCSR->resizeColumnsToContents();
 
     //connect(tableViewCSR, &QTableView::entered, this, &MainWindow::on_btnSearchCS_clicked);
 
@@ -121,6 +119,12 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //Order Laundry Page
     //
+    tableWidgetLaundryOptions = ui->tableWidgetLaundryOptions;
+    tableWidgetLaundryOptions->setRowCount(5);
+    tableWidgetLaundryOptions->setColumnCount(3);
+
+    //Spinboxes
+
 
     //Shirts
 
@@ -150,14 +154,16 @@ MainWindow::MainWindow(QWidget *parent)
     checkBoxPaidPU = ui->checkBoxPaidPU;
 
 
-    tableViewOrdersPU = new QTableView(this);
+    //tableViewOrdersPU = new QTableView(this);
 
     modelPU = new QStandardItemModel(this);
     modelPU->setColumnCount(5);
     modelPU->setHorizontalHeaderLabels({"Number", "Type", "Piece", "Price Per Piece", "Price Total"});
 
-    ui->tableViewOrdersPU->setModel(modelPU);
-    ui->tableViewOrdersPU->resizeColumnsToContents();
+    tableViewOrdersPU = ui->tableViewOrdersPU;
+
+    tableViewOrdersPU->setModel(modelPU);
+    tableViewOrdersPU->resizeColumnsToContents();
 
     //connect(checkBoxPUPU, &QCheckBox::stateChanged, this, &MainWindow::on_checkBoxPUPU_stateChange);
     //connect(check)
@@ -276,6 +282,7 @@ void MainWindow::on_btnLaundry_clicked()
         return;
 
     setLaundryPage();
+    setUpLaundryPage();
 
     MainWindow::showOrderLaundryPage();
 }
@@ -375,9 +382,9 @@ void MainWindow::on_btnSearchCS_clicked()
         modelCSR->setItem(i, 2, phoneItem);
     }
 
-    tableViewCSR -> setColumnWidth(0, 300);
-    tableViewCSR -> setColumnWidth(1, 300);
-    tableViewCSR -> setColumnWidth(2, 300);
+    //tableViewCSR -> setColumnWidth(0, 300);
+    //tableViewCSR -> setColumnWidth(1, 300);
+    //tableViewCSR -> setColumnWidth(2, 300);
     tableViewCSR -> setSelectionBehavior(QAbstractItemView::SelectRows);
 
     MainWindow::showCustomerSearchResultsPage();
@@ -471,6 +478,29 @@ void MainWindow::clearScreenNC(){
 //
 //***Laundry Order Page (5)***
 //
+void MainWindow::setUpLaundryPage(){
+    int row;
+
+    for(row = 0; row < 5; row++){
+        QLabel *type = new QLabel(QString("Type"));
+        type->setAlignment(Qt::AlignCenter);
+
+        QSpinBox *count = new QSpinBox(tableWidgetLaundryOptions);
+        count->setValue(0);
+
+        QDoubleSpinBox *price = new QDoubleSpinBox(tableWidgetLaundryOptions);
+        price->setDecimals(2);
+        price->setValue(9.99);
+
+        tableWidgetLaundryOptions->setCellWidget(row, 0, type);
+        tableWidgetLaundryOptions->setCellWidget(row, 1, count);
+        tableWidgetLaundryOptions->setCellWidget(row, 2, price);
+    }
+
+
+
+}
+
 void MainWindow::setLaundryPage(){
     //Set SpinBoxes to 0
     spinLaundryPants->setValue(0);
@@ -610,6 +640,7 @@ void MainWindow::on_btnSearchOrderOS_clicked(){
     if(orderID.empty())
         return;
 
+    customer.clear();
     order.clear();
     lineSearchOrderIDOS->clear();
     clearScreenPU();
@@ -626,16 +657,12 @@ void MainWindow::on_btnSearchOrderOS_clicked(){
     rack = order[0]->getRack();
 
     customerID = order[0]->getCustomerID();
+    customer.push_back(&customers[customerID]);
     curOrderID = std::stoi(orderID);
 
+
     //Set Forms
-    lineFNamePU->setText(QString::fromStdString(customers[customerID].getFirstName()));
-    lineLNamePU->setText(QString::fromStdString(customers[customerID].getLastName()));
-    linePhonePU->setText(QString::fromStdString(customers[customerID].getPhone()));
-    lineCustomerIDPU->setText(QString::number(customerID));
-    lineDropOffPU->setText(QString::fromStdString(order[0]->dropOff->getDate_Time()));
-    linePickUpPU->setText(QString::fromStdString(order[0]->pickUp->getDate_Time()));
-    lineOrderIDPU->setText(QString::fromStdString(orderID));
+    updateCOInformationDP();
 
     if(order[0]->getPaid() == true)
         checkBoxPaidPU->setCheckState(Qt::Checked);

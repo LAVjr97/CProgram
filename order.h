@@ -71,8 +71,9 @@ namespace orderInfo{
             int orderID;
 
             //[0]: Shirts, [1]: Pants, [2]:Sweaters, [3]:Coats, [4]:Blouses, [5]:2pc Suit, [6]:Jacket, [7]:Vest
-            std::vector<std::vector<std::pair<int, double>>> laundry;
-            //
+            //std::vector<std::vector<std::pair<int, double>>> laundry;
+             laundry;
+
             std::vector<std::vector<std::pair<int, double>>> dryClean;
             //
             std::vector<std::vector<std::pair<int, double>>> alterations;

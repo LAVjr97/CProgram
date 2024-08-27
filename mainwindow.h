@@ -9,11 +9,13 @@
 #include "order.h"
 #include "file.h"
 #include "search.h"
+#include "spinboxdelegate.h"
 #include "qstackedwidget.h"
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QTableView>
 #include <QCheckBox>
+#include <QTableWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -101,7 +103,7 @@ private slots:
     //
     //Order Laundry Page(5)
     //
-
+    void setUpLaundryPage();
     void setLaundryPage();
     void on_btnLaundryReturn_clicked();
 
@@ -213,6 +215,11 @@ private:
     //
     //Order Laundry Page
     //
+
+    QTableWidget *tableWidgetLaundryOptions;
+    sbd::SpinBoxDelegate *spinBoxDelegate;
+    QStandardItemModel *modelOL;
+
 
     //Shirts
     QLineEdit *lineLaundryPriceShirts;
