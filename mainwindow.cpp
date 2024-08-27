@@ -31,11 +31,9 @@ MainWindow::MainWindow(QWidget *parent)
     std::thread threadCust(&fi::File::loadCustomers, manager);
     std::thread threadOrder(&fi::File::loadOrders, manager);
 
-    std::vector<std::vector<std::pair<std::string, double>>> laundryPrices = {{{"Pants", 4.99}, {"Jeans", 4.59}}, {{"Shirts", 3.99},{"T-Shirts", 3.49}}};
-    std::vector<std::vector<std::pair<std::string, double>>> dryCleanPrices = {{{"Pants", 6.99}, {"Jeans", 5.59}}, {{"Shirts", 4.99},{"T-Shirts", 4.49}}};
-    std::vector<std::vector<std::pair<std::string, double>>> alterationsPrices = {{{"Pants", 3.99}, {"Jeans", 3.59}}, {{"Shirts", 2.99},{"T-Shirts", 1.49}}};
-
-
+    laundryPrices = {{{"Pants", 4.99}, {"Jeans", 4.59}}};//, {{"Shirts", 3.99},{"T-Shirts", 3.49}}};
+    dryCleanPrices = {{{"Pants", 6.99}, {"Jeans", 5.59}}, {{"Shirts", 4.99},{"T-Shirts", 4.49}}};
+    alterationsPrices = {{{"Pants", 3.99}, {"Jeans", 3.59}}, {{"Shirts", 2.99},{"T-Shirts", 1.49}}};
 
     threadCust.join();
     threadOrder.join();
@@ -479,26 +477,27 @@ void MainWindow::clearScreenNC(){
 //***Laundry Order Page (5)***
 //
 void MainWindow::setUpLaundryPage(){
-    int row;
+    size_t row = 0, i, j;
 
-    for(row = 0; row < 5; row++){
-        QLabel *type = new QLabel(QString("Type"));
-        type->setAlignment(Qt::AlignCenter);
+    for(i = 0; i < laundryPrices.size(); i++){
+        for(j = 0; j < laundryPrices[i].size(); j++){
+            QLabel *type = new QLabel(QString::fromStdString(laundryPrices[i][j].first));
+            type->setAlignment(Qt::AlignCenter);
 
-        QSpinBox *count = new QSpinBox(tableWidgetLaundryOptions);
-        count->setValue(0);
+            QSpinBox *count = new QSpinBox(tableWidgetLaundryOptions);
+            count->setValue(0);
 
-        QDoubleSpinBox *price = new QDoubleSpinBox(tableWidgetLaundryOptions);
-        price->setDecimals(2);
-        price->setValue(9.99);
+            QDoubleSpinBox *price = new QDoubleSpinBox(tableWidgetLaundryOptions);
+            price->setDecimals(2);
+            price->setValue(laundryPrices[i][j].second);
 
-        tableWidgetLaundryOptions->setCellWidget(row, 0, type);
-        tableWidgetLaundryOptions->setCellWidget(row, 1, count);
-        tableWidgetLaundryOptions->setCellWidget(row, 2, price);
+            tableWidgetLaundryOptions->setCellWidget(row, 0, type);
+            tableWidgetLaundryOptions->setCellWidget(row, 1, count);
+            tableWidgetLaundryOptions->setCellWidget(row, 2, price);
+
+            row++;
+        }
     }
-
-
-
 }
 
 void MainWindow::setLaundryPage(){

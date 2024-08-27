@@ -38,6 +38,11 @@ public:
     std::vector<orderInfo::order*> order;
     fi::File* manager;
 
+    /*
+    std::vector<std::vector<std::pair<std::string, double>>> *laundryPrices;
+    std::vector<std::vector<std::pair<std::string, double>>> *dryCleanPrices;
+    std::vector<std::vector<std::pair<std::string, double>>> *alterationsPrices;
+    */
 private slots:
     void updateDropOffPage();
 
@@ -143,7 +148,7 @@ private:
 
     std::vector<std::vector<std::pair<std::string, double>>> laundryPrices;
     std::vector<std::vector<std::pair<std::string, double>>> dryCleanPrices;
-    std::vector<std::vector<std::pair<std::string, double>>> alterations;
+    std::vector<std::vector<std::pair<std::string, double>>> alterationsPrices;
 
     size_t curOrderID, lau, dc, alt;
 
