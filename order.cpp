@@ -107,6 +107,19 @@ std::vector<std::vector<std::tuple<std::string, int, double>>> order::getLaundry
     return laundryO;
 }
 
+std::tuple<std::string, int, double>* order::getLaundryTup(int pos, std::string type){
+    size_t i, j;
+
+    for(i = 0; i < laundryO.size(); i++){
+        for(j = 0; j < laundry[i].size(); j++){
+            if(std::get<0>(laundryO[i][j]) == type)
+                return &laundryO[i][j];
+        }
+    }
+
+    return nullptr;
+}
+
 
 std::vector<std::vector<std::pair<int, double>>> order::getDryClean() const{
     return dryClean;
@@ -136,15 +149,17 @@ int order::getLaundryNumber(int pos, double price){
     return -1;
 }
 
-int order::getLaundryNumberO(int pos, double price){
-    size_t i;
+//Return the number of pieces of a give article
+int order::getLaundryNumberO(int pos, std::string article, double price){
+    size_t i, j;
 
-    for(i = 0; i < laundryO[pos].size(); i++){
-        if(price == std::get<2>(laundryO[pos][i]))
+
+    for(i = 0; j < laundry[pos].size(); i++){
+        if(article == std::get<0>(laundryO[pos][i]) && price == std::get<2>(laundryO[pos][i]))
             return std::get<1>(laundryO[pos][i]);
     }
 
-    return -1;
+    return NULL;
 }
 
 
@@ -203,20 +218,20 @@ bool order::setLaundryPiece(int pos, int n, double price){
     return foundPrice;
 }
 
-bool order::setLaundryPiece(int pos, int n, double price, std::string type){
+bool order::setLaundryPiece(int pos, int n, double price, std::string article){
     //this->laundry[pos].push_back(std::make_pair(n, price));
     size_t i;
     bool foundPrice = false;
 
     for(i = 0; i < laundryO[pos].size(); i++)
-        if(type == std::get<0>(laundryO[pos][i])){
-            std::get<1>(laundryO[pos][i]) = std::get<1>(laundryO[pos][i]) + n;
-            foundPrice = true;
-            break;
+        if(article == std::get<0>(laundryO[pos][i]) && price == std::get<2>(laundryO[pos][i])){
+            std::get<1>(laundryO[pos][i]) = n;
+            return true;
         }
 
+
     if(foundPrice == false)
-        laundryO[pos].emplace_back(type, n, price);
+        laundryO[pos].emplace_back(article, n, price);
 
     return foundPrice;
 }
@@ -326,8 +341,8 @@ double order::calculateCostO(){
 
     for (i = 0; i < this->laundryO.size(); i++)
         if(laundryO[i].empty() == false)
-            for (j = 0; j < this->laundryO[i].size(); i++)
-                this->cost = cost + (std::get<1>(this->laundryO[i][j]) * std::get<2>(this->laundryO[i][j]));
+            for (j = 0; j < this->laundryO[i].size(); j++)
+                this->cost = this-> cost + ((std::get<1>(this->laundryO[i][j]) * std::get<2>(this->laundryO[i][j])));
 
     for (i = 0; i < this->dryCleanO.size(); i++)
         if(dryCleanO[i].empty() == false)

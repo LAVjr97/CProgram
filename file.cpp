@@ -66,13 +66,13 @@ void File::loadCustomers(){
 
 //Orders
 void File::saveOrders(orderInfo::order &order) const{
-    std::vector<std::vector<std::pair<int, double>>> laundry = order.getDetails();
-    std::vector<std::vector<std::pair<int, double>>> dryClean = order.getDryClean();
-    std::vector<std::vector<std::pair<int, double>>> alterations = order.getAlterations();
+    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order.getLaundry();
+    std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean = order.getDryCleanO();
+    std::vector<std::vector<std::tuple<std::string, int, double>>> alterations = order.getAlterationsO();
 
 
     size_t outerVectorSize = laundry.size(), innerVectorSize;
-    std::ofstream ofs(this->orderFile, std::ios::app);
+    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/orders.txt", std::ios::app);
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << std::endl;
@@ -108,9 +108,10 @@ void File::saveOrders(orderInfo::order &order) const{
     for (const auto& innerVector : laundry) {
         innerVectorSize = innerVector.size();
         ofs << "," << innerVectorSize;
-        for (const auto& pair : innerVector) {
-            ofs << "," << pair.first;
-            ofs << "," << pair.second;
+        for (const auto& tuple : innerVector) {
+            ofs << "," << std::get<0>(tuple);
+            ofs << "," << std::get<1>(tuple);
+            ofs << "," << std::get<2>(tuple); //add this line
         }
     }
     ofs << "," << "DC" << ";";
@@ -121,9 +122,10 @@ void File::saveOrders(orderInfo::order &order) const{
     for (const auto& innerVector : dryClean) {
         innerVectorSize = innerVector.size();
         ofs << "," << innerVectorSize;
-        for (const auto& pair : innerVector) {
-            ofs << "," << pair.first;
-            ofs << "," << pair.second;
+        for (const auto& tuple : innerVector) {
+            ofs << "," << std::get<0>(tuple);
+            ofs << "," << std::get<1>(tuple);
+            ofs << "," << std::get<2>(tuple);
         }
     }
     ofs << "," << "ALT" << ";";
@@ -134,9 +136,10 @@ void File::saveOrders(orderInfo::order &order) const{
     for (const auto& innerVector : alterations) {
         innerVectorSize = innerVector.size();
         ofs << "," << innerVectorSize;
-        for (const auto& pair : innerVector) {
-            ofs << "," << pair.first;
-            ofs << "," << pair.second;
+        for (const auto& tuple : innerVector) {
+            ofs << "," << std::get<0>(tuple);
+            ofs << "," << std::get<1>(tuple);
+            ofs << "," << std::get<2>(tuple);
         }
     }
 
@@ -153,12 +156,12 @@ void File::loadOrders() {
     double cost, price;
     size_t outersize, innersize, i, j;
     bool pickedUp, paid;
-    std::string dropOffAm_Pm, pickUpAm_Pm, line, temp;
-    std::vector<std::vector<std::pair<int, double>>> laundry;
-    std::vector<std::vector<std::pair<int, double>>> dryClean;
-    std::vector<std::vector<std::pair<int, double>>> alterations;
+    std::string dropOffAm_Pm, pickUpAm_Pm, line, temp, article;
+    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry;
+    std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean;
+    std::vector<std::vector<std::tuple<std::string, int, double>>> alterations;
 
-    std::ifstream ifs(this->orderFile);
+    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << std::endl;
@@ -214,11 +217,12 @@ void File::loadOrders() {
             innersize = std::stoi(temp);
             laundry[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
+                std::getline(ss, article, ',');
                 std::getline(ss, temp, ',');
                 n = std::stoi(temp);
                 std::getline(ss, temp, ',');
                 price = std::stod(temp);
-                laundry[i][j] = std::make_pair(n, price);
+                laundry[i][j] = std::make_tuple(article, n, price);
             }
         }
 
@@ -232,11 +236,12 @@ void File::loadOrders() {
             innersize = std::stoi(temp);
             dryClean[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
+                std::getline(ss, article, ',');
                 std::getline(ss, temp, ',');
                 n = std::stoi(temp);
                 std::getline(ss, temp, ',');
                 price = std::stod(temp);
-                dryClean[i][j] = std::make_pair(n, price);
+                dryClean[i][j] = std::make_tuple(article, n, price);
             }
         }
 
@@ -250,11 +255,12 @@ void File::loadOrders() {
             innersize = std::stoi(temp);
             alterations[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
+                std::getline(ss, article, ',');
                 std::getline(ss, temp, ',');
                 n = std::stoi(temp);
                 std::getline(ss, temp, ',');
                 price = std::stod(temp);
-                alterations[i][j] = std::make_pair(n, price);
+                alterations[i][j] = std::make_tuple(article, n, price);
             }
         }
 
@@ -271,9 +277,9 @@ void File::loadOrders() {
 void File::updateOrder(const int id){
     std::string current, line;
     bool found;
-    std::vector<std::vector<std::pair<int, double>>> laundry = orders[id].getDetails();
-    std::vector<std::vector<std::pair<int, double>>> dryClean = orders[id].getDryClean();
-    std::vector<std::vector<std::pair<int, double>>> alterations = orders[id].getAlterations();
+    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = orders[id].getLaundry();
+    std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean = orders[id].getDryCleanO();
+    std::vector<std::vector<std::tuple<std::string, int, double>>> alterations = orders[id].getAlterationsO();
 
     size_t outerVectorSize = laundry.size(), innerVectorSize;
 
@@ -322,9 +328,10 @@ void File::updateOrder(const int id){
             for (const auto& innerVector : laundry) {
                 innerVectorSize = innerVector.size();
                 tempF << "," << innerVectorSize;
-                for (const auto& pair : innerVector) {
-                    tempF << "," << pair.first;
-                    tempF << "," << pair.second;
+                for (const auto& tuple : innerVector) {
+                    tempF << "," << std::get<0>(tuple);
+                    tempF << "," << std::get<1>(tuple);
+                    tempF << "," << std::get<2>(tuple);
                 }
             }
             tempF << "," << "DC" << ";";
@@ -335,9 +342,10 @@ void File::updateOrder(const int id){
             for (const auto& innerVector : dryClean) {
                 innerVectorSize = innerVector.size();
                 tempF << "," << innerVectorSize;
-                for (const auto& pair : innerVector) {
-                    tempF << "," << pair.first;
-                    tempF << "," << pair.second;
+                for (const auto& tuple : innerVector) {
+                    tempF << "," << std::get<0>(tuple);
+                    tempF << "," << std::get<1>(tuple);
+                    tempF << "," << std::get<2>(tuple);
                 }
             }
             tempF << "," << "ALT" << ";";
@@ -348,9 +356,10 @@ void File::updateOrder(const int id){
             for (const auto& innerVector : alterations) {
                 innerVectorSize = innerVector.size();
                 tempF << "," << innerVectorSize;
-                for (const auto& pair : innerVector) {
-                    tempF << "," << pair.first;
-                    tempF << "," << pair.second;
+                for (const auto& tuple : innerVector) {
+                    tempF << "," << std::get<0>(tuple);
+                    tempF << "," << std::get<1>(tuple);
+                    tempF << "," << std::get<2>(tuple);
                 }
             }
 

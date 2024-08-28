@@ -108,7 +108,7 @@ int Date::setDate_Time(std::string date_time){
 int Date::setTodaysDate() {
     std::time_t currentTime = std::time(nullptr);
     std::tm* localTime = std::localtime(&currentTime);
-    this->year = localTime->tm_year - 100; //tm_year returns the year starting from 1900, so 2024 is 124 - 100 = 24
+    this->year = localTime->tm_year + 1900; //tm_year returns the year starting from 1900, so 2024 is 124 - 100 = 24
     this->month = localTime->tm_mon + 1;
     this->day = localTime->tm_mday;
     this->hour = localTime->tm_hour;
@@ -122,7 +122,7 @@ int Date::setTodaysDate() {
 
     //Sets the time to am or pm depending on the time of day.
     if (this->hour > 12 && this->hour != 24) {
-        this->hour = this->hour % 12;
+        //this->hour = this->hour % 12;
         this->am_pm = "pm";
     }
     else if(this->hour == 12){

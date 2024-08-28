@@ -16,6 +16,10 @@
 #include <QTableView>
 #include <QCheckBox>
 #include <QTableWidget>
+#include <QDateTimeEdit>
+#include <QDateTime>
+#include <QDate>
+#include <QTime>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -71,7 +75,8 @@ private slots:
     void showPickUpPage();
     void showCustomerSearchPagePU();
     void showOrderSearchPagePU();
-
+    void showCustomerSearchResultsPU();
+    void showOrderSearchResultsPU();
 
     void on_btnReturnCS_clicked();
 
@@ -112,6 +117,8 @@ private slots:
     void setLaundryPage();
     void on_btnLaundryReturn_clicked();
 
+    void on_tableWidgetLaundryOptions_clicked(const QModelIndex &index);
+
     //Shirts
     void on_btnLaundryShirts_clicked();
 
@@ -120,7 +127,7 @@ private slots:
 
 
     //
-    //Pick Up Page()
+    //Pick Up Page()6
     //
     void on_btnCustomerPU_clicked();
     void on_btnOrderSearchPU_clicked();
@@ -129,19 +136,42 @@ private slots:
 
 
 
-
+    //
+    //Customer Search Page PU(7)
+    //
+    void on_btnReturnCSPU_clicked();
+    void on_btnSearchCSPU_clicked();
 
     //
-    //Order Search Page PU()
+    //Order Search Page PU(8)
     //
     void on_btnReturnOS_clicked();
     void on_btnSearchOrderOS_clicked();
 
+    //
+    //Customer Search ResultsPU (11)
+    //
+    void on_btnReturnCSRPU_clicked();
+    void on_tableViewCSRPU_clicked(const QModelIndex &index);
+
+    //
+    //Order Search ResultsPU (12)
+    //
+    void on_btnReturnOSR_clicked();
+    void on_tableViewOSR_clicked(const QModelIndex &index);
+
     //Help functions
     void clearScreenDP();
     void clearScreenPU();
+
     void updateCOInformationDP();
-    size_t updateTableView(std::vector<std::vector<std::pair<int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
+    void updateCOInformationPU();
+
+    void updateModel(QStandardItemModel *model);
+    size_t updateTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
+
+    std::string getTypeName(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
+    size_t getIndex(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
 
 private:
     Ui::MainWindow *ui;
@@ -149,6 +179,8 @@ private:
     std::vector<std::vector<std::pair<std::string, double>>> laundryPrices;
     std::vector<std::vector<std::pair<std::string, double>>> dryCleanPrices;
     std::vector<std::vector<std::pair<std::string, double>>> alterationsPrices;
+
+    std::vector<std::tuple<std::string, int, int>> laundryPos;
 
     size_t curOrderID, lau, dc, alt;
 
@@ -170,6 +202,8 @@ private:
     QLineEdit *linePhoneDP;
     QLineEdit *linePickUpDP;
     QLineEdit *lineOrderTotalDP;
+    QDateTimeEdit *dateDTDropOffDP;
+    QDateTimeEdit *dateDTPickUpDP;
 
     QCheckBox *checkBoxPaidDP;
 
@@ -235,10 +269,20 @@ private:
     QLineEdit *lineLaundryPricePants;
     QSpinBox *spinLaundryPants;
 
+    //Customer Search PagePU ()
+    QLineEdit *lineSearchCustomerCSPU;
+
     //
-    //Order Search PagePU
+    //Order Search PagePU ()
     //
     QLineEdit *lineSearchOrderIDOS;
+    QStandardItemModel *modelCSRPU;
+    QTableView *tableViewCSRPU;
 
+    //
+    //Order Search Page ResultsPU
+    //
+    QTableView *tableViewOSR;
+    QStandardItemModel *modelOSR;
 };
 #endif // MAINWINDOW_H

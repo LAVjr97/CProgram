@@ -26,9 +26,11 @@ namespace orderInfo{
             //std::string getPickUpDate() const;
             std::vector<std::vector<std::pair<int, double>>> getDetails() const;
             std::vector<std::vector<std::tuple<std::string, int, double>>> getLaundry() const;
+            std::tuple<std::string, int, double>* getLaundryTup(int pos, std::string);
+
 
             int getLaundryNumber(int pos, double price);
-            int getLaundryNumberO(int pos, double price);
+            int getLaundryNumberO(int pos, std::string article, double price);
 
             int getlaundryLength() const;
             std::vector<std::vector<std::pair<int, double>>> getDryClean() const;
@@ -51,7 +53,7 @@ namespace orderInfo{
             int setDetails(std::vector<std::vector<std::pair<int, double>>> laundry);
             void setDetails(std::vector<std::vector<std::tuple<std::string, int, double>>> laundry);
             bool setLaundryPiece(int pos, int n, double price);
-            bool setLaundryPiece(int pos, int n, double price, std::string type);
+            bool setLaundryPiece(int pos, int n, double price, std::string article);
 
             int setDryClean(std::vector<std::vector<std::pair<int, double>>> dryClean);
             void setDryClean(std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean);
