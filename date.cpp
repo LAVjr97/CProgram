@@ -59,8 +59,8 @@ std::string Date::getDate_Time() const{
 }
 
 //Set functions
-int Date::setDay(int date) {
-    this->date = date;
+int Date::setDay(int day) {
+    this->day = day;
     return 0;
 }
 

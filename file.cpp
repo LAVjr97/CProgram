@@ -374,7 +374,7 @@ void File::updateOrder(const int id){
 
     if(found){
         std::remove(this->orderFile.c_str());
-        std::rename(this->tempFile.c_str(), this->customerFile.c_str());
+        std::rename(this->tempFile.c_str(), this->orderFile.c_str());
     }
     else
         std::remove(this->tempFile.c_str());

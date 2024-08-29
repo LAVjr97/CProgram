@@ -20,6 +20,9 @@
 #include <QDateTime>
 #include <QDate>
 #include <QTime>
+#include <QPrinter>
+#include <QPainter>
+#include <QPrintDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -42,14 +45,15 @@ public:
     std::vector<orderInfo::order*> order;
     fi::File* manager;
 
+    QPrinter printer;
+    QPainter painter;
+
     /*
     std::vector<std::vector<std::pair<std::string, double>>> *laundryPrices;
     std::vector<std::vector<std::pair<std::string, double>>> *dryCleanPrices;
     std::vector<std::vector<std::pair<std::string, double>>> *alterationsPrices;
     */
 private slots:
-    void updateDropOffPage();
-
     //Main Page
     void on_btnDropOff_clicked();
     void on_btnPickUp_clicked();
@@ -103,7 +107,6 @@ private slots:
 
     void on_tableViewCSR_clicked(const QModelIndex &index);
 
-
     //
     //New Customer Page (4)
     //
@@ -114,17 +117,9 @@ private slots:
     //Order Laundry Page(5)
     //
     void setUpLaundryPage();
-    void setLaundryPage();
     void on_btnLaundryReturn_clicked();
 
     void on_tableWidgetLaundryOptions_clicked(const QModelIndex &index);
-
-    //Shirts
-    void on_btnLaundryShirts_clicked();
-
-    //Pants
-    void on_btnLaundryPants_clicked();
-
 
     //
     //Pick Up Page()6
@@ -133,8 +128,6 @@ private slots:
     void on_btnOrderSearchPU_clicked();
     void on_btnSavePU_clicked();
     void on_btnReturnPU_clicked();
-
-
 
     //
     //Customer Search Page PU(7)
@@ -167,11 +160,15 @@ private slots:
     void updateCOInformationDP();
     void updateCOInformationPU();
 
+    void setDate(QDateTimeEdit *dp, QDateTimeEdit *pu);
+
     void updateModel(QStandardItemModel *model);
     size_t updateTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
 
     std::string getTypeName(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
     size_t getIndex(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
+
+    void printReciept();
 
 private:
     Ui::MainWindow *ui;
@@ -215,14 +212,14 @@ private:
     //PickUp Page
     //
     QLineEdit *lineCustomerIDPU;
-    QLineEdit *lineDropOffPU;
     QLineEdit *lineFNamePU;
     QLineEdit *lineLNamePU;
     QLineEdit *lineOrderIDPU;
     QLineEdit *linePhonePU;
-    QLineEdit *linePickUpPU;
     QLineEdit *lineOrderTotalPU;
     QLineEdit *lineRackPU;
+    QDateTimeEdit *dateDTDropOffPU;
+    QDateTimeEdit *dateDTPickUpPU;
 
     QCheckBox *checkBoxPUPU;
     QCheckBox *checkBoxPaidPU;
@@ -258,16 +255,6 @@ private:
     QTableWidget *tableWidgetLaundryOptions;
     sbd::SpinBoxDelegate *spinBoxDelegate;
     QStandardItemModel *modelOL;
-
-
-    //Shirts
-    QLineEdit *lineLaundryPriceShirts;
-    QSpinBox *spinLaundryShirts;
-    QDoubleSpinBox *spinLaundryPriceShirts;
-
-    //Pants
-    QLineEdit *lineLaundryPricePants;
-    QSpinBox *spinLaundryPants;
 
     //Customer Search PagePU ()
     QLineEdit *lineSearchCustomerCSPU;
