@@ -31,15 +31,20 @@ namespace orderInfo{
 
             int getLaundryNumber(int pos, double price);
             int getLaundryNumberO(int pos, std::string article, double price);
-
             int getlaundryLength() const;
+            //int calcLaundryLength();
+
             std::vector<std::vector<std::pair<int, double>>> getDryClean() const;
             std::vector<std::vector<std::tuple<std::string, int, double>>> getDryCleanO() const;
-
+            int getDryCleanNumberO(int pos, std::string article, double price);
             int getDryCleanLength() const;
+            //int calcDryCleanLength();
+
             std::vector<std::vector<std::pair<int, double>>> getAlterations() const;
             std::vector<std::vector<std::tuple<std::string, int, double>>> getAlterationsO() const;
+            int getAlterationsNumberO(int pos, std::string article, double price);
             int getAlterationsLength() const;
+            //int calcAlterationsLength();
 
             double getCost() const;
             int getRack() const;
@@ -58,10 +63,12 @@ namespace orderInfo{
             int setDryClean(std::vector<std::vector<std::pair<int, double>>> dryClean);
             void setDryClean(std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean);
             bool setDryCleanPiece(int pos, int n, double price);
+            bool setDryCleanPiece(int pos, int n, double price, std::string article);
 
             int setAlterations(std::vector<std::vector<std::pair<int, double>>> alterations);            
             void setAlterations(std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
             bool setAlterationsPiece(int pos, int n, double price);
+            bool setAlterationsPiece(int pos, int n, double price, std::string article);
 
 
             int setCost(double cost);

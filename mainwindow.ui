@@ -844,8 +844,104 @@
       </column>
      </widget>
     </widget>
-    <widget class="QWidget" name="pgOrderDryClean"/>
-    <widget class="QWidget" name="pgOrderAlteration"/>
+    <widget class="QWidget" name="pgOrderDryClean">
+     <widget class="QTableWidget" name="tableWidgetDryCleanOptions">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>50</y>
+        <width>691</width>
+        <height>511</height>
+       </rect>
+      </property>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Count</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Price</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="btnDryCleanReturn">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>160</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="text">
+       <string>Return</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="pgOrderAlteration">
+     <widget class="QTableWidget" name="tableWidgetAlterationsOptions">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>50</y>
+        <width>691</width>
+        <height>511</height>
+       </rect>
+      </property>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Count</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Price</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="btnAlterationsReturn">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>160</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="text">
+       <string>Return</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="pgPickUp">
      <widget class="QWidget" name="gridLayoutWidget_4">
       <property name="geometry">
@@ -1066,6 +1162,9 @@
         <height>361</height>
        </rect>
       </property>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
      </widget>
      <widget class="QWidget" name="layoutWidget_2">
       <property name="geometry">

@@ -51,6 +51,7 @@ namespace date{
             bool isLeapYear() const;
             int daysInMonth() const;
             int dayOfWeek() const;
+            std::string dayOfWeekString() const;
             int addDays(int daysToAdd);
 
         private:

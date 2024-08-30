@@ -55,6 +55,23 @@ std::string customer::getPhone() const{
     return phone;
 }
 
+std::string customer::getFormattedPhone() const{
+    std::string fPhone;
+    size_t i;
+
+    for(i = 0; i < this->phone.size(); i++){
+        if(i == 0)
+            fPhone = fPhone + "(";
+        if(i == 3)
+            fPhone = fPhone + ")";
+        if(i == 6)
+            fPhone = fPhone + "-";
+        fPhone += phone[i];
+    }
+
+    return fPhone;
+}
+
 std::vector<int> customer::getOrders() const {
     return orders;
 }

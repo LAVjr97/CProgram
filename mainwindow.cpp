@@ -33,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent)
     alterationsPrices = {{{"Pants", 3.99}, {"Jeans", 3.59}}, {{"Shirts", 2.99},{"T-Shirts", 1.49}}};
 
     laundryPos = {{"Pants", 0, 1}, {"Shirts", 2, 3}};
+    dryCleanPos = {{"Pants", 0, 1}, {"Shirts", 2, 3}};
+    alterationsPos = {{"Pants", 0, 1}, {"Shirts", 2, 3}};
 
     curOrderID = 0;
 
@@ -89,13 +91,24 @@ MainWindow::MainWindow(QWidget *parent)
     lineLNameNC = ui -> lineLNameNC;
     linePhoneNC = ui -> linePhoneNC;
 
+    lPrices = calculateSize(laundryPrices);
+    dcPrices = calculateSize(dryCleanPrices);
+    aPrices = calculateSize(alterationsPrices);
 
-    //
     //Order Laundry Page
-    //
     tableWidgetLaundryOptions = ui->tableWidgetLaundryOptions;
-    tableWidgetLaundryOptions->setRowCount(laundryPrices.size());
+    tableWidgetLaundryOptions->setRowCount(lPrices);
     tableWidgetLaundryOptions->setColumnCount(3);
+
+    //Order DryClean Page
+    tableWidgetDryCleanOptions = ui->tableWidgetDryCleanOptions;
+    tableWidgetDryCleanOptions->setRowCount(dcPrices);
+    tableWidgetDryCleanOptions->setColumnCount(3);
+
+    //Order Alterations Page
+    tableWidgetAlterationsOptions = ui->tableWidgetAlterationsOptions;
+    tableWidgetAlterationsOptions->setRowCount(aPrices);
+    tableWidgetAlterationsOptions->setColumnCount(3);
 
     //
     //Pick Up Page
@@ -260,6 +273,26 @@ void MainWindow::on_btnLaundry_clicked()
     setUpLaundryPage();
 
     MainWindow::showOrderLaundryPage();
+}
+
+void MainWindow::on_btnDryClean_clicked()
+{
+    if(lineFNameDP->text().isEmpty())
+        return;
+
+    setUpDryCleanPage();
+
+    MainWindow::showOrderDryCleanPage();
+}
+
+void MainWindow::on_btnAlterations_clicked()
+{
+    if(lineFNameDP->text().isEmpty())
+        return;
+
+    //setUpAlterationsPage();
+
+    MainWindow::showOrderAlterationsPage();
 }
 
 void MainWindow::on_btnSaveDP_clicked()
@@ -505,6 +538,8 @@ void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
     QSpinBox *spinBox;
     QDoubleSpinBox *dSpinBox;
 
+    //Make this into case and switch, so i can allow a col to be a delete button
+
     if(col != 0)
         return;
 
@@ -527,6 +562,106 @@ void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
         spinBox->setValue(n);
     }
 }
+
+
+
+//
+//***DryClean Order Page (5)***
+//
+void MainWindow::setUpDryCleanPage(){
+    size_t row = 0, i, j;
+
+    if(modelDP->rowCount() == 0)
+        for(i = 0; i < dryCleanPrices.size(); i++)
+            for(j = 0; j < dryCleanPrices[i].size(); j++){
+                QLabel *type = new QLabel(QString::fromStdString(dryCleanPrices[i][j].first));
+                type->setAlignment(Qt::AlignCenter);
+
+                QSpinBox *count = new QSpinBox(tableWidgetDryCleanOptions);
+                count->setValue(0);
+
+                QDoubleSpinBox *price = new QDoubleSpinBox(tableWidgetDryCleanOptions);
+                price->setDecimals(2);
+                price->setValue(dryCleanPrices[i][j].second);
+
+                tableWidgetDryCleanOptions->setCellWidget(row, 0, type);
+                tableWidgetDryCleanOptions->setCellWidget(row, 1, count);
+                tableWidgetDryCleanOptions->setCellWidget(row, 2, price);
+
+                row++;
+            }
+    //else, clearing dry clean page
+
+}
+
+void MainWindow::on_btnDryCleanReturn_clicked(){
+    QSpinBox *spinBox;
+    bool empty = true;
+
+    if(modelDP->rowCount() == 0 && lineFNameDP->text().isEmpty()){
+        showDropOffPage();
+        return;
+    }
+
+    for(int row = 0; row < tableWidgetDryCleanOptions->rowCount(); row++){
+        spinBox = qobject_cast<QSpinBox*>(tableWidgetDryCleanOptions->cellWidget(row, 1));
+        if(spinBox->value() != 0){
+            empty = false;
+            break;
+        }
+    }
+
+    if(empty == true){
+        showDropOffPage();
+        return;
+    }
+
+    updateModel(modelDP);
+    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO()));
+    showDropOffPage();
+}
+
+void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index){
+    double price;
+    int n, pos, row = index.row(), col = index.column();
+
+    bool foundPrice;
+    std::string article;
+    std::tuple<std::string, int, double> tup;
+    QSpinBox *spinBox;
+    QDoubleSpinBox *dSpinBox;
+
+    //Make this into case and switch, so i can allow a col to be a delete button
+
+    if(col != 0)
+        return;
+
+    spinBox = qobject_cast<QSpinBox*>(tableWidgetDryCleanOptions->cellWidget(row, 1));
+    n = spinBox->value();
+    if(n == 0)
+        return;
+
+    dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidgetDryCleanOptions->cellWidget(row, 2));
+    price = dSpinBox->value();
+
+    article = qobject_cast<QLabel*>(tableWidgetDryCleanOptions->cellWidget(row, 0))->text().toStdString();
+
+    pos = getIndex(row, dryCleanPos);
+
+    //setDryCleanPiece
+    foundPrice = order[0]->setDryCleanPiece(pos, n, price, article);
+    //getCleanNumberO
+    if(foundPrice == true){
+        n = orders[0].getDryCleanNumberO(pos, article, price); //there's a crash somewhere here when adding two of the same articles at the same price twice
+        spinBox->setValue(n);
+    }
+}
+
+
+
+//
+//***Laundry Order Page (5)***
+//
 
 
 
@@ -862,16 +997,103 @@ size_t MainWindow::getIndex(int curRow, std::vector<std::tuple<std::string, int,
     return NULL;
 }
 
+int MainWindow::calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices){
+    size_t i, j;
+    int size = 0;
+
+    for(i = 0; i < prices.size(); i++)
+        for(j = 0; j < prices[i].size(); j++)
+            size++;
+
+    return size;
+}
+
+int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, int, double>>> articles){
+    size_t i, j;
+    int size = 0;
+
+    for(i = 0; i < articles.size(); i++)
+        for(j = 0; j < articles[i].size(); j++)
+            size++;
+
+    return size;
+}
+
 void MainWindow::printReciept(){
+    int x = 50, y = 50;
+    size_t i, j;
+    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
     QPainter painter(&printer);
-
-    painter.drawText(100, 150, "Customer: " + QString::fromStdString(customer[0]->getName()));
-    painter.drawText(100, 200, "Order Number" + QString::number(curOrderID));
-    painter.drawText(100, 250, "Drop Off: " + QString::fromStdString(order[0]->dropOff->getDate_Time()));
-    painter.drawText(100, 300, "Pick Up: " + QString::fromStdString(order[0]->pickUp->getDate_Time()));
+    QFont font = painter.font();
 
 
-    painter.drawText(100, 350, "Total: " + QString::number(order[0]->getCost()));
+    font.setPointSize(8);
+    painter.setFont(font);
+
+    painter.drawText(200, y, QString::number(curOrderID));
+    y += 50;
+    painter.drawText(x, y, QString::fromStdString(customer[0]->getLastName()) + ", " + QString::fromStdString(customer[0]->getFirstName()));
+    y += 50;
+    painter.drawText(x, y, "Phone: " + QString::fromStdString(customer[0]->getFormattedPhone()));
+    y += 50;
+    painter.drawText(x, y, "Drop Off: " + QString::fromStdString(order[0]->dropOff->dayOfWeekString()) + " " + QString::fromStdString(order[0]->dropOff->getDate_Time()));
+    y += 50;
+    painter.drawText(x, y, "Pick Up: " + QString::fromStdString(order[0]->pickUp->dayOfWeekString()) + " " + QString::fromStdString(order[0]->pickUp->getDate()));
+    y += 50;
+
+    painter.drawText(x, y, "==============================");
+    y += 25;
+
+    if(calculatePieceTotal(laundry)){
+        painter.drawText(x, y, "Laundry: ");
+        y += 25;
+
+        for(i = 0; i < laundry.size(); i++)
+            if(laundry[i].empty() == false)
+                for(j = 0; j < laundry[i].size(); j++){
+                    painter.drawText(x, y, QString::number(std::get<1>(laundry[i][j])) + "    " + QString::fromStdString(std::get<0>(laundry[i][j])) + "    " + QString::number(std::get<1>(laundry[i][j]) * std::get<2>(laundry[i][j])));
+                    y += 25;
+                }
+        y += 25;
+    }
+
+    if(calculatePieceTotal(dryClean)){
+        painter.drawText(x, y, "Dry Clean: ");
+        y += 25;
+
+        for(i = 0; i < dryClean.size(); i++)
+            if(dryClean[i].empty() == false)
+                for(j = 0; j < dryClean[i].size(); j++){
+                    painter.drawText(x, y, QString::number(std::get<1>(dryClean[i][j])) + "    " + QString::fromStdString(std::get<0>(dryClean[i][j])) + "    " + QString::number(std::get<1>(dryClean[i][j]) * std::get<2>(dryClean[i][j])));
+                    y += 25;
+                }
+        y += 25;
+    }
+
+    if(calculatePieceTotal(alterations)){
+        painter.drawText(x, y, "Alterations: ");
+        y += 25;
+
+        for(i = 0; i < dryClean.size(); i++)
+            if(dryClean[i].empty() == false)
+                for(j = 0; j < dryClean[i].size(); j++){
+                    painter.drawText(x, y, QString::number(std::get<1>(dryClean[i][j])) + "    " + QString::fromStdString(std::get<0>(dryClean[i][j])) + "    " + QString::number(std::get<1>(dryClean[i][j]) * std::get<2>(dryClean[i][j])));
+                    y += 25;
+                }
+        y += 25;
+    }
+
+    painter.drawText(x, y, "==============================");
+    y += 50;
+
+    painter.drawText(x, y, "Total: " + QString::number(order[0]->getCost()));
+    y += 50;
+    if(order[0]->getPaid())
+        painter.drawText(x, y, "Paid");
+
+    y += 150;
+    painter.drawText(x, y, "   ");
+
     // End the printing process
     painter.end();
 }

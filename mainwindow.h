@@ -60,6 +60,8 @@ private slots:
 
 
     void on_btnLaundry_clicked();
+    void on_btnDryClean_clicked();
+    void on_btnAlterations_clicked();
 
     void on_btnCustomer_clicked();
 
@@ -118,11 +120,22 @@ private slots:
     //
     void setUpLaundryPage();
     void on_btnLaundryReturn_clicked();
-
     void on_tableWidgetLaundryOptions_clicked(const QModelIndex &index);
 
     //
-    //Pick Up Page()6
+    //Order DryClean Page()
+    //
+    void setUpDryCleanPage();
+    void on_btnDryCleanReturn_clicked();
+    void on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index);
+
+    //
+    //Order Alterations Page()
+    //
+
+
+    //
+    //Pick Up Page()
     //
     void on_btnCustomerPU_clicked();
     void on_btnOrderSearchPU_clicked();
@@ -130,7 +143,7 @@ private slots:
     void on_btnReturnPU_clicked();
 
     //
-    //Customer Search Page PU(7)
+    //Customer Search Page PU()
     //
     void on_btnReturnCSPU_clicked();
     void on_btnSearchCSPU_clicked();
@@ -168,6 +181,9 @@ private slots:
     std::string getTypeName(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
     size_t getIndex(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
 
+    int calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices);
+    int calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, int, double>>> articles);
+
     void printReciept();
 
 private:
@@ -178,6 +194,12 @@ private:
     std::vector<std::vector<std::pair<std::string, double>>> alterationsPrices;
 
     std::vector<std::tuple<std::string, int, int>> laundryPos;
+    std::vector<std::tuple<std::string, int, int>> dryCleanPos;
+    std::vector<std::tuple<std::string, int, int>> alterationsPos;
+
+    size_t lPrices;
+    size_t dcPrices;
+    size_t aPrices;
 
     size_t curOrderID, lau, dc, alt;
 
@@ -248,13 +270,19 @@ private:
     QLineEdit *lineLNameNC;
     QLineEdit *linePhoneNC;
 
-    //
     //Order Laundry Page
-    //
-
     QTableWidget *tableWidgetLaundryOptions;
-    sbd::SpinBoxDelegate *spinBoxDelegate;
-    QStandardItemModel *modelOL;
+    //QStandardItemModel *modelOL;
+
+    //Order DryClean Page()
+    QTableWidget *tableWidgetDryCleanOptions;
+    //QStandardItemModel *modelODC;
+
+    //Order Alterations Page()
+    QTableWidget *tableWidgetAlterationsOptions;
+    //QStandardItemModel *modelAL;
+
+
 
     //Customer Search PagePU ()
     QLineEdit *lineSearchCustomerCSPU;

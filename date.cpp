@@ -119,7 +119,6 @@ int Date::setTodaysDate() {
     if (this->min < 10)
         min = "0" + min;
 
-
     //Sets the time to am or pm depending on the time of day.
     if (this->hour > 12 && this->hour != 24) {
         //this->hour = this->hour % 12;
@@ -143,6 +142,12 @@ int Date::createDate() {
 }
 
 int Date::createTime() {
+
+    if(hour%12 == 0)
+        hour = 12;
+    else
+        hour %= 12;
+
     if (this->min < 10)
         this->time = std::to_string(this->hour) + ":" + "0" + std::to_string(this->min) + this->am_pm;
     else
@@ -227,6 +232,37 @@ int Date::dayOfWeek() const{
     dayOfWeek = (day + 2 * m + 3 * (m + 1) / 5 + y + y / 4) % 7;
 
     return dayOfWeek;
+}
+
+std::string Date::dayOfWeekString() const{
+    int dTemp = dayOfWeek();
+    std::string temp;
+
+    switch(dTemp){
+        case 0:
+            temp = "SUN";
+            break;
+        case 1:
+            temp = "MON";
+            break;
+        case 2:
+            temp = "TUES";
+            break;
+        case 3:
+            temp = "WED";
+            break;
+        case 4:
+            temp = "THUR";
+            break;
+        case 5:
+            temp = "FRI";
+            break;
+        case 6:
+            temp = "SAT";
+            break;
+    }
+
+    return temp;
 }
 
 int Date::addDays(int daysToAdd) {

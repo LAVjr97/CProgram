@@ -18,6 +18,7 @@ namespace cust{
             std::string getFirstName() const;
             std::string getLastName() const;
             std::string getPhone() const;
+            std::string getFormattedPhone() const;
             std::string getLastVisit() const;
             int getVisit() const;
             double getTotal() const;
