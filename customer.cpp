@@ -63,7 +63,7 @@ std::string customer::getFormattedPhone() const{
         if(i == 0)
             fPhone = fPhone + "(";
         if(i == 3)
-            fPhone = fPhone + ")";
+            fPhone = fPhone + ") ";
         if(i == 6)
             fPhone = fPhone + "-";
         fPhone += phone[i];

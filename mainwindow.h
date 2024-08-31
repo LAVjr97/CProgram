@@ -57,7 +57,7 @@ private slots:
     //Main Page
     void on_btnDropOff_clicked();
     void on_btnPickUp_clicked();
-
+    void on_btnEditOrder_clicked();
 
     void on_btnLaundry_clicked();
     void on_btnDryClean_clicked();
@@ -83,6 +83,11 @@ private slots:
     void showOrderSearchPagePU();
     void showCustomerSearchResultsPU();
     void showOrderSearchResultsPU();
+    void showEditOrderPage();
+    void showOrderSearchPageEO();
+    void showCustomerSearchPageEO();
+    void showCustomerSearchResultsEO();
+    void showOrderSearchResultsEO();
 
     void on_btnReturnCS_clicked();
 
@@ -132,7 +137,9 @@ private slots:
     //
     //Order Alterations Page()
     //
-
+    void setUpAlterationsPage();
+    void on_btnAlterationsReturn_clicked();
+    void on_tableWidgetAlterationsOptions_clicked(const QModelIndex &index);
 
     //
     //Pick Up Page()
@@ -166,12 +173,37 @@ private slots:
     void on_btnReturnOSR_clicked();
     void on_tableViewOSR_clicked(const QModelIndex &index);
 
+    //Edit Order Page (13)
+    void on_btnCustomerEO_clicked();
+    void on_btnOrderSearchEO_clicked();
+    void on_btnSaveEO_clicked();
+    void on_btnReturnEO_clicked();
+
+    //Order Search EO Page (14)
+    void on_btnReturnOSEO_clicked();
+    void on_btnSearchOrderEO_clicked();
+
+    //Customer Search Page (15)
+    void on_btnReturnCSEO_clicked();
+    void on_btnSearchCSEO_clicked();
+
+    //Customer Search Results Page (16)
+    void on_btnReturnCSREO_clicked();
+    void on_tableViewCSREO_clicked(const QModelIndex &index);
+
+    //Order Search Results EO Page (17)
+    void on_btnReturnOSREO_clicked();
+    void on_tableViewOSREO_clicked(const QModelIndex &index);
+
+
     //Help functions
     void clearScreenDP();
     void clearScreenPU();
+    void clearScreenEO();
 
     void updateCOInformationDP();
     void updateCOInformationPU();
+    void updateCOInformationEO();
 
     void setDate(QDateTimeEdit *dp, QDateTimeEdit *pu);
 
@@ -250,6 +282,26 @@ private:
     QTableView *tableViewOrdersPU;
 
     //
+    //Edit Order Page
+    //
+    QLineEdit *lineCustomerIDEO;
+    QLineEdit *lineFNameEO;
+    QLineEdit *lineLNameEO;
+    QLineEdit *lineOrderIDEO;
+    QLineEdit *linePhoneEO;
+    QLineEdit *lineOrderTotalEO;
+    QLineEdit *lineRackEO;
+    QDateTimeEdit *dateDTDropOffEO;
+    QDateTimeEdit *dateDTPickUpEO;
+
+    QCheckBox *checkBoxPUEO;
+    QCheckBox *checkBoxPaidEO;
+
+    QStandardItemModel *modelEO;
+    QTableView *tableViewOrdersEO;
+
+
+    //
     //Customer Search Page
     //
     QLineEdit *lineSearchCustomerCS;
@@ -272,32 +324,45 @@ private:
 
     //Order Laundry Page
     QTableWidget *tableWidgetLaundryOptions;
-    //QStandardItemModel *modelOL;
 
     //Order DryClean Page()
     QTableWidget *tableWidgetDryCleanOptions;
-    //QStandardItemModel *modelODC;
 
     //Order Alterations Page()
     QTableWidget *tableWidgetAlterationsOptions;
-    //QStandardItemModel *modelAL;
+
 
 
 
     //Customer Search PagePU ()
     QLineEdit *lineSearchCustomerCSPU;
-
-    //
-    //Order Search PagePU ()
-    //
-    QLineEdit *lineSearchOrderIDOS;
-    QStandardItemModel *modelCSRPU;
     QTableView *tableViewCSRPU;
 
-    //
+    //Order Search PagePU ()
+    QLineEdit *lineSearchOrderIDOS;
+    QStandardItemModel *modelCSRPU;
+
     //Order Search Page ResultsPU
-    //
     QTableView *tableViewOSR;
     QStandardItemModel *modelOSR;
+
+    //
+    //Edit Order Page ()
+    //
+
+    //Order Search PageEO()
+    QLineEdit *lineSearchOrderIDEO;
+
+    //Customer Search PageEO ()
+    QLineEdit *lineSearchCustomerCSEO;
+
+    //Customer Search Results PageEO()
+    QTableView *tableViewCSREO;
+    QStandardItemModel *modelCSREO;
+
+    //Order Search Page Results ();
+    QTableView *tableViewOSREO;
+    QStandardItemModel *modelOSREO;
+
 };
 #endif // MAINWINDOW_H
