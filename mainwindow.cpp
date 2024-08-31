@@ -1501,7 +1501,7 @@ void MainWindow::printReciept(){
     y += 50;
     painter.drawText(x, y, "Phone: " + QString::fromStdString(customer[0]->getFormattedPhone()));
     y += 50;
-    font.setPointSize(8);
+    font.setPointSize(9);
     painter.setFont(font);
     painter.drawText(x, y, "Drop Off: " + QString::fromStdString(order[0]->dropOff->dayOfWeekString()) + " " + QString::fromStdString(order[0]->dropOff->getDate_Time()));
     y += 50;
