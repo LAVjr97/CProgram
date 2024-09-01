@@ -47,3 +47,6 @@ DISTFILES += \
     orders.txt \
     temp.txt \
     temp.txt
+
+RESOURCES += \
+    resources.qrc

@@ -88,6 +88,8 @@ private slots:
     void showCustomerSearchPageEO();
     void showCustomerSearchResultsEO();
     void showOrderSearchResultsEO();
+    void showAdminPage();
+    void showItemsAndPricePage();
 
     void on_btnReturnCS_clicked();
 
@@ -194,7 +196,16 @@ private slots:
     //Order Search Results EO Page (17)
     void on_btnReturnOSREO_clicked();
     void on_tableViewOSREO_clicked(const QModelIndex &index);
+    /*
+    //Admin Page (18)
+    void on_btnReturnAP_clicked();
+    void on_btnCIP_clicked();
+    void on_btnExportData_clicked();
 
+    //Create Items And Price (19)
+    void on_btnReturnCIP_clicked();
+    void on_btnSaveCIP_clicked();
+*/
 
     //Help functions
     void clearScreenDP();
@@ -330,9 +341,6 @@ private:
 
     //Order Alterations Page()
     QTableWidget *tableWidgetAlterationsOptions;
-
-
-
 
     //Customer Search PagePU ()
     QLineEdit *lineSearchCustomerCSPU;

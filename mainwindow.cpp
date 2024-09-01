@@ -313,6 +313,13 @@ void MainWindow::showOrderSearchResultsEO(){
     ui->stackedWidget->setCurrentIndex(17);
 }
 
+void MainWindow::showAdminPage(){
+    ui->stackedWidget->setCurrentIndex(18);
+}
+
+void MainWindow::showItemsAndPricePage(){
+    ui->stackedWidget->setCurrentIndex(19);
+}
 
 
 //
@@ -402,15 +409,15 @@ void MainWindow::on_btnSaveDP_clicked()
 
     orders[curOrderID].setPaid(checkBoxPaidDP->isChecked());
 
-    /*
-    std::thread threadOrder(&fi::file::saveOrders, manager, orders[curOrderID]);
-    std::thread threadCust(&fi::file::updateCustomer, manager, customer[0]->getCustomerID());
+
+    std::thread threadOrder(&fi::File::saveOrders, manager, std::ref(orders[curOrderID]));
+    std::thread threadCust(&fi::File::updateCustomer, manager, customer[0]->getCustomerID());
     threadOrder.join();
     threadCust.join();
-    */
 
-    manager->saveOrders(orders[curOrderID]);
-    manager->updateCustomer(customer[0]->getCustomerID());
+
+    //manager->saveOrders(orders[curOrderID]);
+    //manager->updateCustomer(customer[0]->getCustomerID());
 
     printReciept();
     printReciept();
@@ -572,8 +579,6 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
 void MainWindow::setUpLaundryPage(){
     size_t row = 0, i, j;
     QFont font;
-    //tableWidgetLaundryOptions->setRowCount(0);
-
 
     for(i = 0; i < laundryPrices.size(); i++)
         for(j = 0; j < laundryPrices[i].size(); j++){
@@ -643,7 +648,6 @@ void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
     double price;
     int n, pos, row = index.row(), col = index.column();
 
-    bool foundPrice;
     std::string article;
     std::tuple<std::string, int, double> tup;
     QSpinBox *spinBox;
@@ -666,12 +670,8 @@ void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
 
     pos = getIndex(row, laundryPos);
 
-    foundPrice = order[0]->setLaundryPiece(pos, n, price, article);
+    order[0]->setLaundryPiece(pos, n, price, article);
 
-    if(foundPrice == true){
-        n = orders[0].getLaundryNumberO(pos, article, price); //there's a crash somewhere here when adding two of the same articles at the same price twice
-        spinBox->setValue(n);
-    }
 }
 
 
@@ -750,7 +750,6 @@ void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index)
     double price;
     int n, pos, row = index.row(), col = index.column();
 
-    bool foundPrice;
     std::string article;
     std::tuple<std::string, int, double> tup;
     QSpinBox *spinBox;
@@ -773,12 +772,8 @@ void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index)
 
     pos = getIndex(row, dryCleanPos);
 
-    foundPrice = order[0]->setDryCleanPiece(pos, n, price, article);
+    order[0]->setDryCleanPiece(pos, n, price, article);
 
-    if(foundPrice == true){
-        n = orders[0].getDryCleanNumberO(pos, article, price); //there's a crash somewhere here when adding two of the same articles at the same price twice
-        spinBox->setValue(n);
-    }
 }
 
 
@@ -856,7 +851,6 @@ void MainWindow::on_tableWidgetAlterationsOptions_clicked(const QModelIndex &ind
     double price;
     int n, pos, row = index.row(), col = index.column();
 
-    bool foundPrice;
     std::string article;
     std::tuple<std::string, int, double> tup;
     QSpinBox *spinBox;
@@ -879,12 +873,7 @@ void MainWindow::on_tableWidgetAlterationsOptions_clicked(const QModelIndex &ind
 
     pos = getIndex(row, alterationsPos);
 
-    foundPrice = order[0]->setAlterationsPiece(pos, n, price, article);
-
-    if(foundPrice == true){
-        n = orders[0].getLaundryNumberO(pos, article, price); //there's a crash somewhere here when adding two of the same articles at the same price twice
-        spinBox->setValue(n);
-    }
+    order[0]->setAlterationsPiece(pos, n, price, article);
 }
 
 
@@ -908,8 +897,10 @@ void MainWindow::on_btnSavePU_clicked(){
     orders[curOrderID].setPaid(checkBoxPaidPU->isChecked());
     orders[curOrderID].setPickUp(checkBoxPUPU->isChecked());
 
-    manager->updateOrder(curOrderID);
-    manager->updateCustomer(orders[curOrderID].getCustomerID());
+    std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID);
+    std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
+    threadOrder.join();
+    threadCust.join();
 
     customer.clear();
     order.clear();
@@ -1053,7 +1044,6 @@ void MainWindow::on_tableViewCSRPU_clicked(const QModelIndex &index){
 
     showOrderSearchResultsPU();
     modelCSRPU->removeRows(0, modelCSRPU->rowCount());
-
 }
 
 
@@ -1094,6 +1084,7 @@ void MainWindow::on_btnOrderSearchEO_clicked(){
 }
 
 void MainWindow::on_btnSaveEO_clicked(){
+    std::tuple<std::string, int, double> temp;
     if(lineFNameEO->text().isEmpty())
         return;
 
@@ -1103,8 +1094,24 @@ void MainWindow::on_btnSaveEO_clicked(){
     if(!lineRackEO->text().isEmpty())
         orders[curOrderID].setRack(lineRackEO->text().toInt());
 
-    manager->updateOrder(curOrderID);
-    manager->updateCustomer(orders[curOrderID].getCustomerID());
+    for(int row = 0; row < modelEO ->rowCount(); row++){
+        QModelIndex indexPiece = modelEO->index(row, 2);
+        QModelIndex indexN = modelEO->index(row, 0);
+        QModelIndex indexPrice = modelEO->index(row, 3);
+
+        QVariant itemPiece = modelEO->data(indexPiece);
+        QVariant itemN = modelEO->data(indexN);
+        QVariant itemPrice = modelEO->data(indexPrice);
+
+        temp = std::make_tuple(itemPiece.toString().toStdString(), itemN.toInt(), itemPrice.toDouble());
+
+
+    }
+
+    std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID);
+    std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
+    threadOrder.join();
+    threadCust.join();
 
     customer.clear();
     order.clear();
@@ -1131,7 +1138,7 @@ void MainWindow::on_btnSearchOrderEO_clicked(){
     int customerID;
     std::string orderID = lineSearchOrderIDEO->text().toStdString();
 
-    if(orderID.empty())
+    if(orderID.empty() || !search::Search::isID(orderID))
         return;
 
     customer.clear();
@@ -1276,8 +1283,26 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
 }
 
 //
-//*** (18)***
+//***Admin Page (18)***
 //
+/*
+void MainWindow::on_btnReturnAP_clicked(){
+
+}
+
+void MainWindow::on_btnCIP_clicked(){
+
+}
+
+void MainWindow::on_btnExportData_clicked(){
+
+}
+*/
+//
+//***Create Items and Price (19)***
+//
+
+
 
 
 //

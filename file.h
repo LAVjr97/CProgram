@@ -17,11 +17,11 @@ namespace fi{
             File(std::string customerFile, std::string orderFile, std::string tempFile, std::vector<cust::customer> &customers, std::vector<orderInfo::order> &orders);
 
             //Customers
-            void saveCustomers(cust::customer &customer) const; //save 1 customer at a time;
+            void saveCustomers(cust::customer &customer); //save 1 customer at a time;
             void loadCustomers(); //load all of the customers at a time
 
             //Orders
-            void saveOrders(orderInfo::order &order) const; //save 1 order at a time
+            void saveOrders(orderInfo::order &order); //save 1 order at a time
             void loadOrders();
 
             //Helper Functions;

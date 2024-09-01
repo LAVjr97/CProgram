@@ -235,30 +235,28 @@ bool order::setLaundryPiece(int pos, int n, double price){
     return foundPrice;
 }
 
-bool order::setLaundryPiece(int pos, int n, double price, std::string article){
+void order::setLaundryPiece(int pos, int n, double price, std::string article){
     size_t i;
     std::vector<std::tuple<std::string, int, double>>::iterator it = laundryO[pos].begin();
-    bool foundPrice = false;
     std::tuple<std::string, int, double> tup = std::make_tuple(article, n, price);
 
     for(i = 0; i < laundryO[pos].size(); i++)
         if(article == std::get<0>(laundryO[pos][i]) && price == std::get<2>(laundryO[pos][i])){
             std::get<1>(laundryO[pos][i]) = n;
-            return true;
+            return;
         }
 
     for(i = 0; i < laundryO[pos].size(); i++){
         if(article == std::get<0>(laundryO[pos][i]) && price != std::get<2>(laundryO[pos][i])){
             it++;
             laundryO[pos].insert(it, tup);
-            return foundPrice;
+            return;
         }
     }
 
-    if(foundPrice == false)
-        laundryO[pos].push_back(tup);
+    laundryO[pos].push_back(tup);
 
-    return foundPrice;
+    return;
 }
 
 
@@ -287,30 +285,28 @@ bool order::setDryCleanPiece(int pos, int n, double price){
     return foundPrice;
 }
 
-bool order::setDryCleanPiece(int pos, int n, double price, std::string article){
+void order::setDryCleanPiece(int pos, int n, double price, std::string article){
     size_t i;
     std::vector<std::tuple<std::string, int, double>>::iterator it = dryCleanO[pos].begin();
-    bool foundPrice = false;
     std::tuple<std::string, int, double> tup = std::make_tuple(article, n, price);
 
     for(i = 0; i < dryCleanO[pos].size(); i++)
         if(article == std::get<0>(dryCleanO[pos][i]) && price == std::get<2>(dryCleanO[pos][i])){
             std::get<1>(dryCleanO[pos][i]) = n;
-            return true;
+            return;
         }
 
     for(i = 0; i < dryCleanO[pos].size(); i++){
         it++;
         if(article == std::get<0>(dryCleanO[pos][i]) && price != std::get<2>(dryCleanO[pos][i])){
             dryCleanO[pos].insert(it, tup);
-            return foundPrice;
+            return;
         }
     }
 
-    if(foundPrice == false)
-        dryCleanO[pos].push_back(tup);
+    dryCleanO[pos].push_back(tup);
 
-    return foundPrice;
+    return;
 }
 
 
@@ -339,30 +335,28 @@ bool order::setAlterationsPiece(int pos, int n, double price){
     return foundPrice;
 }
 
-bool order::setAlterationsPiece(int pos, int n, double price, std::string article){
+void order::setAlterationsPiece(int pos, int n, double price, std::string article){
     size_t i;
     std::vector<std::tuple<std::string, int, double>>::iterator it = alterationsO[pos].begin();
-    bool foundPrice = false;
     std::tuple<std::string, int, double> tup = std::make_tuple(article, n, price);
 
     for(i = 0; i < alterationsO[pos].size(); i++)
         if(article == std::get<0>(alterationsO[pos][i]) && price == std::get<2>(alterationsO[pos][i])){
             std::get<1>(alterationsO[pos][i]) = n;
-            return true;
+            return;
         }
 
     for(i = 0; i < alterationsO[pos].size(); i++){
         if(article == std::get<0>(alterationsO[pos][i]) && price != std::get<2>(alterationsO[pos][i])){
             it++;
             alterationsO[pos].insert(it, tup);
-            return foundPrice;
+            return;
         }
     }
 
-    if(foundPrice == false)
-        alterationsO[pos].push_back(tup);
+    alterationsO[pos].push_back(tup);
 
-    return foundPrice;
+    return;
 }
 
 int order::setCost(double cost){

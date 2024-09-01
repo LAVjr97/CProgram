@@ -58,17 +58,17 @@ namespace orderInfo{
             int setDetails(std::vector<std::vector<std::pair<int, double>>> laundry);
             void setDetails(std::vector<std::vector<std::tuple<std::string, int, double>>> laundry);
             bool setLaundryPiece(int pos, int n, double price);
-            bool setLaundryPiece(int pos, int n, double price, std::string article);
+            void setLaundryPiece(int pos, int n, double price, std::string article);
 
             int setDryClean(std::vector<std::vector<std::pair<int, double>>> dryClean);
             void setDryClean(std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean);
             bool setDryCleanPiece(int pos, int n, double price);
-            bool setDryCleanPiece(int pos, int n, double price, std::string article);
+            void setDryCleanPiece(int pos, int n, double price, std::string article);
 
             int setAlterations(std::vector<std::vector<std::pair<int, double>>> alterations);            
             void setAlterations(std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
             bool setAlterationsPiece(int pos, int n, double price);
-            bool setAlterationsPiece(int pos, int n, double price, std::string article);
+            void setAlterationsPiece(int pos, int n, double price, std::string article);
 
 
             int setCost(double cost);

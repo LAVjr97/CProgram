@@ -9,7 +9,7 @@ using namespace fi;
 File::File(std::string customerFile, std::string orderFile, std::string tempFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders) : customerFile(customerFile), orderFile(orderFile), tempFile(tempFile), customers(customers), orders(orders)
 {}
 
-void File::saveCustomers(cust::customer& customer) const{
+void File::saveCustomers(cust::customer& customer){
     std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/customers.txt", std::ios::app);
 
     if (!ofs) {
@@ -65,7 +65,7 @@ void File::loadCustomers(){
 }
 
 //Orders
-void File::saveOrders(orderInfo::order &order) const{
+void File::saveOrders(orderInfo::order &order){
     std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order.getLaundry();
     std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean = order.getDryCleanO();
     std::vector<std::vector<std::tuple<std::string, int, double>>> alterations = order.getAlterationsO();
