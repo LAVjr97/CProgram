@@ -650,11 +650,13 @@ void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
 
     std::string article;
     std::tuple<std::string, int, double> tup;
+    QTableWidgetItem *type;
     QSpinBox *spinBox;
     QDoubleSpinBox *dSpinBox;
 
     //Make this into case and switch, so i can allow a col to be a delete button
     spinBox = qobject_cast<QSpinBox*>(tableWidgetLaundryOptions->cellWidget(row, 1));
+
     if(col != 0 || spinBox == nullptr)
         return;
 
@@ -667,10 +669,15 @@ void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
     price = dSpinBox->value();
 
     article = qobject_cast<QLabel*>(tableWidgetLaundryOptions->cellWidget(row, 0))->text().toStdString();
-
     pos = getIndex(row, laundryPos);
 
     order[0]->setLaundryPiece(pos, n, price, article);
+
+    //type = tableWidgetLaundryOptions->item(row, col);
+    //QColor bgColor = type->background().color();
+    //qDebug() << "BackGroundColor: " << bgColor.red() << " " << bgColor.green() << " " << bgColor.blue();
+    //type->setBackground(Qt::green);
+
 
 }
 
@@ -1094,6 +1101,7 @@ void MainWindow::on_btnSaveEO_clicked(){
     if(!lineRackEO->text().isEmpty())
         orders[curOrderID].setRack(lineRackEO->text().toInt());
 
+    /*
     for(int row = 0; row < modelEO ->rowCount(); row++){
         QModelIndex indexPiece = modelEO->index(row, 2);
         QModelIndex indexN = modelEO->index(row, 0);
@@ -1104,9 +1112,8 @@ void MainWindow::on_btnSaveEO_clicked(){
         QVariant itemPrice = modelEO->data(indexPrice);
 
         temp = std::make_tuple(itemPiece.toString().toStdString(), itemN.toInt(), itemPrice.toDouble());
-
-
     }
+    */
 
     std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID);
     std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
@@ -1507,7 +1514,8 @@ int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::stri
 }
 
 void MainWindow::printReciept(){
-    int x = 50, y = 50;
+
+    int x = 50, y = 50, paperWidth, yInc = 50;
     size_t i, j;
     std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
     QPrintDialog printDialog(&printer, this);
@@ -1516,78 +1524,109 @@ void MainWindow::printReciept(){
     QPainter painter(&printer);
     QFont font = painter.font();
 
+    qDebug() << "Printer Name:" << printer.printerName();
 
     font.setPointSize(12);
     painter.setFont(font);
 
-    painter.drawText(200, y, QString::number(curOrderID));
-    y += 50;
+    paperWidth = printer.pageRect(QPrinter::Millimeter).width();
+    QFontMetrics fontMetrics(painter.font());
+    int txtWidthOrderID = fontMetrics.horizontalAdvance(QString::number(curOrderID));
+    int xOrderID = (paperWidth - txtWidthOrderID) / 2;
+
+
+
+    painter.drawText(xOrderID, y, QString::number(curOrderID));
+    y += yInc;
     painter.drawText(x, y, QString::fromStdString(customer[0]->getLastName()) + ", " + QString::fromStdString(customer[0]->getFirstName()));
-    y += 50;
+    y += yInc;
     painter.drawText(x, y, "Phone: " + QString::fromStdString(customer[0]->getFormattedPhone()));
-    y += 50;
+    y += yInc;
     font.setPointSize(9);
     painter.setFont(font);
     painter.drawText(x, y, "Drop Off: " + QString::fromStdString(order[0]->dropOff->dayOfWeekString()) + " " + QString::fromStdString(order[0]->dropOff->getDate_Time()));
-    y += 50;
+    y += yInc;
     painter.drawText(x, y, "Pick Up: " + QString::fromStdString(order[0]->pickUp->dayOfWeekString()) + " " + QString::fromStdString(order[0]->pickUp->getDate()));
-    y += 50;
+    y += yInc;
 
-    painter.drawText(x, y, "==============================");
-    y += 25;
+    painter.drawText(x, y, "======================");
+    yInc = 25;
+    y += yInc;
 
     if(calculatePieceTotal(laundry)){
         painter.drawText(x, y, "Laundry: ");
-        y += 25;
+        y += yInc;
 
         for(i = 0; i < laundry.size(); i++)
             if(laundry[i].empty() == false)
                 for(j = 0; j < laundry[i].size(); j++){
                     painter.drawText(x, y, QString::number(std::get<1>(laundry[i][j])) + "    " + QString::fromStdString(std::get<0>(laundry[i][j])) + "    " + QString::number(std::get<1>(laundry[i][j]) * std::get<2>(laundry[i][j])));
-                    y += 25;
+                    y += yInc;
                 }
-        y += 25;
+        y += yInc;
     }
 
     if(calculatePieceTotal(dryClean)){
         painter.drawText(x, y, "Dry Clean: ");
-        y += 25;
+        y += yInc;
 
         for(i = 0; i < dryClean.size(); i++)
             if(dryClean[i].empty() == false)
                 for(j = 0; j < dryClean[i].size(); j++){
                     painter.drawText(x, y, QString::number(std::get<1>(dryClean[i][j])) + "    " + QString::fromStdString(std::get<0>(dryClean[i][j])) + "    " + QString::number(std::get<1>(dryClean[i][j]) * std::get<2>(dryClean[i][j])));
-                    y += 25;
+                    y += yInc;
                 }
-        y += 25;
+        y += yInc;
     }
 
     if(calculatePieceTotal(alterations)){
         painter.drawText(x, y, "Alterations: ");
-        y += 25;
+        y += yInc;
 
         for(i = 0; i < alterations.size(); i++)
             if(alterations[i].empty() == false)
                 for(j = 0; j < alterations[i].size(); j++){
                     painter.drawText(x, y, QString::number(std::get<1>(alterations[i][j])) + "    " + QString::fromStdString(std::get<0>(alterations[i][j])) + "    " + QString::number(std::get<1>(alterations[i][j]) * std::get<2>(alterations[i][j])));
-                    y += 25;
+                    y += yInc;
                 }
-        y += 25;
+        y += yInc;
     }
 
-    painter.drawText(x, y, "==============================");
-    y += 50;
+    painter.drawText(x, y, "======================");
+    yInc = 50;
+    y += yInc;
 
     painter.drawText(x, y, "Total: " + QString::number(order[0]->getCost()));
-    y += 50;
+    y += yInc;
     if(order[0]->getPaid())
         painter.drawText(x, y, "Paid");
 
     y += 150;
     painter.drawText(x, y, "   ");
 
+
+    QByteArray cutCommand = "\x1D\x56\x42\x00";
+    //write(cutCommand);
+
     // End the printing process
     painter.end();
 
+    QByteArray escPosCommands;
+    escPosCommands.append(0x1B);   // ESC
+    escPosCommands.append('@');    // Initialize printer
+    escPosCommands.append("Thank you for shopping!\n");
+    escPosCommands.append(0x1B);   // ESC
+    escPosCommands.append('d');    // Print and feed n lines
+    escPosCommands.append(4);      // Feed 4 lines
+    escPosCommands.append(0x1B);   // ESC
+    escPosCommands.append('m');
+
+    QFile printerPort("/dev/usb/lp0");  // Replace with the appropriate path for your printer
+    if (printerPort.open(QIODevice::WriteOnly)) {
+        printerPort.write(escPosCommands);
+        printerPort.close();
+    } else {
+        qWarning() << "Unable to open printer port.";
+    }
 }
 

@@ -142,16 +142,17 @@ int Date::createDate() {
 }
 
 int Date::createTime() {
+    int hTemp = this->hour;
 
-    if(hour%12 == 0)
-        hour = 12;
+    if(hTemp%12 == 0)
+        hTemp = 12;
     else
-        hour %= 12;
+        hTemp %= 12;
 
     if (this->min < 10)
-        this->time = std::to_string(this->hour) + ":" + "0" + std::to_string(this->min) + this->am_pm;
+        this->time = std::to_string(hTemp) + ":" + "0" + std::to_string(this->min) + this->am_pm;
     else
-        this->time = std::to_string(this->hour) + ":" + std::to_string(this->min) + this->am_pm;
+        this->time = std::to_string(hTemp) + ":" + std::to_string(this->min) + this->am_pm;
 
     return 0;
 }

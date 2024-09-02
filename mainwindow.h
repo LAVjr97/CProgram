@@ -23,6 +23,9 @@
 #include <QPrinter>
 #include <QPainter>
 #include <QPrintDialog>
+#include <QColor>
+#include <QFile>
+#include <QIODevice>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
