@@ -199,7 +199,7 @@ private slots:
     //Order Search Results EO Page (17)
     void on_btnReturnOSREO_clicked();
     void on_tableViewOSREO_clicked(const QModelIndex &index);
-    /*
+    
     //Admin Page (18)
     void on_btnReturnAP_clicked();
     void on_btnCIP_clicked();
@@ -208,7 +208,7 @@ private slots:
     //Create Items And Price (19)
     void on_btnReturnCIP_clicked();
     void on_btnSaveCIP_clicked();
-*/
+
 
     //Help functions
     void clearScreenDP();
@@ -267,6 +267,8 @@ private:
     QLineEdit *linePhoneDP;
     QLineEdit *linePickUpDP;
     QLineEdit *lineOrderTotalDP;
+    QLineEdit *lineVisitsDP;
+    QLineEdit *linePieceTotalDP;
     QDateTimeEdit *dateDTDropOffDP;
     QDateTimeEdit *dateDTPickUpDP;
 
@@ -286,6 +288,7 @@ private:
     QLineEdit *linePhonePU;
     QLineEdit *lineOrderTotalPU;
     QLineEdit *lineRackPU;
+    QLineEdit *linePieceTotalPU;
     QDateTimeEdit *dateDTDropOffPU;
     QDateTimeEdit *dateDTPickUpPU;
 
@@ -305,6 +308,7 @@ private:
     QLineEdit *linePhoneEO;
     QLineEdit *lineOrderTotalEO;
     QLineEdit *lineRackEO;
+    QLineEdit *linePieceTotalEO;
     QDateTimeEdit *dateDTDropOffEO;
     QDateTimeEdit *dateDTPickUpEO;
 

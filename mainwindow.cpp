@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
     lineOrderIDDP = ui->lineOrderIDDP;
     linePhoneDP = ui->linePhoneDP;
     lineOrderTotalDP = ui->lineOrderTotalDP;
+    lineVisitsDP = ui->lineVisitsDP;
+    linePieceTotalDP = ui->linePieceTotalDP;
     checkBoxPaidDP = ui->checkBoxPaidDP;
 
     dateDTDropOffDP = ui->dateDTDropOffDP;
@@ -125,6 +127,7 @@ MainWindow::MainWindow(QWidget *parent)
     checkBoxPaidPU = ui->checkBoxPaidPU;
     dateDTDropOffPU = ui->dateDTDropOffPU;
     dateDTPickUpPU = ui->dateDTPickUpPU;
+    linePieceTotalPU = ui->linePieceTotalPU;
 
     modelPU = new QStandardItemModel(this);
     modelPU->setColumnCount(5);
@@ -183,6 +186,7 @@ MainWindow::MainWindow(QWidget *parent)
     checkBoxPaidEO = ui->checkBoxPaidEO;
     dateDTDropOffEO = ui->dateDTDropOffEO;
     dateDTPickUpEO = ui->dateDTPickUpEO;
+    linePieceTotalEO = ui->linePieceTotalEO;
 
     modelEO = new QStandardItemModel(this);
     modelEO->setColumnCount(5);
@@ -640,6 +644,7 @@ void MainWindow::on_btnLaundryReturn_clicked(){
     }
 
     updateModel(modelDP);
+    linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
     lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO()));
     showDropOffPage();
 }
@@ -749,6 +754,7 @@ void MainWindow::on_btnDryCleanReturn_clicked(){
     }
 
     updateModel(modelDP);
+    linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
     lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO()));
     showDropOffPage();
 }
@@ -850,6 +856,7 @@ void MainWindow::on_btnAlterationsReturn_clicked(){
     }
 
     updateModel(modelDP);
+    linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
     lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO()));
     showDropOffPage();
 }
@@ -1292,19 +1299,19 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
 //
 //***Admin Page (18)***
 //
-/*
-void MainWindow::on_btnReturnAP_clicked(){
 
+void MainWindow::on_btnReturnAP_clicked(){
+    showMainPage();
 }
 
 void MainWindow::on_btnCIP_clicked(){
-
+    showItemsAndPricePage();
 }
 
 void MainWindow::on_btnExportData_clicked(){
-
+    
 }
-*/
+
 //
 //***Create Items and Price (19)***
 //
@@ -1321,6 +1328,7 @@ void MainWindow::updateCOInformationDP(){
     linePhoneDP->setText(QString::fromStdString(customer[0]->getFormattedPhone()));
     lineCustomerIDDP->setText(QString::number(customer[0]->getCustomerID()));
     lineOrderIDDP->setText(QString::number(order[0]->getOrderID()));
+    lineVisitsDP->setText(QString::number(customer[0]->getVisit()));
 
     setDate(dateDTDropOffDP, dateDTPickUpDP);
 
@@ -1334,7 +1342,8 @@ void MainWindow::updateCOInformationPU(){
     linePhonePU->setText(QString::fromStdString(customer[0]->getFormattedPhone()));
     lineCustomerIDPU->setText(QString::number(customer[0]->getCustomerID()));
     lineOrderIDPU->setText(QString::number(order[0]->getOrderID()));
-
+//    linePieceTotalPU->setText(QString::number(order[0]->getPieceTotal()));
+    
     //Set Date
     setDate(dateDTDropOffPU, dateDTPickUpPU);
     dateDTDropOffPU->show();
@@ -1354,6 +1363,7 @@ void MainWindow::updateCOInformationEO(){
     linePhoneEO->setText(QString::fromStdString(customer[0]->getFormattedPhone()));
     lineCustomerIDEO->setText(QString::number(customer[0]->getCustomerID()));
     lineOrderIDEO->setText(QString::number(order[0]->getOrderID()));
+    linePieceTotalEO->setText(QString::number(order[0]->getPieceTotal()));
 
     //Set Date
     setDate(dateDTDropOffEO, dateDTPickUpEO);
@@ -1610,23 +1620,5 @@ void MainWindow::printReciept(){
 
     // End the printing process
     painter.end();
-
-    QByteArray escPosCommands;
-    escPosCommands.append(0x1B);   // ESC
-    escPosCommands.append('@');    // Initialize printer
-    escPosCommands.append("Thank you for shopping!\n");
-    escPosCommands.append(0x1B);   // ESC
-    escPosCommands.append('d');    // Print and feed n lines
-    escPosCommands.append(4);      // Feed 4 lines
-    escPosCommands.append(0x1B);   // ESC
-    escPosCommands.append('m');
-
-    QFile printerPort("/dev/usb/lp0");  // Replace with the appropriate path for your printer
-    if (printerPort.open(QIODevice::WriteOnly)) {
-        printerPort.write(escPosCommands);
-        printerPort.close();
-    } else {
-        qWarning() << "Unable to open printer port.";
-    }
 }
 

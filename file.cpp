@@ -13,7 +13,7 @@ void File::saveCustomers(cust::customer& customer){
     std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/customers.txt", std::ios::app);
 
     if (!ofs) {
-        std::cerr << "Error opening file to write to: " << this->customerFile << std::endl;
+        std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
         return;
     }
 
@@ -22,10 +22,10 @@ void File::saveCustomers(cust::customer& customer){
         << customer.getLastName() << ","
         << customer.getPhone() << ","
         << customer.getTotal() << ","
-        << customer.getVisit() << std::endl;
+        << customer.getVisit() << "\n";
     ofs.close();
 
-    std::cout << std::endl << "Successfully saved customer data..." << std::endl;
+    std::cout << "\n" << "Successfully saved customer data..." << "\n";
 }
 
 void File::loadCustomers(){
@@ -34,7 +34,7 @@ void File::loadCustomers(){
 
     std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/customers.txt");
     if (!ifs) {
-        std::cerr << "Error opening file to write to: " << this->customerFile << std::endl;
+        std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
         return;
     }
 
@@ -43,7 +43,7 @@ void File::loadCustomers(){
 
         std::getline(ss, temp, ',');
         id = std::stoi(temp);
-        std::cout << std::endl << id << std::endl;
+        std::cout << "\n" << id << "\n";
         std::getline(ss, firstName, ',');
         std::getline(ss, lastName, ',');
         std::getline(ss, phone, ',');
@@ -60,7 +60,7 @@ void File::loadCustomers(){
     }
 
     ifs.close();
-    std::cout << std::endl << "Successfully loaded customer data..." <<std::endl;
+    std::cout << "\n" << "Successfully loaded customer data..." <<"\n";
 
 }
 
@@ -75,7 +75,7 @@ void File::saveOrders(orderInfo::order &order){
     std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/orders.txt", std::ios::app);
 
     if (!ofs) {
-        std::cerr << "Error opening file to write to: " << this->orderFile << std::endl;
+        std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
         return;
     }
 
@@ -84,7 +84,8 @@ void File::saveOrders(orderInfo::order &order){
         << order.getCost() << ","
         << order.getRack() << ","
         << order.getPickUp() << ","
-        << order.getPaid() << ",";
+        << order.getPaid() << ","
+        << order.getPieceTotal() << ",";
 
     ofs << order.dropOff->getDay() << ","
         << order.dropOff->getMonth() << ","
@@ -100,8 +101,6 @@ void File::saveOrders(orderInfo::order &order){
         << order.pickUp->getMin() << ","
         << order.pickUp->getAm_Pm() << ",";
 
-
-    //Check chatgpt to see how delimiter works, fix delimiter and how data is being stored and how to read the ";"
 
     //Laundry
     ofs << outerVectorSize;
@@ -143,16 +142,16 @@ void File::saveOrders(orderInfo::order &order){
         }
     }
 
-    ofs << std::endl;
+    ofs << "\n";
 
     ofs.close();
 
-    std::cout << std::endl << "Successfully saved order data..." << std::endl;
+    std::cout << "\n" << "Successfully saved order data..." << "\n";
 
 }
 
 void File::loadOrders() {
-    int n, orderID, customerID, rack, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin;
+    int n, orderID, customerID, rack, pieceTotal, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin;
     double cost, price;
     size_t outersize, innersize, i, j;
     bool pickedUp, paid;
@@ -164,7 +163,7 @@ void File::loadOrders() {
     std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
 
     if (!ifs) {
-        std::cerr << "Error opening file to write to: " << this->orderFile << std::endl;
+        std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
         return;
     }
 
@@ -183,6 +182,8 @@ void File::loadOrders() {
         pickedUp = std::stoi(temp);
         std::getline(ss, temp, ',');
         paid = std::stoi(temp);
+        std::getline(ss, temp, ',');
+        pieceTotal = std::stoi(temp);
 
         std::getline(ss, temp, ',');
         dropOffDay = std::stoi(temp);
@@ -264,12 +265,12 @@ void File::loadOrders() {
             }
         }
 
-        orders.emplace_back(orderID, customerID, cost, rack, pickedUp, paid, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, laundry, dryClean, alterations);
+        orders.emplace_back(orderID, customerID, cost, rack, pickedUp, paid, pieceTotal, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, laundry, dryClean, alterations);
     }
 
     ifs.close();
 
-    std::cout << std::endl << "Successfully loaded order data..." << std::endl;
+    std::cout << "\n" << "Successfully loaded order data..." << "\n";
 
 }
 
@@ -287,12 +288,12 @@ void File::updateOrder(const int id){
     std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/temp.txt");
 
     if (!ifs) {
-        std::cerr << "Error opening file to write to: " << this->customerFile << std::endl;
+        std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
         return;
     }
 
     if (!tempF) {
-        std::cerr << "Error opening file to write to: " << this->tempFile << std::endl;
+        std::cerr << "Error opening file to write to: " << this->tempFile << "\n";
         return;
     }
 
@@ -308,7 +309,8 @@ void File::updateOrder(const int id){
                     << orders[id].getCost() << ","
                     << orders[id].getRack() << ","
                     << orders[id].getPickUp() << ","
-                    << orders[id].getPaid() << ",";
+                    << orders[id].getPaid() << ","
+                    << orders[id].getPieceTotal() << ",";
 
             tempF   << orders[id].dropOff->getDay() << ","
                     << orders[id].dropOff->getMonth() << ","
@@ -363,10 +365,10 @@ void File::updateOrder(const int id){
                 }
             }
 
-            tempF << std::endl;
+            tempF << "\n";
         }
         else
-            tempF << line << std::endl;
+            tempF << line << "\n";
     }
 
     ifs.close();
@@ -390,11 +392,11 @@ void File::updateCustomer(const int id) {
     std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/temp.txt");
 
     if (!ifs) {
-        std::cerr << "Error opening file to write to: " << this->customerFile << std::endl;
+        std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
         return;
     }
     if (!tempF) {
-        std::cerr << "Error opening file to write to: " << this->tempFile << std::endl;
+        std::cerr << "Error opening file to write to: " << this->tempFile << "\n";
         return;
     }
 
@@ -415,10 +417,10 @@ void File::updateCustomer(const int id) {
 
             for (int i = 0; i < customers[id].getOrderSize(); i++)
                 tempF << "," << customers[id].getOrderID(i);
-            tempF << std::endl;
+            tempF << "\n";
         }
         else
-            tempF << line << std::endl;
+            tempF << line << "\n";
     }
 
     ifs.close();
@@ -435,9 +437,105 @@ void File::updateCustomer(const int id) {
 }
 
 
+void File::savePrices() const{
+    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/customers.txt", std::ios::app);
+    size_t outerVectorSize, innerVectorSize;
+    if(!ofs){
+        std::cerr << "Error opening file to write to: ";
+        return;
+    }
+
+    outerVectorSize = laundryPrices.size();
+    ofs << outerVectorSize;
+    for(const auto &innerVector : laundryPrices){
+        innerVectorSize = innerVector.size();
+        ofs << "," << innerVectorSize;
+        for(const auto& pair : innerVector){
+            ofs << "," << pair.first
+                << "," << pair.second;
+        }
+    }
+
+    ofs << "," << "DC" << ";";
+
+    outerVectorSize = dryCleanPrices.size();
+    ofs << outerVectorSize;
+    for(const auto &innerVector : dryCleanPrices){
+        innerVectorSize = innervector.size();
+        ofs << "," << innerVectorSize;
+        for(const auto& pair : innerVector){
+            ofs << "," << pair.first
+                << "," << pair.second;
+        }
+    }
+
+    ofs << "," << "ALT" << ";";
+    outerVectorSize = alterationsPrices.size();
+    ofs << outerVectorSize;
+    for(const auto &innerVector : alterationsPrices){
+        innerVectorSize = innervector.size();
+        ofs << "," << innerVectorSize;
+        for(const auto& pair : innerVector){
+            ofs << "," << pair.first
+                << "," << pair.second;
+        }
+    }
+    
+    ofs << "\n";
+
+    
+    outerVectorSize = laundryPos.size();
+    ofs << outerVectorSize;
+    for(const auto &tuple : laundryPos){
+        ofs << "," << std::get<0>(tuple)
+            << "," << std::get<1>(tuple)
+            << "," << std::get<2>(tuple);
+    }
+
+    outerVectorSize = laundryPos.size();
+    ofs << outerVectorSize;
+    for(const auto &tuple : laundryPos){
+        ofs << "," << std::get<0>(tuple)
+            << "," << std::get<1>(tuple)
+            << "," << std::get<2>(tuple);
+    }
+
+    outerVectorSize = laundryPos.size();
+    ofs << outerVectorSize;
+    for(const auto &tuple : laundryPos){
+        ofs << "," << std::get<0>(tuple)
+            << "," << std::get<1>(tuple)
+            << "," << std::get<2>(tuple);
+    }
+
+    ofs.close();
+
+    std::cout << "\n" << "Successfully saved price data..." << "\n";
+
+}
+
+void File::loadPrices(){
+    int rPos, lPos;
+    double price;
+    std::string line, piece;
+    std::ifstream("C:/Code/repos/LAVjr97/CProgram/orders.txt")
+
+    if(!ifs){
+        std::cerr << "Error opening file to write to: " << "\n";
+        return;
+    }
+
+    while(std::getline(ifs, line)){
+        std::stringstream ss(line);
+
+        std::getline(ss, temp, ",");
+
+        
+    }
+}
+
 
 //Get functions
-
 std::string File::getCustomerFile() const{
     return this->customerFile;
 }

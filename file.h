@@ -30,7 +30,10 @@ namespace fi{
 
             //Prices
             void savePrices();
+            void savePos();
+
             void loadPrices();
+            void loadPos();
 
             //Get Functions
             std::string getCustomerFile() const;
@@ -44,9 +47,14 @@ namespace fi{
             std::vector<cust::customer> &customers;
             std::vector<orderInfo::order> &orders;
 
-            std::vector<std::vector<std::pair<std::string, double>>> laundryPrices;
-            std::vector<std::vector<std::pair<std::string, double>>> dryCleanPrices;
-            std::vector<std::vector<std::pair<std::string, double>>> alterationsPrices;
+            std::vector<std::vector<std::pair<std::string, double>>> &laundryPrices;
+            std::vector<std::vector<std::pair<std::string, double>>> &dryCleanPrices;
+            std::vector<std::vector<std::pair<std::string, double>>> &alterationsPrices;
+
+            std::vector<std::tuple<std::string, int, int>> &laundryPos;
+            std::vector<std::tuple<std::string, int, int>> &dryCleanPos;
+            std::vector<std::tuple<std::string, int, int>> &alterationsPos;
+
 
     };
 

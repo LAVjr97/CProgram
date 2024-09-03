@@ -15,15 +15,13 @@ namespace orderInfo{
 
             //Loads orders at the start of program
             order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations);
-            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
+            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
 
             ~order();
 
             //Get functions, set to const to insure that data isn't being changed
             int getCustomerID() const;
             int getOrderID() const;
-            //std::string getDropOffDate() const;
-            //std::string getPickUpDate() const;
             std::vector<std::vector<std::pair<int, double>>> getDetails() const;
             std::vector<std::vector<std::tuple<std::string, int, double>>> getLaundry() const;
             std::tuple<std::string, int, double>* getLaundryTup(int pos, std::string);
@@ -50,11 +48,10 @@ namespace orderInfo{
             int getRack() const;
             bool getPickUp() const;
             bool getPaid() const;
+            int getPieceTotal() const;
 
             //Set functions
             int setCustomerID(int id);
-            //int setDropOffDate(std::string date);
-            //int setPickUpDate(std::string date);
             int setDetails(std::vector<std::vector<std::pair<int, double>>> laundry);
             void setDetails(std::vector<std::vector<std::tuple<std::string, int, double>>> laundry);
             bool setLaundryPiece(int pos, int n, double price);
@@ -75,16 +72,16 @@ namespace orderInfo{
             int setRack(int rack);
             int setPickUp(bool pickUp);
             int setPaid(bool paid);
+            void setPieceTotal();
 
             //Helper functions
             double calculateCost();
             double calculateCostO();
+            int calculatePieceTotal();
 
             //order& operator=(const order& other);
 
             //Serialize
-            void serialize(std::ofstream& ofs) const;
-            static order deserialize(std::ifstream& ifs);
 
             //Dates
             date::Date* dropOff;
@@ -108,6 +105,7 @@ namespace orderInfo{
             int rackNumber;
             bool pickedUp;
             bool paid;
+            int pieceTotal;
 
 
     };
