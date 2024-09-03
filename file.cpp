@@ -530,6 +530,7 @@ void File::loadPrices(){
 
         std::getline(ss, temp, ",");
 
+        std::getline(ss, temp, ",");
         
     }
 }
