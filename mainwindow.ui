@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>8</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -166,7 +166,7 @@
        <item row="0" column="1">
         <layout class="QFormLayout" name="formLayoutDate">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblDropOffDP">
@@ -187,7 +187,7 @@
             <bool>true</bool>
            </property>
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+            <enum>QAbstractSpinBox::NoButtons</enum>
            </property>
            <property name="dateTime">
             <datetime>
@@ -256,7 +256,7 @@
        <item row="0" column="0">
         <layout class="QFormLayout" name="formLayoutCustomer">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblFNameDP">
@@ -271,10 +271,10 @@
             <cursorShape>ArrowCursor</cursorShape>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::FocusPolicy::NoFocus</enum>
+            <enum>Qt::NoFocus</enum>
            </property>
            <property name="inputMethodHints">
-            <set>Qt::InputMethodHint::ImhNone</set>
+            <set>Qt::ImhNone</set>
            </property>
            <property name="frame">
             <bool>false</bool>
@@ -297,7 +297,7 @@
             <cursorShape>ArrowCursor</cursorShape>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::FocusPolicy::NoFocus</enum>
+            <enum>Qt::NoFocus</enum>
            </property>
            <property name="frame">
             <bool>false</bool>
@@ -320,7 +320,7 @@
             <cursorShape>ArrowCursor</cursorShape>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::FocusPolicy::NoFocus</enum>
+            <enum>Qt::NoFocus</enum>
            </property>
            <property name="frame">
             <bool>false</bool>
@@ -335,7 +335,7 @@
        <item row="0" column="2">
         <layout class="QFormLayout" name="formLayoutID">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblCustomerIDDP">
@@ -350,7 +350,7 @@
             <cursorShape>ArrowCursor</cursorShape>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::FocusPolicy::NoFocus</enum>
+            <enum>Qt::NoFocus</enum>
            </property>
            <property name="frame">
             <bool>false</bool>
@@ -373,7 +373,7 @@
             <cursorShape>ArrowCursor</cursorShape>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::FocusPolicy::NoFocus</enum>
+            <enum>Qt::NoFocus</enum>
            </property>
            <property name="frame">
             <bool>false</bool>
@@ -443,7 +443,7 @@
          <item>
           <widget class="Line" name="line_3">
            <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -471,7 +471,7 @@
          <item>
           <widget class="Line" name="line_2">
            <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -501,14 +501,14 @@
        <item>
         <widget class="Line" name="line_4">
          <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayoutSaveDP">
          <property name="sizeConstraint">
-          <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+          <enum>QLayout::SetFixedSize</enum>
          </property>
          <item>
           <widget class="QPushButton" name="btnSaveDP">
@@ -535,7 +535,7 @@
          <item>
           <widget class="Line" name="line">
            <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -560,6 +560,20 @@
            </property>
           </widget>
          </item>
+         <item>
+          <layout class="QFormLayout" name="formLayoutPieceTotalDP">
+           <item row="0" column="0">
+            <widget class="QLabel" name="lblPieceTotalDP">
+             <property name="text">
+              <string>Piece Total:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="linePieceTotalDP"/>
+           </item>
+          </layout>
+         </item>
         </layout>
        </item>
        <item>
@@ -577,7 +591,7 @@
             <cursorShape>ArrowCursor</cursorShape>
            </property>
            <property name="focusPolicy">
-            <enum>Qt::FocusPolicy::NoFocus</enum>
+            <enum>Qt::NoFocus</enum>
            </property>
            <property name="frame">
             <bool>false</bool>
@@ -588,28 +602,6 @@
           </widget>
          </item>
         </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="formLayoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>570</y>
-        <width>160</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="formLayout_5">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Piece Total:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="linePieceTotal"/>
        </item>
       </layout>
      </widget>
@@ -644,10 +636,10 @@
        <item>
         <layout class="QFormLayout" name="formLayout_2">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <property name="formAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblLNameCS">
@@ -727,7 +719,7 @@
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="editTriggers">
-       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <property name="showGrid">
        <bool>false</bool>
@@ -752,7 +744,7 @@
       </property>
       <layout class="QFormLayout" name="formLayoutCustomerNC">
        <property name="labelAlignment">
-        <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
        <item row="0" column="0">
         <widget class="QLabel" name="lblFNameNC">
@@ -1004,7 +996,7 @@
        <item row="0" column="1">
         <layout class="QFormLayout" name="formLayoutDatePU">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblDropOffPU">
@@ -1049,7 +1041,7 @@
             <bool>true</bool>
            </property>
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+            <enum>QAbstractSpinBox::NoButtons</enum>
            </property>
           </widget>
          </item>
@@ -1059,7 +1051,7 @@
             <bool>true</bool>
            </property>
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+            <enum>QAbstractSpinBox::NoButtons</enum>
            </property>
           </widget>
          </item>
@@ -1068,7 +1060,7 @@
        <item row="0" column="0">
         <layout class="QFormLayout" name="formLayoutCustomerPU">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblFNamePU">
@@ -1135,7 +1127,7 @@
        <item row="0" column="2">
         <layout class="QFormLayout" name="formLayoutIDPU">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblCustomerIDPU">
@@ -1227,7 +1219,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayoutSavePU">
          <property name="sizeConstraint">
-          <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+          <enum>QLayout::SetFixedSize</enum>
          </property>
          <item>
           <widget class="QPushButton" name="btnSavePU">
@@ -1260,6 +1252,20 @@
             <string>Cancel</string>
            </property>
           </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayoutPieceTotalPU">
+         <item row="0" column="0">
+          <widget class="QLabel" name="lblPieceTotalPU">
+           <property name="text">
+            <string>Piece Total:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="linePieceTotalPU"/>
          </item>
         </layout>
        </item>
@@ -1345,10 +1351,10 @@
        <item>
         <layout class="QFormLayout" name="formLayout_4">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <property name="formAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblLNameCSPU">
@@ -1418,10 +1424,10 @@
        <item>
         <layout class="QFormLayout" name="formLayoutOS">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <property name="formAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblOrderIDOS">
@@ -1507,7 +1513,7 @@
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="editTriggers">
-       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <property name="showGrid">
        <bool>false</bool>
@@ -1550,7 +1556,7 @@
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="editTriggers">
-       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <property name="showGrid">
        <bool>false</bool>
@@ -1634,7 +1640,7 @@
        <item row="0" column="1">
         <layout class="QFormLayout" name="formLayoutDateEO">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblDropOffEO">
@@ -1679,7 +1685,7 @@
             <bool>true</bool>
            </property>
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+            <enum>QAbstractSpinBox::NoButtons</enum>
            </property>
           </widget>
          </item>
@@ -1689,7 +1695,7 @@
             <bool>true</bool>
            </property>
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+            <enum>QAbstractSpinBox::NoButtons</enum>
            </property>
           </widget>
          </item>
@@ -1698,7 +1704,7 @@
        <item row="0" column="0">
         <layout class="QFormLayout" name="formLayoutCustomerEO">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblFNameEO">
@@ -1765,7 +1771,7 @@
        <item row="0" column="2">
         <layout class="QFormLayout" name="formLayoutIEO">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblCustomerIDEO">
@@ -1844,7 +1850,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayoutSaveEO">
          <property name="sizeConstraint">
-          <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+          <enum>QLayout::SetFixedSize</enum>
          </property>
          <item>
           <widget class="QPushButton" name="btnSaveEO">
@@ -1877,6 +1883,20 @@
             <string>Cancel</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <layout class="QFormLayout" name="formLayoutPieceTotalEO">
+           <item row="0" column="0">
+            <widget class="QLabel" name="lblPieceTotalEO">
+             <property name="text">
+              <string>Piece Total:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="linePieceTotalEO"/>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
@@ -1918,10 +1938,10 @@
        <item>
         <layout class="QFormLayout" name="formLayoutEO_3">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <property name="formAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblOrderIDEO_2">
@@ -2007,10 +2027,10 @@
        <item>
         <layout class="QFormLayout" name="formLayoutEO_2">
          <property name="labelAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <property name="formAlignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="lblLNameCSEO">
@@ -2080,7 +2100,7 @@
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="editTriggers">
-       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <property name="showGrid">
        <bool>false</bool>
@@ -2123,7 +2143,7 @@
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="editTriggers">
-       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+       <set>QAbstractItemView::NoEditTriggers</set>
       </property>
       <property name="showGrid">
        <bool>false</bool>

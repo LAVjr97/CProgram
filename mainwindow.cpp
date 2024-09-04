@@ -1342,7 +1342,7 @@ void MainWindow::updateCOInformationPU(){
     linePhonePU->setText(QString::fromStdString(customer[0]->getFormattedPhone()));
     lineCustomerIDPU->setText(QString::number(customer[0]->getCustomerID()));
     lineOrderIDPU->setText(QString::number(order[0]->getOrderID()));
-//    linePieceTotalPU->setText(QString::number(order[0]->getPieceTotal()));
+    linePieceTotalPU->setText(QString::number(order[0]->getPieceTotal()));
     
     //Set Date
     setDate(dateDTDropOffPU, dateDTPickUpPU);

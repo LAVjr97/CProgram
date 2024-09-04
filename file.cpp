@@ -437,7 +437,7 @@ void File::updateCustomer(const int id) {
 }
 
 
-void File::savePrices() const{
+void File::savePrices(){
     std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/customers.txt", std::ios::app);
     size_t outerVectorSize, innerVectorSize;
     if(!ofs){
@@ -461,7 +461,7 @@ void File::savePrices() const{
     outerVectorSize = dryCleanPrices.size();
     ofs << outerVectorSize;
     for(const auto &innerVector : dryCleanPrices){
-        innerVectorSize = innervector.size();
+        innerVectorSize = innerVector.size();
         ofs << "," << innerVectorSize;
         for(const auto& pair : innerVector){
             ofs << "," << pair.first
@@ -473,7 +473,7 @@ void File::savePrices() const{
     outerVectorSize = alterationsPrices.size();
     ofs << outerVectorSize;
     for(const auto &innerVector : alterationsPrices){
-        innerVectorSize = innervector.size();
+        innerVectorSize = innerVector.size();
         ofs << "," << innerVectorSize;
         for(const auto& pair : innerVector){
             ofs << "," << pair.first
@@ -515,24 +515,110 @@ void File::savePrices() const{
 }
 
 void File::loadPrices(){
-    int rPos, lPos;
+    int rPos, lPos, outerSize, innerSize, i, j;
     double price;
-    std::string line, piece;
-    std::ifstream("C:/Code/repos/LAVjr97/CProgram/orders.txt")
+    std::string line, piece, temp;
+    //std::vector<std::vector<std::pair<std::string, double>>> laundryPrices, dryCleanPrices, alterationsPrices;
+    //std::vector<std::tuple<std::string, int, int>> laundryPos, dryCleanPos, alterationsPos;
+    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
 
     if(!ifs){
         std::cerr << "Error opening file to write to: " << "\n";
         return;
     }
 
-    while(std::getline(ifs, line)){
-        std::stringstream ss(line);
+    std::getline(ifs, line);
 
-        std::getline(ss, temp, ",");
-
-        std::getline(ss, temp, ",");
-        
+    std::stringstream ss(line);
+    std::getline(ss, temp, ',');
+    outerSize = std::stoi(temp);
+    laundryPrices.resize(outerSize);
+    for(i = 0; i < outerSize; i++){
+        std::getline(ss, temp, ',');
+        innerSize = std::stoi(temp);
+        laundryPrices[i].resize(innerSize);
+        for(j = 0; j < innerSize; j++){
+            std::getline(ss, piece, ',');
+            std::getline(ss, temp, ',');
+            price = std::stod(temp);
+            laundryPrices[i][j] = std::make_pair(piece, price);
+        }
     }
+
+    std::getline(ss, temp, ';');
+    std::getline(ss, temp, ',');
+    outerSize = std::stoi(temp);
+    dryCleanPrices.resize(outerSize);
+    for(i = 0; i < outerSize; i++){
+        std::getline(ss, temp, ',');
+        innerSize = std::stoi(temp);
+        dryCleanPrices[i].resize(innerSize);
+        for(j = 0; j < innerSize; j++){
+            std::getline(ss, piece, ',');
+            std::getline(ss, temp, ',');
+            price = std::stod(temp);
+            dryCleanPrices[i][j] = std::make_pair(piece, price);
+        }
+    }
+
+    std::getline(ss, temp, ';');
+    std::getline(ss, temp, ',');
+    outerSize = std::stoi(temp);
+    alterationsPrices.resize(outerSize);
+    for(i = 0; i < outerSize; i++){
+        std::getline(ss, temp, ',');
+        innerSize = std::stoi(temp);
+        alterationsPrices[i].resize(innerSize);
+        for(j = 0; j < innerSize; j++){
+            std::getline(ss, piece, ',');
+            std::getline(ss, temp, ',');
+            price = std::stod(temp);
+            alterationsPrices[i][j] = std::make_pair(piece, price);
+        }
+    }
+
+    std::getline(ifs, line);
+    std::stringstream ss(line);
+
+    std::getline(ss, temp, ',');
+    outerSize = std::stoi(temp);
+    laundryPos.resize(outerSize);
+    for(i = 0; i < outerSize; i++){
+        std::getline(ss, piece, ',');
+        std::getline(ss, temp, ',');
+        rPos = std::stoi(temp);
+        std::getline(ss, temp, ',');
+        lPos = std::stoi(temp);
+        laundryPos[i] = std::make_tuple(piece, rPos, lPos);
+    }
+
+    std::getline(ss, temp, ',');
+    outerSize = std::stoi(temp);
+    dryCleanPos.resize(outerSize);
+    for(i = 0; i < outerSize; i++){
+        std::getline(ss, piece, ',');
+        std::getline(ss, temp, ',');
+        rPos = std::stoi(temp);
+        std::getline(ss, temp, ',');
+        lPos = std::stoi(temp);
+        dryCleanPos[i] = std::make_tuple(piece, rPos, lPos);
+    }
+
+    std::getline(ss, temp, ',');
+    outerSize = std::stoi(temp);
+    alterationsPos.resize(outerSize);
+    for(i = 0; i < outerSize; i++){
+        std::getline(ss, piece, ',');
+        std::getline(ss, temp, ',');
+        rPos = std::stoi(temp);
+        std::getline(ss, temp, ',');
+        lPos = std::stoi(temp);
+        alterationsPos[i] = std::make_tuple(piece, rPos, lPos);
+    }
+    
+    ifs.close();
+
+    std::cout << "\n" << "Successfully loaded price data..." << "\n";
 }
 
 

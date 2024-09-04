@@ -30,10 +30,7 @@ namespace fi{
 
             //Prices
             void savePrices();
-            void savePos();
-
             void loadPrices();
-            void loadPos();
 
             //Get Functions
             std::string getCustomerFile() const;
