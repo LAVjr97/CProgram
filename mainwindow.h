@@ -382,7 +382,11 @@ private:
     //
     //Create Items and Price Page()
     //
-    QTableWidget *tableWidgetCIP;
+    QTableWidget *tableWidgetLaundryCIP;
+    QTableWidget *tableWidgetDryCleanCIP;
+    QTableWidget *tableWidgetAlterationsCIP;
+
+
     QStandardItemModel *modelCIP;
 
 

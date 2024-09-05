@@ -234,8 +234,18 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //
     //
-    modelCIP = new QStanardItemModel(this);
-    tableWidgetCIP = ui->tableWidgetCIP;
+    //modelCIP = new QStanardItemModel(this);
+    tableWidgetLaundryCIP = ui->tableWidgetLaundryCIP;
+    tableWidgetLaundryCIP->setRowCount(lPrices);
+    tableWidgetLaundryCIP->setColumnCount(2);
+
+    tableWidgetDryCleanCIP = ui->tableWidgetDryCleanCIP;
+    tableWidgetDryCleanCIP->setRowCount(dcPrices);
+    tableWidgetDryCleanCIP->setColumnCount(2);
+
+    tableWidgetAlterationsCIP = ui->tableWidgetAlterationsCIP;
+    tableWidgetAlterationsCIP->setRowCount(aPrices);
+
     //tableWidgetCIP->setRowCount();
 }
 
