@@ -379,5 +379,12 @@ private:
     QTableView *tableViewOSREO;
     QStandardItemModel *modelOSREO;
 
+    //
+    //Create Items and Price Page()
+    //
+    QTableWidget *tableWidgetCIP;
+    QStandardItemModel *modelCIP;
+
+
 };
 #endif // MAINWINDOW_H

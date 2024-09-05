@@ -231,8 +231,12 @@ MainWindow::MainWindow(QWidget *parent)
     tableViewOSREO->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     tableViewOSREO -> setSelectionBehavior(QAbstractItemView::SelectRows);
 
-
-
+    //
+    //
+    //
+    modelCIP = new QStanardItemModel(this);
+    tableWidgetCIP = ui->tableWidgetCIP;
+    //tableWidgetCIP->setRowCount();
 }
 
 MainWindow::~MainWindow()
