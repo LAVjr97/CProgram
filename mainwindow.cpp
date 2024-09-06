@@ -18,24 +18,31 @@ MainWindow::MainWindow(QWidget *parent)
     //Setting up database
     std::string customerFile = "C:/Code/repos/LAVjr97/CProgram/customers.txt";
     std::string orderFile = "C:/Code/repos/LAVjr97/CProgram/orders.txt";
+    std::string priceFile = "C:/Code/repos/LAVjr97/CProgram/price.txt";
     std::string tempFile = "C:/Code/repos/LAVjr97/CProgram/temp.txt";
+    
 
-    manager = new fi::File(customerFile, orderFile, tempFile, this->customers, this->orders);
+    manager = new fi::File(customerFile, orderFile, priceFile, tempFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos);
 
     //Indepently load up customers and orders
     std::thread threadCust(&fi::File::loadCustomers, manager);
     std::thread threadOrder(&fi::File::loadOrders, manager);
+    std::thread threadPrices(&fi::File::loadPrices, manager);
+
     threadCust.join();
     threadOrder.join();
-
+    threadPrices.join();
+    /*
     laundryPrices = {{{"Pants", 4.99}, {"Jeans", 4.59}}, {{"Shirts", 3.99},{"T-Shirts", 3.49}}};
     dryCleanPrices = {{{"Pants", 6.99}, {"Jeans", 5.59}}, {{"Shirts", 4.99},{"T-Shirts", 4.49}}};
     alterationsPrices = {{{"Pants", 3.99}, {"Jeans", 3.59}}, {{"Shirts", 2.99},{"T-Shirts", 1.49}}};
 
     laundryPos = {{"Pants", 0, 2}, {"Shirts", 3, 5}};
-    dryCleanPos = {{"Pants", 0, 2}, {"Shirts", 3, 5}}; //only 2 pants but because of the label, it increaseses by 1 for every type
-    alterationsPos = {{"Pants", 0, 2}, {"Shirts", 3, 4}};
+    dryCleanPos = {{"Pants", 0, 2}, {"Shirts", 3, 5}}; //only 2 pants but because of the label, it increaseses by 1 for every type, so if there are 2 pieces in a type of article, then theres 3 "pieces"
+    alterationsPos = {{"Pants", 0, 2}, {"Shirts", 3, 5}};
 
+    manager->savePrices();
+    */
     curOrderID = 0;
 
     //Everything after this point is GUI related
@@ -236,17 +243,16 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //modelCIP = new QStanardItemModel(this);
     tableWidgetLaundryCIP = ui->tableWidgetLaundryCIP;
-    tableWidgetLaundryCIP->setRowCount(lPrices);
+    tableWidgetLaundryCIP->setRowCount(lPrices + laundryPrices.size());
     tableWidgetLaundryCIP->setColumnCount(2);
 
     tableWidgetDryCleanCIP = ui->tableWidgetDryCleanCIP;
-    tableWidgetDryCleanCIP->setRowCount(dcPrices);
+    tableWidgetDryCleanCIP->setRowCount(dcPrices + dryCleanPrices.size());
     tableWidgetDryCleanCIP->setColumnCount(2);
 
     tableWidgetAlterationsCIP = ui->tableWidgetAlterationsCIP;
-    tableWidgetAlterationsCIP->setRowCount(aPrices);
-
-    //tableWidgetCIP->setRowCount();
+    tableWidgetAlterationsCIP->setRowCount(aPrices + alterationsPrices.size());
+    tableWidgetAlterationsCIP->setColumnCount(2);
 }
 
 MainWindow::~MainWindow()
@@ -359,6 +365,10 @@ void MainWindow::on_btnEditOrder_clicked(){
     dateDTDropOffEO->hide();
     dateDTPickUpEO->hide();
     showEditOrderPage();
+}
+
+void MainWindow::on_btnAdmin_clicked(){
+    showAdminPage();
 }
 
 
@@ -746,13 +756,16 @@ void MainWindow::on_btnDryCleanReturn_clicked(){
     QSpinBox *spinBox;
     bool empty = true;
 
+    //If the model is empty and a customer hasn't been selected
     if(modelDP->rowCount() == 0 && lineFNameDP->text().isEmpty()){
         showDropOffPage();
         return;
     }
 
+    //Checks every row, to see if an article has been added
     for(int row = 0; row < tableWidgetDryCleanOptions->rowCount(); row++){
         spinBox = qobject_cast<QSpinBox*>(tableWidgetDryCleanOptions->cellWidget(row, 1));
+        //Skips the row that has a label
         if(spinBox == nullptr)
             continue;
 
@@ -1319,6 +1332,7 @@ void MainWindow::on_btnReturnAP_clicked(){
 }
 
 void MainWindow::on_btnCIP_clicked(){
+    setUpCIPPage();
     showItemsAndPricePage();
 }
 
@@ -1329,6 +1343,116 @@ void MainWindow::on_btnExportData_clicked(){
 //
 //***Create Items and Price (19)***
 //
+void MainWindow::on_btnReturnCIP_clicked(){
+    tableWidgetDryCleanCIP->clear();
+    showAdminPage();
+}
+
+void MainWindow::on_btnSaveCIP_clicked(){
+
+    saveTableCIP(laundryPrices, laundryPos, tableWidgetLaundryCIP);
+    saveTableCIP(dryCleanPrices, dryCleanPos, tableWidgetDryCleanCIP);
+    saveTableCIP(alterationsPrices, alterationsPos, tableWidgetAlterationsCIP);
+
+    manager->savePrices();
+    showAdminPage();
+}
+
+
+void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget){
+    size_t row, pieceI = 0, typeI = 0, index;
+    double price;
+    std::string piece;
+    QDoubleSpinBox *dSpinBox;
+    QLineEdit *linePiece;
+
+    for(row = 0; row < tableWidget->rowCount(); row++){
+        dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 1));
+        if(dSpinBox == nullptr){
+            pieceI = 0;
+            if(row != 0)
+                typeI++;
+            continue;
+        }
+
+        price = dSpinBox->value();
+
+        linePiece = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 0));
+        piece = linePiece->text().toStdString();
+
+        if(linePiece->text().isEmpty() && price != 0){
+            tableWidget->removeRow(row);
+            index = getIndex(row, pos); //interchange typeI and index, might be the same values. UPDATE: Index is giving the incorrext postion, either typeI or pieceI are wrong
+            if(removeItemPrice(index, prices, piece, price))
+                removeIndex(index, pos);
+            row--;
+            continue;
+        }
+
+        if(piece != prices[typeI][pieceI].first){
+            prices[typeI][pieceI].first = piece;
+            if(pieceI == 0)
+                std::get<0>(pos[typeI]) = piece;
+        }
+
+        if(price != prices[typeI][pieceI].second)
+            prices[typeI][pieceI].second = price;
+
+        pieceI++;
+    }
+
+}
+
+
+void MainWindow::setUpCIPPage(){
+    setUpTableWidgetsCIP(laundryPrices, tableWidgetLaundryCIP);
+    setUpTableWidgetsCIP(dryCleanPrices, tableWidgetDryCleanCIP);
+    setUpTableWidgetsCIP(alterationsPrices, tableWidgetAlterationsCIP);
+}
+
+void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, QTableWidget *tableWidget){
+    size_t row = 0, i, j;
+    QFont font;
+
+    for(i = 0; i < prices.size(); i++)
+        for(j = 0; j < prices[i].size(); j++){
+            if(j == 0){
+                QLabel *label = new QLabel(QString::fromStdString(prices[i][j].first));
+                label->setAlignment(Qt::AlignCenter);
+                font = label->font();
+                font.setBold(true);
+                label->setFont(font);
+
+                tableWidget->setCellWidget(row, 0, label);
+                row++;
+            }
+
+            QLineEdit *piece = new QLineEdit(QString::fromStdString(prices[i][j].first), nullptr);
+            piece->setAlignment(Qt::AlignCenter);
+
+            QDoubleSpinBox *price = new QDoubleSpinBox(tableWidget);
+            price->setDecimals(2);
+            price->setValue(prices[i][j].second);
+
+            tableWidget->setCellWidget(row, 0, piece);
+            tableWidget->setCellWidget(row, 1, price);
+            row++;
+
+            if(j == prices[i].size() - 1){
+                QLineEdit *newPiece = new QLineEdit(tableWidget);
+                newPiece->setAlignment(Qt::AlignCenter);
+
+                QDoubleSpinBox *newPrice = new QDoubleSpinBox(tableWidget);
+                newPrice->setDecimals(2);
+                newPrice->setValue(0.00);
+
+                tableWidget->setCellWidget(row, 0, newPiece);
+                tableWidget->setCellWidget(row, 1, newPrice);
+
+                row++;
+            }
+        }
+}
 
 
 
@@ -1503,6 +1627,7 @@ std::string MainWindow::getTypeName(int curRow, std::vector<std::tuple<std::stri
     return typeName;
 }
 
+//index for articleType, so like pants type, shirt type etc...
 size_t MainWindow::getIndex(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos){
     size_t i;
 
@@ -1511,6 +1636,37 @@ size_t MainWindow::getIndex(int curRow, std::vector<std::tuple<std::string, int,
             return i;
 
     return NULL;
+}
+
+bool MainWindow::removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string piece, double price){
+    size_t i;
+
+    for(i = 0; i < prices[index].size(); i++){
+        if(prices[index][i].first == piece && prices[index][i].second == price){
+            prices[index].erase(prices[index].begin() + i);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void MainWindow::removeIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos){
+    size_t i;
+    int lpos, rpos;
+
+    for(i = index; i < pos.size(); i++){
+        rpos = std::get<2>(pos[i]);
+        std::get<2>(pos[i]) = rpos - 1;
+
+        //Doesn't remove the first index in the article type, since the range is being decreased from the end of the range
+        if(i == index)
+            continue;
+
+        lpos = std::get<1>(pos[i]);
+        std::get<1>(pos[i]) = lpos - 1;
+    }
+
 }
 
 int MainWindow::calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices){
@@ -1627,10 +1783,6 @@ void MainWindow::printReciept(){
 
     y += 150;
     painter.drawText(x, y, "   ");
-
-
-    QByteArray cutCommand = "\x1D\x56\x42\x00";
-    //write(cutCommand);
 
     // End the printing process
     painter.end();

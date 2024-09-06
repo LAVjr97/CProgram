@@ -61,6 +61,7 @@ private slots:
     void on_btnDropOff_clicked();
     void on_btnPickUp_clicked();
     void on_btnEditOrder_clicked();
+    void on_btnAdmin_clicked();
 
     void on_btnLaundry_clicked();
     void on_btnDryClean_clicked();
@@ -208,6 +209,9 @@ private slots:
     //Create Items And Price (19)
     void on_btnReturnCIP_clicked();
     void on_btnSaveCIP_clicked();
+    void saveTableCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget);
+    void setUpCIPPage();
+    void setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, QTableWidget *tableWidget);
 
 
     //Help functions
@@ -229,6 +233,9 @@ private slots:
 
     int calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices);
     int calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, int, double>>> articles);
+
+    bool removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string piece, double price);
+    void removeIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
 
     void printReciept();
 

@@ -6,7 +6,7 @@ using namespace fi;
 //Windows: C:/Code/repos/LAVjr97/CProgram/
 
 //Constructors
-File::File(std::string customerFile, std::string orderFile, std::string tempFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders) : customerFile(customerFile), orderFile(orderFile), tempFile(tempFile), customers(customers), orders(orders)
+File::File(std::string customerFile, std::string orderFile, std::string priceFile, std::string tempFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders, std::vector<std::vector<std::pair<std::string, double>>> &laundryPrices, std::vector<std::vector<std::pair<std::string, double>>> &dryCleanPrices, std::vector<std::vector<std::pair<std::string, double>>> &alterationsPrices, std::vector<std::tuple<std::string, int, int>> &laundryPos, std::vector<std::tuple<std::string, int, int>> &dryCleanPos, std::vector<std::tuple<std::string, int, int>> &alterationsPos) : customerFile(customerFile), orderFile(orderFile), priceFile(priceFile), tempFile(tempFile), customers(customers), orders(orders), laundryPrices(laundryPrices), dryCleanPrices(dryCleanPrices), alterationsPrices(alterationsPrices), laundryPos(laundryPos), dryCleanPos(dryCleanPos), alterationsPos(alterationsPos)
 {}
 
 void File::saveCustomers(cust::customer& customer){
@@ -438,7 +438,7 @@ void File::updateCustomer(const int id) {
 
 
 void File::savePrices(){
-    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/customers.txt", std::ios::app);
+    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/prices.txt", std::ios::app);
     size_t outerVectorSize, innerVectorSize;
     if(!ofs){
         std::cerr << "Error opening file to write to: ";
@@ -492,17 +492,19 @@ void File::savePrices(){
             << "," << std::get<2>(tuple);
     }
 
-    outerVectorSize = laundryPos.size();
+    ofs << "," << "DC" << ";";
+    outerVectorSize = dryCleanPos.size();
     ofs << outerVectorSize;
-    for(const auto &tuple : laundryPos){
+    for(const auto &tuple : dryCleanPos){
         ofs << "," << std::get<0>(tuple)
             << "," << std::get<1>(tuple)
             << "," << std::get<2>(tuple);
     }
 
-    outerVectorSize = laundryPos.size();
+    ofs << "," << "ALT" << ";";
+    outerVectorSize = alterationsPos.size();
     ofs << outerVectorSize;
-    for(const auto &tuple : laundryPos){
+    for(const auto &tuple : alterationsPos){
         ofs << "," << std::get<0>(tuple)
             << "," << std::get<1>(tuple)
             << "," << std::get<2>(tuple);
@@ -520,14 +522,16 @@ void File::loadPrices(){
     std::string line, piece, temp;
     //std::vector<std::vector<std::pair<std::string, double>>> laundryPrices, dryCleanPrices, alterationsPrices;
     //std::vector<std::tuple<std::string, int, int>> laundryPos, dryCleanPos, alterationsPos;
-    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
+    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/prices.txt");
 
     if(!ifs){
         std::cerr << "Error opening file to write to: " << "\n";
         return;
     }
 
-    std::getline(ifs, line);
+
+    if(!std::getline(ifs, line))
+        return;
 
     std::stringstream ss(line);
     std::getline(ss, temp, ',');
@@ -578,7 +582,8 @@ void File::loadPrices(){
     }
 
     std::getline(ifs, line);
-    std::stringstream ss(line);
+    ss.clear();
+    ss.str(line);
 
     std::getline(ss, temp, ',');
     outerSize = std::stoi(temp);
@@ -592,6 +597,7 @@ void File::loadPrices(){
         laundryPos[i] = std::make_tuple(piece, rPos, lPos);
     }
 
+    std::getline(ss, temp, ';');
     std::getline(ss, temp, ',');
     outerSize = std::stoi(temp);
     dryCleanPos.resize(outerSize);
@@ -604,6 +610,7 @@ void File::loadPrices(){
         dryCleanPos[i] = std::make_tuple(piece, rPos, lPos);
     }
 
+    std::getline(ss, temp, ';');
     std::getline(ss, temp, ',');
     outerSize = std::stoi(temp);
     alterationsPos.resize(outerSize);

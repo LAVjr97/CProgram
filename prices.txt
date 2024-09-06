@@ -1,0 +1,2 @@
+2,2,Pants,4.99,Jeans,4.59,2,Shirts,3.99,T-Shirts,3.49,DC;2,2,Pants,6.99,Jeans,5.59,2,Shirts,4.99,T-Shirts,4.49,ALT;2,2,Pants,3.99,Jeans,3.59,2,Shirts,2.99,T-Shirts,1.49
+2,Pants,0,2,Shirts,3,5,DC;2,Pants,0,2,Shirts,3,5,ALT;2,Pants,0,2,Shirts,3,5
