@@ -1368,10 +1368,9 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
 
     for(row = 0; row < tableWidget->rowCount(); row++){
         dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 1));
-        if(dSpinBox == nullptr){
+        if(dSpinBox == nullptr && row != 0.00){
             pieceI = 0;
-            if(row != 0)
-                typeI++;
+            typeI++;
             continue;
         }
 
