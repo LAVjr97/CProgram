@@ -47,7 +47,8 @@ DISTFILES += \
     orders.txt \
     prices.txt \
     temp.txt \
-    temp.txt
+    temp.txt \
+    todo.txt
 
 RESOURCES += \
     resources.qrc

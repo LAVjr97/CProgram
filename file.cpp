@@ -438,7 +438,7 @@ void File::updateCustomer(const int id) {
 
 
 void File::savePrices(){
-    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/prices.txt", std::ios::app);
+    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/prices.txt");
     size_t outerVectorSize, innerVectorSize;
     if(!ofs){
         std::cerr << "Error opening file to write to: ";

@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     threadCust.join();
     threadOrder.join();
     threadPrices.join();
-    /*
+/*
     laundryPrices = {{{"Pants", 4.99}, {"Jeans", 4.59}}, {{"Shirts", 3.99},{"T-Shirts", 3.49}}};
     dryCleanPrices = {{{"Pants", 6.99}, {"Jeans", 5.59}}, {{"Shirts", 4.99},{"T-Shirts", 4.49}}};
     alterationsPrices = {{{"Pants", 3.99}, {"Jeans", 3.59}}, {{"Shirts", 2.99},{"T-Shirts", 1.49}}};
@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     alterationsPos = {{"Pants", 0, 2}, {"Shirts", 3, 5}};
 
     manager->savePrices();
-    */
+*/
     curOrderID = 0;
 
     //Everything after this point is GUI related
@@ -107,17 +107,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Order Laundry Page
     tableWidgetLaundryOptions = ui->tableWidgetLaundryOptions;
-    tableWidgetLaundryOptions->setRowCount(lPrices);
+    //tableWidgetLaundryOptions->setRowCount(lPrices);
     tableWidgetLaundryOptions->setColumnCount(3);
 
     //Order DryClean Page
     tableWidgetDryCleanOptions = ui->tableWidgetDryCleanOptions;
-    tableWidgetDryCleanOptions->setRowCount(dcPrices);
+    //tableWidgetDryCleanOptions->setRowCount(dcPrices);
     tableWidgetDryCleanOptions->setColumnCount(3);
 
     //Order Alterations Page
     tableWidgetAlterationsOptions = ui->tableWidgetAlterationsOptions;
-    tableWidgetAlterationsOptions->setRowCount(aPrices);
+    //tableWidgetAlterationsOptions->setRowCount(aPrices);
     tableWidgetAlterationsOptions->setColumnCount(3);
 
     //
@@ -243,15 +243,15 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //modelCIP = new QStanardItemModel(this);
     tableWidgetLaundryCIP = ui->tableWidgetLaundryCIP;
-    tableWidgetLaundryCIP->setRowCount(lPrices + laundryPrices.size());
+    //tableWidgetLaundryCIP->setRowCount(lPrices + laundryPrices.size());
     tableWidgetLaundryCIP->setColumnCount(2);
 
     tableWidgetDryCleanCIP = ui->tableWidgetDryCleanCIP;
-    tableWidgetDryCleanCIP->setRowCount(dcPrices + dryCleanPrices.size());
+    //tableWidgetDryCleanCIP->setRowCount(dcPrices + dryCleanPrices.size());
     tableWidgetDryCleanCIP->setColumnCount(2);
 
     tableWidgetAlterationsCIP = ui->tableWidgetAlterationsCIP;
-    tableWidgetAlterationsCIP->setRowCount(aPrices + alterationsPrices.size());
+    //tableWidgetAlterationsCIP->setRowCount(aPrices + alterationsPrices.size());
     tableWidgetAlterationsCIP->setColumnCount(2);
 }
 
@@ -608,6 +608,8 @@ void MainWindow::setUpLaundryPage(){
     size_t row = 0, i, j;
     QFont font;
 
+    tableWidgetLaundryOptions->setRowCount(calculateSize(laundryPrices));
+
     for(i = 0; i < laundryPrices.size(); i++)
         for(j = 0; j < laundryPrices[i].size(); j++){
             if(j == 0){
@@ -719,6 +721,9 @@ void MainWindow::setUpDryCleanPage(){
     size_t row = 0, i, j;
     QFont font;
 
+    tableWidgetDryCleanOptions->setRowCount(calculateSize(dryCleanPrices));
+
+
     for(i = 0; i < dryCleanPrices.size(); i++)
         for(j = 0; j < dryCleanPrices[i].size(); j++){
             if(j == 0){
@@ -824,6 +829,9 @@ void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index)
 void MainWindow::setUpAlterationsPage(){
     size_t row = 0, i, j;
     QFont font;
+
+    tableWidgetLaundryOptions->setRowCount(calculateSize(alterationsPrices));
+
 
     for(i = 0; i < alterationsPrices.size(); i++)
         for(j = 0; j < alterationsPrices[i].size(); j++){
@@ -1368,7 +1376,10 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
 
     for(row = 0; row < tableWidget->rowCount(); row++){
         dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 1));
-        if(dSpinBox == nullptr && row != 0.00){
+        if(dSpinBox == nullptr){
+            if(row == 0)
+                continue;
+
             pieceI = 0;
             typeI++;
             continue;
@@ -1379,13 +1390,22 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
         linePiece = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 0));
         piece = linePiece->text().toStdString();
 
-        if(linePiece->text().isEmpty() && price != 0){
+        //if an item has been deleted basically and the price hasn't been set to 0
+        if(piece.empty() && price != 0){
             tableWidget->removeRow(row);
             index = getIndex(row, pos); //interchange typeI and index, might be the same values. UPDATE: Index is giving the incorrext postion, either typeI or pieceI are wrong
-            if(removeItemPrice(index, prices, piece, price))
+            if(removeItemPrice(index, prices, pieceI))
                 removeIndex(index, pos);
             row--;
             continue;
+        }
+
+        if(piece.empty() && price == 0)
+            continue;
+
+        if(pieceI >= prices[typeI].size()){
+            prices[typeI].push_back(std::make_pair(piece, price));
+            increaseIndex(typeI, pos);
         }
 
         if(piece != prices[typeI][pieceI].first){
@@ -1404,6 +1424,10 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
 
 
 void MainWindow::setUpCIPPage(){
+    //lPrices = calculateSize(laundryPrices);
+    //dcPrices = calculateSize(dryCleanPrices);
+    //aPrices = calculateSize(alterationsPrices);
+
     setUpTableWidgetsCIP(laundryPrices, tableWidgetLaundryCIP);
     setUpTableWidgetsCIP(dryCleanPrices, tableWidgetDryCleanCIP);
     setUpTableWidgetsCIP(alterationsPrices, tableWidgetAlterationsCIP);
@@ -1412,6 +1436,8 @@ void MainWindow::setUpCIPPage(){
 void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, QTableWidget *tableWidget){
     size_t row = 0, i, j;
     QFont font;
+
+    tableWidget->setRowCount(calculateSize(prices) + prices.size());
 
     for(i = 0; i < prices.size(); i++)
         for(j = 0; j < prices[i].size(); j++){
@@ -1423,6 +1449,7 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
                 label->setFont(font);
 
                 tableWidget->setCellWidget(row, 0, label);
+                tableWidget->setCellWidget(row, 1, nullptr);
                 row++;
             }
 
@@ -1465,7 +1492,7 @@ void MainWindow::updateCOInformationDP(){
     linePhoneDP->setText(QString::fromStdString(customer[0]->getFormattedPhone()));
     lineCustomerIDDP->setText(QString::number(customer[0]->getCustomerID()));
     lineOrderIDDP->setText(QString::number(order[0]->getOrderID()));
-    lineVisitsDP->setText(QString::number(customer[0]->getVisit()));
+    lineVisitsDP->setText(QString::number(customer[0]->getVisit() + 1));
 
     setDate(dateDTDropOffDP, dateDTPickUpDP);
 
@@ -1637,11 +1664,11 @@ size_t MainWindow::getIndex(int curRow, std::vector<std::tuple<std::string, int,
     return NULL;
 }
 
-bool MainWindow::removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string piece, double price){
+bool MainWindow::removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, size_t pieceI){
     size_t i;
 
     for(i = 0; i < prices[index].size(); i++){
-        if(prices[index][i].first == piece && prices[index][i].second == price){
+        if(i == pieceI){
             prices[index].erase(prices[index].begin() + i);
             return true;
         }
@@ -1664,6 +1691,23 @@ void MainWindow::removeIndex(size_t index, std::vector<std::tuple<std::string, i
 
         lpos = std::get<1>(pos[i]);
         std::get<1>(pos[i]) = lpos - 1;
+        //if((lpos + 1) == rpos) if there isnt a current piece/price tuple in prices, so this will be pos.erase since it doesn't exist anymore;
+    }
+}
+
+void MainWindow::increaseIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos){
+    size_t i;
+    int lpos, rpos;
+
+    for(i = index; i < pos.size(); i++){
+        rpos = std::get<2>(pos[i]);
+        std::get<2>(pos[i]) = rpos + 1;
+
+        if(i == index)
+            continue;
+
+        lpos = std::get<1>(pos[i]);
+        std::get<1>(pos[i]) = lpos + 1;
     }
 
 }

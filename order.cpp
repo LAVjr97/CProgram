@@ -451,7 +451,7 @@ int order::calculatePieceTotal(){
                 pieceTotal = pieceTotal + (std::get<1>(laundryO[i][j]));
 
     for(i = 0; i < this->dryCleanO.size(); i++)
-        if(dryClean[i].empty() == false)
+        if(dryCleanO[i].empty() == false)
             for(j = 0; j < dryCleanO[i].size(); j++)
                 pieceTotal = pieceTotal + (std::get<1>(dryCleanO[i][j]));
 

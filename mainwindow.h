@@ -234,7 +234,8 @@ private slots:
     int calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices);
     int calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, int, double>>> articles);
 
-    bool removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string piece, double price);
+    void increaseIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
+    bool removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, size_t pieceI);
     void removeIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
 
     void printReciept();
