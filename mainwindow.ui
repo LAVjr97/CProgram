@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -570,7 +570,17 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="linePieceTotalDP"/>
+            <widget class="QLineEdit" name="linePieceTotalDP">
+             <property name="cursor">
+              <cursorShape>ArrowCursor</cursorShape>
+             </property>
+             <property name="frame">
+              <bool>false</bool>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -1265,7 +1275,17 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="linePieceTotalPU"/>
+          <widget class="QLineEdit" name="linePieceTotalPU">
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -1282,6 +1302,9 @@
           <widget class="QLineEdit" name="lineOrderTotalPU">
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -1894,7 +1917,17 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="linePieceTotalEO"/>
+            <widget class="QLineEdit" name="linePieceTotalEO">
+             <property name="cursor">
+              <cursorShape>ArrowCursor</cursorShape>
+             </property>
+             <property name="frame">
+              <bool>false</bool>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -1913,6 +1946,9 @@
           <widget class="QLineEdit" name="lineOrderTotalEO">
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
            </property>
            <property name="readOnly">
             <bool>true</bool>

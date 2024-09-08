@@ -11,6 +11,7 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
     this->pickedUp = false;
     this->dropOff = new date::Date();
     this->pickUp = new date::Date(2);
+    this->pieceTotal = 0;
 
     laundryO.resize(8);
     dryCleanO.resize(8);
@@ -441,7 +442,7 @@ double order::calculateCostO(){
 }
 
 int order::calculatePieceTotal(){
-    int pieceTotal = 0;
+    this-> pieceTotal = 0;
 
     size_t i, j;
 

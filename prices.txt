@@ -1,2 +1,2 @@
-2,2,Pants,5.99,Press,5.59,2,Shirts,3.99,T-Shirts,3.49,DC;2,2,Pants,6.99,Jeans,5.59,2,Shirts,4.99,T-Shirts,4.49,ALT;2,2,Pants,3.99,Alt Jeans,3.59,2,Shirts,2.99,T-Shirts,1.49
-2,Pants,0,2,Shirts,3,5,DC;2,Pants,0,2,Shirts,3,5,ALT;2,Pants,0,2,Shirts,3,5
+3,2,Pants,5.99,Press,5.59,2,Shirts,3.99,T-Shirts,3.49,1,Suits,3,DC;2,2,Pants,6.99,Jeans,5.59,2,Shirts,4.99,T-Shirts,4.49,ALT;2,2,Pants,3.99,Alt Jeans,3.59,2,Shirts,2.99,T-Shirts,1.49
+3,Pants,0,2,Shirts,3,5,Suits,6,8,DC;2,Pants,0,2,Shirts,3,5,ALT;2,Pants,0,2,Shirts,3,5

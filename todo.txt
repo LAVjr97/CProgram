@@ -2,7 +2,9 @@ Fix Reciepts ->  align order ID at the top, align dry cleaner's name, align pric
 Add ability to edit customer information -> edit name, number etc...
 Change file saves to binary -> Make the program run faster
 Add threads -> under save and load customers/orders. Assign threads to portions of the array etc...
-Add ability to create new categories of article types -> Long term goal is to allow for the creation of articles wherever in the stack
+(Sort of added) Add ability to create new categories of article types -> Long term goal is to allow for the creation of articles wherever in the stack
 Create tabbed widget for order options -> create a tabbed widget to house the drop off options, laundry, dry clean, and alterations for faster access to all of them, save will save the entire table and will display the current items in the order
 Add comments -> readme, change variable names
 Allow for further custimization -> shop name, shop number etc...
+Change so that the item type is stored by pos -> Type name is no longer dependent on the first piece in prices vector.
+Add picked up status and piece total to order search page by customer name -> use check box to show if it has been picked up and the piece total

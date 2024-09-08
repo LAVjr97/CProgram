@@ -285,7 +285,7 @@ void File::updateOrder(const int id){
     size_t outerVectorSize = laundry.size(), innerVectorSize;
 
     std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
-    std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/temp.txt");
+    std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/tempOrder.txt");
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
@@ -389,7 +389,7 @@ void File::updateCustomer(const int id) {
     bool found;
 
     std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/customers.txt");
-    std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/temp.txt");
+    std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/tempCust.txt");
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
