@@ -1768,7 +1768,7 @@ int MainWindow::calculateSize(std::vector<std::vector<std::pair<std::string, dou
             if(j == 0)
                 size++;
             size++;
-            }
+        }
     return size;
 }
 
@@ -1787,20 +1787,73 @@ void MainWindow::printReciept(){
 
     int x = 50, y = 50, paperWidth, yInc = 50;
     size_t i, j;
-    //std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
+    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
+    std::vector<QString> info;
+
+    int lPos = 0, dcPos = 0, altPos = 0, totalLines = 0, height, width = 360, typeLineSpace = 0;
+
     QPrintDialog printDialog(&printer, this);
+
 
 
     QPainter painter(&printer);
     QFont font = painter.font();
+    QFontMetrics metrics(font);
 
-    qDebug() << "Printer Name:" << printer.printerName();
-    x = 0;
-    y = 50;
-    painter.drawText(x, y, "Hi");
-    x = 180 * 1;
-    y = 180 * 2;
-    painter.drawText(x, y, "Hi");
+    qDebug() << "Printer Name:" << printer.printerName() << "\n";
+    //x = 0;
+    //y = 10;
+    //painter.drawText(x, y, "Hi");
+    //x = 180 * 1;
+    //y = 180 * 2;
+    ///painter.drawText(x, y, "Hi");
+    height = metrics.height();
+
+    qDebug() << "Font height: " << height << "\n";
+
+
+    //calculate box length();
+
+    if(calculatePieceTotal(laundry)){
+        lPos = 1;
+        for(i = 0; i < laundry.size(); i++)
+            if(laundry[i].empty() == false)
+                for(j = 0; j < laundry[i].size(); j++)
+                    lPos++;
+    }
+
+    if(calculatePieceTotal(dryClean)){
+        dcPos = 1;
+        for(i = 0; i < dryClean.size(); i++)
+            if(dryClean[i].empty() == false)
+                for(j = 0; j < dryClean[i].size(); j++)
+                    dcPos++;
+
+    }
+
+    if(calculatePieceTotal(alterations)){
+        altPos = 1;
+        for(i = 0; i < alterations.size(); i++)
+            if(alterations[i].empty() == false)
+                for(j = 0; j < alterations[i].size(); j++)
+                    altPos++;
+    }
+    totalLines = lPos + dcPos + altPos;
+
+    if(lPos != 0)
+        typeLineSpace++;
+    if(dcPos != 0)
+        typeLineSpace++;
+    if(altPos != 0)
+        typeLineSpace++;
+
+    //Height in Pixels
+    height = 50;
+
+    //Height in lines
+    height = (height * totalLines) + (25)typeLineSpace;
+
+    QRect(x, y, width, height);
 
     //font.setPointSize(12);
     //painter.setFont(font);
@@ -1824,7 +1877,9 @@ void MainWindow::printReciept(){
     int xOrderID = (paperWidth - txtWidthOrderID) / 2;
 
 
+    */
 
+    //We'll make a rectangle here and center align the text for this first box of orderID
     painter.drawText(xOrderID, y, QString::number(curOrderID));
     y += yInc;
     painter.drawText(x, y, QString::fromStdString(customer[0]->getLastName()) + ", " + QString::fromStdString(customer[0]->getFirstName()));
@@ -1838,9 +1893,12 @@ void MainWindow::printReciept(){
     painter.drawText(x, y, "Pick Up: " + QString::fromStdString(order[0]->pickUp->dayOfWeekString()) + " " + QString::fromStdString(order[0]->pickUp->getDate()));
     y += yInc;
 
-    painter.drawText(x, y, "======================");
+    painter.drawText(x, y, "========================");
     yInc = 25;
     y += yInc;
+
+
+
 
     if(calculatePieceTotal(laundry)){
         painter.drawText(x, y, "Laundry: ");
@@ -1881,7 +1939,7 @@ void MainWindow::printReciept(){
         y += yInc;
     }
 
-    painter.drawText(x, y, "======================");
+    painter.drawText(x, y, "========================");
     yInc = 50;
     y += yInc;
 
@@ -1894,7 +1952,8 @@ void MainWindow::printReciept(){
     painter.drawText(x, y, "   ");
 
     // End the printing process
-    */
+
+
     painter.end();
 }
 
