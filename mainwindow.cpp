@@ -1840,18 +1840,18 @@ void MainWindow::printReciept(){
     }
     totalLines = lPos + dcPos + altPos;
 
-    if(lPos != 0)
-        typeLineSpace++;
-    if(dcPos != 0)
-        typeLineSpace++;
-    if(altPos != 0)
-        typeLineSpace++;
+    //if(lPos != 0)
+        //typeLineSpace++;
+    //if(dcPos != 0)
+        //typeLineSpace++;
+    //if(altPos != 0)
+        //typeLineSpace++;
 
     //Height in Pixels
     height = 50;
 
     //Height in lines
-    height = (height * totalLines) + (25)typeLineSpace;
+    height = (height * totalLines) + 25 * typeLineSpace;
 
     QRect(x, y, width, height);
 
