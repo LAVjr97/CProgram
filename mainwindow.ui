@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>19</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -102,16 +102,6 @@
         </widget>
        </item>
       </layout>
-     </widget>
-     <widget class="QGraphicsView" name="graphicsView">
-      <property name="geometry">
-       <rect>
-        <x>100</x>
-        <y>200</y>
-        <width>256</width>
-        <height>192</height>
-       </rect>
-      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="pgDropOff">
@@ -612,6 +602,32 @@
           </widget>
          </item>
         </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="formLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>640</x>
+        <y>580</y>
+        <width>167</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayoutRecieptsDP">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="btnOneRecieptDP">
+         <property name="text">
+          <string>1 Reciept</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="btnTwoRecieptDP">
+         <property name="text">
+          <string>2 Reciepts</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

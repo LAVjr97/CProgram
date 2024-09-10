@@ -44,7 +44,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     customers.txt \
-    orders.text \
+    orders.txt \
     prices.txt \
     temp.txt \
     temp.txt \

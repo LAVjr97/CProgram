@@ -6,7 +6,7 @@ using namespace fi;
 //Windows: C:/Code/repos/LAVjr97/CProgram/
 
 //Constructors
-File::File(std::string customerFile, std::string orderFile, std::string priceFile, std::string tempFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders, std::vector<std::vector<std::pair<std::string, double>>> &laundryPrices, std::vector<std::vector<std::pair<std::string, double>>> &dryCleanPrices, std::vector<std::vector<std::pair<std::string, double>>> &alterationsPrices, std::vector<std::tuple<std::string, int, int>> &laundryPos, std::vector<std::tuple<std::string, int, int>> &dryCleanPos, std::vector<std::tuple<std::string, int, int>> &alterationsPos) : customerFile(customerFile), orderFile(orderFile), priceFile(priceFile), tempFile(tempFile), customers(customers), orders(orders), laundryPrices(laundryPrices), dryCleanPrices(dryCleanPrices), alterationsPrices(alterationsPrices), laundryPos(laundryPos), dryCleanPos(dryCleanPos), alterationsPos(alterationsPos)
+File::File(std::string customerFile, std::string orderFile, std::string priceFile, std::string tempOrderFile, std::string tempCustFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders, std::vector<std::vector<std::pair<std::string, double>>> &laundryPrices, std::vector<std::vector<std::pair<std::string, double>>> &dryCleanPrices, std::vector<std::vector<std::pair<std::string, double>>> &alterationsPrices, std::vector<std::tuple<std::string, int, int>> &laundryPos, std::vector<std::tuple<std::string, int, int>> &dryCleanPos, std::vector<std::tuple<std::string, int, int>> &alterationsPos) : customerFile(customerFile), orderFile(orderFile), priceFile(priceFile), tempOrderFile(tempOrderFile), tempCustFile(tempCustFile), customers(customers), orders(orders), laundryPrices(laundryPrices), dryCleanPrices(dryCleanPrices), alterationsPrices(alterationsPrices), laundryPos(laundryPos), dryCleanPos(dryCleanPos), alterationsPos(alterationsPos)
 {}
 
 void File::saveCustomers(cust::customer& customer){
@@ -288,12 +288,12 @@ void File::updateOrder(const int id){
     std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/tempOrder.txt");
 
     if (!ifs) {
-        std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
+        std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
         return;
     }
 
     if (!tempF) {
-        std::cerr << "Error opening file to write to: " << this->tempFile << "\n";
+        std::cerr << "Error opening file to write to: " << this->tempOrderFile << "\n";
         return;
     }
 
@@ -376,10 +376,10 @@ void File::updateOrder(const int id){
 
     if(found){
         std::remove(this->orderFile.c_str());
-        std::rename(this->tempFile.c_str(), this->orderFile.c_str());
+        std::rename(this->tempOrderFile.c_str(), this->orderFile.c_str());
     }
     else
-        std::remove(this->tempFile.c_str());
+        std::remove(this->tempOrderFile.c_str());
     return;
 
 }
@@ -396,7 +396,7 @@ void File::updateCustomer(const int id) {
         return;
     }
     if (!tempF) {
-        std::cerr << "Error opening file to write to: " << this->tempFile << "\n";
+        std::cerr << "Error opening file to write to: " << this->tempCustFile << "\n";
         return;
     }
 
@@ -428,10 +428,10 @@ void File::updateCustomer(const int id) {
 
     if (found) {
         std::remove(this->customerFile.c_str());
-        std::rename(this->tempFile.c_str(), this->customerFile.c_str());
+        std::rename(this->tempCustFile.c_str(), this->customerFile.c_str());
     }
     else
-        std::remove(this->tempFile.c_str());
+        std::remove(this->tempCustFile.c_str());
 
     return;
 }
@@ -441,7 +441,7 @@ void File::savePrices(){
     std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/prices.txt");
     size_t outerVectorSize, innerVectorSize;
     if(!ofs){
-        std::cerr << "Error opening file to write to: ";
+        std::cerr << "Error opening file to write to: " << this->priceFile << "\n";
         return;
     }
 
@@ -525,13 +525,29 @@ void File::loadPrices(){
     std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/prices.txt");
 
     if(!ifs){
-        std::cerr << "Error opening file to write to: " << "\n";
+        std::cerr << "Error opening file to write to: " << this->priceFile <<"\n";
         return;
     }
 
 
-    if(!std::getline(ifs, line))
+
+    if(!std::getline(ifs, line)){
+        laundryPrices.resize(1);
+        laundryPrices[0].resize(1);
+        laundryPos.resize(1);
+        laundryPos[0] = std::make_tuple("", 0, 0);
+
+        dryCleanPrices.resize(1);
+        dryCleanPrices[0].resize(1);
+        dryCleanPos.resize(1);
+        dryCleanPos[0] = std::make_tuple("", 0, 0);
+
+        alterationsPrices.resize(1);
+        alterationsPrices[0].resize(1);
+        alterationsPos.resize(1);
+        alterationsPos[0] = std::make_tuple("", 0, 0);
         return;
+    }
 
     std::stringstream ss(line);
     std::getline(ss, temp, ',');
@@ -639,5 +655,5 @@ std::string File::getOrderFile() const{
 }
 
 std::string File::getTempFile() const{
-    return this->tempFile;
+    return this->tempOrderFile;
 }

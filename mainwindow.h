@@ -57,22 +57,6 @@ public:
     std::vector<std::vector<std::pair<std::string, double>>> *alterationsPrices;
     */
 private slots:
-    //Main Page
-    void on_btnDropOff_clicked();
-    void on_btnPickUp_clicked();
-    void on_btnEditOrder_clicked();
-    void on_btnAdmin_clicked();
-
-    void on_btnLaundry_clicked();
-    void on_btnDryClean_clicked();
-    void on_btnAlterations_clicked();
-
-    void on_btnCustomer_clicked();
-
-    void on_btnReturn_clicked();
-
-    void on_btnSaveDP_clicked();//fi::File &manager);
-
     //Page Movement
     void showMainPage();
     void showDropOffPage();
@@ -94,6 +78,22 @@ private slots:
     void showOrderSearchResultsEO();
     void showAdminPage();
     void showItemsAndPricePage();
+
+    //Main Page
+    void on_btnDropOff_clicked();
+    void on_btnPickUp_clicked();
+    void on_btnEditOrder_clicked();
+    void on_btnAdmin_clicked();
+
+    //Drop Off Page
+    void on_btnLaundry_clicked();
+    void on_btnDryClean_clicked();
+    void on_btnAlterations_clicked();
+    void on_btnCustomer_clicked();
+    void on_btnReturn_clicked();
+    void on_btnSaveDP_clicked();
+    void on_btnOneRecieptDP_clicked();
+    void on_btnTwoRecieptDP_clicked();//fi::File &manager);
 
     void on_btnReturnCS_clicked();
 
@@ -211,7 +211,7 @@ private slots:
     void on_btnSaveCIP_clicked();
     void saveTableCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget);
     void setUpCIPPage();
-    void setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, QTableWidget *tableWidget);
+    void setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget);
 
 
     //Help functions
@@ -235,7 +235,7 @@ private slots:
     int calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, int, double>>> articles);
 
 
-    void createType(size_t curIndex, std::vector<std::tuple<std::string, int, int>> &pos, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string newPiece, double newPrice);
+    void createType(size_t curIndex, std::vector<std::tuple<std::string, int, int>> &pos, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string newPiece);
     void increaseIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
     bool removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, size_t pieceI);
     void removeIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);

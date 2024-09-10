@@ -1,2 +1,2 @@
-3,2,Pants,5.99,Press,5.59,2,Shirts,3.99,T-Shirts,3.49,1,Suits,3,DC;2,2,Pants,6.99,Jeans,5.59,2,Shirts,4.99,T-Shirts,4.49,ALT;2,2,Pants,3.99,Alt Jeans,3.59,2,Shirts,2.99,T-Shirts,1.49
-3,Pants,0,2,Shirts,3,5,Suits,6,8,DC;2,Pants,0,2,Shirts,3,5,ALT;2,Pants,0,2,Shirts,3,5
+2,1,Jeans,5.99,1,Dress Shirts,5.99,DC;2,1,Jeans,5.99,1,T-Shirt,5.99,ALT;1,1,Pants Hem,6.99
+2,Pants,0,1,Shirts,2,3,DC;2,Pants,0,1,Shirts,2,3,ALT;1,Pants,0,1

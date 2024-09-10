@@ -19,10 +19,12 @@ MainWindow::MainWindow(QWidget *parent)
     std::string customerFile = "C:/Code/repos/LAVjr97/CProgram/customers.txt";
     std::string orderFile = "C:/Code/repos/LAVjr97/CProgram/orders.txt";
     std::string priceFile = "C:/Code/repos/LAVjr97/CProgram/price.txt";
-    std::string tempFile = "C:/Code/repos/LAVjr97/CProgram/temp.txt";
+    std::string tempOrderFile = "C:/Code/repos/LAVjr97/CProgram/tempOrder.txt";
+    std::string tempCustFile = "C:/Code/repos/LAVjr97/CProgram/tempCust.txt";
+
     
 
-    manager = new fi::File(customerFile, orderFile, priceFile, tempFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos);
+    manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos);
 
     //Indepently load up customers and orders
     std::thread threadCust(&fi::File::loadCustomers, manager);
@@ -352,8 +354,11 @@ void MainWindow::showItemsAndPricePage(){
 void MainWindow::on_btnDropOff_clicked(){
     dateDTDropOffDP->hide();
     dateDTPickUpDP->hide();
+    ui->btnOneRecieptDP->hide();
+    ui->btnTwoRecieptDP->hide();
+
     showDropOffPage();
-    printReciept();
+    //printReciept();
 }
 
 void MainWindow::on_btnPickUp_clicked(){
@@ -444,20 +449,37 @@ void MainWindow::on_btnSaveDP_clicked()
     threadOrder.join();
     threadCust.join();
 
+    ui->btnOneRecieptDP->show();
+    ui->btnTwoRecieptDP->show();
 
-    //manager->saveOrders(orders[curOrderID]);
-    //manager->updateCustomer(customer[0]->getCustomerID());
 
+    //printReciept();
+    //showMainPage();
+}
+
+void MainWindow::on_btnOneRecieptDP_clicked()
+{
     printReciept();
-    printReciept();
-    showMainPage();
 
-    //Clear
     customer.clear();
     order.clear();
     curOrderID = NULL;
     clearScreenDP();
 
+    showMainPage();
+}
+
+void MainWindow::on_btnTwoRecieptDP_clicked()
+{
+    printReciept();
+    printReciept();
+
+    customer.clear();
+    order.clear();
+    curOrderID = NULL;
+    clearScreenDP();
+
+    showMainPage();
 }
 
 void MainWindow::on_btnReturn_clicked()
@@ -614,7 +636,7 @@ void MainWindow::setUpLaundryPage(){
     for(i = 0; i < laundryPrices.size(); i++)
         for(j = 0; j < laundryPrices[i].size(); j++){
             if(j == 0){
-                QLabel *label = new QLabel(QString::fromStdString(laundryPrices[i][j].first));
+                QLabel *label = new QLabel(QString::fromStdString(std::get<0>(laundryPos[i])));
                 label->setAlignment(Qt::AlignCenter);
                 font = label->font();
                 font.setBold(true);
@@ -728,7 +750,7 @@ void MainWindow::setUpDryCleanPage(){
     for(i = 0; i < dryCleanPrices.size(); i++)
         for(j = 0; j < dryCleanPrices[i].size(); j++){
             if(j == 0){
-                QLabel *label = new QLabel(QString::fromStdString(dryCleanPrices[i][j].first));
+                QLabel *label = new QLabel(QString::fromStdString(std::get<0>(dryCleanPos[i])));
                 label->setAlignment(Qt::AlignCenter);
                 font = label->font();
                 font.setBold(true);
@@ -837,7 +859,7 @@ void MainWindow::setUpAlterationsPage(){
     for(i = 0; i < alterationsPrices.size(); i++)
         for(j = 0; j < alterationsPrices[i].size(); j++){
             if(j == 0){
-                QLabel *label = new QLabel(QString::fromStdString(alterationsPrices[i][j].first));
+                QLabel *label = new QLabel(QString::fromStdString(std::get<0>(alterationsPos[i])));
                 label->setAlignment(Qt::AlignCenter);
                 font = label->font();
                 font.setBold(true);
@@ -1163,6 +1185,8 @@ void MainWindow::on_btnSaveEO_clicked(){
     threadOrder.join();
     threadCust.join();
 
+    printReciept();
+
     customer.clear();
     order.clear();
     curOrderID = NULL;
@@ -1371,11 +1395,11 @@ void MainWindow::on_btnSaveCIP_clicked(){
 
 
 void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget){
-    size_t row, pieceI = 0, typeI = 0, index, rowCount = tableWidget->rowCount() - 2;
+    size_t row, pieceI = 0, typeI = 0, index, rowCount = tableWidget->rowCount() - 1;
     double price;
     std::string piece;
     QDoubleSpinBox *dSpinBox;
-    QLineEdit *linePiece;
+    QLineEdit *linePiece, *newType;
 
     for(row = 0; row < rowCount; row++){
         dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 1));
@@ -1409,15 +1433,21 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
 
         //if an item has been added
         if(pieceI >= prices[typeI].size()){
-            prices[typeI].push_back(std::make_pair(piece, price));
-            increaseIndex(typeI, pos);
+            if(prices[typeI][0].first == "" && prices[typeI][0].second == 0.00){
+                prices[typeI].pop_back();
+                prices[typeI].push_back(std::make_pair(piece, price));
+            }
+            else{
+                prices[typeI].push_back(std::make_pair(piece, price));
+                increaseIndex(typeI, pos);
+            }
         }
 
         //if the name has been changed
         if(piece != prices[typeI][pieceI].first){
             prices[typeI][pieceI].first = piece;
-            if(pieceI == 0)
-                std::get<0>(pos[typeI]) = piece;
+            //if(pieceI == 0)
+            //    std::get<0>(pos[typeI]) = piece;
         }
 
         //if the price has been changed
@@ -1428,7 +1458,15 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
     }
     pieceI = 0;
     //typeI++;
+
+    newType = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 1));
+
+    if(newType != nullptr)
+        if(!newType->text().isEmpty())
+            createType(typeI, pos, prices, newType->text().toStdString());
+
     row++;
+    /*
     linePiece = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 0));
     dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 1));
     piece = linePiece->text().toStdString();
@@ -1437,6 +1475,7 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
     //if a new type has been added
     if(!piece.empty() && price != 0)
         createType(typeI, pos, prices, piece, price);
+    */
 }
 
 
@@ -1445,65 +1484,79 @@ void MainWindow::setUpCIPPage(){
     //dcPrices = calculateSize(dryCleanPrices);
     //aPrices = calculateSize(alterationsPrices);
 
-    setUpTableWidgetsCIP(laundryPrices, tableWidgetLaundryCIP);
-    setUpTableWidgetsCIP(dryCleanPrices, tableWidgetDryCleanCIP);
-    setUpTableWidgetsCIP(alterationsPrices, tableWidgetAlterationsCIP);
+    setUpTableWidgetsCIP(laundryPrices, laundryPos, tableWidgetLaundryCIP);
+    setUpTableWidgetsCIP(dryCleanPrices, dryCleanPos, tableWidgetDryCleanCIP);
+    setUpTableWidgetsCIP(alterationsPrices, alterationsPos, tableWidgetAlterationsCIP);
 }
 
-void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, QTableWidget *tableWidget){
+void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget){
     size_t row = 0, i, j;
     QFont font;
 
-    tableWidget->setRowCount(calculateSize(prices) + prices.size() + 2);
+    if(prices[0][0].first == "" && std::get<0>(pos[0]) == "")
+        tableWidget->setRowCount(1);
 
-    for(i = 0; i < prices.size(); i++)
-        for(j = 0; j < prices[i].size(); j++){
-            if(j == 0){
-                QLabel *label = new QLabel(QString::fromStdString(prices[i][j].first));
-                label->setAlignment(Qt::AlignCenter);
-                font = label->font();
-                font.setBold(true);
-                label->setFont(font);
+    else{
+        tableWidget->setRowCount(calculateSize(prices) + prices.size() + 1);
 
-                tableWidget->setCellWidget(row, 0, label);
-                tableWidget->setCellWidget(row, 1, nullptr);
-                row++;
+        for(i = 0; i < prices.size(); i++)
+            for(j = 0; j < prices[i].size(); j++){
+                if(j == 0){
+                    QLabel *label = new QLabel(QString::fromStdString(std::get<0>(pos[i])));
+                    label->setAlignment(Qt::AlignCenter);
+                    font = label->font();
+                    font.setBold(true);
+                    label->setFont(font);
+
+                    tableWidget->setCellWidget(row, 0, label);
+                    tableWidget->setCellWidget(row, 1, nullptr);
+                    row++;
+                }
+
+                //If the type hasn't just been created so there arent any piece types
+                if(prices[i][j].first != "" && prices[i][j].second != 0.00){
+                    QLineEdit *piece = new QLineEdit(QString::fromStdString(prices[i][j].first), nullptr);
+                    piece->setAlignment(Qt::AlignCenter);
+
+                    QDoubleSpinBox *price = new QDoubleSpinBox(tableWidget);
+                    price->setDecimals(2);
+                    price->setValue(prices[i][j].second);
+
+                    tableWidget->setCellWidget(row, 0, piece);
+                    tableWidget->setCellWidget(row, 1, price);
+                    row++;
+                }
+
+                if((j == prices[i].size() - 1) || (prices[i][j].first == "" && prices[i][j].second == 0.00) ){
+                    QLineEdit *newPiece = new QLineEdit(tableWidget);
+                    newPiece->setAlignment(Qt::AlignCenter);
+
+                    QDoubleSpinBox *newPrice = new QDoubleSpinBox(tableWidget);
+                    newPrice->setDecimals(2);
+                    newPrice->setValue(0.00);
+
+                    tableWidget->setCellWidget(row, 0, newPiece);
+                    tableWidget->setCellWidget(row, 1, newPrice);
+                    row++;
+                }
             }
+    }
 
-            QLineEdit *piece = new QLineEdit(QString::fromStdString(prices[i][j].first), nullptr);
-            piece->setAlignment(Qt::AlignCenter);
+    QLabel *newTypeLabel = new QLabel("New Type");
+    newTypeLabel->setAlignment(Qt::AlignCenter);
 
-            QDoubleSpinBox *price = new QDoubleSpinBox(tableWidget);
-            price->setDecimals(2);
-            price->setValue(prices[i][j].second);
+    QLineEdit *newTypeLine = new QLineEdit(this);
 
-            tableWidget->setCellWidget(row, 0, piece);
-            tableWidget->setCellWidget(row, 1, price);
-            row++;
-
-            if(j == prices[i].size() - 1){
-                QLineEdit *newPiece = new QLineEdit(tableWidget);
-                newPiece->setAlignment(Qt::AlignCenter);
-
-                QDoubleSpinBox *newPrice = new QDoubleSpinBox(tableWidget);
-                newPrice->setDecimals(2);
-                newPrice->setValue(0.00);
-
-                tableWidget->setCellWidget(row, 0, newPiece);
-                tableWidget->setCellWidget(row, 1, newPrice);
-
-                row++;
-            }
-        }
-    QLabel *newType = new QLabel("New Type");
-    tableWidget->setCellWidget(row, 0, newType);
-    row++;
-
+    tableWidget->setCellWidget(row, 0, newTypeLabel);
+    tableWidget->setCellWidget(row, 1, newTypeLine);
+    //row++;
+    /*
     QLineEdit *type = new QLineEdit(tableWidget);
     QDoubleSpinBox *newPrice = new QDoubleSpinBox(tableWidget);
     newPrice ->setDecimals(2);
     tableWidget->setCellWidget(row, 0, type);
     tableWidget->setCellWidget(row, 1, newPrice);
+    */
 }
 
 
@@ -1745,17 +1798,24 @@ void MainWindow::increaseIndex(size_t index, std::vector<std::tuple<std::string,
 
 }
 
-void MainWindow::createType(size_t curIndex, std::vector<std::tuple<std::string, int, int>> &pos, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string newPiece, double newPrice){
-    int lpos, rpos;
+void MainWindow::createType(size_t curIndex, std::vector<std::tuple<std::string, int, int>> &pos, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string newPiece){
+    int lpos = 0, rpos = 1;
     std::vector<std::pair<std::string, double>> newType;
+
+    if(curIndex == 0 && std::get<0>(pos[curIndex]) == ""){
+        std::get<0>(pos[curIndex]) = newPiece;
+        std::get<1>(pos[curIndex]) = lpos;
+        std::get<2>(pos[curIndex]) = rpos;
+        return;
+    }
 
     rpos = std::get<2>(pos[curIndex]);
     lpos = rpos + 1;
-    rpos += 3;
+    rpos += 2;
 
     pos.push_back(std::make_tuple(newPiece, lpos, rpos));
 
-    newType.push_back(std::make_pair(newPiece, newPrice));
+    newType.push_back(std::make_pair("", 0.00));
     prices.push_back(newType);
 }
 
@@ -1767,6 +1827,8 @@ int MainWindow::calculateSize(std::vector<std::vector<std::pair<std::string, dou
         for(j = 0; j < prices[i].size(); j++){
             if(j == 0)
                 size++;
+            if(prices[i][j].first == "")
+                continue;
             size++;
         }
     return size;
@@ -1785,12 +1847,12 @@ int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::stri
 
 void MainWindow::printReciept(){
 
-    int x = 50, y = 50, paperWidth, yInc = 50;
+    int x = 50, y = 10, yInc = 35;
     size_t i, j;
     std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
     std::vector<QString> info;
 
-    int lPos = 0, dcPos = 0, altPos = 0, totalLines = 0, height, width = 360, typeLineSpace = 0;
+    int lPos = 0, dcPos = 0, altPos = 0, totalLines = 0, height, width = 360, difX = 30, difY = 22;
 
     QPrintDialog printDialog(&printer, this);
 
@@ -1800,20 +1862,7 @@ void MainWindow::printReciept(){
     QFont font = painter.font();
     QFontMetrics metrics(font);
 
-    qDebug() << "Printer Name:" << printer.printerName() << "\n";
-    //x = 0;
-    //y = 10;
-    //painter.drawText(x, y, "Hi");
-    //x = 180 * 1;
-    //y = 180 * 2;
-    ///painter.drawText(x, y, "Hi");
-    height = metrics.height();
-
-    qDebug() << "Font height: " << height << "\n";
-
-
-    //calculate box length();
-
+    //calculate box length;
     if(calculatePieceTotal(laundry)){
         lPos = 1;
         for(i = 0; i < laundry.size(); i++)
@@ -1828,9 +1877,7 @@ void MainWindow::printReciept(){
             if(dryClean[i].empty() == false)
                 for(j = 0; j < dryClean[i].size(); j++)
                     dcPos++;
-
     }
-
     if(calculatePieceTotal(alterations)){
         altPos = 1;
         for(i = 0; i < alterations.size(); i++)
@@ -1838,68 +1885,53 @@ void MainWindow::printReciept(){
                 for(j = 0; j < alterations[i].size(); j++)
                     altPos++;
     }
+
     totalLines = lPos + dcPos + altPos;
-
-    //if(lPos != 0)
-        //typeLineSpace++;
-    //if(dcPos != 0)
-        //typeLineSpace++;
-    //if(altPos != 0)
-        //typeLineSpace++;
-
     //Height in Pixels
     height = 50;
 
     //Height in lines
-    height = (height * totalLines) + 25 * typeLineSpace;
-
-    QRect(x, y, width, height);
-
-    //font.setPointSize(12);
-    //painter.setFont(font);
-
-    // Define the rectangle where you want the text to be drawn
-    /*
-    x = 500;
-    y = 100;
-    int width = 300; // Width of the area in which you want to draw the text
-    int height = 50; // Height of the area for text
-
-    QRect rect(x - width, y, width, height);  // Adjust the rectangle so that the right edge is at (x, y)
-    */
-    // Draw the text aligned to the right
-    //  painter.drawText(rect, Qt::AlignRight, "Text to be aligned to the right");
-
-    /*
-    paperWidth = printer.pageRect(QPrinter::Millimeter).width();
-    QFontMetrics fontMetrics(painter.font());
-    int txtWidthOrderID = fontMetrics.horizontalAdvance(QString::number(curOrderID));
-    int xOrderID = (paperWidth - txtWidthOrderID) / 2;
+    //height = (height * totalLines) - 15;
 
 
-    */
+    font.setPointSize(12);
+    font.setBold(true);
+    painter.setFont(font);
 
-    //We'll make a rectangle here and center align the text for this first box of orderID
-    painter.drawText(xOrderID, y, QString::number(curOrderID));
-    y += yInc;
+    //Order ID
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, QString::number(curOrderID));
+    y = y + yInc + 15;
+
+
+    font.setPointSize(9);
+    font.setBold(false);
+    painter.setFont(font);
+
+    //Shop Information
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "Cleaning and Alteration Shop");
+    y += yInc - 5;
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "1709 Tully Rd, Suite C");
+    y += yInc - 5;
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "(408) 258-5705");
+
+    y = y + yInc + 19;
+
+    //Customer Information
     painter.drawText(x, y, QString::fromStdString(customer[0]->getLastName()) + ", " + QString::fromStdString(customer[0]->getFirstName()));
     y += yInc;
     painter.drawText(x, y, "Phone: " + QString::fromStdString(customer[0]->getFormattedPhone()));
     y += yInc;
-    font.setPointSize(9);
-    painter.setFont(font);
+
+    //Dates
     painter.drawText(x, y, "Drop Off: " + QString::fromStdString(order[0]->dropOff->dayOfWeekString()) + " " + QString::fromStdString(order[0]->dropOff->getDate_Time()));
     y += yInc;
     painter.drawText(x, y, "Pick Up: " + QString::fromStdString(order[0]->pickUp->dayOfWeekString()) + " " + QString::fromStdString(order[0]->pickUp->getDate()));
     y += yInc;
 
-    painter.drawText(x, y, "========================");
+    //Order Information
+    painter.drawText(x, y, "=========================");
     yInc = 25;
     y += yInc;
-
-
-
-
     if(calculatePieceTotal(laundry)){
         painter.drawText(x, y, "Laundry: ");
         y += yInc;
@@ -1907,7 +1939,9 @@ void MainWindow::printReciept(){
         for(i = 0; i < laundry.size(); i++)
             if(laundry[i].empty() == false)
                 for(j = 0; j < laundry[i].size(); j++){
-                    painter.drawText(x, y, QString::number(std::get<1>(laundry[i][j])) + "    " + QString::fromStdString(std::get<0>(laundry[i][j])) + "    " + QString::number(std::get<1>(laundry[i][j]) * std::get<2>(laundry[i][j])));
+                    painter.drawText(x, y, QString::number(std::get<1>(laundry[i][j])));
+                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height()), Qt::AlignLeft, QString::fromStdString(std::get<0>(laundry[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignRight, QString::number(std::get<1>(laundry[i][j]) * std::get<2>(laundry[i][j])));
                     y += yInc;
                 }
         y += yInc;
@@ -1920,7 +1954,9 @@ void MainWindow::printReciept(){
         for(i = 0; i < dryClean.size(); i++)
             if(dryClean[i].empty() == false)
                 for(j = 0; j < dryClean[i].size(); j++){
-                    painter.drawText(x, y, QString::number(std::get<1>(dryClean[i][j])) + "    " + QString::fromStdString(std::get<0>(dryClean[i][j])) + "    " + QString::number(std::get<1>(dryClean[i][j]) * std::get<2>(dryClean[i][j])));
+                    painter.drawText(x, y, QString::number(std::get<1>(dryClean[i][j])));
+                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height()), Qt::AlignLeft, QString::fromStdString(std::get<0>(dryClean[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignRight, QString::number(std::get<1>(dryClean[i][j]) * std::get<2>(dryClean[i][j])));
                     y += yInc;
                 }
         y += yInc;
@@ -1933,27 +1969,33 @@ void MainWindow::printReciept(){
         for(i = 0; i < alterations.size(); i++)
             if(alterations[i].empty() == false)
                 for(j = 0; j < alterations[i].size(); j++){
-                    painter.drawText(x, y, QString::number(std::get<1>(alterations[i][j])) + "    " + QString::fromStdString(std::get<0>(alterations[i][j])) + "    " + QString::number(std::get<1>(alterations[i][j]) * std::get<2>(alterations[i][j])));
+                    painter.drawText(x, y, QString::number(std::get<1>(alterations[i][j])));
+                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height()), Qt::AlignLeft, QString::fromStdString(std::get<0>(alterations[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignRight, QString::number(std::get<1>(alterations[i][j]) * std::get<2>(alterations[i][j])));
                     y += yInc;
                 }
         y += yInc;
     }
+    painter.drawText(x, y - yInc, "=========================");
 
-    painter.drawText(x, y, "========================");
-    yInc = 50;
-    y += yInc;
-
-    painter.drawText(x, y, "Total: " + QString::number(order[0]->getCost()));
-    y += yInc;
+    //Total Information
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignLeft, "Pieces: " + QString::number(order[0]->getPieceTotal()));
     if(order[0]->getPaid())
-        painter.drawText(x, y, "Paid");
+        painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "Paid");
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignRight, "Total: " + QString::number(order[0]->getCost()));
 
-    y += 150;
-    painter.drawText(x, y, "   ");
+
+    y += 80;
+    font.setPointSize(12);
+    font.setBold(true);
+    painter.setFont(font);
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, QString::number(curOrderID));
+
 
     // End the printing process
-
-
     painter.end();
 }
+
+
+
 
