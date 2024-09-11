@@ -129,21 +129,18 @@ private slots:
     //
     //Order Laundry Page(5)
     //
-    void setUpLaundryPage();
     void on_btnLaundryReturn_clicked();
     void on_tableWidgetLaundryOptions_clicked(const QModelIndex &index);
 
     //
     //Order DryClean Page()
     //
-    void setUpDryCleanPage();
     void on_btnDryCleanReturn_clicked();
     void on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index);
 
     //
     //Order Alterations Page()
     //
-    void setUpAlterationsPage();
     void on_btnAlterationsReturn_clicked();
     void on_tableWidgetAlterationsOptions_clicked(const QModelIndex &index);
 
@@ -222,6 +219,9 @@ private slots:
     void updateCOInformationDP();
     void updateCOInformationPU();
     void updateCOInformationEO();
+
+    void setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::vector<std::pair<std::string, double>>> prices, std::vector<std::tuple<std::string, int, int>> pos);
+
 
     void setDate(QDateTimeEdit *dp, QDateTimeEdit *pu);
 

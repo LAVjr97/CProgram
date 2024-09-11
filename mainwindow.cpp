@@ -173,8 +173,8 @@ MainWindow::MainWindow(QWidget *parent)
     //Order Search ResultsPU
     //
     modelOSR = new QStandardItemModel(this);
-    modelOSR->setColumnCount(4);
-    modelOSR->setHorizontalHeaderLabels({"Order ID", "Drop Off", "Pick Up", "Total"});
+    modelOSR->setColumnCount(5);
+    modelOSR->setHorizontalHeaderLabels({"Order ID", "Drop Off", "Picked Up", "Pieces", "Total $"});
 
     tableViewOSR = ui->tableViewOSR;
     tableViewOSR->setModel(modelOSR);
@@ -232,8 +232,8 @@ MainWindow::MainWindow(QWidget *parent)
     //***Order Search ResultsEO ()***
     //
     modelOSREO = new QStandardItemModel(this);
-    modelOSREO->setColumnCount(4);
-    modelOSREO->setHorizontalHeaderLabels({"Order ID", "Drop Off", "Pick Up", "Total"});
+    modelOSREO->setColumnCount(5);
+    modelOSREO->setHorizontalHeaderLabels({"Order ID", "Drop Off", "Picked Up", "Pieces", "Total $"});
 
     tableViewOSREO = ui->tableViewOSREO;
     tableViewOSREO->setModel(modelOSREO);
@@ -243,17 +243,13 @@ MainWindow::MainWindow(QWidget *parent)
     //
     //
     //
-    //modelCIP = new QStanardItemModel(this);
     tableWidgetLaundryCIP = ui->tableWidgetLaundryCIP;
-    //tableWidgetLaundryCIP->setRowCount(lPrices + laundryPrices.size());
     tableWidgetLaundryCIP->setColumnCount(2);
 
     tableWidgetDryCleanCIP = ui->tableWidgetDryCleanCIP;
-    //tableWidgetDryCleanCIP->setRowCount(dcPrices + dryCleanPrices.size());
     tableWidgetDryCleanCIP->setColumnCount(2);
 
     tableWidgetAlterationsCIP = ui->tableWidgetAlterationsCIP;
-    //tableWidgetAlterationsCIP->setRowCount(aPrices + alterationsPrices.size());
     tableWidgetAlterationsCIP->setColumnCount(2);
 }
 
@@ -398,7 +394,7 @@ void MainWindow::on_btnLaundry_clicked()
     if(lineFNameDP->text().isEmpty())
         return;
 
-    setUpLaundryPage();
+    setUpOptionsTables(tableWidgetLaundryOptions, laundryPrices, laundryPos);
 
     MainWindow::showOrderLaundryPage();
 }
@@ -408,7 +404,7 @@ void MainWindow::on_btnDryClean_clicked()
     if(lineFNameDP->text().isEmpty())
         return;
 
-    setUpDryCleanPage();
+    setUpOptionsTables(tableWidgetDryCleanOptions, dryCleanPrices, dryCleanPos);
 
     MainWindow::showOrderDryCleanPage();
 }
@@ -418,7 +414,7 @@ void MainWindow::on_btnAlterations_clicked()
     if(lineFNameDP->text().isEmpty())
         return;
 
-    setUpAlterationsPage();
+    setUpOptionsTables(tableWidgetAlterationsOptions, alterationsPrices, alterationsPos);
 
     MainWindow::showOrderAlterationsPage();
 }
@@ -451,10 +447,6 @@ void MainWindow::on_btnSaveDP_clicked()
 
     ui->btnOneRecieptDP->show();
     ui->btnTwoRecieptDP->show();
-
-
-    //printReciept();
-    //showMainPage();
 }
 
 void MainWindow::on_btnOneRecieptDP_clicked()
@@ -485,7 +477,6 @@ void MainWindow::on_btnTwoRecieptDP_clicked()
 void MainWindow::on_btnReturn_clicked()
 {
     showMainPage();
-
     //If customer information was pulled up but nothing was added to order, delete order
     if(modelDP->rowCount() == 0 && !lineFNameDP ->text().isEmpty()){
         orders.pop_back();
@@ -627,45 +618,6 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
 //
 //***Laundry Order Page (5)***
 //
-void MainWindow::setUpLaundryPage(){
-    size_t row = 0, i, j;
-    QFont font;
-
-    tableWidgetLaundryOptions->setRowCount(calculateSize(laundryPrices));
-
-    for(i = 0; i < laundryPrices.size(); i++)
-        for(j = 0; j < laundryPrices[i].size(); j++){
-            if(j == 0){
-                QLabel *label = new QLabel(QString::fromStdString(std::get<0>(laundryPos[i])));
-                label->setAlignment(Qt::AlignCenter);
-                font = label->font();
-                font.setBold(true);
-                label->setFont(font);
-
-                tableWidgetLaundryOptions->setCellWidget(row, 0, label);
-
-                row++;
-            }
-
-            QLabel *type = new QLabel(QString::fromStdString(laundryPrices[i][j].first));
-            type->setAlignment(Qt::AlignCenter);
-
-            QSpinBox *count = new QSpinBox(tableWidgetLaundryOptions);
-            count->setValue(0);
-
-            QDoubleSpinBox *price = new QDoubleSpinBox(tableWidgetLaundryOptions);
-            price->setDecimals(2);
-            price->setValue(laundryPrices[i][j].second);
-
-            tableWidgetLaundryOptions->setCellWidget(row, 0, type);
-            tableWidgetLaundryOptions->setCellWidget(row, 1, count);
-            tableWidgetLaundryOptions->setCellWidget(row, 2, price);
-
-            row++;
-        }
-
-
-}
 
 void MainWindow::on_btnLaundryReturn_clicked(){
     QSpinBox *spinBox;
@@ -731,8 +683,6 @@ void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
     //QColor bgColor = type->background().color();
     //qDebug() << "BackGroundColor: " << bgColor.red() << " " << bgColor.green() << " " << bgColor.blue();
     //type->setBackground(Qt::green);
-
-
 }
 
 
@@ -740,46 +690,6 @@ void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
 //
 //***DryClean Order Page (5)***
 //
-void MainWindow::setUpDryCleanPage(){
-    size_t row = 0, i, j;
-    QFont font;
-
-    tableWidgetDryCleanOptions->setRowCount(calculateSize(dryCleanPrices));
-
-
-    for(i = 0; i < dryCleanPrices.size(); i++)
-        for(j = 0; j < dryCleanPrices[i].size(); j++){
-            if(j == 0){
-                QLabel *label = new QLabel(QString::fromStdString(std::get<0>(dryCleanPos[i])));
-                label->setAlignment(Qt::AlignCenter);
-                font = label->font();
-                font.setBold(true);
-                label->setFont(font);
-
-                tableWidgetDryCleanOptions->setCellWidget(row, 0, label);
-                row++;
-            }
-
-            QLabel *type = new QLabel(QString::fromStdString(dryCleanPrices[i][j].first));
-            type->setAlignment(Qt::AlignCenter);
-
-            QSpinBox *count = new QSpinBox(tableWidgetDryCleanOptions);
-            count->setValue(0);
-
-            QDoubleSpinBox *price = new QDoubleSpinBox(tableWidgetDryCleanOptions);
-            price->setDecimals(2);
-            price->setValue(dryCleanPrices[i][j].second);
-
-            tableWidgetDryCleanOptions->setCellWidget(row, 0, type);
-            tableWidgetDryCleanOptions->setCellWidget(row, 1, count);
-            tableWidgetDryCleanOptions->setCellWidget(row, 2, price);
-
-            row++;
-        }
-    //else, clearing dry clean page
-
-}
-
 void MainWindow::on_btnDryCleanReturn_clicked(){
     QSpinBox *spinBox;
     bool empty = true;
@@ -841,7 +751,6 @@ void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index)
     pos = getIndex(row, dryCleanPos);
 
     order[0]->setDryCleanPiece(pos, n, price, article);
-
 }
 
 
@@ -849,45 +758,8 @@ void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index)
 //
 //***Alterations Order Page (7)***
 //
-void MainWindow::setUpAlterationsPage(){
-    size_t row = 0, i, j;
-    QFont font;
 
-    tableWidgetAlterationsOptions->setRowCount(calculateSize(alterationsPrices));
-
-
-    for(i = 0; i < alterationsPrices.size(); i++)
-        for(j = 0; j < alterationsPrices[i].size(); j++){
-            if(j == 0){
-                QLabel *label = new QLabel(QString::fromStdString(std::get<0>(alterationsPos[i])));
-                label->setAlignment(Qt::AlignCenter);
-                font = label->font();
-                font.setBold(true);
-                label->setFont(font);
-
-                tableWidgetAlterationsOptions->setCellWidget(row, 0, label);
-                row++;
-            }
-
-            QLabel *type = new QLabel(QString::fromStdString(alterationsPrices[i][j].first));
-            type->setAlignment(Qt::AlignCenter);
-
-            QSpinBox *count = new QSpinBox(tableWidgetAlterationsOptions);
-            count->setValue(0);
-
-            QDoubleSpinBox *price = new QDoubleSpinBox(tableWidgetAlterationsOptions);
-            price->setDecimals(2);
-            price->setValue(alterationsPrices[i][j].second);
-
-            tableWidgetAlterationsOptions->setCellWidget(row, 0, type);
-            tableWidgetAlterationsOptions->setCellWidget(row, 1, count);
-            tableWidgetAlterationsOptions->setCellWidget(row, 2, price);
-            row++;
-        }
-
-
-}
-
+//void MainWindow::
 void MainWindow::on_btnAlterationsReturn_clicked(){
     QSpinBox *spinBox;
     bool empty = true;
@@ -1085,6 +957,7 @@ void MainWindow::on_tableViewCSRPU_clicked(const QModelIndex &index){
     size_t i;
     cust::customer *temp = customer[index.row()];
     std::vector<orderInfo::order*> oTemp;
+    QStandardItem *pickUpItem;
 
     customer.clear();
     order.clear();
@@ -1104,14 +977,26 @@ void MainWindow::on_tableViewCSRPU_clicked(const QModelIndex &index){
         oTemp.pop_back();
 
         QStandardItem *orderIDItem = new QStandardItem(QString::number(order[i]->getOrderID()));
+        orderIDItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *dropOffItem = new QStandardItem(QString::fromStdString(order[i]->dropOff->getDate()));
-        QStandardItem *pickUpItem = new QStandardItem(QString::fromStdString(order[i]->pickUp->getDate()));
+        dropOffItem->setTextAlignment(Qt::AlignCenter);
+        QStandardItem *totalPiecesItem = new QStandardItem(QString::number(order[i]->getPieceTotal()));
+        totalPiecesItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *totalItem = new QStandardItem(QString::number(order[i]->getCost()));
+        totalItem->setTextAlignment(Qt::AlignCenter);
+
+        if(order[i]->getPickUp())
+            pickUpItem = new QStandardItem("Yes");
+        else
+            pickUpItem = new QStandardItem("No");
+
+        pickUpItem->setTextAlignment(Qt::AlignCenter);
 
         modelOSR->setItem(i, 0, orderIDItem);
         modelOSR->setItem(i, 1, dropOffItem);
         modelOSR->setItem(i, 2, pickUpItem);
-        modelOSR->setItem(i, 3, totalItem);
+        modelOSR->setItem(i, 3, totalPiecesItem);
+        modelOSR->setItem(i, 4, totalItem);
     }
 
     showOrderSearchResultsPU();
@@ -1294,9 +1179,11 @@ void MainWindow::on_btnReturnCSREO_clicked(){
 }
 
 void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
+    //Make into 1 function, passing model and index
     size_t i;
     cust::customer *temp = customer[index.row()];
     std::vector<orderInfo::order*> oTemp;
+    QStandardItem *pickUpItem;
 
     customer.clear();
     order.clear();
@@ -1316,20 +1203,34 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
         oTemp.pop_back();
 
         QStandardItem *orderIDItem = new QStandardItem(QString::number(order[i]->getOrderID()));
+        orderIDItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *dropOffItem = new QStandardItem(QString::fromStdString(order[i]->dropOff->getDate()));
-        QStandardItem *pickUpItem = new QStandardItem(QString::fromStdString(order[i]->pickUp->getDate()));
+        dropOffItem->setTextAlignment(Qt::AlignCenter);
+        QStandardItem *totalPiecesItem = new QStandardItem(QString::number(order[i]->getPieceTotal()));
+        totalPiecesItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *totalItem = new QStandardItem(QString::number(order[i]->getCost()));
+        totalItem->setTextAlignment(Qt::AlignCenter);
+
+        if(order[i]->getPickUp())
+            pickUpItem = new QStandardItem("Yes");
+        else
+            pickUpItem = new QStandardItem("No");
+
+        pickUpItem->setTextAlignment(Qt::AlignCenter);
 
         modelOSREO->setItem(i, 0, orderIDItem);
         modelOSREO->setItem(i, 1, dropOffItem);
         modelOSREO->setItem(i, 2, pickUpItem);
-        modelOSREO->setItem(i, 3, totalItem);
+        modelOSREO->setItem(i, 3, totalPiecesItem);
+        modelOSREO->setItem(i, 4, totalItem);
+
     }
 
     showOrderSearchResultsEO();
+    modelCSREO->removeRows(0, modelCSREO->rowCount());
+
     lineRackEO->setFocus();
 
-    modelCSREO->removeRows(0, modelCSRPU->rowCount());
 }
 
 
@@ -1676,6 +1577,43 @@ void MainWindow::clearScreenEO(){
     checkBoxPUEO->setCheckState(Qt::Unchecked);
 }
 
+void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::vector<std::pair<std::string, double>>> prices, std::vector<std::tuple<std::string, int, int>> pos){
+    size_t row = 0, i, j;
+    QFont font;
+
+    tableWidget->setRowCount(calculateSize(prices));
+
+
+    for(i = 0; i < prices.size(); i++)
+        for(j = 0; j < prices[i].size(); j++){
+            if(j == 0){
+                QLabel *label = new QLabel(QString::fromStdString(std::get<0>(pos[i])));
+                label->setAlignment(Qt::AlignCenter);
+                font = label->font();
+                font.setBold(true);
+                label->setFont(font);
+
+                tableWidget->setCellWidget(row, 0, label);
+                row++;
+            }
+
+            QLabel *type = new QLabel(QString::fromStdString(prices[i][j].first));
+            type->setAlignment(Qt::AlignCenter);
+
+            QSpinBox *count = new QSpinBox(tableWidget);
+            count->setValue(0);
+
+            QDoubleSpinBox *price = new QDoubleSpinBox(tableWidget);
+            price->setDecimals(2);
+            price->setValue(prices[i][j].second);
+
+            tableWidget->setCellWidget(row, 0, type);
+            tableWidget->setCellWidget(row, 1, count);
+            tableWidget->setCellWidget(row, 2, price);
+            row++;
+        }
+}
+
 void MainWindow::setDate(QDateTimeEdit *dp, QDateTimeEdit *pu){
     QDate dateD(order[0]->dropOff->getYear(), order[0]->dropOff->getMonth(), order[0]->dropOff->getDay());
     QTime timeD(order[0]->dropOff->getHour(), order[0]->dropOff->getMin());
@@ -1847,54 +1785,19 @@ int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::stri
 
 void MainWindow::printReciept(){
 
-    int x = 50, y = 10, yInc = 35;
+    int x = 9, y = 15, yInc = 35;
     size_t i, j;
     std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
     std::vector<QString> info;
 
-    int lPos = 0, dcPos = 0, altPos = 0, totalLines = 0, height, width = 360, difX = 30, difY = 22;
+    int width = 435, difX = 45, difY = 22;
 
     QPrintDialog printDialog(&printer, this);
-
-
-
     QPainter painter(&printer);
     QFont font = painter.font();
     QFontMetrics metrics(font);
 
-    //calculate box length;
-    if(calculatePieceTotal(laundry)){
-        lPos = 1;
-        for(i = 0; i < laundry.size(); i++)
-            if(laundry[i].empty() == false)
-                for(j = 0; j < laundry[i].size(); j++)
-                    lPos++;
-    }
-
-    if(calculatePieceTotal(dryClean)){
-        dcPos = 1;
-        for(i = 0; i < dryClean.size(); i++)
-            if(dryClean[i].empty() == false)
-                for(j = 0; j < dryClean[i].size(); j++)
-                    dcPos++;
-    }
-    if(calculatePieceTotal(alterations)){
-        altPos = 1;
-        for(i = 0; i < alterations.size(); i++)
-            if(alterations[i].empty() == false)
-                for(j = 0; j < alterations[i].size(); j++)
-                    altPos++;
-    }
-
-    totalLines = lPos + dcPos + altPos;
-    //Height in Pixels
-    height = 50;
-
-    //Height in lines
-    //height = (height * totalLines) - 15;
-
-
-    font.setPointSize(12);
+    font.setPointSize(15);
     font.setBold(true);
     painter.setFont(font);
 
@@ -1902,23 +1805,30 @@ void MainWindow::printReciept(){
     painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, QString::number(curOrderID));
     y = y + yInc + 15;
 
-
-    font.setPointSize(9);
+    font.setPointSize(11);
     font.setBold(false);
     painter.setFont(font);
 
     //Shop Information
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "Cleaning and Alteration Shop");
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "Cleaning & Alteration Shop");
     y += yInc - 5;
     painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "1709 Tully Rd, Suite C");
     y += yInc - 5;
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "San Jose, CA, 95122");
+    y += yInc - 5;
     painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "(408) 258-5705");
 
-    y = y + yInc + 19;
+    y = y + yInc + 45;
 
     //Customer Information
+    yInc -= 5;
+    font.setBold(true);
+    painter.setFont(font);
     painter.drawText(x, y, QString::fromStdString(customer[0]->getLastName()) + ", " + QString::fromStdString(customer[0]->getFirstName()));
     y += yInc;
+
+    font.setBold(false);
+    painter.setFont(font);
     painter.drawText(x, y, "Phone: " + QString::fromStdString(customer[0]->getFormattedPhone()));
     y += yInc;
 
@@ -1927,8 +1837,11 @@ void MainWindow::printReciept(){
     y += yInc;
     painter.drawText(x, y, "Pick Up: " + QString::fromStdString(order[0]->pickUp->dayOfWeekString()) + " " + QString::fromStdString(order[0]->pickUp->getDate()));
     y += yInc;
+    //yInc += 5;
+
 
     //Order Information
+    y += 10;
     painter.drawText(x, y, "=========================");
     yInc = 25;
     y += yInc;
@@ -1939,7 +1852,7 @@ void MainWindow::printReciept(){
         for(i = 0; i < laundry.size(); i++)
             if(laundry[i].empty() == false)
                 for(j = 0; j < laundry[i].size(); j++){
-                    painter.drawText(x, y, QString::number(std::get<1>(laundry[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignLeft, QString::number(std::get<1>(laundry[i][j])));
                     painter.drawText(QRect(x + difX, y - difY, width, metrics.height()), Qt::AlignLeft, QString::fromStdString(std::get<0>(laundry[i][j])));
                     painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignRight, QString::number(std::get<1>(laundry[i][j]) * std::get<2>(laundry[i][j])));
                     y += yInc;
@@ -1954,7 +1867,7 @@ void MainWindow::printReciept(){
         for(i = 0; i < dryClean.size(); i++)
             if(dryClean[i].empty() == false)
                 for(j = 0; j < dryClean[i].size(); j++){
-                    painter.drawText(x, y, QString::number(std::get<1>(dryClean[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignLeft, QString::number(std::get<1>(dryClean[i][j])));
                     painter.drawText(QRect(x + difX, y - difY, width, metrics.height()), Qt::AlignLeft, QString::fromStdString(std::get<0>(dryClean[i][j])));
                     painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignRight, QString::number(std::get<1>(dryClean[i][j]) * std::get<2>(dryClean[i][j])));
                     y += yInc;
@@ -1969,27 +1882,27 @@ void MainWindow::printReciept(){
         for(i = 0; i < alterations.size(); i++)
             if(alterations[i].empty() == false)
                 for(j = 0; j < alterations[i].size(); j++){
-                    painter.drawText(x, y, QString::number(std::get<1>(alterations[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignLeft, QString::number(std::get<1>(alterations[i][j])));
                     painter.drawText(QRect(x + difX, y - difY, width, metrics.height()), Qt::AlignLeft, QString::fromStdString(std::get<0>(alterations[i][j])));
                     painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignRight, QString::number(std::get<1>(alterations[i][j]) * std::get<2>(alterations[i][j])));
                     y += yInc;
                 }
         y += yInc;
     }
-    painter.drawText(x, y - yInc, "=========================");
+    painter.drawText(x, y - yInc + 5, "=========================");
 
     //Total Information
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignLeft, "Pieces: " + QString::number(order[0]->getPieceTotal()));
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
     if(order[0]->getPaid())
         painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "Paid");
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignRight, "Total: " + QString::number(order[0]->getCost()));
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignRight, "Total: $" + QString::number(order[0]->getCost()));
 
 
-    y += 80;
-    font.setPointSize(12);
-    font.setBold(true);
-    painter.setFont(font);
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, QString::number(curOrderID));
+    y += 120;
+    //font.setPointSize(12);
+    //font.setBold(true);
+    //painter.setFont(font);
+    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "Thank You Very Much");//QString::number(curOrderID));
 
 
     // End the printing process
