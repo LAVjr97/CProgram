@@ -221,7 +221,8 @@ private slots:
     void updateCOInformationEO();
 
     void setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::vector<std::pair<std::string, double>>> prices, std::vector<std::tuple<std::string, int, int>> pos);
-
+    void tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex &index, std::vector<std::tuple<std::string, int, int>> &pos, int typ);
+    void customerSearchPageSetUp(QTableView *tableView, QStandardItemModel *model, QLineEdit *lineSearch);
 
     void setDate(QDateTimeEdit *dp, QDateTimeEdit *pu);
 

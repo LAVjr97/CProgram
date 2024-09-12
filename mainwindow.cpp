@@ -389,8 +389,9 @@ void MainWindow::on_btnCustomer_clicked()
     MainWindow::showSearchPage();
 }
 
-void MainWindow::on_btnLaundry_clicked()
-{
+void MainWindow::on_btnLaundry_clicked(){
+    ui->btnOneRecieptDP->hide();
+    ui->btnTwoRecieptDP->hide();
     if(lineFNameDP->text().isEmpty())
         return;
 
@@ -399,8 +400,9 @@ void MainWindow::on_btnLaundry_clicked()
     MainWindow::showOrderLaundryPage();
 }
 
-void MainWindow::on_btnDryClean_clicked()
-{
+void MainWindow::on_btnDryClean_clicked(){
+    ui->btnOneRecieptDP->hide();
+    ui->btnTwoRecieptDP->hide();
     if(lineFNameDP->text().isEmpty())
         return;
 
@@ -409,8 +411,9 @@ void MainWindow::on_btnDryClean_clicked()
     MainWindow::showOrderDryCleanPage();
 }
 
-void MainWindow::on_btnAlterations_clicked()
-{
+void MainWindow::on_btnAlterations_clicked(){
+    ui->btnOneRecieptDP->hide();
+    ui->btnTwoRecieptDP->hide();
     if(lineFNameDP->text().isEmpty())
         return;
 
@@ -421,9 +424,15 @@ void MainWindow::on_btnAlterations_clicked()
 
 void MainWindow::on_btnSaveDP_clicked()
 {
-    if(lineFNameDP->text().isEmpty())
+    if(lineFNameDP->text().isEmpty() || (!lineFNameDP->text().isEmpty() && modelDP->rowCount() == 0))
         return;
 
+    //ui->btnOneRecieptDP->show();
+    //ui->btnTwoRecieptDP->show();
+}
+
+void MainWindow::on_btnOneRecieptDP_clicked()
+{
     //Add orderID to customer's orders
     customer[0]->setLatestOrder(curOrderID);
     customer[0]->updateVisits(customer[0]->getVisit() + 1);
@@ -445,12 +454,6 @@ void MainWindow::on_btnSaveDP_clicked()
     threadOrder.join();
     threadCust.join();
 
-    ui->btnOneRecieptDP->show();
-    ui->btnTwoRecieptDP->show();
-}
-
-void MainWindow::on_btnOneRecieptDP_clicked()
-{
     printReciept();
 
     customer.clear();
@@ -463,6 +466,27 @@ void MainWindow::on_btnOneRecieptDP_clicked()
 
 void MainWindow::on_btnTwoRecieptDP_clicked()
 {
+    //Add orderID to customer's orders
+    customer[0]->setLatestOrder(curOrderID);
+    customer[0]->updateVisits(customer[0]->getVisit() + 1);
+
+    //Setting Date
+    QDateTime dateTime = dateDTPickUpDP->dateTime();
+    order[0]->pickUp->setYear(dateTime.date().year());
+    order[0]->pickUp->setMonth(dateTime.date().month());
+    order[0]->pickUp->setDay(dateTime.date().day());
+    order[0]->pickUp->setHour(dateTime.time().hour());
+    order[0]->pickUp->setMin(dateTime.time().minute());
+    order[0]->pickUp->updateClass();
+
+    orders[curOrderID].setPaid(checkBoxPaidDP->isChecked());
+
+
+    std::thread threadOrder(&fi::File::saveOrders, manager, std::ref(orders[curOrderID]));
+    std::thread threadCust(&fi::File::updateCustomer, manager, customer[0]->getCustomerID());
+    threadOrder.join();
+    threadCust.join();
+
     printReciept();
     printReciept();
 
@@ -479,6 +503,14 @@ void MainWindow::on_btnReturn_clicked()
     showMainPage();
     //If customer information was pulled up but nothing was added to order, delete order
     if(modelDP->rowCount() == 0 && !lineFNameDP ->text().isEmpty()){
+        orders.pop_back();
+        curOrderID--;
+    }
+
+    bool boo = ui->btnOneRecieptDP->isVisible();
+
+
+    if(boo){
         orders.pop_back();
         curOrderID--;
     }
@@ -507,35 +539,10 @@ void MainWindow::on_btnNewCustomersCS_clicked()
     lineSearchCustomerCS -> clear();
 }
 
-void MainWindow::on_btnSearchCS_clicked()
-{
-    std::string entry = lineSearchCustomerCS->text().toStdString();
-    size_t i;
-    customer.clear();
-
-    //Makes sure that the line entry isnt empyt before continuing
-    if(lineSearchCustomerCS->text().isEmpty())
-        return;
-
-    //Make sure its a name or phone number before searching
-    if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
-        customer = search::Search::searchCustAlgo(entry, this->customers);
-
-    //Create List of matching customers
-    for(i = 0; i < customer.size(); i++){
-        QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
-        QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
-        QStandardItem *phoneItem = new QStandardItem(QString::fromStdString(customer[i]->getFormattedPhone()));
-
-        modelCSR->setItem(i, 0, firstNameItem);
-        modelCSR->setItem(i, 1, lastNameItem);
-        modelCSR->setItem(i, 2, phoneItem);
-    }
-
+void MainWindow::on_btnSearchCS_clicked(){
+    customerSearchPageSetUp(tableViewCSR, modelCSR, lineSearchCustomerCS);
     showCustomerSearchResultsPage();
 }
-
-
 
 //
 //***Customer Search Results Page (3)***
@@ -646,43 +653,12 @@ void MainWindow::on_btnLaundryReturn_clicked(){
 
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
-    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO()));
+    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
     showDropOffPage();
 }
 
 void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
-    double price;
-    int n, pos, row = index.row(), col = index.column();
-
-    std::string article;
-    std::tuple<std::string, int, double> tup;
-    QTableWidgetItem *type;
-    QSpinBox *spinBox;
-    QDoubleSpinBox *dSpinBox;
-
-    //Make this into case and switch, so i can allow a col to be a delete button
-    spinBox = qobject_cast<QSpinBox*>(tableWidgetLaundryOptions->cellWidget(row, 1));
-
-    if(col != 0 || spinBox == nullptr)
-        return;
-
-    spinBox = qobject_cast<QSpinBox*>(tableWidgetLaundryOptions->cellWidget(row, 1));
-    n = spinBox->value();
-    if(n == 0)
-        return;
-
-    dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidgetLaundryOptions->cellWidget(row, 2));
-    price = dSpinBox->value();
-
-    article = qobject_cast<QLabel*>(tableWidgetLaundryOptions->cellWidget(row, 0))->text().toStdString();
-    pos = getIndex(row, laundryPos);
-
-    order[0]->setLaundryPiece(pos, n, price, article);
-
-    //type = tableWidgetLaundryOptions->item(row, col);
-    //QColor bgColor = type->background().color();
-    //qDebug() << "BackGroundColor: " << bgColor.red() << " " << bgColor.green() << " " << bgColor.blue();
-    //type->setBackground(Qt::green);
+    tableWidgetOptions(tableWidgetLaundryOptions, index, laundryPos, 1);
 }
 
 
@@ -720,37 +696,12 @@ void MainWindow::on_btnDryCleanReturn_clicked(){
 
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
-    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO()));
+    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
     showDropOffPage();
 }
 
 void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index){
-    double price;
-    int n, pos, row = index.row(), col = index.column();
-
-    std::string article;
-    std::tuple<std::string, int, double> tup;
-    QSpinBox *spinBox;
-    QDoubleSpinBox *dSpinBox;
-
-    //Make this into case and switch, so i can allow a col to be a delete button
-    spinBox = qobject_cast<QSpinBox*>(tableWidgetDryCleanOptions->cellWidget(row, 1));
-
-    if(col != 0 || spinBox == nullptr)
-        return;
-
-    n = spinBox->value();
-    if(n == 0)
-        return;
-
-    dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidgetDryCleanOptions->cellWidget(row, 2));
-    price = dSpinBox->value();
-
-    article = qobject_cast<QLabel*>(tableWidgetDryCleanOptions->cellWidget(row, 0))->text().toStdString();
-
-    pos = getIndex(row, dryCleanPos);
-
-    order[0]->setDryCleanPiece(pos, n, price, article);
+    tableWidgetOptions(tableWidgetDryCleanOptions, index, dryCleanPos, 2);
 }
 
 
@@ -759,7 +710,6 @@ void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index)
 //***Alterations Order Page (7)***
 //
 
-//void MainWindow::
 void MainWindow::on_btnAlterationsReturn_clicked(){
     QSpinBox *spinBox;
     bool empty = true;
@@ -787,37 +737,12 @@ void MainWindow::on_btnAlterationsReturn_clicked(){
 
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
-    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO()));
+    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
     showDropOffPage();
 }
 
 void MainWindow::on_tableWidgetAlterationsOptions_clicked(const QModelIndex &index){
-    double price;
-    int n, pos, row = index.row(), col = index.column();
-
-    std::string article;
-    std::tuple<std::string, int, double> tup;
-    QSpinBox *spinBox;
-    QDoubleSpinBox *dSpinBox;
-
-    //Make this into case and switch, so i can allow a col to be a delete button
-    spinBox = qobject_cast<QSpinBox*>(tableWidgetAlterationsOptions->cellWidget(row, 1));
-    if(col != 0 || spinBox == nullptr)
-        return;
-
-    spinBox = qobject_cast<QSpinBox*>(tableWidgetAlterationsOptions->cellWidget(row, 1));
-    n = spinBox->value();
-    if(n == 0)
-        return;
-
-    dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidgetAlterationsOptions->cellWidget(row, 2));
-    price = dSpinBox->value();
-
-    article = qobject_cast<QLabel*>(tableWidgetAlterationsOptions->cellWidget(row, 0))->text().toStdString();
-
-    pos = getIndex(row, alterationsPos);
-
-    order[0]->setAlterationsPiece(pos, n, price, article);
+    tableWidgetOptions(tableWidgetAlterationsOptions, index, alterationsPos, 3);
 }
 
 
@@ -871,31 +796,7 @@ void MainWindow::on_btnReturnCSPU_clicked(){
 }
 
 void MainWindow::on_btnSearchCSPU_clicked(){
-    QString entryQ;
-    std::string entry;
-    size_t i;
-
-    customer.clear();
-
-    entryQ = lineSearchCustomerCSPU->text();
-    if(entryQ.isEmpty())
-        return;
-
-    entry = entryQ.toStdString();
-
-    if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
-        customer = search::Search::searchCustAlgo(entry, this->customers);
-
-    for(i = 0; i < customer.size(); i++){
-        QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
-        QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
-        QStandardItem *phoneItem = new QStandardItem(QString::fromStdString(customer[i]->getPhone()));
-
-        modelCSR->setItem(i, 0, firstNameItem);
-        modelCSR->setItem(i, 1, lastNameItem);
-        modelCSR->setItem(i, 2, phoneItem);
-    }
-    tableViewCSRPU -> setSelectionBehavior(QAbstractItemView::SelectRows);
+    customerSearchPageSetUp(tableViewCSRPU, modelCSR, lineSearchCustomerCSPU);
     showCustomerSearchResultsPU();
 }
 
@@ -935,7 +836,7 @@ void MainWindow::on_btnSearchOrderOS_clicked(){
     updateCOInformationPU();
     updateModel(modelPU);
 
-    lineOrderTotalPU->setText(QString::number(order[0]->getCost()));
+    lineOrderTotalPU->setText(QString::number(order[0]->getCost(), 'f', 2));
 
     showPickUpPage();
 }
@@ -1022,7 +923,7 @@ void MainWindow::on_tableViewOSR_clicked(const QModelIndex &index){
     order.push_back(&orders[curOrderID]);
     updateCOInformationPU();
     updateModel(modelPU);
-    lineOrderTotalPU->setText(QString::number(order[0]->getCost()));
+    lineOrderTotalPU->setText(QString::number(order[0]->getCost(), 'f', 2));
 
     showPickUpPage();
 }
@@ -1119,7 +1020,7 @@ void MainWindow::on_btnSearchOrderEO_clicked(){
     updateCOInformationEO();
     updateModel(modelEO);
 
-    lineOrderTotalEO->setText(QString::number(order[0]->getCost()));
+    lineOrderTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
 
     showEditOrderPage();
     lineRackEO->setFocus();
@@ -1137,34 +1038,9 @@ void MainWindow::on_btnReturnCSEO_clicked(){
 }
 
 void MainWindow::on_btnSearchCSEO_clicked(){
-    QString entryQ;
-    std::string entry;
-    size_t i;
-
-    customer.clear();
-
-    entryQ = lineSearchCustomerCSEO->text();
-    if(entryQ.isEmpty())
-        return;
-
-    entry = entryQ.toStdString();
-
-    if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
-        customer = search::Search::searchCustAlgo(entry, this->customers);
-
-    for(i = 0; i < customer.size(); i++){
-        QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
-        QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
-        QStandardItem *phoneItem = new QStandardItem(QString::fromStdString(customer[i]->getFormattedPhone()));
-
-        modelCSREO->setItem(i, 0, firstNameItem);
-        modelCSREO->setItem(i, 1, lastNameItem);
-        modelCSREO->setItem(i, 2, phoneItem);
-    }
-    tableViewCSREO -> setSelectionBehavior(QAbstractItemView::SelectRows);
+    customerSearchPageSetUp(tableViewCSREO, modelCSREO, lineSearchCustomerCSEO);
     showCustomerSearchResultsEO();
 }
-
 
 
 //
@@ -1233,7 +1109,7 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
 
 }
 
-
+//void MainWindow::
 
 //
 //***Order Search Results EO Page (17)***
@@ -1252,7 +1128,7 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
     order.push_back(&orders[curOrderID]);
     updateCOInformationEO();
     updateModel(modelEO);
-    lineOrderTotalEO->setText(QString::number(order[0]->getCost()));
+    lineOrderTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
 
     showEditOrderPage();
 }
@@ -1314,7 +1190,6 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
         }
 
         price = dSpinBox->value();
-
         linePiece = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 0));
         piece = linePiece->text().toStdString();
 
@@ -1329,7 +1204,7 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
         }
 
         //The empty row, where price is still 0, gets skipped
-        if(piece.empty() && price == 0)
+        if(price == 0)
             continue;
 
         //if an item has been added
@@ -1345,11 +1220,9 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
         }
 
         //if the name has been changed
-        if(piece != prices[typeI][pieceI].first){
+        if(piece != prices[typeI][pieceI].first)
             prices[typeI][pieceI].first = piece;
-            //if(pieceI == 0)
-            //    std::get<0>(pos[typeI]) = piece;
-        }
+
 
         //if the price has been changed
         if(price != prices[typeI][pieceI].second)
@@ -1358,7 +1231,6 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
         pieceI++;
     }
     pieceI = 0;
-    //typeI++;
 
     newType = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 1));
 
@@ -1367,24 +1239,11 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
             createType(typeI, pos, prices, newType->text().toStdString());
 
     row++;
-    /*
-    linePiece = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 0));
-    dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 1));
-    piece = linePiece->text().toStdString();
-    price = dSpinBox->value();
 
-    //if a new type has been added
-    if(!piece.empty() && price != 0)
-        createType(typeI, pos, prices, piece, price);
-    */
 }
 
 
 void MainWindow::setUpCIPPage(){
-    //lPrices = calculateSize(laundryPrices);
-    //dcPrices = calculateSize(dryCleanPrices);
-    //aPrices = calculateSize(alterationsPrices);
-
     setUpTableWidgetsCIP(laundryPrices, laundryPos, tableWidgetLaundryCIP);
     setUpTableWidgetsCIP(dryCleanPrices, dryCleanPos, tableWidgetDryCleanCIP);
     setUpTableWidgetsCIP(alterationsPrices, alterationsPos, tableWidgetAlterationsCIP);
@@ -1450,14 +1309,6 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
 
     tableWidget->setCellWidget(row, 0, newTypeLabel);
     tableWidget->setCellWidget(row, 1, newTypeLine);
-    //row++;
-    /*
-    QLineEdit *type = new QLineEdit(tableWidget);
-    QDoubleSpinBox *newPrice = new QDoubleSpinBox(tableWidget);
-    newPrice ->setDecimals(2);
-    tableWidget->setCellWidget(row, 0, type);
-    tableWidget->setCellWidget(row, 1, newPrice);
-    */
 }
 
 
@@ -1577,6 +1428,8 @@ void MainWindow::clearScreenEO(){
     checkBoxPUEO->setCheckState(Qt::Unchecked);
 }
 
+
+
 void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::vector<std::pair<std::string, double>>> prices, std::vector<std::tuple<std::string, int, int>> pos){
     size_t row = 0, i, j;
     QFont font;
@@ -1614,6 +1467,81 @@ void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::
         }
 }
 
+void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex &index, std::vector<std::tuple<std::string, int, int>> &pos, int type){
+    double price;
+    int n, position, row = index.row(), col = index.column();
+
+    std::string article;
+    std::tuple<std::string, int, double> tup;
+    QSpinBox *spinBox;
+    QDoubleSpinBox *dSpinBox;
+
+    //Make this into case and switch, so i can allow a col to be a delete button
+    spinBox = qobject_cast<QSpinBox*>(tableWidget->cellWidget(row, 1));
+
+    if(col != 0 || spinBox == nullptr)
+        return;
+
+    n = spinBox->value();
+    if(n == 0)
+        return;
+
+    dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 2));
+    price = dSpinBox->value();
+
+    article = qobject_cast<QLabel*>(tableWidget->cellWidget(row, 0))->text().toStdString();
+    position = getIndex(row, pos);
+
+    //type = tableWidgetLaundryOptions->item(row, col);
+    //QColor bgColor = type->background().color();
+    //qDebug() << "BackGroundColor: " << bgColor.red() << " " << bgColor.green() << " " << bgColor.blue();
+    //type->setBackground(Qt::green);
+
+    switch(type){
+    case 1:
+        order[0]->setLaundryPiece(position, n, price, article);
+        break;
+
+    case 2:
+        order[0]->setDryCleanPiece(position, n, price, article);
+        break;
+
+    case 3:
+        order[0]->setAlterationsPiece(position, n, price, article);
+        break;
+    }
+
+}
+
+
+void MainWindow::customerSearchPageSetUp(QTableView *tableView, QStandardItemModel *model, QLineEdit *lineSearch){
+    QString entryQ;
+    std::string entry;
+    size_t i;
+
+    customer.clear();
+
+    entryQ = lineSearch->text();
+    if(entryQ.isEmpty())
+        return;
+
+    entry = entryQ.toStdString();
+
+    if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
+        customer = search::Search::searchCustAlgo(entry, this->customers);
+
+    for(i = 0; i < customer.size(); i++){
+        QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
+        QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
+        QStandardItem *phoneItem = new QStandardItem(QString::fromStdString(customer[i]->getFormattedPhone()));
+
+        model->setItem(i, 0, firstNameItem);
+        model->setItem(i, 1, lastNameItem);
+        model->setItem(i, 2, phoneItem);
+    }
+    tableView -> setSelectionBehavior(QAbstractItemView::SelectRows);
+}
+
 void MainWindow::setDate(QDateTimeEdit *dp, QDateTimeEdit *pu){
     QDate dateD(order[0]->dropOff->getYear(), order[0]->dropOff->getMonth(), order[0]->dropOff->getDay());
     QTime timeD(order[0]->dropOff->getHour(), order[0]->dropOff->getMin());
@@ -1649,9 +1577,9 @@ size_t MainWindow::updateTableView(std::vector<std::vector<std::tuple<std::strin
                 number = new QStandardItem(QString::number(std::get<1>(articles[i][j])));
                 type = new QStandardItem(pieceType);
                 piece = new QStandardItem(QString::fromStdString(std::get<0>(articles[i][j])));
-                pricePerPiece = new QStandardItem(QString::number(std::get<2>(articles[i][j])));
+                pricePerPiece = new QStandardItem(QString::number(std::get<2>(articles[i][j]), 'f', 2));
                 pTotal = std::get<1>(articles[i][j]) * std::get<2>(articles[i][j]);
-                priceTotal = new QStandardItem(QString::number(pTotal));
+                priceTotal = new QStandardItem(QString::number(pTotal, 'f', 2));
 
                 model->setItem(row, 0, number);
                 model->setItem(row, 1, type);
@@ -1784,20 +1712,20 @@ int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::stri
 }
 
 void MainWindow::printReciept(){
-
-    int x = 9, y = 15, yInc = 35;
+    //X Was 9
+    int x = 7, y = 15, yInc = 35;
     size_t i, j;
     std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
     std::vector<QString> info;
 
-    int width = 435, difX = 45, difY = 22;
+    int width = 445, difX = 45, difY = 22;
 
     QPrintDialog printDialog(&printer, this);
     QPainter painter(&printer);
     QFont font = painter.font();
     QFontMetrics metrics(font);
 
-    font.setPointSize(15);
+    font.setPointSize(16);
     font.setBold(true);
     painter.setFont(font);
 
@@ -1805,7 +1733,8 @@ void MainWindow::printReciept(){
     painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, QString::number(curOrderID));
     y = y + yInc + 15;
 
-    font.setPointSize(11);
+    //Was 11
+    font.setPointSize(13);
     font.setBold(false);
     painter.setFont(font);
 
@@ -1821,7 +1750,6 @@ void MainWindow::printReciept(){
     y = y + yInc + 45;
 
     //Customer Information
-    yInc -= 5;
     font.setBold(true);
     painter.setFont(font);
     painter.drawText(x, y, QString::fromStdString(customer[0]->getLastName()) + ", " + QString::fromStdString(customer[0]->getFirstName()));
@@ -1833,17 +1761,15 @@ void MainWindow::printReciept(){
     y += yInc;
 
     //Dates
-    painter.drawText(x, y, "Drop Off: " + QString::fromStdString(order[0]->dropOff->dayOfWeekString()) + " " + QString::fromStdString(order[0]->dropOff->getDate_Time()));
+    painter.drawText(x, y, "Drop Off: " + QString::fromStdString(order[0]->dropOff->dayOfWeekString()) + " " + QString::fromStdString(order[0]->dropOff->getAbbreviatedMonth()) +" " + QString::number(order[0]->dropOff->getDay()) + " " + QString::number(order[0]->dropOff->getYear()));
     y += yInc;
-    painter.drawText(x, y, "Pick Up: " + QString::fromStdString(order[0]->pickUp->dayOfWeekString()) + " " + QString::fromStdString(order[0]->pickUp->getDate()));
+    painter.drawText(x, y, "Pick Up: " + QString::fromStdString(order[0]->pickUp->dayOfWeekString()) + " " + QString::fromStdString(order[0]->pickUp->getAbbreviatedMonth()) +" " + QString::number(order[0]->pickUp->getDay()) + " " + QString::number(order[0]->pickUp->getYear()));
     y += yInc;
-    //yInc += 5;
-
 
     //Order Information
     y += 10;
-    painter.drawText(x, y, "=========================");
-    yInc = 25;
+    painter.drawText(x, y, "======================");
+    yInc = 30;
     y += yInc;
     if(calculatePieceTotal(laundry)){
         painter.drawText(x, y, "Laundry: ");
@@ -1852,9 +1778,9 @@ void MainWindow::printReciept(){
         for(i = 0; i < laundry.size(); i++)
             if(laundry[i].empty() == false)
                 for(j = 0; j < laundry[i].size(); j++){
-                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignLeft, QString::number(std::get<1>(laundry[i][j])));
-                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height()), Qt::AlignLeft, QString::fromStdString(std::get<0>(laundry[i][j])));
-                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignRight, QString::number(std::get<1>(laundry[i][j]) * std::get<2>(laundry[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::number(std::get<1>(laundry[i][j])));
+                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::fromStdString(std::get<0>(laundry[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignRight, QString::number(std::get<1>(laundry[i][j]) * std::get<2>(laundry[i][j]), 'f', 2));
                     y += yInc;
                 }
         y += yInc;
@@ -1867,9 +1793,9 @@ void MainWindow::printReciept(){
         for(i = 0; i < dryClean.size(); i++)
             if(dryClean[i].empty() == false)
                 for(j = 0; j < dryClean[i].size(); j++){
-                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignLeft, QString::number(std::get<1>(dryClean[i][j])));
-                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height()), Qt::AlignLeft, QString::fromStdString(std::get<0>(dryClean[i][j])));
-                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignRight, QString::number(std::get<1>(dryClean[i][j]) * std::get<2>(dryClean[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::number(std::get<1>(dryClean[i][j])));
+                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::fromStdString(std::get<0>(dryClean[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignRight, QString::number(std::get<1>(dryClean[i][j]) * std::get<2>(dryClean[i][j]), 'f', 2));
                     y += yInc;
                 }
         y += yInc;
@@ -1882,30 +1808,25 @@ void MainWindow::printReciept(){
         for(i = 0; i < alterations.size(); i++)
             if(alterations[i].empty() == false)
                 for(j = 0; j < alterations[i].size(); j++){
-                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignLeft, QString::number(std::get<1>(alterations[i][j])));
-                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height()), Qt::AlignLeft, QString::fromStdString(std::get<0>(alterations[i][j])));
-                    painter.drawText(QRect(x, y - difY, width, metrics.height()), Qt::AlignRight, QString::number(std::get<1>(alterations[i][j]) * std::get<2>(alterations[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::number(std::get<1>(alterations[i][j])));
+                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::fromStdString(std::get<0>(alterations[i][j])));
+                    painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignRight, QString::number(std::get<1>(alterations[i][j]) * std::get<2>(alterations[i][j]), 'f', 2));
                     y += yInc;
                 }
         y += yInc;
     }
-    painter.drawText(x, y - yInc + 5, "=========================");
+    painter.drawText(x, y - yInc + 5, "======================");
+
 
     //Total Information
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
+    painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
     if(order[0]->getPaid())
-        painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "Paid");
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignRight, "Total: $" + QString::number(order[0]->getCost()));
-
+        painter.drawText(QRect(x, y + 5, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
+    painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getCost(), 'f', 2));
 
     y += 120;
-    //font.setPointSize(12);
-    //font.setBold(true);
-    //painter.setFont(font);
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "Thank You Very Much");//QString::number(curOrderID));
+    painter.drawText(QRect(x, y, width, metrics.height() + 50), Qt::AlignCenter, "Thank You Very Much");//QString::number(curOrderID));
 
-
-    // End the printing process
     painter.end();
 }
 

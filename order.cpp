@@ -10,7 +10,7 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
     this->rackNumber = -1;
     this->pickedUp = false;
     this->dropOff = new date::Date();
-    this->pickUp = new date::Date(2);
+    this->pickUp = new date::Date(3);
     this->pieceTotal = 0;
 
     laundryO.resize(8);
@@ -34,7 +34,7 @@ order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int,
     this->rackNumber = -1;
     this->pickedUp = false;
     this->dropOff = new date::Date();
-    this->pickUp = new date::Date(2);
+    this->pickUp = new date::Date(3);
 }
 
 //Used in handle.cpp
@@ -46,7 +46,7 @@ order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int,
     this->rackNumber = -1;
     this->pickedUp = false;
     this->dropOff = new date::Date();
-    this->pickUp = new date::Date(2);
+    this->pickUp = new date::Date(3);
 }
 
 //Constructor used when loading in orders from orderFile into the program memory

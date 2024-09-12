@@ -52,6 +52,7 @@ namespace date{
             int daysInMonth() const;
             int dayOfWeek() const;
             std::string dayOfWeekString() const;
+            std::string getAbbreviatedMonth() const;
             int addDays(int daysToAdd);
 
         private:

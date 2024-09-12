@@ -1,2 +1,2 @@
-2,1,Jeans,5.99,1,Dress Shirts,5.99,DC;2,1,Jeans,5.99,1,T-Shirt,5.99,ALT;1,1,Pants Hem,6.99
-2,Pants,0,1,Shirts,2,3,DC;2,Pants,0,1,Shirts,2,3,ALT;1,Pants,0,1
+1,1,,0,DC;1,2,Wool Coats,6,Cotton Coat,7,ALT;1,1,,0
+1,,0,0,DC;1,Coats,0,2,ALT;1,,0,0

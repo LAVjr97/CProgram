@@ -236,35 +236,82 @@ int Date::dayOfWeek() const{
 }
 
 std::string Date::dayOfWeekString() const{
-    int dTemp = dayOfWeek();
-    std::string temp;
+    int intDay = dayOfWeek();
+    std::string day;
 
-    switch(dTemp){
+    switch(intDay){
         case 0:
-            temp = "SUN";
+            day = "SUN";
             break;
         case 1:
-            temp = "MON";
+            day = "MON";
             break;
         case 2:
-            temp = "TUES";
+            day = "TUES";
             break;
         case 3:
-            temp = "WED";
+            day = "WED";
             break;
         case 4:
-            temp = "THUR";
+            day = "THUR";
             break;
         case 5:
-            temp = "FRI";
+            day = "FRI";
             break;
         case 6:
-            temp = "SAT";
+            day = "SAT";
             break;
     }
 
-    return temp;
+    return day;
 }
+
+std::string Date::getAbbreviatedMonth() const{
+    int intMonth = this->month;
+    std::string month;
+
+    switch(intMonth){
+        case 1:
+            month = "JAN";
+            break;
+        case 2:
+            month = "FEB";
+            break;
+        case 3:
+            month = "MAR";
+            break;
+        case 4:
+            month = "APR";
+            break;
+        case 5:
+            month = "MAY";
+            break;
+        case 6:
+            month = "JUN";
+            break;
+        case 7:
+            month = "JUL";
+            break;
+        case 8:
+            month = "AUG";
+            break;
+        case 9:
+            month = "SEP";
+            break;
+        case 10:
+            month = "OCT";
+            break;
+        case 11:
+            month = "NOV";
+            break;
+        case 12:
+            month = "DEC";
+            break;
+    }
+
+    return month;
+}
+
 
 int Date::addDays(int daysToAdd) {
     int daysAdded = 0;
