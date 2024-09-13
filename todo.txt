@@ -1,4 +1,4 @@
-Fix Reciepts ->  align order ID at the top, align dry cleaner's name, align prices so its all the way to the left and lines up with total at the bottom, add total pieces.
+<DONE>Fix Reciepts ->  align order ID at the top, align dry cleaner's name, align prices so its all the way to the left and lines up with total at the bottom, add total pieces.
 Add ability to edit customer information -> edit name, number etc...
 Change file saves to binary -> Make the program run faster
 Add threads -> under save and load customers/orders. Assign threads to portions of the array etc...
@@ -6,8 +6,6 @@ Add threads -> under save and load customers/orders. Assign threads to portions 
 Create tabbed widget for order options -> create a tabbed widget to house the drop off options, laundry, dry clean, and alterations for faster access to all of them, save will save the entire table and will display the current items in the order
 Add comments -> readme, change variable names
 Allow for further custimization -> shop name, shop number etc...
-Change so that the item type is stored by pos -> Type name is no longer dependent on the first piece in prices vector.
-Add picked up status and piece total to order search page by customer name -> use check box to show if it has been picked up and the piece total
-Update items and prices, so if price is 0 and line edit is filled, nothing will be added. Make sure that that even if 5.00 is being added, that the ".00" appears.
-
-Is visible is not working, need to make sure that after ssave has been pressed and before the reciept is printer, that the cancel button will work, but I need to know if the buttons are visible but it is currently not retunring the proper values
+<DONEChange so that the item type is stored by pos -> Type name is no longer dependent on the first piece in prices vector.
+<DONEAdd picked up status and piece total to order search page by customer name -> use check box to show if it has been picked up and the piece total
+<DONE>Update items and prices, so if price is 0 and line edit is filled, nothing will be added. Make sure that that even if 5.00 is being added, that the ".00" appears.

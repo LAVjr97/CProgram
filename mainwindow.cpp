@@ -350,8 +350,8 @@ void MainWindow::showItemsAndPricePage(){
 void MainWindow::on_btnDropOff_clicked(){
     dateDTDropOffDP->hide();
     dateDTPickUpDP->hide();
-    ui->btnOneRecieptDP->hide();
-    ui->btnTwoRecieptDP->hide();
+    ui->btnOneRecieptDP->setEnabled(false);
+    ui->btnTwoRecieptDP->setEnabled(false);
 
     showDropOffPage();
     //printReciept();
@@ -390,36 +390,36 @@ void MainWindow::on_btnCustomer_clicked()
 }
 
 void MainWindow::on_btnLaundry_clicked(){
-    ui->btnOneRecieptDP->hide();
-    ui->btnTwoRecieptDP->hide();
     if(lineFNameDP->text().isEmpty())
         return;
 
     setUpOptionsTables(tableWidgetLaundryOptions, laundryPrices, laundryPos);
 
     MainWindow::showOrderLaundryPage();
+    ui->btnOneRecieptDP->setEnabled(false);
+    ui->btnTwoRecieptDP->setEnabled(false);
 }
 
 void MainWindow::on_btnDryClean_clicked(){
-    ui->btnOneRecieptDP->hide();
-    ui->btnTwoRecieptDP->hide();
     if(lineFNameDP->text().isEmpty())
         return;
 
     setUpOptionsTables(tableWidgetDryCleanOptions, dryCleanPrices, dryCleanPos);
 
     MainWindow::showOrderDryCleanPage();
+    ui->btnOneRecieptDP->setEnabled(false);
+    ui->btnTwoRecieptDP->setEnabled(false);
 }
 
 void MainWindow::on_btnAlterations_clicked(){
-    ui->btnOneRecieptDP->hide();
-    ui->btnTwoRecieptDP->hide();
     if(lineFNameDP->text().isEmpty())
         return;
 
     setUpOptionsTables(tableWidgetAlterationsOptions, alterationsPrices, alterationsPos);
 
     MainWindow::showOrderAlterationsPage();
+    ui->btnOneRecieptDP->setEnabled(false);
+    ui->btnTwoRecieptDP->setEnabled(false);
 }
 
 void MainWindow::on_btnSaveDP_clicked()
@@ -427,9 +427,32 @@ void MainWindow::on_btnSaveDP_clicked()
     if(lineFNameDP->text().isEmpty() || (!lineFNameDP->text().isEmpty() && modelDP->rowCount() == 0))
         return;
 
-    //ui->btnOneRecieptDP->show();
-    //ui->btnTwoRecieptDP->show();
+    ui->btnOneRecieptDP->setEnabled(true);
+    ui->btnTwoRecieptDP->setEnabled(true);
 }
+
+/*
+
+void MainWindow::saveModel(QStandardItemModel *model){
+    size_t row = 0;
+    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
+
+    row = updateTableView(laundry, model, "Laundry", row);
+    row = updateTableView(dryClean, model, "Dry Clean", row);
+    updateTableView(alterations, model, "Alterations", row);
+
+}
+
+
+size_t MainWindow::saveTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row){
+    size_t i, j, rows = modelDP->rowCount();
+
+
+    for(i = 0; i < rows; i++){
+
+    }
+}
+*/
 
 void MainWindow::on_btnOneRecieptDP_clicked()
 {
@@ -502,15 +525,7 @@ void MainWindow::on_btnReturn_clicked()
 {
     showMainPage();
     //If customer information was pulled up but nothing was added to order, delete order
-    if(modelDP->rowCount() == 0 && !lineFNameDP ->text().isEmpty()){
-        orders.pop_back();
-        curOrderID--;
-    }
-
-    bool boo = ui->btnOneRecieptDP->isVisible();
-
-
-    if(boo){
+    if(!lineFNameDP ->text().isEmpty() || (!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled())){
         orders.pop_back();
         curOrderID--;
     }
@@ -1436,6 +1451,8 @@ void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::
 
     tableWidget->setRowCount(calculateSize(prices));
 
+    if(tableWidget->rowCount() == 0)
+        return;
 
     for(i = 0; i < prices.size(); i++)
         for(j = 0; j < prices[i].size(); j++){

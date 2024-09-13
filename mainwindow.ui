@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1047</width>
-    <height>678</height>
+    <width>1907</width>
+    <height>993</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,19 +19,19 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1041</width>
-      <height>671</height>
+      <width>1901</width>
+      <height>991</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="verticalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>650</x>
-        <y>170</y>
+        <x>860</x>
+        <y>360</y>
         <width>160</width>
         <height>281</height>
        </rect>
@@ -762,8 +762,8 @@
      <widget class="QWidget" name="formLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>70</y>
+        <x>720</x>
+        <y>460</y>
         <width>211</width>
         <height>100</height>
        </rect>
@@ -819,8 +819,8 @@
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>490</x>
-        <y>260</y>
+        <x>960</x>
+        <y>440</y>
         <width>160</width>
         <height>111</height>
        </rect>
@@ -2212,8 +2212,8 @@
      <widget class="QWidget" name="verticalLayoutWidget_4">
       <property name="geometry">
        <rect>
-        <x>690</x>
-        <y>230</y>
+        <x>870</x>
+        <y>410</y>
         <width>160</width>
         <height>171</height>
        </rect>
