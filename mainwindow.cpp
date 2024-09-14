@@ -13,7 +13,7 @@
 //
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::Cleaning_and_Alteration_Shop)
 {
     //Setting up database
     std::string customerFile = "C:/Code/repos/LAVjr97/CProgram/customers.txt";
@@ -898,7 +898,7 @@ void MainWindow::on_tableViewCSRPU_clicked(const QModelIndex &index){
         dropOffItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *totalPiecesItem = new QStandardItem(QString::number(order[i]->getPieceTotal()));
         totalPiecesItem->setTextAlignment(Qt::AlignCenter);
-        QStandardItem *totalItem = new QStandardItem(QString::number(order[i]->getCost()));
+        QStandardItem *totalItem = new QStandardItem(QString::number(order[i]->getCost(), 'f', 2));
         totalItem->setTextAlignment(Qt::AlignCenter);
 
         if(order[i]->getPickUp())

@@ -29,7 +29,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class MainWindow;
+class Cleaning_and_Alteration_Shop;
 }
 QT_END_NAMESPACE
 
@@ -244,7 +244,7 @@ private slots:
     void printReciept();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::Cleaning_and_Alteration_Shop *ui;
 
     std::vector<std::vector<std::pair<std::string, double>>> laundryPrices;
     std::vector<std::vector<std::pair<std::string, double>>> dryCleanPrices;

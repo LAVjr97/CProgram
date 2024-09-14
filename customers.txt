@@ -1,1 +1,1 @@
-0,Luis,Villalta,1231231231,0,0
+0,Luis,Villalta,1231231231,0,1,0
