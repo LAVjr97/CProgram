@@ -10,7 +10,7 @@ File::File(std::string customerFile, std::string orderFile, std::string priceFil
 {}
 
 void File::saveCustomers(cust::customer& customer){
-    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/customers.txt", std::ios::app);
+    std::ofstream ofs(this->customerFile.c_str(), std::ios::app);
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
@@ -32,7 +32,7 @@ void File::loadCustomers(){
     int id, visits, total;
     std::string line, firstName, lastName, phone, temp; //using a temp variable because not everything that is being read from the file will be a string.
 
-    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/customers.txt");
+    std::ifstream ifs(this->customerFile.c_str());
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
         return;
@@ -72,7 +72,7 @@ void File::saveOrders(orderInfo::order &order){
 
 
     size_t outerVectorSize = laundry.size(), innerVectorSize;
-    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/orders.txt", std::ios::app);
+    std::ofstream ofs(this->orderFile.c_str(), std::ios::app);
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
@@ -160,7 +160,7 @@ void File::loadOrders() {
     std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean;
     std::vector<std::vector<std::tuple<std::string, int, double>>> alterations;
 
-    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
+    std::ifstream ifs(this->orderFile.c_str());
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
@@ -284,8 +284,8 @@ void File::updateOrder(const int id){
 
     size_t outerVectorSize = laundry.size(), innerVectorSize;
 
-    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/orders.txt");
-    std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/tempOrder.txt");
+    std::ifstream ifs(this->orderFile.c_str());
+    std::ofstream tempF(this->tempOrderFile.c_str());
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
@@ -388,8 +388,8 @@ void File::updateCustomer(const int id) {
     std::string current, line;
     bool found;
 
-    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/customers.txt");
-    std::ofstream tempF("C:/Code/repos/LAVjr97/CProgram/tempCust.txt");
+    std::ifstream ifs(this->customerFile.c_str());
+    std::ofstream tempF(this->tempCustFile.c_str());
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
@@ -438,7 +438,7 @@ void File::updateCustomer(const int id) {
 
 
 void File::savePrices(){
-    std::ofstream ofs("C:/Code/repos/LAVjr97/CProgram/prices.txt");
+    std::ofstream ofs(this->priceFile.c_str());
     size_t outerVectorSize, innerVectorSize;
     if(!ofs){
         std::cerr << "Error opening file to write to: " << this->priceFile << "\n";
@@ -520,9 +520,7 @@ void File::loadPrices(){
     int rPos, lPos, outerSize, innerSize, i, j;
     double price;
     std::string line, piece, temp;
-    //std::vector<std::vector<std::pair<std::string, double>>> laundryPrices, dryCleanPrices, alterationsPrices;
-    //std::vector<std::tuple<std::string, int, int>> laundryPos, dryCleanPos, alterationsPos;
-    std::ifstream ifs("C:/Code/repos/LAVjr97/CProgram/prices.txt");
+    std::ifstream ifs(this->priceFile.c_str());
 
     if(!ifs){
         std::cerr << "Error opening file to write to: " << this->priceFile <<"\n";
@@ -644,6 +642,13 @@ void File::loadPrices(){
     std::cout << "\n" << "Successfully loaded price data..." << "\n";
 }
 
+void File::checkAndCreateFile(const std::string& filename){
+    std::ifstream fileCheck(filename);
+
+    // Check if the file exists
+    if (!fileCheck)
+        std::ofstream createFile(filename);
+}
 
 //Get functions
 std::string File::getCustomerFile() const{

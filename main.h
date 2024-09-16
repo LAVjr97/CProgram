@@ -20,6 +20,6 @@
 #include <sstream>
 #include <thread>
 #include <functional>
-#include <windows.h>
+//#include <windows.h>
 
 #endif

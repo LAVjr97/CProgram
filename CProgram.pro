@@ -16,24 +16,20 @@ SOURCES += \
     date.cpp \
     dropoffpage.cpp \
     file.cpp \
-    handle.cpp \
     main.cpp \
     mainwindow.cpp \
     order.cpp \
-    search.cpp \
-    spinboxdelegate.cpp
+    search.cpp
 
 HEADERS += \
     customer.h \
     date.h \
     dropoffpage.h \
     file.h \
-    handle.h \
     main.h \
     mainwindow.h \
     order.h \
-    search.h \
-    spinboxdelegate.h
+    search.h
 
 FORMS += \
     dropoffpage.ui \

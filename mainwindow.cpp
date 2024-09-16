@@ -16,15 +16,19 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::Cleaning_and_Alteration_Shop)
 {
     //Setting up database
-    std::string customerFile = "C:/Code/repos/LAVjr97/CProgram/customers.txt";
-    std::string orderFile = "C:/Code/repos/LAVjr97/CProgram/orders.txt";
-    std::string priceFile = "C:/Code/repos/LAVjr97/CProgram/price.txt";
-    std::string tempOrderFile = "C:/Code/repos/LAVjr97/CProgram/tempOrder.txt";
-    std::string tempCustFile = "C:/Code/repos/LAVjr97/CProgram/tempCust.txt";
-
-    
+    std::string customerFile = "data/customers.txt";
+    std::string orderFile = "data/orders.txt";
+    std::string priceFile = "data/price.txt";
+    std::string tempOrderFile = "data/tempOrder.txt";
+    std::string tempCustFile = "data/tempCust.txt";
 
     manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos);
+
+    manager->checkAndCreateFile(customerFile);
+    manager->checkAndCreateFile(orderFile);
+    manager->checkAndCreateFile(priceFile);
+    manager->checkAndCreateFile(tempOrderFile);
+    manager->checkAndCreateFile(tempCustFile);
 
     //Indepently load up customers and orders
     std::thread threadCust(&fi::File::loadCustomers, manager);
@@ -50,10 +54,6 @@ MainWindow::MainWindow(QWidget *parent)
     //Everything after this point is GUI related
     ui->setupUi(this);
     this->showMaximized();
-    //QScreen *screen = QGuiApplication::primaryScreen();
-    //QRect availableGeometry = screen->availableGeometry(); // Excludes the taskbar
-    //std::cout << availableGeometry.width() << "\n";
-    //std::cout << availableGeometry.height() << "\n";
 
 
     //
@@ -115,17 +115,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Order Laundry Page
     tableWidgetLaundryOptions = ui->tableWidgetLaundryOptions;
-    //tableWidgetLaundryOptions->setRowCount(lPrices);
     tableWidgetLaundryOptions->setColumnCount(3);
 
     //Order DryClean Page
     tableWidgetDryCleanOptions = ui->tableWidgetDryCleanOptions;
-    //tableWidgetDryCleanOptions->setRowCount(dcPrices);
     tableWidgetDryCleanOptions->setColumnCount(3);
 
     //Order Alterations Page
     tableWidgetAlterationsOptions = ui->tableWidgetAlterationsOptions;
-    //tableWidgetAlterationsOptions->setRowCount(aPrices);
     tableWidgetAlterationsOptions->setColumnCount(3);
 
     //
@@ -210,8 +207,6 @@ MainWindow::MainWindow(QWidget *parent)
     tableViewOrdersEO = ui->tableViewOrdersEO;
     tableViewOrdersEO->setModel(modelEO);
     tableViewOrdersEO->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-    //connect(ui->btnOneRecieptEO, &QPushButton::clicked, this, &MainWindow::on_btnOneRecieptDP_clicked);
 
     //
     //Order Search PageEO ()
@@ -1127,7 +1122,6 @@ void MainWindow::on_btnSaveCIP_clicked(){
     saveTableCIP(alterationsPrices, alterationsPos, tableWidgetAlterationsCIP);
 
     manager->savePrices();
-    //showAdminPage();
     tableWidgetDryCleanCIP->clear();
     setUpCIPPage();
 }

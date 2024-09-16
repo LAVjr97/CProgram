@@ -9,9 +9,6 @@ namespace orderInfo{
         public:
             //Constructor
             order(int customerID, int orderID);
-            order(int customerID, std::vector<std::vector<std::pair<int, double>>> laundry);
-            order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> laundry, double cost);
-            order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> laundry);
 
             //Loads orders at the start of program
             order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations);
@@ -26,19 +23,15 @@ namespace orderInfo{
             std::vector<std::vector<std::tuple<std::string, int, double>>> getLaundry() const;
             std::tuple<std::string, int, double>* getLaundryTup(int pos, std::string);
 
-
-            int getLaundryNumber(int pos, double price);
             int getLaundryNumberO(int pos, std::string article, double price);
             int getlaundryLength() const;
             //int calcLaundryLength();
 
-            std::vector<std::vector<std::pair<int, double>>> getDryClean() const;
             std::vector<std::vector<std::tuple<std::string, int, double>>> getDryCleanO() const;
             int getDryCleanNumberO(int pos, std::string article, double price);
             int getDryCleanLength() const;
             //int calcDryCleanLength();
 
-            std::vector<std::vector<std::pair<int, double>>> getAlterations() const;
             std::vector<std::vector<std::tuple<std::string, int, double>>> getAlterationsO() const;
             int getAlterationsNumberO(int pos, std::string article, double price);
             int getAlterationsLength() const;
@@ -52,19 +45,13 @@ namespace orderInfo{
 
             //Set functions
             int setCustomerID(int id);
-            int setDetails(std::vector<std::vector<std::pair<int, double>>> laundry);
             void setDetails(std::vector<std::vector<std::tuple<std::string, int, double>>> laundry);
-            bool setLaundryPiece(int pos, int n, double price);
             void setLaundryPiece(int pos, int n, double price, std::string article);
 
-            int setDryClean(std::vector<std::vector<std::pair<int, double>>> dryClean);
             void setDryClean(std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean);
-            bool setDryCleanPiece(int pos, int n, double price);
             void setDryCleanPiece(int pos, int n, double price, std::string article);
 
-            int setAlterations(std::vector<std::vector<std::pair<int, double>>> alterations);            
             void setAlterations(std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
-            bool setAlterationsPiece(int pos, int n, double price);
             void setAlterationsPiece(int pos, int n, double price, std::string article);
 
 
@@ -75,13 +62,11 @@ namespace orderInfo{
             void setPieceTotal(int pieceTotal);
 
             //Helper functions
-            double calculateCost();
             double calculateCostO();
             int calculatePieceTotal();
 
-            //order& operator=(const order& other);
 
-            //Serialize
+            //order& operator=(const order& other);
 
             //Dates
             date::Date* dropOff;
@@ -106,8 +91,6 @@ namespace orderInfo{
             bool pickedUp;
             bool paid;
             int pieceTotal;
-
-
     };
 }
 

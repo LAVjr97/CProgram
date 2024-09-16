@@ -248,6 +248,8 @@ private slots:
     bool removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, size_t pieceI);
     void removeIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
 
+    void checkAndCreateFile(const std::string& filename);
+
     void saveAndPrint(int n, QDateEdit *p, QCheckBox *b);
     void printReciept();
 

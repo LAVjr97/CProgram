@@ -37,6 +37,8 @@ namespace fi{
             std::string getOrderFile() const;
             std::string getTempFile() const;
 
+            void checkAndCreateFile(const std::string& filename){
+
             std::string customerFile;
             std::string orderFile;
             std::string priceFile;

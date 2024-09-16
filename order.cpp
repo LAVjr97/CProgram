@@ -18,37 +18,6 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
     alterationsO.resize(8);
 }
 
-order::order(int customerID, std::vector<std::vector<std::pair<int, double>>> laundry){
-    this->laundry = laundry;
-    this->customerID = customerID;
-    this->rackNumber = -1;
-    this->pickedUp = false;
-    this->calculateCost();
-}
-
-order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> laundry, double cost){
-    this->orderID = orderID;
-    this->customerID = customerID;
-    this->laundry = laundry;
-    this->cost = cost;
-    this->rackNumber = -1;
-    this->pickedUp = false;
-    this->dropOff = new date::Date();
-    this->pickUp = new date::Date(3);
-}
-
-//Used in handle.cpp
-order::order(int orderID, int customerID, std::vector<std::vector<std::pair<int, double>>> laundry){
-    this->orderID = orderID;
-    this->customerID = customerID;
-    this->laundry = laundry;
-    this->calculateCost();
-    this->rackNumber = -1;
-    this->pickedUp = false;
-    this->dropOff = new date::Date();
-    this->pickUp = new date::Date(3);
-}
-
 //Constructor used when loading in orders from orderFile into the program memory
 order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal,int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations){
     this->orderID = orderID;
@@ -120,33 +89,12 @@ std::tuple<std::string, int, double>* order::getLaundryTup(int pos, std::string 
     return nullptr;
 }
 
-
-std::vector<std::vector<std::pair<int, double>>> order::getDryClean() const{
-    return dryClean;
-}
-
 std::vector<std::vector<std::tuple<std::string, int, double>>> order::getDryCleanO() const{
     return dryCleanO;
 }
 
-std::vector<std::vector<std::pair<int, double>>> order::getAlterations() const{
-    return alterations;
-}
-
 std::vector<std::vector<std::tuple<std::string, int, double>>> order::getAlterationsO() const{
     return alterationsO;
-}
-
-
-int order::getLaundryNumber(int pos, double price){
-    size_t i;
-
-    for(i = 0; i < laundry[pos].size(); i++){
-        if(price == laundry[pos][i].second)
-            return laundry[pos][i].first;
-    }
-
-    return -1;
 }
 
 //Return the number of pieces of a give article
@@ -210,33 +158,8 @@ int order::setCustomerID(int id){
     return 0;
 }
 
-
-int order::setDetails(std::vector<std::vector<std::pair<int, double>>> laundry){
-    this->laundry = laundry;
-    return 0;
-}
-
 void order::setDetails(std::vector<std::vector<std::tuple<std::string, int, double>>> laundry){
     this->laundryO = laundry;
-}
-
-
-bool order::setLaundryPiece(int pos, int n, double price){
-    //this->laundry[pos].push_back(std::make_pair(n, price));
-    size_t i;
-    bool foundPrice = false;
-
-    for(i = 0; i < laundry[pos].size(); i++)
-        if(price == laundry[pos][i].second){
-            laundry[pos][i].first = laundry[pos][i].first + n;
-            foundPrice = true;
-            break;
-        }
-
-    if(foundPrice == false)
-        laundry[pos].push_back(std::make_pair(n, price));
-
-    return foundPrice;
 }
 
 void order::setLaundryPiece(int pos, int n, double price, std::string article){
@@ -263,30 +186,8 @@ void order::setLaundryPiece(int pos, int n, double price, std::string article){
     return;
 }
 
-
-int order::setDryClean(std::vector<std::vector<std::pair<int, double>>> dryClean){
-    this->dryClean = dryClean;
-    return 0;
-}
-
 void order::setDryClean(std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean){
     this->dryCleanO = dryClean;
-}
-
-bool order::setDryCleanPiece(int pos, int n, double price){
-    size_t i;
-    bool foundPrice = false;
-
-    for(i = 0; i < dryClean[pos].size(); i++)
-        if(price == dryClean[pos][i].second){
-            dryClean[pos][i].first = dryClean[pos][i].first + n;
-            foundPrice = true;
-        }
-
-    if(foundPrice == false)
-        dryClean[pos].push_back(std::make_pair(n, price));
-
-    return foundPrice;
 }
 
 void order::setDryCleanPiece(int pos, int n, double price, std::string article){
@@ -313,30 +214,8 @@ void order::setDryCleanPiece(int pos, int n, double price, std::string article){
     return;
 }
 
-
-int order::setAlterations(std::vector<std::vector<std::pair<int, double>>> alterations){
-    this->alterations = alterations;
-    return 0;
-}
-
 void order::setAlterations(std::vector<std::vector<std::tuple<std::string, int, double>>> alterations){
     this->alterationsO = alterations;
-}
-
-bool order::setAlterationsPiece(int pos, int n, double price){
-    size_t i;
-    bool foundPrice = false;
-
-    for(i = 0; i < alterations[pos].size(); i++)
-        if(price == alterations[pos][i].second){
-            alterations[pos][i].first = alterations[pos][i].first + n;
-            foundPrice = true;
-        }
-
-    if(foundPrice == false)
-        alterations[pos].push_back(std::make_pair(n, price));
-
-    return foundPrice;
 }
 
 void order::setAlterationsPiece(int pos, int n, double price, std::string article){
@@ -387,33 +266,6 @@ void order::setPieceTotal(int pieceTotal){
     this->pieceTotal = pieceTotal;
 }
 
-double order::calculateCost() {
-    this->cost = 0;
-
-    size_t i, j;
-
-    for (i = 0; i < this->laundry.size(); i++)
-        if(laundry[i].empty() == false)
-            for (j = 0; j < this->laundry[i].size(); i++)
-                this->cost = cost + (this->laundry[i][j].first * this->laundry[i][j].second);
-
-    for (i = 0; i < this->dryClean.size(); i++)
-        if(dryClean[i].empty() == false)
-            for (j = 0; j < this->dryClean[i].size(); i++)
-                this->cost = cost + (this->dryClean[i][j].first * this->dryClean[i][j].second);
-
-    for (i = 0; i < this->alterations.size(); i++)
-        if(alterations[i].empty() == false)
-            for (j = 0; j < this->alterations[i].size(); i++)
-                this->cost = cost + (this->alterations[i][j].first * this->alterations[i][j].second);
-
-    //for (const auto& i : laundry)
-
-    //this->cost = this->cost + (std::get<0>(i) * std::get<1>(i));
-
-    return this->cost;
-}
-
 double order::calculateCostO(){
     this->cost = 0;
 
@@ -433,10 +285,6 @@ double order::calculateCostO(){
         if(alterationsO[i].empty() == false)
             for (j = 0; j < this->alterationsO[i].size(); j++)
                 this->cost = cost + (std::get<1>(this->alterationsO[i][j]) * std::get<2>(this->alterationsO[i][j]));
-
-    //for (const auto& i : laundry)
-
-    //this->cost = this->cost + (std::get<0>(i) * std::get<1>(i));
 
     return this->cost;
 }
