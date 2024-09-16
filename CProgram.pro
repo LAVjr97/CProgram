@@ -1,6 +1,8 @@
 QT       += core gui
 QT += printsupport
 
+RC_ICONS = resources/app_ico.ico
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17

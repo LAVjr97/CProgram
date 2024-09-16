@@ -21,11 +21,13 @@
 #include <QDate>
 #include <QTime>
 #include <QPrinter>
-#include <QPainter>
 #include <QPrintDialog>
+#include <QPainter>
 #include <QColor>
 #include <QFile>
 #include <QIODevice>
+#include <QScreen>
+#include <QGuiApplication>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -180,6 +182,8 @@ private slots:
     void on_btnCustomerEO_clicked();
     void on_btnOrderSearchEO_clicked();
     void on_btnSaveEO_clicked();
+    void on_btnOneRecieptEO_clicked();
+    void on_btnTwoRecieptEO_clicked();
     void on_btnReturnEO_clicked();
 
     //Order Search EO Page (14)
@@ -224,7 +228,10 @@ private slots:
     void tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex &index, std::vector<std::tuple<std::string, int, int>> &pos, int typ);
     void customerSearchPageSetUp(QTableView *tableView, QStandardItemModel *model, QLineEdit *lineSearch);
 
-    void setDate(QDateTimeEdit *dp, QDateTimeEdit *pu);
+    void setDate(QDateTimeEdit *dp, QDateEdit *pu);
+
+    void saveModel(QStandardItemModel *model);
+    std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>> saveTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row);
 
     void updateModel(QStandardItemModel *model);
     size_t updateTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
@@ -241,6 +248,7 @@ private slots:
     bool removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, size_t pieceI);
     void removeIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
 
+    void saveAndPrint(int n, QDateEdit *p, QCheckBox *b);
     void printReciept();
 
 private:
@@ -281,7 +289,7 @@ private:
     QLineEdit *lineVisitsDP;
     QLineEdit *linePieceTotalDP;
     QDateTimeEdit *dateDTDropOffDP;
-    QDateTimeEdit *dateDTPickUpDP;
+    QDateEdit *dateDPickUpDP;
 
     QCheckBox *checkBoxPaidDP;
 
@@ -301,7 +309,7 @@ private:
     QLineEdit *lineRackPU;
     QLineEdit *linePieceTotalPU;
     QDateTimeEdit *dateDTDropOffPU;
-    QDateTimeEdit *dateDTPickUpPU;
+    QDateEdit *dateDPickUpPU;
 
     QCheckBox *checkBoxPUPU;
     QCheckBox *checkBoxPaidPU;
@@ -321,7 +329,7 @@ private:
     QLineEdit *lineRackEO;
     QLineEdit *linePieceTotalEO;
     QDateTimeEdit *dateDTDropOffEO;
-    QDateTimeEdit *dateDTPickUpEO;
+    QDateEdit *dateDPickUpEO;
 
     QCheckBox *checkBoxPUEO;
     QCheckBox *checkBoxPaidEO;

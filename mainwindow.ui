@@ -6,12 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1907</width>
-    <height>993</height>
+    <width>1920</width>
+    <height>1032</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Cleaning And Alteration Shop</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QStackedWidget" name="stackedWidget">
@@ -19,119 +25,135 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1901</width>
-      <height>991</height>
+      <width>1920</width>
+      <height>1032</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="currentIndex">
-     <number>13</number>
+     <number>8</number>
     </property>
     <widget class="QWidget" name="main">
-     <widget class="QWidget" name="verticalLayoutWidget">
+     <widget class="QWidget" name="widgetOptionsMain" native="true">
       <property name="geometry">
        <rect>
-        <x>860</x>
-        <y>360</y>
-        <width>160</width>
+        <x>880</x>
+        <y>376</y>
+        <width>161</width>
         <height>281</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayoutOptionsMain">
-       <item>
-        <widget class="QPushButton" name="btnDropOff">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Drop Off</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnPickUp">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Pick Up</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnEditOrder">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Edit Order</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnAdmin">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Admin Settings</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>160</width>
+         <height>281</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayoutOptionsMain">
+        <item>
+         <widget class="QPushButton" name="btnDropOff">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Drop Off</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnPickUp">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Pick Up</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnEditOrder">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Edit Order</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnAdmin">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Admin Settings</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgDropOff">
      <widget class="QWidget" name="widget" native="true">
       <property name="geometry">
        <rect>
-        <x>560</x>
-        <y>210</y>
-        <width>911</width>
-        <height>561</height>
+        <x>370</x>
+        <y>140</y>
+        <width>1181</width>
+        <height>751</height>
        </rect>
       </property>
       <widget class="QPushButton" name="btnCustomer">
@@ -139,8 +161,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>81</width>
-         <height>51</height>
+         <width>132</width>
+         <height>69</height>
         </rect>
        </property>
        <property name="font">
@@ -159,9 +181,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>160</y>
-         <width>731</width>
-         <height>401</height>
+         <y>200</y>
+         <width>961</width>
+         <height>551</height>
         </rect>
        </property>
        <property name="font">
@@ -182,14 +204,19 @@
         <bool>false</bool>
        </attribute>
       </widget>
-      <widget class="QWidget" name="gridLayoutWidget_3">
+      <widget class="QWidget" name="gridWidget_3" native="true">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>60</y>
-         <width>731</width>
-         <height>102</height>
+         <y>80</y>
+         <width>961</width>
+         <height>121</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
        </property>
        <layout class="QGridLayout" name="gridLayoutInformation">
         <item row="0" column="1">
@@ -197,11 +224,17 @@
           <property name="labelAlignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>60</number>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="lblDropOffDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -216,7 +249,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="frame">
@@ -251,7 +284,7 @@
            <widget class="QLabel" name="lblPickUpDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -259,29 +292,11 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QDateTimeEdit" name="dateDTPickUpDP">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="calendarPopup">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QLabel" name="lblVisitsDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -296,7 +311,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -310,6 +325,21 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="1">
+           <widget class="QDateEdit" name="dateDPickUpDP">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item row="0" column="0">
@@ -317,11 +347,17 @@
           <property name="labelAlignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>50</number>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="lblFNameDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -333,7 +369,7 @@
            <widget class="QLineEdit" name="lineFNameDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -357,7 +393,7 @@
            <widget class="QLabel" name="lblLNameDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -369,7 +405,7 @@
            <widget class="QLineEdit" name="lineLNameDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -390,7 +426,7 @@
            <widget class="QLabel" name="lblPhoneDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -402,7 +438,7 @@
            <widget class="QLineEdit" name="linePhoneDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -426,11 +462,17 @@
           <property name="labelAlignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>60</number>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="lblCustomerIDDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -442,7 +484,7 @@
            <widget class="QLineEdit" name="lineCustomerIDDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -463,7 +505,7 @@
            <widget class="QLabel" name="lblOrderIDDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -475,7 +517,7 @@
            <widget class="QLineEdit" name="lineOrderIDDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -497,6 +539,11 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -506,7 +553,7 @@
            <widget class="QCheckBox" name="checkBoxPaidDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -521,49 +568,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="formLayoutWidget_2">
-       <property name="geometry">
-        <rect>
-         <x>740</x>
-         <y>530</y>
-         <width>172</width>
-         <height>33</height>
-        </rect>
-       </property>
-       <layout class="QFormLayout" name="formLayoutRecieptsDP">
-        <item row="0" column="0">
-         <widget class="QPushButton" name="btnOneRecieptDP">
-          <property name="font">
-           <font>
-            <pointsize>13</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>1 Reciept</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="btnTwoRecieptDP">
-          <property name="font">
-           <font>
-            <pointsize>13</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>2 Reciepts</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>740</x>
-         <y>60</y>
-         <width>169</width>
-         <height>461</height>
+         <x>970</x>
+         <y>240</y>
+         <width>211</width>
+         <height>511</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -663,10 +674,28 @@
           <item>
            <widget class="QPushButton" name="btnSaveDP">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
             </property>
             <property name="font">
              <font>
@@ -692,10 +721,16 @@
           <item>
            <widget class="QPushButton" name="btnReturn">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
             </property>
             <property name="font">
              <font>
@@ -710,34 +745,39 @@
             </property>
            </widget>
           </item>
-          <item>
-           <layout class="QFormLayout" name="formLayoutPieceTotalDP">
-            <item row="0" column="0">
-             <widget class="QLabel" name="lblPieceTotalDP">
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Piece Total:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="linePieceTotalDP">
-              <property name="cursor">
-               <cursorShape>ArrowCursor</cursorShape>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
+         </layout>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayoutPieceTotalDP">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblPieceTotalDP">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Piece Total:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="linePieceTotalDP">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -757,6 +797,11 @@
           </item>
           <item row="0" column="1">
            <widget class="QLineEdit" name="lineOrderTotalDP">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="cursor">
              <cursorShape>ArrowCursor</cursorShape>
             </property>
@@ -773,296 +818,386 @@
           </item>
          </layout>
         </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="btnOneRecieptDP">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>1 Reciept</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnTwoRecieptDP">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>2 Reciepts</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgCustomerSearch">
-     <widget class="QPushButton" name="btnReturnCS">
-      <property name="geometry">
-       <rect>
-        <x>1190</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>640</x>
-        <y>480</y>
-        <width>521</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayoutCustomerCS">
-       <item>
-        <layout class="QFormLayout" name="formLayout_2">
-         <property name="labelAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <property name="formAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="lblLNameCS">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Last Name Or Phone:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineSearchCustomerCS">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Luis</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnSearchCS">
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Search</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnNewCustomersCS">
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>New Customer</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="pgCustomerSearchResults">
-     <widget class="QPushButton" name="btnReturnCSR">
-      <property name="geometry">
-       <rect>
-        <x>1300</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
-     </widget>
-     <widget class="QTableView" name="tableViewCSR">
+     <widget class="QWidget" name="widgetCustomerSearchDP" native="true">
       <property name="geometry">
        <rect>
         <x>630</x>
-        <y>220</y>
-        <width>621</width>
+        <y>491</y>
+        <width>661</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>661</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayoutCustomerCS">
+        <item>
+         <layout class="QFormLayout" name="formLayout_2">
+          <property name="labelAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <property name="formAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblLNameCS">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Last Name Or Phone:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineSearchCustomerCS">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnSearchCS">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnNewCustomersCS">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>New Customer</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnReturnCS">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Return</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="pgCustomerSearchResults">
+     <widget class="QWidget" name="widgetCustomerSearchResultsDP" native="true">
+      <property name="geometry">
+       <rect>
+        <x>575</x>
+        <y>235</y>
+        <width>771</width>
         <height>561</height>
        </rect>
       </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="showGrid">
-       <bool>false</bool>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
+      <widget class="QTableView" name="tableViewCSR">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>621</width>
+         <height>561</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
+       </property>
+       <property name="cursor" stdset="0">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="showGrid">
+        <bool>false</bool>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
+      <widget class="QPushButton" name="btnReturnCSR">
+       <property name="geometry">
+        <rect>
+         <x>670</x>
+         <y>260</y>
+         <width>101</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Return</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgCustomerNew">
-     <widget class="QWidget" name="formLayoutWidget">
+     <widget class="QWidget" name="widgetCustomerNew" native="true">
       <property name="geometry">
        <rect>
-        <x>690</x>
+        <x>745</x>
         <y>460</y>
-        <width>251</width>
-        <height>100</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="formLayoutCustomerNC">
-       <property name="labelAlignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lblFNameNC">
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>First Name:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="lineFNameNC">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="lblLNameNC">
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Last Name:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="lineLNameNC">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="lblPhoneNC">
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Phone Number:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="linePhoneNC">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>970</x>
-        <y>450</y>
-        <width>160</width>
+        <width>431</width>
         <height>111</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayoutOptionsNC">
-       <item>
-        <widget class="QPushButton" name="btnCreate">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Create</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnReturn_3">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Return</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QWidget" name="formLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>10</y>
+         <width>251</width>
+         <height>95</height>
+        </rect>
+       </property>
+       <layout class="QFormLayout" name="formLayoutCustomerNC">
+        <property name="labelAlignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lblFNameNC">
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>First Name:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineFNameNC">
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblLNameNC">
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Last Name:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="lineLNameNC">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lblPhoneNC">
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Phone Number:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="linePhoneNC">
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>0</y>
+         <width>160</width>
+         <height>111</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayoutOptionsNC">
+        <item>
+         <widget class="QPushButton" name="btnCreate">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Create</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnReturn_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Return</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgOrderLaundry">
@@ -1071,189 +1206,219 @@
        <pointsize>13</pointsize>
       </font>
      </property>
-     <widget class="QPushButton" name="btnLaundryReturn">
+     <widget class="QWidget" name="widgetOrderLaundry" native="true">
       <property name="geometry">
        <rect>
-        <x>1380</x>
-        <y>740</y>
-        <width>81</width>
-        <height>41</height>
+        <x>545</x>
+        <y>126</y>
+        <width>831</width>
+        <height>781</height>
        </rect>
       </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QTableWidget" name="tableWidgetLaundryOptions">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>220</y>
-        <width>691</width>
-        <height>561</height>
-       </rect>
-      </property>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <column>
-       <property name="text">
-        <string>Type</string>
+      <widget class="QTableWidget" name="tableWidgetLaundryOptions">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>691</width>
+         <height>781</height>
+        </rect>
        </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Count</string>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Count</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Price</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QPushButton" name="btnLaundryReturn">
+       <property name="geometry">
+        <rect>
+         <x>750</x>
+         <y>370</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
        </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Price</string>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
-      </column>
+       <property name="text">
+        <string>Return</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgOrderDryClean">
-     <widget class="QTableWidget" name="tableWidgetDryCleanOptions">
+     <widget class="QWidget" name="widgetOrderDryClean" native="true">
       <property name="geometry">
        <rect>
-        <x>630</x>
-        <y>220</y>
-        <width>691</width>
-        <height>561</height>
+        <x>545</x>
+        <y>126</y>
+        <width>831</width>
+        <height>781</height>
        </rect>
       </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <column>
-       <property name="text">
-        <string>Type</string>
+      <widget class="QTableWidget" name="tableWidgetDryCleanOptions">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>691</width>
+         <height>781</height>
+        </rect>
        </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Count</string>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
        </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Price</string>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Count</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Price</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QPushButton" name="btnDryCleanReturn">
+       <property name="geometry">
+        <rect>
+         <x>750</x>
+         <y>370</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
        </property>
-      </column>
-     </widget>
-     <widget class="QPushButton" name="btnDryCleanReturn">
-      <property name="geometry">
-       <rect>
-        <x>1380</x>
-        <y>740</y>
-        <width>81</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Return</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgOrderAlteration">
-     <widget class="QTableWidget" name="tableWidgetAlterationsOptions">
+     <widget class="QWidget" name="widgetOrderAlteration" native="true">
       <property name="geometry">
        <rect>
-        <x>630</x>
-        <y>220</y>
-        <width>691</width>
-        <height>561</height>
+        <x>545</x>
+        <y>126</y>
+        <width>831</width>
+        <height>781</height>
        </rect>
       </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <column>
-       <property name="text">
-        <string>Type</string>
+      <widget class="QPushButton" name="btnAlterationsReturn">
+       <property name="geometry">
+        <rect>
+         <x>750</x>
+         <y>370</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
        </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Count</string>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
        </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Price</string>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
-      </column>
-     </widget>
-     <widget class="QPushButton" name="btnAlterationsReturn">
-      <property name="geometry">
-       <rect>
-        <x>1380</x>
-        <y>740</y>
-        <width>81</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
+       <property name="text">
+        <string>Return</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="tableWidgetAlterationsOptions">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>691</width>
+         <height>781</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
+       </property>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Count</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Price</string>
+        </property>
+       </column>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgPickUp">
-     <widget class="QWidget" name="widget_3" native="true">
+     <widget class="QWidget" name="widgetPickUp" native="true">
       <property name="geometry">
        <rect>
-        <x>530</x>
-        <y>210</y>
-        <width>791</width>
-        <height>561</height>
+        <x>370</x>
+        <y>140</y>
+        <width>1181</width>
+        <height>751</height>
        </rect>
       </property>
       <widget class="QWidget" name="layoutWidget_2">
        <property name="geometry">
         <rect>
-         <x>620</x>
-         <y>330</y>
-         <width>169</width>
-         <height>191</height>
+         <x>970</x>
+         <y>510</y>
+         <width>211</width>
+         <height>241</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1280,6 +1445,13 @@
             </property>
             <property name="text">
              <string>Save</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
@@ -1381,8 +1553,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>182</width>
-         <height>51</height>
+         <width>271</width>
+         <height>71</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -1434,27 +1606,30 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>160</y>
-         <width>611</width>
-         <height>361</height>
+         <y>200</y>
+         <width>961</width>
+         <height>551</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>13</pointsize>
         </font>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
        </property>
        <attribute name="verticalHeaderVisible">
         <bool>false</bool>
        </attribute>
       </widget>
-      <widget class="QWidget" name="gridLayoutWidget_4">
+      <widget class="QWidget" name="gridWidgetPU" native="true">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>60</y>
-         <width>611</width>
-         <height>102</height>
+         <y>80</y>
+         <width>961</width>
+         <height>121</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayoutInformationPU">
@@ -1463,11 +1638,17 @@
           <property name="labelAlignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>60</number>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="lblDropOffPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1479,7 +1660,7 @@
            <widget class="QLabel" name="lblPickUpPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1491,7 +1672,7 @@
            <widget class="QLineEdit" name="lineRackPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1509,7 +1690,7 @@
            <widget class="QLabel" name="lblRackPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1521,7 +1702,7 @@
            <widget class="QDateTimeEdit" name="dateDTDropOffPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="frame">
@@ -1536,17 +1717,17 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QDateTimeEdit" name="dateDTPickUpPU">
+           <widget class="QDateEdit" name="dateDPickUpPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
-            <property name="readOnly">
-             <bool>true</bool>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
+            <property name="calendarPopup">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -1557,11 +1738,17 @@
           <property name="labelAlignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>50</number>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="lblFNamePU">
             <property name="font">
              <font>
-              <pointsize>11</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1573,7 +1760,7 @@
            <widget class="QLineEdit" name="lineFNamePU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1591,7 +1778,7 @@
            <widget class="QLabel" name="lblLNamePU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1603,7 +1790,7 @@
            <widget class="QLineEdit" name="lineLNamePU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1621,7 +1808,7 @@
            <widget class="QLabel" name="lblPhonePU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1633,7 +1820,7 @@
            <widget class="QLineEdit" name="linePhonePU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1654,11 +1841,17 @@
           <property name="labelAlignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>60</number>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="lblCustomerIDPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1670,7 +1863,7 @@
            <widget class="QLineEdit" name="lineCustomerIDPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1688,7 +1881,7 @@
            <widget class="QLabel" name="lblOrderIDPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1700,7 +1893,7 @@
            <widget class="QLineEdit" name="lineOrderIDPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1718,7 +1911,7 @@
            <widget class="QCheckBox" name="checkBoxPaidPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1733,7 +1926,7 @@
            <widget class="QCheckBox" name="checkBoxPUPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1751,99 +1944,115 @@
      </widget>
     </widget>
     <widget class="QWidget" name="pgCustomerSearchPU">
-     <widget class="QWidget" name="horizontalLayoutWidget_4">
+     <widget class="QWidget" name="widgetCustomerSearchPU" native="true">
       <property name="geometry">
        <rect>
-        <x>710</x>
-        <y>480</y>
-        <width>391</width>
+        <x>725</x>
+        <y>491</y>
+        <width>471</width>
         <height>51</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayoutCustomerCSPU">
-       <item>
-        <layout class="QFormLayout" name="formLayout_4">
-         <property name="labelAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <property name="formAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="lblLNameCSPU">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Last Name Or Phone:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineSearchCustomerCSPU">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnSearchCSPU">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Search</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QPushButton" name="btnReturnCSPU">
-      <property name="geometry">
-       <rect>
-        <x>1190</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>471</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayoutCustomerCSPU">
+        <item>
+         <layout class="QFormLayout" name="formLayout_4">
+          <property name="labelAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <property name="formAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblLNameCSPU">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Last Name Or Phone:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineSearchCustomerCSPU">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnSearchCSPU">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnReturnCSPU">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Return</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgOrderSearchPU">
@@ -1852,134 +2061,165 @@
        <pointsize>13</pointsize>
       </font>
      </property>
-     <widget class="QWidget" name="horizontalLayoutWidget_3">
+     <widget class="QWidget" name="widgetOrderSearchPU" native="true">
       <property name="geometry">
        <rect>
-        <x>740</x>
-        <y>480</y>
-        <width>371</width>
+        <x>765</x>
+        <y>490</y>
+        <width>391</width>
         <height>51</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayoutOS">
-       <item>
-        <layout class="QFormLayout" name="formLayoutOS">
-         <property name="labelAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <property name="formAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="lblOrderIDOS">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Order Number</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineSearchOrderIDOS">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnSearchOrderOS">
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Search</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QPushButton" name="btnReturnOS">
-      <property name="geometry">
-       <rect>
-        <x>1190</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>391</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayoutOS">
+        <item>
+         <layout class="QFormLayout" name="formLayoutOS">
+          <property name="labelAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <property name="formAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblOrderIDOS">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Order Number</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineSearchOrderIDOS">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnSearchOrderOS">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnReturnOS">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Return</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgCustomerSearchResultsPU">
-     <widget class="QPushButton" name="btnReturnCSRPU">
+     <widget class="QWidget" name="widgetCustomerSearchResultsPU" native="true">
       <property name="geometry">
        <rect>
-        <x>1300</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
-     </widget>
-     <widget class="QTableView" name="tableViewCSRPU">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>220</y>
-        <width>621</width>
+        <x>575</x>
+        <y>235</y>
+        <width>771</width>
         <height>561</height>
        </rect>
       </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="showGrid">
-       <bool>false</bool>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
+      <widget class="QTableView" name="tableViewCSRPU">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>621</width>
+         <height>561</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
+       </property>
+       <property name="cursor" stdset="0">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="showGrid">
+        <bool>false</bool>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
+      <widget class="QPushButton" name="btnReturnCSRPU">
+       <property name="geometry">
+        <rect>
+         <x>670</x>
+         <y>260</y>
+         <width>101</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Return</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgOrderSearchResults">
@@ -1988,65 +2228,75 @@
        <pointsize>13</pointsize>
       </font>
      </property>
-     <widget class="QPushButton" name="btnReturnOSR">
+     <widget class="QWidget" name="widgetOrderSearchResults" native="true">
       <property name="geometry">
        <rect>
-        <x>1300</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Cancel</string>
-      </property>
-     </widget>
-     <widget class="QTableView" name="tableViewOSR">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>220</y>
-        <width>621</width>
+        <x>585</x>
+        <y>236</y>
+        <width>751</width>
         <height>561</height>
        </rect>
       </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="showGrid">
-       <bool>false</bool>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
+      <widget class="QPushButton" name="btnReturnOSR">
+       <property name="geometry">
+        <rect>
+         <x>670</x>
+         <y>260</y>
+         <width>81</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+      <widget class="QTableView" name="tableViewOSR">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>621</width>
+         <height>561</height>
+        </rect>
+       </property>
+       <property name="cursor" stdset="0">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="showGrid">
+        <bool>false</bool>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgEditOrder">
-     <widget class="QWidget" name="widget_2" native="true">
+     <widget class="QWidget" name="widgetEditOrder" native="true">
       <property name="geometry">
        <rect>
-        <x>500</x>
-        <y>210</y>
-        <width>911</width>
-        <height>561</height>
+        <x>370</x>
+        <y>140</y>
+        <width>1181</width>
+        <height>751</height>
        </rect>
       </property>
       <widget class="QWidget" name="layoutWidget_3">
        <property name="geometry">
         <rect>
-         <x>740</x>
-         <y>330</y>
-         <width>169</width>
-         <height>191</height>
+         <x>970</x>
+         <y>476</y>
+         <width>211</width>
+         <height>271</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayoutEO">
@@ -2077,6 +2327,13 @@
            </widget>
           </item>
           <item>
+           <widget class="Line" name="line_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="btnReturnEO">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
@@ -2097,39 +2354,39 @@
             </property>
            </widget>
           </item>
-          <item>
-           <layout class="QFormLayout" name="formLayoutPieceTotalEO">
-            <item row="0" column="0">
-             <widget class="QLabel" name="lblPieceTotalEO">
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Piece Total:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="linePieceTotalEO">
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor">
-               <cursorShape>ArrowCursor</cursorShape>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
+         </layout>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayoutPieceTotalEO">
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="linePieceTotalEO">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblPieceTotalEO">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Piece Total:</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -2167,15 +2424,61 @@
           </item>
          </layout>
         </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutRecipetsEO">
+          <item>
+           <widget class="QPushButton" name="btnOneRecieptEO">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>1 Reciept</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnTwoRecieptEO">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>2 Reciepts</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </widget>
       <widget class="QTableView" name="tableViewOrdersEO">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>160</y>
-         <width>731</width>
-         <height>401</height>
+         <y>200</y>
+         <width>961</width>
+         <height>551</height>
         </rect>
        </property>
        <property name="font">
@@ -2192,8 +2495,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>182</width>
-         <height>51</height>
+         <width>271</width>
+         <height>71</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayoutEO">
@@ -2241,211 +2544,26 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="gridLayoutWidget_5">
+      <widget class="QWidget" name="gridWidgetEO" native="true">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>60</y>
-         <width>731</width>
-         <height>102</height>
+         <y>80</y>
+         <width>961</width>
+         <height>121</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayoutInformationEO">
-        <item row="0" column="1">
-         <layout class="QFormLayout" name="formLayoutDateEO">
-          <property name="labelAlignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="lblDropOffEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Drop Off:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="lblPickUpEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Pick Up:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="lineRackEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-            <property name="readOnly">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="lblRackEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Rack:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QDateTimeEdit" name="dateDTDropOffEO">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QDateTimeEdit" name="dateDTPickUpEO">
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-             </font>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="0">
-         <layout class="QFormLayout" name="formLayoutCustomerEO">
-          <property name="labelAlignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="lblFNameEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>First Name:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineFNameEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>ArrowCursor</cursorShape>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="lblLNameEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Last Name:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineLNameEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>ArrowCursor</cursorShape>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="lblPhoneEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Phone:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="linePhoneEO">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>ArrowCursor</cursorShape>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
         <item row="0" column="2">
          <layout class="QFormLayout" name="formLayoutIEO">
           <property name="labelAlignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>60</number>
           </property>
           <item row="0" column="0">
            <widget class="QLabel" name="lblCustomerIDEO">
@@ -2461,9 +2579,15 @@
           </item>
           <item row="0" column="1">
            <widget class="QLineEdit" name="lineCustomerIDEO">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2491,9 +2615,21 @@
           </item>
           <item row="1" column="1">
            <widget class="QLineEdit" name="lineOrderIDEO">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>13</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2539,6 +2675,236 @@
           </item>
          </layout>
         </item>
+        <item row="0" column="1">
+         <layout class="QFormLayout" name="formLayoutDateEO">
+          <property name="rowWrapPolicy">
+           <enum>QFormLayout::DontWrapRows</enum>
+          </property>
+          <property name="labelAlignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>60</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblDropOffEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Drop Off:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QDateTimeEdit" name="dateDTDropOffEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="lblPickUpEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Pick Up:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="lblRackEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Rack:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineRackEO">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDateEdit" name="dateDPickUpEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0">
+         <layout class="QFormLayout" name="formLayoutCustomerEO">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="labelAlignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="formAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+          <property name="verticalSpacing">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>50</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblFNameEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>First Name:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineFNameEO">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="lblLNameEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Last Name:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineLNameEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="lblPhoneEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Phone:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="linePhoneEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </widget>
      </widget>
@@ -2549,192 +2915,224 @@
        <pointsize>9</pointsize>
       </font>
      </property>
-     <widget class="QWidget" name="horizontalLayoutWidget_6">
+     <widget class="QWidget" name="widgetOrderSearchEO" native="true">
       <property name="geometry">
        <rect>
-        <x>740</x>
-        <y>480</y>
-        <width>371</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayoutEO_2">
-       <item>
-        <layout class="QFormLayout" name="formLayoutEO_3">
-         <property name="labelAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <property name="formAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="lblOrderIDEO_2">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Order Number</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineSearchOrderIDEO">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnSearchOrderEO">
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Search</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QPushButton" name="btnReturnOSEO">
-      <property name="geometry">
-       <rect>
-        <x>1190</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="pgCustomerSearchEO">
-     <widget class="QPushButton" name="btnReturnCSEO">
-      <property name="geometry">
-       <rect>
-        <x>1190</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget_7">
-      <property name="geometry">
-       <rect>
-        <x>710</x>
-        <y>480</y>
+        <x>765</x>
+        <y>490</y>
         <width>391</width>
         <height>51</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayoutCustomerCSEO">
-       <item>
-        <layout class="QFormLayout" name="formLayoutEO_2">
-         <property name="labelAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <property name="formAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="lblLNameCSEO">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Last Name Or Phone:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineSearchCustomerCSEO">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnSearchCSEO">
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string>Search</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QWidget" name="horizontalLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>391</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayoutEO_2">
+        <item>
+         <layout class="QFormLayout" name="formLayoutEO_3">
+          <property name="labelAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <property name="formAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblOrderIDEO_2">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Order Number</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineSearchOrderIDEO">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnSearchOrderEO">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnReturnOSEO">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Return</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="pgCustomerSearchEO">
+     <widget class="QWidget" name="widgetCustomerSearchEO" native="true">
+      <property name="geometry">
+       <rect>
+        <x>725</x>
+        <y>491</y>
+        <width>471</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget_7">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>471</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayoutCustomerCSEO">
+        <item>
+         <layout class="QFormLayout" name="formLayoutEO_2">
+          <property name="labelAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <property name="formAlignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblLNameCSEO">
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Last Name Or Phone:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineSearchCustomerCSEO">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnSearchCSEO">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Search</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnReturnCSEO">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Return</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgCustomerSearchResultsEO">
@@ -2743,46 +3141,56 @@
        <pointsize>13</pointsize>
       </font>
      </property>
-     <widget class="QPushButton" name="btnReturnCSREO">
+     <widget class="QWidget" name="widgetCustomerSearchResultsEO" native="true">
       <property name="geometry">
        <rect>
-        <x>1300</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Return</string>
-      </property>
-     </widget>
-     <widget class="QTableView" name="tableViewCSREO">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>220</y>
-        <width>621</width>
+        <x>575</x>
+        <y>235</y>
+        <width>771</width>
         <height>561</height>
        </rect>
       </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="showGrid">
-       <bool>false</bool>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
+      <widget class="QTableView" name="tableViewCSREO">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>621</width>
+         <height>561</height>
+        </rect>
+       </property>
+       <property name="cursor" stdset="0">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="showGrid">
+        <bool>false</bool>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
+      <widget class="QPushButton" name="btnReturnCSREO">
+       <property name="geometry">
+        <rect>
+         <x>670</x>
+         <y>260</y>
+         <width>101</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Return</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgOrderSearchResultsEO">
@@ -2791,125 +3199,163 @@
        <pointsize>13</pointsize>
       </font>
      </property>
-     <widget class="QPushButton" name="btnReturnOSREO">
+     <widget class="QWidget" name="widgetOrderSearchResultsEO" native="true">
       <property name="geometry">
        <rect>
-        <x>1300</x>
-        <y>480</y>
-        <width>81</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>Cancel</string>
-      </property>
-     </widget>
-     <widget class="QTableView" name="tableViewOSREO">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>220</y>
-        <width>621</width>
+        <x>585</x>
+        <y>236</y>
+        <width>751</width>
         <height>561</height>
        </rect>
       </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <property name="showGrid">
-       <bool>false</bool>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
+      <widget class="QPushButton" name="btnReturnOSREO">
+       <property name="geometry">
+        <rect>
+         <x>670</x>
+         <y>260</y>
+         <width>81</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+      <widget class="QTableView" name="tableViewOSREO">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>621</width>
+         <height>561</height>
+        </rect>
+       </property>
+       <property name="cursor" stdset="0">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="showGrid">
+        <bool>false</bool>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgAdmin">
-     <widget class="QWidget" name="verticalLayoutWidget_4">
+     <widget class="QWidget" name="widgetOptionsAdmin" native="true">
       <property name="geometry">
        <rect>
-        <x>870</x>
-        <y>410</y>
-        <width>160</width>
-        <height>171</height>
+        <x>880</x>
+        <y>381</y>
+        <width>161</width>
+        <height>271</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayoutAP">
-       <item>
-        <widget class="QPushButton" name="btnCIP">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Items and Price</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnExportData">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Export Data</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnReturnAP">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Return</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QWidget" name="verticalLayoutWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>160</width>
+         <height>271</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayoutAP">
+        <item>
+         <widget class="QPushButton" name="btnCIP">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Items and Price</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnCustomerAP">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Edit Customers</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnExportData">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Export Data</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnReturnAP">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Return</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="pgItemsPrice">
-     <widget class="QWidget" name="widget_4" native="true">
+     <widget class="QWidget" name="widgetItemsPrice" native="true">
       <property name="geometry">
        <rect>
-        <x>510</x>
-        <y>250</y>
+        <x>515</x>
+        <y>146</y>
         <width>891</width>
-        <height>501</height>
+        <height>741</height>
        </rect>
       </property>
       <widget class="QTabWidget" name="tabWidgetCIP">
@@ -2918,7 +3364,7 @@
          <x>0</x>
          <y>0</y>
          <width>691</width>
-         <height>501</height>
+         <height>741</height>
         </rect>
        </property>
        <property name="font">
@@ -2938,8 +3384,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>681</width>
-           <height>471</height>
+           <width>691</width>
+           <height>711</height>
           </rect>
          </property>
          <property name="font">
@@ -2958,8 +3404,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>681</width>
-           <height>471</height>
+           <width>691</width>
+           <height>711</height>
           </rect>
          </property>
          <property name="font">
@@ -2978,8 +3424,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>681</width>
-           <height>471</height>
+           <width>691</width>
+           <height>711</height>
           </rect>
          </property>
          <property name="font">
@@ -2994,7 +3440,7 @@
        <property name="geometry">
         <rect>
          <x>730</x>
-         <y>180</y>
+         <y>310</y>
          <width>160</width>
          <height>131</height>
         </rect>

@@ -49,6 +49,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Everything after this point is GUI related
     ui->setupUi(this);
+    this->showMaximized();
+    //QScreen *screen = QGuiApplication::primaryScreen();
+    //QRect availableGeometry = screen->availableGeometry(); // Excludes the taskbar
+    //std::cout << availableGeometry.width() << "\n";
+    //std::cout << availableGeometry.height() << "\n";
+
 
     //
     //Drop Off Page
@@ -64,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
     checkBoxPaidDP = ui->checkBoxPaidDP;
 
     dateDTDropOffDP = ui->dateDTDropOffDP;
-    dateDTPickUpDP = ui->dateDTPickUpDP;
+    dateDPickUpDP = ui->dateDPickUpDP;
 
     modelDP = new QStandardItemModel(this);
     modelDP->setColumnCount(5);
@@ -135,7 +141,7 @@ MainWindow::MainWindow(QWidget *parent)
     checkBoxPUPU = ui->checkBoxPUPU;
     checkBoxPaidPU = ui->checkBoxPaidPU;
     dateDTDropOffPU = ui->dateDTDropOffPU;
-    dateDTPickUpPU = ui->dateDTPickUpPU;
+    dateDPickUpPU = ui->dateDPickUpPU;
     linePieceTotalPU = ui->linePieceTotalPU;
 
     modelPU = new QStandardItemModel(this);
@@ -194,7 +200,7 @@ MainWindow::MainWindow(QWidget *parent)
     checkBoxPUEO = ui->checkBoxPUEO;
     checkBoxPaidEO = ui->checkBoxPaidEO;
     dateDTDropOffEO = ui->dateDTDropOffEO;
-    dateDTPickUpEO = ui->dateDTPickUpEO;
+    dateDPickUpEO = ui->dateDPickUpEO;
     linePieceTotalEO = ui->linePieceTotalEO;
 
     modelEO = new QStandardItemModel(this);
@@ -204,6 +210,8 @@ MainWindow::MainWindow(QWidget *parent)
     tableViewOrdersEO = ui->tableViewOrdersEO;
     tableViewOrdersEO->setModel(modelEO);
     tableViewOrdersEO->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    //connect(ui->btnOneRecieptEO, &QPushButton::clicked, this, &MainWindow::on_btnOneRecieptDP_clicked);
 
     //
     //Order Search PageEO ()
@@ -251,6 +259,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     tableWidgetAlterationsCIP = ui->tableWidgetAlterationsCIP;
     tableWidgetAlterationsCIP->setColumnCount(2);
+
+    showMainPage();
 }
 
 MainWindow::~MainWindow()
@@ -349,7 +359,7 @@ void MainWindow::showItemsAndPricePage(){
 //
 void MainWindow::on_btnDropOff_clicked(){
     dateDTDropOffDP->hide();
-    dateDTPickUpDP->hide();
+    dateDPickUpDP->hide();
     ui->btnOneRecieptDP->setEnabled(false);
     ui->btnTwoRecieptDP->setEnabled(false);
 
@@ -359,13 +369,13 @@ void MainWindow::on_btnDropOff_clicked(){
 
 void MainWindow::on_btnPickUp_clicked(){
     dateDTDropOffPU->hide();
-    dateDTPickUpPU->hide();
+    dateDPickUpPU->hide();
     showPickUpPage();
 }
 
 void MainWindow::on_btnEditOrder_clicked(){
     dateDTDropOffEO->hide();
-    dateDTPickUpEO->hide();
+    dateDPickUpEO->hide();
     showEditOrderPage();
 }
 
@@ -427,102 +437,42 @@ void MainWindow::on_btnSaveDP_clicked()
     if(lineFNameDP->text().isEmpty() || (!lineFNameDP->text().isEmpty() && modelDP->rowCount() == 0))
         return;
 
+    saveModel(modelDP);
+    updateModel(modelDP);
+
+
+    linePieceTotalDP->setText(QString::number(order[0]->getPieceTotal()));
+    lineOrderTotalDP->setText(QString::number(order[0]->getCost(), 'f', 2));
+
     ui->btnOneRecieptDP->setEnabled(true);
     ui->btnTwoRecieptDP->setEnabled(true);
-}
-
-/*
-
-void MainWindow::saveModel(QStandardItemModel *model){
-    size_t row = 0;
-    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
-
-    row = updateTableView(laundry, model, "Laundry", row);
-    row = updateTableView(dryClean, model, "Dry Clean", row);
-    updateTableView(alterations, model, "Alterations", row);
 
 }
 
-
-size_t MainWindow::saveTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row){
-    size_t i, j, rows = modelDP->rowCount();
-
-
-    for(i = 0; i < rows; i++){
-
-    }
-}
-*/
-
-void MainWindow::on_btnOneRecieptDP_clicked()
-{
+void MainWindow::on_btnOneRecieptDP_clicked(){
     //Add orderID to customer's orders
     customer[0]->setLatestOrder(curOrderID);
     customer[0]->updateVisits(customer[0]->getVisit() + 1);
 
-    //Setting Date
-    QDateTime dateTime = dateDTPickUpDP->dateTime();
-    order[0]->pickUp->setYear(dateTime.date().year());
-    order[0]->pickUp->setMonth(dateTime.date().month());
-    order[0]->pickUp->setDay(dateTime.date().day());
-    order[0]->pickUp->setHour(dateTime.time().hour());
-    order[0]->pickUp->setMin(dateTime.time().minute());
-    order[0]->pickUp->updateClass();
-
-    orders[curOrderID].setPaid(checkBoxPaidDP->isChecked());
-
-
-    std::thread threadOrder(&fi::File::saveOrders, manager, std::ref(orders[curOrderID]));
-    std::thread threadCust(&fi::File::updateCustomer, manager, customer[0]->getCustomerID());
-    threadOrder.join();
-    threadCust.join();
-
-    printReciept();
-
-    customer.clear();
-    order.clear();
-    curOrderID = NULL;
+    saveAndPrint(1, dateDPickUpDP, checkBoxPaidDP);
     clearScreenDP();
 
     showMainPage();
 }
 
-void MainWindow::on_btnTwoRecieptDP_clicked()
-{
+void MainWindow::on_btnTwoRecieptDP_clicked(){
     //Add orderID to customer's orders
     customer[0]->setLatestOrder(curOrderID);
     customer[0]->updateVisits(customer[0]->getVisit() + 1);
 
     //Setting Date
-    QDateTime dateTime = dateDTPickUpDP->dateTime();
-    order[0]->pickUp->setYear(dateTime.date().year());
-    order[0]->pickUp->setMonth(dateTime.date().month());
-    order[0]->pickUp->setDay(dateTime.date().day());
-    order[0]->pickUp->setHour(dateTime.time().hour());
-    order[0]->pickUp->setMin(dateTime.time().minute());
-    order[0]->pickUp->updateClass();
-
-    orders[curOrderID].setPaid(checkBoxPaidDP->isChecked());
-
-
-    std::thread threadOrder(&fi::File::saveOrders, manager, std::ref(orders[curOrderID]));
-    std::thread threadCust(&fi::File::updateCustomer, manager, customer[0]->getCustomerID());
-    threadOrder.join();
-    threadCust.join();
-
-    printReciept();
-    printReciept();
-
-    customer.clear();
-    order.clear();
-    curOrderID = NULL;
+    saveAndPrint(2, dateDPickUpDP, checkBoxPaidDP);
     clearScreenDP();
 
     showMainPage();
 }
 
-void MainWindow::on_btnReturn_clicked()
-{
+void MainWindow::on_btnReturn_clicked(){
     showMainPage();
     //If customer information was pulled up but nothing was added to order, delete order
     if(!lineFNameDP ->text().isEmpty() || (!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled())){
@@ -967,26 +917,13 @@ void MainWindow::on_btnSaveEO_clicked(){
     if(!lineRackEO->text().isEmpty())
         orders[curOrderID].setRack(lineRackEO->text().toInt());
 
-    /*
-    for(int row = 0; row < modelEO ->rowCount(); row++){
-        QModelIndex indexPiece = modelEO->index(row, 2);
-        QModelIndex indexN = modelEO->index(row, 0);
-        QModelIndex indexPrice = modelEO->index(row, 3);
-
-        QVariant itemPiece = modelEO->data(indexPiece);
-        QVariant itemN = modelEO->data(indexN);
-        QVariant itemPrice = modelEO->data(indexPrice);
-
-        temp = std::make_tuple(itemPiece.toString().toStdString(), itemN.toInt(), itemPrice.toDouble());
-    }
-    */
+    saveModel(modelEO);
+    updateModel(modelEO);
 
     std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID);
     std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
     threadOrder.join();
     threadCust.join();
-
-    printReciept();
 
     customer.clear();
     order.clear();
@@ -995,6 +932,16 @@ void MainWindow::on_btnSaveEO_clicked(){
     showMainPage();
     clearScreenEO();
 }
+
+void MainWindow::on_btnOneRecieptEO_clicked(){
+    printReciept();
+}
+
+void MainWindow::on_btnTwoRecieptEO_clicked(){
+    printReciept();
+    printReciept();
+}
+
 
 void MainWindow::on_btnReturnEO_clicked(){
     showMainPage();
@@ -1340,10 +1287,10 @@ void MainWindow::updateCOInformationDP(){
     lineOrderIDDP->setText(QString::number(order[0]->getOrderID()));
     lineVisitsDP->setText(QString::number(customer[0]->getVisit() + 1));
 
-    setDate(dateDTDropOffDP, dateDTPickUpDP);
+    setDate(dateDTDropOffDP, dateDPickUpDP);
 
     dateDTDropOffDP->show();
-    dateDTPickUpDP->show();
+    dateDPickUpDP->show();
 }
 
 void MainWindow::updateCOInformationPU(){
@@ -1355,9 +1302,9 @@ void MainWindow::updateCOInformationPU(){
     linePieceTotalPU->setText(QString::number(order[0]->getPieceTotal()));
     
     //Set Date
-    setDate(dateDTDropOffPU, dateDTPickUpPU);
+    setDate(dateDTDropOffPU, dateDPickUpPU);
     dateDTDropOffPU->show();
-    dateDTPickUpPU->show();
+    dateDPickUpPU->show();
 
     if(order[0]->getPaid() == true)
         checkBoxPaidPU->setCheckState(Qt::Checked);
@@ -1376,9 +1323,9 @@ void MainWindow::updateCOInformationEO(){
     linePieceTotalEO->setText(QString::number(order[0]->getPieceTotal()));
 
     //Set Date
-    setDate(dateDTDropOffEO, dateDTPickUpEO);
+    setDate(dateDTDropOffEO, dateDPickUpEO);
     dateDTDropOffEO->show();
-    dateDTPickUpEO->show();
+    dateDPickUpEO->show();
 
     if(order[0]->getPaid() == true)
         checkBoxPaidEO->setCheckState(Qt::Checked);
@@ -1394,7 +1341,7 @@ void MainWindow::clearScreenDP(){
     lineLNameDP -> clear();
     linePhoneDP -> clear();
     dateDTDropOffDP -> clear();
-    dateDTPickUpDP->clear();
+    dateDPickUpDP->clear();
     lineCustomerIDDP->clear();
     lineOrderIDDP->clear();
     lineOrderTotalDP ->clear();
@@ -1404,7 +1351,7 @@ void MainWindow::clearScreenDP(){
     checkBoxPaidDP->setCheckState(Qt::Unchecked);
 
     dateDTDropOffDP->hide();
-    dateDTPickUpDP->hide();
+    dateDPickUpDP->hide();
 }
 
 void MainWindow::clearScreenNC(){
@@ -1442,8 +1389,6 @@ void MainWindow::clearScreenEO(){
     checkBoxPaidEO->setCheckState(Qt::Unchecked);
     checkBoxPUEO->setCheckState(Qt::Unchecked);
 }
-
-
 
 void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::vector<std::pair<std::string, double>>> prices, std::vector<std::tuple<std::string, int, int>> pos){
     size_t row = 0, i, j;
@@ -1559,16 +1504,73 @@ void MainWindow::customerSearchPageSetUp(QTableView *tableView, QStandardItemMod
     tableView -> setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
-void MainWindow::setDate(QDateTimeEdit *dp, QDateTimeEdit *pu){
+void MainWindow::setDate(QDateTimeEdit *dp, QDateEdit *pu){
     QDate dateD(order[0]->dropOff->getYear(), order[0]->dropOff->getMonth(), order[0]->dropOff->getDay());
     QTime timeD(order[0]->dropOff->getHour(), order[0]->dropOff->getMin());
     QDateTime dateTimeD(dateD, timeD);
     dp->setDateTime(dateTimeD);
 
     QDate dateP(order[0]->pickUp->getYear(), order[0]->pickUp->getMonth(), order[0]->pickUp->getDay());
-    QTime timeP(order[0]->pickUp->getHour(), order[0]->pickUp->getMin());
-    QDateTime dateTimeP(dateP, timeP);
-    pu->setDateTime(dateTimeP);
+    pu->setDate(dateP);
+}
+
+void MainWindow::saveModel(QStandardItemModel *model){
+    size_t row = 0;
+    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
+    std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>> pair;
+
+    pair = saveTableView(laundry, model, "Laundry", row);
+    row = pair.first;
+    order[0]->setDetails(pair.second);
+
+    pair = saveTableView(dryClean, model, "Dry Clean", row);
+    row = pair.first;
+    order[0]->setDryClean(pair.second);
+
+    pair = saveTableView(alterations, model, "Alterations", row);
+    order[0]->setAlterations(pair.second);
+
+    order[0]->calculatePieceTotal();
+    order[0]->calculateCostO();
+}
+
+std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>> MainWindow::saveTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row){
+    size_t i = 0, posArt = 0, posPiece = 0, size = calculatePieceTotal(article);
+
+    while(i < size){
+        //size_t artSize = article[posArt].size();
+        while(posPiece < article[posArt].size()){
+            QModelIndex index = model->index(row, 0);
+            QVariant dataNumber = model->data(index);
+
+            index = model->index(row, 3);
+            QVariant dataPrice = model->data(index);
+
+            //If the number of pieces has changed
+            if(dataNumber.toInt() != std::get<1>(article[posArt][posPiece])){
+                if(dataNumber.toInt() == 0){
+                    //Remove piece from order
+                    article[posArt].erase(article[posArt].begin() + posPiece);
+                    i++;
+                    row++;
+                    continue;
+                }
+                //update data structure
+                std::get<1>(article[posArt][posPiece]) = dataNumber.toInt();
+            }
+            //If the price has changed of a piece
+            if(dataPrice.toDouble() != std::get<2>(article[posArt][posPiece])){
+                std::get<2>(article[posArt][posPiece]) = dataPrice.toDouble();
+            }
+
+            posPiece++;
+            i++;
+            row++;
+        }
+        posPiece = 0;
+        posArt++;
+    }
+    return std::make_pair(row, article);;
 }
 
 void MainWindow::updateModel(QStandardItemModel *model){
@@ -1726,6 +1728,33 @@ int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::stri
             size++;
 
     return size;
+}
+
+void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
+
+    //Setting Date
+    QDateTime dateTime = p->dateTime();
+    order[0]->pickUp->setYear(dateTime.date().year());
+    order[0]->pickUp->setMonth(dateTime.date().month());
+    order[0]->pickUp->setDay(dateTime.date().day());
+    //order[0]->pickUp->setHour(dateTime.time().hour());
+    //order[0]->pickUp->setMin(dateTime.time().minute());
+    order[0]->pickUp->updateClass();
+
+    order[0]->setPaid(b->isChecked());
+
+    std::thread threadOrder(&fi::File::saveOrders, manager, std::ref(orders[curOrderID]));
+    std::thread threadCust(&fi::File::updateCustomer, manager, customer[0]->getCustomerID());
+
+    for(int i = 0; i < n; i++)
+        printReciept();
+
+    threadOrder.join();
+    threadCust.join();
+
+    customer.clear();
+    order.clear();
+    curOrderID = NULL;
 }
 
 void MainWindow::printReciept(){
