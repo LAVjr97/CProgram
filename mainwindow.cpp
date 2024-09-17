@@ -15,12 +15,15 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Cleaning_and_Alteration_Shop)
 {
+    //Debug uses main folder, where source files are located, change file locations to just "[...].txt"
+
     //Setting up database
-    std::string customerFile = "data/customers.txt";
-    std::string orderFile = "data/orders.txt";
-    std::string priceFile = "data/price.txt";
-    std::string tempOrderFile = "data/tempOrder.txt";
-    std::string tempCustFile = "data/tempCust.txt";
+    std::string customerFile = "./data/customers.txt";
+    std::string orderFile = "./data/orders.txt";
+    std::string priceFile = "./data/prices.txt";
+    std::string tempOrderFile = "./data/tempOrder.txt";
+    std::string tempCustFile = "./data/tempCust.txt";
+    std::string logFile = "./logs/log.txt";
 
     manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos);
 
@@ -38,17 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     threadCust.join();
     threadOrder.join();
     threadPrices.join();
-/*
-    laundryPrices = {{{"Pants", 4.99}, {"Jeans", 4.59}}, {{"Shirts", 3.99},{"T-Shirts", 3.49}}};
-    dryCleanPrices = {{{"Pants", 6.99}, {"Jeans", 5.59}}, {{"Shirts", 4.99},{"T-Shirts", 4.49}}};
-    alterationsPrices = {{{"Pants", 3.99}, {"Jeans", 3.59}}, {{"Shirts", 2.99},{"T-Shirts", 1.49}}};
 
-    laundryPos = {{"Pants", 0, 2}, {"Shirts", 3, 5}};
-    dryCleanPos = {{"Pants", 0, 2}, {"Shirts", 3, 5}}; //only 2 pants but because of the label, it increaseses by 1 for every type, so if there are 2 pieces in a type of article, then theres 3 "pieces"
-    alterationsPos = {{"Pants", 0, 2}, {"Shirts", 3, 5}};
-
-    manager->savePrices();
-*/
     curOrderID = 0;
 
     //Everything after this point is GUI related
@@ -357,9 +350,7 @@ void MainWindow::on_btnDropOff_clicked(){
     dateDPickUpDP->hide();
     ui->btnOneRecieptDP->setEnabled(false);
     ui->btnTwoRecieptDP->setEnabled(false);
-
     showDropOffPage();
-    //printReciept();
 }
 
 void MainWindow::on_btnPickUp_clicked(){
@@ -371,6 +362,8 @@ void MainWindow::on_btnPickUp_clicked(){
 void MainWindow::on_btnEditOrder_clicked(){
     dateDTDropOffEO->hide();
     dateDPickUpEO->hide();
+    ui->btnOneRecieptEO->setEnabled(false);
+    ui->btnTwoRecieptEO->setEnabled(false);
     showEditOrderPage();
 }
 
@@ -558,6 +551,9 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     firstName = lineFNameNC ->text();
     lastName = lineLNameNC -> text();
     phone = linePhoneNC -> text();
+
+    if(checkForDuplicates(firstName.toStdString(), lastName.toStdString(), phone.toStdString()))
+        return;
 
     clearScreenNC();
 
@@ -979,6 +975,9 @@ void MainWindow::on_btnSearchOrderEO_clicked(){
 
     lineOrderTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
 
+    ui->btnOneRecieptEO->setEnabled(true);
+    ui->btnTwoRecieptEO->setEnabled(true);
+
     showEditOrderPage();
     lineRackEO->setFocus();
 }
@@ -1066,7 +1065,7 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
 
 }
 
-//void MainWindow::
+
 
 //
 //***Order Search Results EO Page (17)***
@@ -1087,8 +1086,14 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
     updateModel(modelEO);
     lineOrderTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
 
+    ui->btnOneRecieptEO->setEnabled(true);
+    ui->btnTwoRecieptEO->setEnabled(true);
+
     showEditOrderPage();
 }
+
+
+
 
 //
 //***Admin Page (18)***
@@ -1724,6 +1729,20 @@ int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::stri
     return size;
 }
 
+bool MainWindow::checkForDuplicates(std::string firstName, std::string lastName, std::string phone){
+    size_t i, j;
+
+    for(i = 0; i < customers.size(); i++){
+        if((firstName == customers[i].getFirstName()) && (lastName == customers[i].getLastName()))
+            return true;
+        else if(phone == customers[i].getPhone())
+            return true;
+    }
+
+    return false;
+}
+
+
 void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
 
     //Setting Date
@@ -1731,8 +1750,6 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
     order[0]->pickUp->setYear(dateTime.date().year());
     order[0]->pickUp->setMonth(dateTime.date().month());
     order[0]->pickUp->setDay(dateTime.date().day());
-    //order[0]->pickUp->setHour(dateTime.time().hour());
-    //order[0]->pickUp->setMin(dateTime.time().minute());
     order[0]->pickUp->updateClass();
 
     order[0]->setPaid(b->isChecked());

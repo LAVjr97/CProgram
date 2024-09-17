@@ -14,8 +14,8 @@ CONFIG += c++17
 SOURCES += \
     customer.cpp \
     date.cpp \
-    dropoffpage.cpp \
     file.cpp \
+    logger.cpp \
     main.cpp \
     mainwindow.cpp \
     order.cpp \
@@ -24,15 +24,14 @@ SOURCES += \
 HEADERS += \
     customer.h \
     date.h \
-    dropoffpage.h \
     file.h \
+    logger.h \
     main.h \
     mainwindow.h \
     order.h \
     search.h
 
 FORMS += \
-    dropoffpage.ui \
     mainwindow.ui
 
 # Default rules for deployment.

@@ -1,4 +1,5 @@
 #include "file.h"
+#include <filesystem>
 
 using namespace fi;
 
@@ -429,9 +430,11 @@ void File::updateCustomer(const int id) {
     if (found) {
         std::remove(this->customerFile.c_str());
         std::rename(this->tempCustFile.c_str(), this->customerFile.c_str());
+        std::ofstream file(this->tempCustFile.c_str());
+
     }
     else
-        std::remove(this->tempCustFile.c_str());
+        std::filesystem::resize_file(this->tempCustFile.c_str(), 0);
 
     return;
 }
@@ -643,11 +646,12 @@ void File::loadPrices(){
 }
 
 void File::checkAndCreateFile(const std::string& filename){
-    std::ifstream fileCheck(filename);
+    //std::ifstream fileCheck(filename);
+    if(!std::filesystem::exists(filename)){
+        std::ofstream file(filename.c_str());
+        file.close();
+    }
 
-    // Check if the file exists
-    if (!fileCheck)
-        std::ofstream createFile(filename);
 }
 
 //Get functions

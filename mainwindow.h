@@ -1,15 +1,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QLineEdit>
-#include <QSpinBox>
+
 #include "main.h"
 #include "customer.h"
 #include "order.h"
 #include "file.h"
 #include "search.h"
-#include "spinboxdelegate.h"
+#include "logger.h"
+
+#include <QMainWindow>
+#include <QLineEdit>
+#include <QSpinBox>
 #include "qstackedwidget.h"
 #include <QStandardItemModel>
 #include <QStandardItem>
@@ -28,6 +30,9 @@
 #include <QIODevice>
 #include <QScreen>
 #include <QGuiApplication>
+#include <QLockFile>
+#include <QStandardPaths>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -48,7 +53,8 @@ public:
 
     std::vector<cust::customer*> customer;
     std::vector<orderInfo::order*> order;
-    fi::File* manager;
+    fi::File *manager;
+    logger::Logger *logger;
 
     QPrinter printer;
     QPainter painter;
@@ -242,13 +248,12 @@ private slots:
     int calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices);
     int calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, int, double>>> articles);
 
-
     void createType(size_t curIndex, std::vector<std::tuple<std::string, int, int>> &pos, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string newPiece);
     void increaseIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
     bool removeItemPrice(size_t index, std::vector<std::vector<std::pair<std::string, double>>> &prices, size_t pieceI);
     void removeIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
 
-    void checkAndCreateFile(const std::string& filename);
+    bool checkForDuplicates(std::string firstName, std::string lastName, std::string phone);
 
     void saveAndPrint(int n, QDateEdit *p, QCheckBox *b);
     void printReciept();

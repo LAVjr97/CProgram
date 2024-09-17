@@ -6,11 +6,20 @@
 #include <QApplication>
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    a.setWindowIcon(QIcon(":/images/app_icon.png"));
+    QString lockFilePath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/MyApp.lock";
+    QLockFile lockFile(lockFilePath);
+    lockFile.setStaleLockTime(30000);
+    if(!lockFile.tryLock()){
+        QMessageBox::warning(nullptr, "Warning", "Application is already runnning");
+        return 0;
+    }
+
+    app.setStyle("windows");
+    app.setWindowIcon(QIcon(":/images/app_icon.png"));
 
     MainWindow w;
     w.show();
-    return a.exec();
+    return app.exec();
 }
