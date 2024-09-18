@@ -1,5 +1,4 @@
 #include "file.h"
-#include <filesystem>
 
 using namespace fi;
 
@@ -7,14 +6,24 @@ using namespace fi;
 //Windows: C:/Code/repos/LAVjr97/CProgram/
 
 //Constructors
-File::File(std::string customerFile, std::string orderFile, std::string priceFile, std::string tempOrderFile, std::string tempCustFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders, std::vector<std::vector<std::pair<std::string, double>>> &laundryPrices, std::vector<std::vector<std::pair<std::string, double>>> &dryCleanPrices, std::vector<std::vector<std::pair<std::string, double>>> &alterationsPrices, std::vector<std::tuple<std::string, int, int>> &laundryPos, std::vector<std::tuple<std::string, int, int>> &dryCleanPos, std::vector<std::tuple<std::string, int, int>> &alterationsPos) : customerFile(customerFile), orderFile(orderFile), priceFile(priceFile), tempOrderFile(tempOrderFile), tempCustFile(tempCustFile), customers(customers), orders(orders), laundryPrices(laundryPrices), dryCleanPrices(dryCleanPrices), alterationsPrices(alterationsPrices), laundryPos(laundryPos), dryCleanPos(dryCleanPos), alterationsPos(alterationsPos)
-{}
+File::File(std::string customerFile, std::string orderFile, std::string priceFile, std::string tempOrderFile, std::string tempCustFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders, std::vector<std::vector<std::pair<std::string, double>>> &laundryPrices, std::vector<std::vector<std::pair<std::string, double>>> &dryCleanPrices, std::vector<std::vector<std::pair<std::string, double>>> &alterationsPrices, std::vector<std::tuple<std::string, int, int>> &laundryPos, std::vector<std::tuple<std::string, int, int>> &dryCleanPos, std::vector<std::tuple<std::string, int, int>> &alterationsPos, std::string logFile) : customerFile(customerFile), orderFile(orderFile), priceFile(priceFile), tempOrderFile(tempOrderFile), tempCustFile(tempCustFile), customers(customers), orders(orders), laundryPrices(laundryPrices), dryCleanPrices(dryCleanPrices), alterationsPrices(alterationsPrices), laundryPos(laundryPos), dryCleanPos(dryCleanPos), alterationsPos(alterationsPos){
+
+    checkAndCreateFile(customerFile);
+    checkAndCreateFile(orderFile);
+    checkAndCreateFile(priceFile);
+    checkAndCreateFile(tempOrderFile);
+    checkAndCreateFile(tempCustFile);
+    checkAndCreateFile(logFile);
+
+    logger = new logger::Logger(logFile);
+}
 
 void File::saveCustomers(cust::customer& customer){
     std::ofstream ofs(this->customerFile.c_str(), std::ios::app);
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
+        logger->log("Error opening file to write to: " + this->customerFile);
         return;
     }
 
@@ -27,6 +36,8 @@ void File::saveCustomers(cust::customer& customer){
     ofs.close();
 
     std::cout << "\n" << "Successfully saved customer data..." << "\n";
+    logger->log("Successfully saved customer data...");
+
 }
 
 void File::loadCustomers(){
@@ -36,6 +47,8 @@ void File::loadCustomers(){
     std::ifstream ifs(this->customerFile.c_str());
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
+        logger->log("Error opening file to write to: " + this->customerFile);
+
         return;
     }
 
@@ -62,6 +75,8 @@ void File::loadCustomers(){
 
     ifs.close();
     std::cout << "\n" << "Successfully loaded customer data..." <<"\n";
+    logger->log("Successfully loaded customer data...");
+
 
 }
 
@@ -77,6 +92,7 @@ void File::saveOrders(orderInfo::order &order){
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
+        logger->log("Error opening file to write to: " + this->orderFile);
         return;
     }
 
@@ -148,6 +164,8 @@ void File::saveOrders(orderInfo::order &order){
     ofs.close();
 
     std::cout << "\n" << "Successfully saved order data..." << "\n";
+    logger->log("Successfully saved order data...");
+
 
 }
 
@@ -165,6 +183,7 @@ void File::loadOrders() {
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
+        logger->log("Error opening file to write to: " + this->orderFile);
         return;
     }
 
@@ -272,6 +291,8 @@ void File::loadOrders() {
     ifs.close();
 
     std::cout << "\n" << "Successfully loaded order data..." << "\n";
+    logger->log("Successfully loaded order data...");
+
 
 }
 
@@ -290,11 +311,13 @@ void File::updateOrder(const int id){
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
+        logger->log("Error opening file to write to: " + this->orderFile);
         return;
     }
 
     if (!tempF) {
         std::cerr << "Error opening file to write to: " << this->tempOrderFile << "\n";
+        logger->log("Error opening file to write to: " + this->tempOrderFile);
         return;
     }
 
@@ -375,14 +398,18 @@ void File::updateOrder(const int id){
     ifs.close();
     tempF.close();
 
-    if(found){
-        std::remove(this->orderFile.c_str());
-        std::rename(this->tempOrderFile.c_str(), this->orderFile.c_str());
-    }
-    else
-        std::remove(this->tempOrderFile.c_str());
-    return;
+    std::filesystem::path from = std::filesystem::path(this->tempOrderFile);
+    std::filesystem::path to = std::filesystem::path(this->getOrderFile());
 
+
+    if (found) {
+        std::remove(this->orderFile.c_str());
+        std::filesystem::copy_file(from, to, std::filesystem::copy_options::overwrite_existing);
+    }
+
+    std::filesystem::resize_file(from, 0);
+
+    logger->log("Updated order file successfully...");
 }
 
 void File::updateCustomer(const int id) {
@@ -394,10 +421,13 @@ void File::updateCustomer(const int id) {
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
+        logger->log("Error opening file to write to: " + this->customerFile);
+
         return;
     }
     if (!tempF) {
         std::cerr << "Error opening file to write to: " << this->tempCustFile << "\n";
+        logger->log("Error opening file to write to: " + this->tempCustFile);
         return;
     }
 
@@ -427,16 +457,19 @@ void File::updateCustomer(const int id) {
     ifs.close();
     tempF.close();
 
+    std::filesystem::path from = std::filesystem::path(this->tempCustFile);
+    std::filesystem::path to = std::filesystem::path(this->getCustomerFile());
+
+
     if (found) {
         std::remove(this->customerFile.c_str());
-        std::rename(this->tempCustFile.c_str(), this->customerFile.c_str());
-        std::ofstream file(this->tempCustFile.c_str());
+
+        std::filesystem::copy_file(from, to, std::filesystem::copy_options::overwrite_existing);
 
     }
-    else
-        std::filesystem::resize_file(this->tempCustFile.c_str(), 0);
+    std::filesystem::resize_file(from, 0);
 
-    return;
+    logger->log("Updated customer file successfully...\n");
 }
 
 
@@ -445,6 +478,7 @@ void File::savePrices(){
     size_t outerVectorSize, innerVectorSize;
     if(!ofs){
         std::cerr << "Error opening file to write to: " << this->priceFile << "\n";
+        logger->log("Error opening file to write to: " + this->priceFile);
         return;
     }
 
@@ -516,6 +550,7 @@ void File::savePrices(){
     ofs.close();
 
     std::cout << "\n" << "Successfully saved price data..." << "\n";
+    logger->log("Successfully saved price data...");
 
 }
 
@@ -527,6 +562,8 @@ void File::loadPrices(){
 
     if(!ifs){
         std::cerr << "Error opening file to write to: " << this->priceFile <<"\n";
+        logger->log("Error opening file to write to: " + this->priceFile);
+
         return;
     }
 
@@ -643,6 +680,8 @@ void File::loadPrices(){
     ifs.close();
 
     std::cout << "\n" << "Successfully loaded price data..." << "\n";
+    logger->log("Successfully loaded price data...");
+
 }
 
 void File::checkAndCreateFile(const std::string& filename){
@@ -651,7 +690,6 @@ void File::checkAndCreateFile(const std::string& filename){
         std::ofstream file(filename.c_str());
         file.close();
     }
-
 }
 
 //Get functions

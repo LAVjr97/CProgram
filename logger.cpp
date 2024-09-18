@@ -2,11 +2,14 @@
 
 using namespace logger;
 
+
 Logger::Logger(const std::string &filename) {
-    logFile.open(filename, std::ios::app);  // Open file in append mode
+    fileName = filename;
+    std::filesystem::resize_file(fileName.c_str(), 0);
+
+    logFile.open(fileName.c_str(), std::ios::out | std::ios::app);  // Open file in append mode
     if (!logFile.is_open())
         std::cerr << "Unable to open log file: " << filename << std::endl;
-
 }
 
 Logger::~Logger() {
@@ -16,8 +19,13 @@ Logger::~Logger() {
 }
 
 void Logger::log(const std::string &message) {
-    if (logFile.is_open())
-        logFile << getCurrentTime() << " - " << message << std::endl;
+    std::lock_guard<std::mutex> guard(logMutex);
+
+    if (logFile.is_open()){
+        logFile << getCurrentTime() << " - " << message << "\n";
+        logFile.flush();
+    }
+    return;
 }
 
 std::string Logger::getCurrentTime() {

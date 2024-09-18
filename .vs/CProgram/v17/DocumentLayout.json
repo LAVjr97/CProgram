@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Code\\repos\\LAVjr97\\CProgram\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Code\\repos\\LAVjr97\\CProgram\\filesToAdd.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:filesToAdd.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Code\\repos\\LAVjr97\\CProgram\\logger.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:logger.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +18,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "filesToAdd.txt",
+              "DocumentMoniker": "C:\\Code\\repos\\LAVjr97\\CProgram\\filesToAdd.txt",
+              "RelativeDocumentMoniker": "filesToAdd.txt",
+              "ToolTip": "C:\\Code\\repos\\LAVjr97\\CProgram\\filesToAdd.txt",
+              "RelativeToolTip": "filesToAdd.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2024-09-18T06:06:19.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "logger.cpp",
+              "DocumentMoniker": "C:\\Code\\repos\\LAVjr97\\CProgram\\logger.cpp",
+              "RelativeDocumentMoniker": "logger.cpp",
+              "ToolTip": "C:\\Code\\repos\\LAVjr97\\CProgram\\logger.cpp",
+              "RelativeToolTip": "logger.cpp",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAACUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-18T04:34:43.154Z",
+              "EditorCaption": ""
             }
           ]
         }

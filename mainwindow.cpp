@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Debug uses main folder, where source files are located, change file locations to just "[...].txt"
 
     //Setting up database
+
     std::string customerFile = "./data/customers.txt";
     std::string orderFile = "./data/orders.txt";
     std::string priceFile = "./data/prices.txt";
@@ -25,14 +26,23 @@ MainWindow::MainWindow(QWidget *parent)
     std::string tempCustFile = "./data/tempCust.txt";
     std::string logFile = "./logs/log.txt";
 
-    manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos);
-
+    /*
+    std::string customerFile = "customers.txt";
+    std::string orderFile = "orders.txt";
+    std::string priceFile = "prices.txt";
+    std::string tempOrderFile = "tempOrder.txt";
+    std::string tempCustFile = "tempCust.txt";
+    std::string logFile = "log.txt";
+    */
+    manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos, logFile);
+    /*
     manager->checkAndCreateFile(customerFile);
     manager->checkAndCreateFile(orderFile);
     manager->checkAndCreateFile(priceFile);
     manager->checkAndCreateFile(tempOrderFile);
     manager->checkAndCreateFile(tempCustFile);
-
+    manager->checkAndCreateFile(logFile);
+        */
     //Indepently load up customers and orders
     std::thread threadCust(&fi::File::loadCustomers, manager);
     std::thread threadOrder(&fi::File::loadOrders, manager);
@@ -109,14 +119,23 @@ MainWindow::MainWindow(QWidget *parent)
     //Order Laundry Page
     tableWidgetLaundryOptions = ui->tableWidgetLaundryOptions;
     tableWidgetLaundryOptions->setColumnCount(3);
+    tableWidgetLaundryOptions->setColumnWidth(0, 345);
+    tableWidgetLaundryOptions->setColumnWidth(1, 172);
+    tableWidgetLaundryOptions->setColumnWidth(2, 172);
 
     //Order DryClean Page
     tableWidgetDryCleanOptions = ui->tableWidgetDryCleanOptions;
     tableWidgetDryCleanOptions->setColumnCount(3);
+    tableWidgetDryCleanOptions->setColumnWidth(0, 345);
+    tableWidgetDryCleanOptions->setColumnWidth(1, 172);
+    tableWidgetDryCleanOptions->setColumnWidth(2, 172);
 
     //Order Alterations Page
     tableWidgetAlterationsOptions = ui->tableWidgetAlterationsOptions;
     tableWidgetAlterationsOptions->setColumnCount(3);
+    tableWidgetAlterationsOptions->setColumnWidth(0, 345);
+    tableWidgetAlterationsOptions->setColumnWidth(1, 172);
+    tableWidgetAlterationsOptions->setColumnWidth(2, 172);
 
     //
     //Pick Up Page
@@ -200,7 +219,6 @@ MainWindow::MainWindow(QWidget *parent)
     tableViewOrdersEO = ui->tableViewOrdersEO;
     tableViewOrdersEO->setModel(modelEO);
     tableViewOrdersEO->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
     //
     //Order Search PageEO ()
     //
@@ -1062,7 +1080,6 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
     modelCSREO->removeRows(0, modelCSREO->rowCount());
 
     lineRackEO->setFocus();
-
 }
 
 
@@ -1191,8 +1208,6 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
 
         pieceI++;
     }
-    pieceI = 0;
-
     newType = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 1));
 
     if(newType != nullptr)
@@ -1493,8 +1508,12 @@ void MainWindow::customerSearchPageSetUp(QTableView *tableView, QStandardItemMod
 
     for(i = 0; i < customer.size(); i++){
         QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
+        firstNameItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
+        lastNameItem->setTextAlignment(Qt::AlignCenter);
+
         QStandardItem *phoneItem = new QStandardItem(QString::fromStdString(customer[i]->getFormattedPhone()));
+        phoneItem->setTextAlignment(Qt::AlignCenter);
 
         model->setItem(i, 0, firstNameItem);
         model->setItem(i, 1, lastNameItem);
@@ -1593,11 +1612,20 @@ size_t MainWindow::updateTableView(std::vector<std::vector<std::tuple<std::strin
         if(articles[i].empty() == false)
             for(j = 0; j < articles[i].size(); j++){
                 number = new QStandardItem(QString::number(std::get<1>(articles[i][j])));
+                number->setTextAlignment(Qt::AlignCenter);
+
                 type = new QStandardItem(pieceType);
+                type->setTextAlignment(Qt::AlignCenter);
+
                 piece = new QStandardItem(QString::fromStdString(std::get<0>(articles[i][j])));
+                piece->setTextAlignment(Qt::AlignCenter);
+
                 pricePerPiece = new QStandardItem(QString::number(std::get<2>(articles[i][j]), 'f', 2));
+                pricePerPiece->setTextAlignment(Qt::AlignCenter);
+
                 pTotal = std::get<1>(articles[i][j]) * std::get<2>(articles[i][j]);
                 priceTotal = new QStandardItem(QString::number(pTotal, 'f', 2));
+                priceTotal->setTextAlignment(Qt::AlignCenter);
 
                 model->setItem(row, 0, number);
                 model->setItem(row, 1, type);

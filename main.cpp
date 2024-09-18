@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    app.setStyle("windows");
+    //app.setStyle("windows");
     app.setWindowIcon(QIcon(":/images/app_icon.png"));
 
     MainWindow w;

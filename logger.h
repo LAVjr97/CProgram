@@ -14,7 +14,10 @@ namespace logger{
             std::string getCurrentTime();
 
         private:
+            std::mutex logMutex;
+
             std::ofstream logFile;
+            std::string fileName;
 
     };
 }

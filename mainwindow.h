@@ -7,7 +7,6 @@
 #include "order.h"
 #include "file.h"
 #include "search.h"
-#include "logger.h"
 
 #include <QMainWindow>
 #include <QLineEdit>

@@ -36,7 +36,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>8</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="widgetOptionsMain" native="true">
@@ -3393,6 +3393,9 @@
            <pointsize>13</pointsize>
           </font>
          </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
         </widget>
        </widget>
        <widget class="QWidget" name="tabDryCleanCIP">
@@ -3413,6 +3416,9 @@
            <pointsize>13</pointsize>
           </font>
          </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
         </widget>
        </widget>
        <widget class="QWidget" name="tabAlterationsCIP">
@@ -3433,6 +3439,9 @@
            <pointsize>13</pointsize>
           </font>
          </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
         </widget>
        </widget>
       </widget>
