@@ -1798,12 +1798,12 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
 
 void MainWindow::printReciept(){
     //X Was 9
-    int x = 7, y = 15, yInc = 35;
+    int x = 7, y = 15, yInc = 25;
     size_t i, j;
     std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
     std::vector<QString> info;
 
-    int width = 445, difX = 45, difY = 22;
+    int width = 250, difX = 45, difY = 22;
 
     QPrintDialog printDialog(&printer, this);
     QPainter painter(&printer);
