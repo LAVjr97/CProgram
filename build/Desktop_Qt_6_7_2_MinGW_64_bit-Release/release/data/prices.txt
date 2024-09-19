@@ -1,0 +1,2 @@
+1,1,,0,DC;3,2,Jeans,7.5,Dress Pants,6,1,2Pc Suit,6,1,Vest,6,ALT;3,3,Hem Up,13,Waist In,17,Taper,18,3,Hem,15,Size In,17.5,Shorten Sleeves,17.5,3,sleeves up,29,sides in ,32,hem up,29
+1,,0,0,DC;3,Pants,0,2,Men Suits,3,4,Vest,5,6,ALT;3,Pants,0,3,Shirts,4,7,coat,8,11
