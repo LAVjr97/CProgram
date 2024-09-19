@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     headerTVODP = tableViewOrdersDP->horizontalHeader();
     tableViewOrdersDP->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+
     //
     //Search Customer Page
     //
@@ -449,6 +450,8 @@ void MainWindow::on_btnSaveDP_clicked()
 
     linePieceTotalDP->setText(QString::number(order[0]->getPieceTotal()));
     lineOrderTotalDP->setText(QString::number(order[0]->getCost(), 'f', 2));
+    manager->logger->log("SaveDP Button Pressed");
+
 
     ui->btnOneRecieptDP->setEnabled(true);
     ui->btnTwoRecieptDP->setEnabled(true);
@@ -461,9 +464,9 @@ void MainWindow::on_btnOneRecieptDP_clicked(){
     customer[0]->updateVisits(customer[0]->getVisit() + 1);
 
     saveAndPrint(1, dateDPickUpDP, checkBoxPaidDP);
-    clearScreenDP();
-
     showMainPage();
+    manager->logger->log("One Reciept Button Pressed");
+    clearScreenDP();
 }
 
 void MainWindow::on_btnTwoRecieptDP_clicked(){
@@ -473,9 +476,10 @@ void MainWindow::on_btnTwoRecieptDP_clicked(){
 
     //Setting Date
     saveAndPrint(2, dateDPickUpDP, checkBoxPaidDP);
-    clearScreenDP();
-
     showMainPage();
+
+    manager->logger->log("One Reciept Button Pressed");
+    clearScreenDP();
 }
 
 void MainWindow::on_btnReturn_clicked(){
