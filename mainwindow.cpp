@@ -84,7 +84,6 @@ MainWindow::MainWindow(QWidget *parent)
     headerTVODP = tableViewOrdersDP->horizontalHeader();
     tableViewOrdersDP->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-
     //
     //Search Customer Page
     //
@@ -450,8 +449,6 @@ void MainWindow::on_btnSaveDP_clicked()
 
     linePieceTotalDP->setText(QString::number(order[0]->getPieceTotal()));
     lineOrderTotalDP->setText(QString::number(order[0]->getCost(), 'f', 2));
-    manager->logger->log("SaveDP Button Pressed");
-
 
     ui->btnOneRecieptDP->setEnabled(true);
     ui->btnTwoRecieptDP->setEnabled(true);
@@ -464,9 +461,9 @@ void MainWindow::on_btnOneRecieptDP_clicked(){
     customer[0]->updateVisits(customer[0]->getVisit() + 1);
 
     saveAndPrint(1, dateDPickUpDP, checkBoxPaidDP);
-    showMainPage();
-    manager->logger->log("One Reciept Button Pressed");
     clearScreenDP();
+
+    showMainPage();
 }
 
 void MainWindow::on_btnTwoRecieptDP_clicked(){
@@ -476,10 +473,9 @@ void MainWindow::on_btnTwoRecieptDP_clicked(){
 
     //Setting Date
     saveAndPrint(2, dateDPickUpDP, checkBoxPaidDP);
-    showMainPage();
-
-    manager->logger->log("One Reciept Button Pressed");
     clearScreenDP();
+
+    showMainPage();
 }
 
 void MainWindow::on_btnReturn_clicked(){
@@ -538,7 +534,7 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index)
     customer.clear();
     customer.push_back(temp); //Customer contains the pointer that points to the current customer that will be worked on
 
-    lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner    
+    lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner
 
     //Add order to orders
     orders.emplace_back(customer[0]->getCustomerID(), curOrderID);
@@ -1130,7 +1126,7 @@ void MainWindow::on_btnCIP_clicked(){
 }
 
 void MainWindow::on_btnExportData_clicked(){
-    
+
 }
 
 //
@@ -1318,7 +1314,7 @@ void MainWindow::updateCOInformationPU(){
     lineCustomerIDPU->setText(QString::number(customer[0]->getCustomerID()));
     lineOrderIDPU->setText(QString::number(order[0]->getOrderID()));
     linePieceTotalPU->setText(QString::number(order[0]->getPieceTotal()));
-    
+
     //Set Date
     setDate(dateDTDropOffPU, dateDPickUpPU);
     dateDTDropOffPU->show();
@@ -1802,12 +1798,12 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
 
 void MainWindow::printReciept(){
     //X Was 9
-    int x = 7, y = 15, yInc = 25;
+    int x = 5, y = 15, yInc = 20;
     size_t i, j;
     std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
     std::vector<QString> info;
 
-    int width = 250, difX = 45, difY = 22;
+    int width = 250, difX = 45, difY = 12;
 
     QPrintDialog printDialog(&printer, this);
     QPainter painter(&printer);
@@ -1819,22 +1815,25 @@ void MainWindow::printReciept(){
     painter.setFont(font);
 
     //Order ID
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, QString::number(curOrderID));
+    painter.drawText(QRect(x, y, width, metrics.height() + 8), Qt::AlignCenter, QString::number(curOrderID));
     y = y + yInc + 15;
 
     //Was 11
     font.setPointSize(13);
-    font.setBold(false);
     painter.setFont(font);
 
     //Shop Information
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "Cleaning & Alteration Shop");
-    y += yInc - 5;
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "1709 Tully Rd, Suite C");
-    y += yInc - 5;
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "San Jose, CA, 95122");
-    y += yInc - 5;
-    painter.drawText(QRect(x, y, width, metrics.height()), Qt::AlignCenter, "(408) 258-5705");
+    painter.drawText(QRect(x, y, width, metrics.height() + 8), Qt::AlignCenter, "Cleaning & Alteration Shop");
+    y += yInc;
+
+    font.setBold(false);
+    painter.setFont(font);
+
+    painter.drawText(QRect(x, y, width, metrics.height() + 8), Qt::AlignCenter, "1709 Tully Rd, Suite C");
+    y += yInc;
+    painter.drawText(QRect(x, y, width, metrics.height() + 8), Qt::AlignCenter, "San Jose, CA, 95122");
+    y += yInc;
+    painter.drawText(QRect(x, y, width, metrics.height() + 8), Qt::AlignCenter, "(408) 258-5705");
 
     y = y + yInc + 45;
 
@@ -1857,8 +1856,8 @@ void MainWindow::printReciept(){
 
     //Order Information
     y += 10;
-    painter.drawText(x, y, "======================");
-    yInc = 30;
+    painter.drawText(x, y, "=====================");
+    //yInc = 30;
     y += yInc;
     if(calculatePieceTotal(laundry)){
         painter.drawText(x, y, "Laundry: ");
@@ -1904,7 +1903,7 @@ void MainWindow::printReciept(){
                 }
         y += yInc;
     }
-    painter.drawText(x, y - yInc + 5, "======================");
+    painter.drawText(x, y - yInc + 5, "=====================");
 
 
     //Total Information
@@ -1913,7 +1912,7 @@ void MainWindow::printReciept(){
         painter.drawText(QRect(x, y + 5, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
     painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getCost(), 'f', 2));
 
-    y += 120;
+    y += 75;
     painter.drawText(QRect(x, y, width, metrics.height() + 50), Qt::AlignCenter, "Thank You Very Much");//QString::number(curOrderID));
 
     painter.end();
