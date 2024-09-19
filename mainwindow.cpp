@@ -396,7 +396,7 @@ void MainWindow::on_btnAdmin_clicked(){
 //
 void MainWindow::on_btnCustomer_clicked()
 {
-    if(!order.empty()){
+    if(!order.empty()){ //bug might be here
         orders.pop_back();
         order.clear();
         curOrderID--;
@@ -481,7 +481,9 @@ void MainWindow::on_btnTwoRecieptDP_clicked(){
 void MainWindow::on_btnReturn_clicked(){
     showMainPage();
     //If customer information was pulled up but nothing was added to order, delete order
-    if(!lineFNameDP ->text().isEmpty() || (!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled())){
+    //if(!lineFNameDP ->text().isEmpty() || (!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled())){
+
+    if(!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled()){
         orders.pop_back();
         curOrderID--;
     }
@@ -507,12 +509,13 @@ void MainWindow::on_btnReturnCS_clicked()
 void MainWindow::on_btnNewCustomersCS_clicked()
 {
     MainWindow::showNewCustomerPage();
+    lineFNameNC->setFocus();
     lineSearchCustomerCS -> clear();
 }
 
 void MainWindow::on_btnSearchCS_clicked(){
     customerSearchPageSetUp(tableViewCSR, modelCSR, lineSearchCustomerCS);
-    showCustomerSearchResultsPage();
+    showCustomerSearchResultsPage();    
 }
 
 //
@@ -563,21 +566,24 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
         return;
 
     int customerID;
-    QString firstName, lastName, phone;
+    std::string firstName, lastName, phone;
     curOrderID = orders.size();
 
-    firstName = lineFNameNC ->text();
-    lastName = lineLNameNC -> text();
-    phone = linePhoneNC -> text();
+    firstName = lineFNameNC ->text().toStdString();
+    lastName = lineLNameNC -> text().toStdString();
+    phone = linePhoneNC -> text().toStdString();
 
-    if(checkForDuplicates(firstName.toStdString(), lastName.toStdString(), phone.toStdString()))
+    firstName = autoCapatilize(firstName);
+    lastName = autoCapatilize(lastName);
+
+    if(checkForDuplicates(firstName, lastName, phone))
         return;
 
     clearScreenNC();
 
     //Setting up the new customer
     customerID = customers.size();
-    customers.emplace_back(customerID, firstName.toStdString(), lastName.toStdString(), phone.toStdString());
+    customers.emplace_back(customerID, firstName, lastName, phone);
     customer.clear();
     customer.push_back(&customers[customerID]); //contains only the customer that will be worked on
 
@@ -1058,7 +1064,7 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
         dropOffItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *totalPiecesItem = new QStandardItem(QString::number(order[i]->getPieceTotal()));
         totalPiecesItem->setTextAlignment(Qt::AlignCenter);
-        QStandardItem *totalItem = new QStandardItem(QString::number(order[i]->getCost()));
+        QStandardItem *totalItem = new QStandardItem(QString::number(order[i]->getCost(), 'f', 2));
         totalItem->setTextAlignment(Qt::AlignCenter);
 
         if(order[i]->getPickUp())
@@ -1496,6 +1502,7 @@ void MainWindow::customerSearchPageSetUp(QTableView *tableView, QStandardItemMod
     size_t i;
 
     customer.clear();
+    model -> removeRows(0, model -> rowCount());
 
     entryQ = lineSearch->text();
     if(entryQ.isEmpty())
@@ -1763,13 +1770,29 @@ bool MainWindow::checkForDuplicates(std::string firstName, std::string lastName,
     for(i = 0; i < customers.size(); i++){
         if((firstName == customers[i].getFirstName()) && (lastName == customers[i].getLastName()))
             return true;
-        else if(phone == customers[i].getPhone())
+        else if(cust::customer::createPhone(phone) == customers[i].getPhone())
             return true;
     }
 
     return false;
 }
 
+std::string MainWindow::autoCapatilize(const std::string string){
+    size_t i;
+    bool cNext = false;
+
+    for(i = 0; i < string.length(); i++){
+        if(std::isspace(string[i]))
+            cNext = true;
+        else if (cNext && std::isalpha(string[i])){
+            string[i] = std::toupper(string[i]);
+            cNext = false;
+        }
+        else
+            string[i] = std::tolower(string[i]);
+    }
+    return string;
+}
 
 void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
 

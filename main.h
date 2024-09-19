@@ -23,6 +23,7 @@
 #include <windows.h>
 #include <mutex>
 #include <filesystem>
+#include <cctype>
 
 
 #endif
