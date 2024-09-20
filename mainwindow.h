@@ -253,7 +253,7 @@ private slots:
     void removeIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
 
     bool checkForDuplicates(std::string firstName, std::string lastName, std::string phone);
-    std::string autoCapatilize(const std::string string){
+    //std::string autoCapatilize(const std::string string);
 
 
     void saveAndPrint(int n, QDateEdit *p, QCheckBox *b);

@@ -155,3 +155,21 @@ std::string customer::createPhone(std::string phone) {
     return temp;
 }
 
+std::string customer::autoCapatilize(const std::string &string){
+    size_t i;
+    bool cNext = true;
+    std::string result = string;
+
+    for(i = 0; i < result.length(); i++){
+        if(std::isspace(result[i]))
+            cNext = true;
+        else if (cNext && std::isalpha(result[i])){
+            result[i] = std::toupper(result[i]);
+            cNext = false;
+        }
+        else
+            result[i] = std::tolower(result[i]);
+    }
+    return result;
+}
+

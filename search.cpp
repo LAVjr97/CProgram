@@ -7,7 +7,7 @@ std::vector<cust::customer*> Search::searchCustAlgo(const std::string& entry, st
     std::vector<cust::customer*> customer;
 
     if (isName(entry))
-        customer = searchCustLastName(entry, customers);
+        customer = searchCustLastName(cust::customer::autoCapatilize(entry), customers);
 
     else if (isID(entry))
         customer = searchCustID(entry, customers);

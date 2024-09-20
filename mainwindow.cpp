@@ -259,12 +259,19 @@ MainWindow::MainWindow(QWidget *parent)
     //
     tableWidgetLaundryCIP = ui->tableWidgetLaundryCIP;
     tableWidgetLaundryCIP->setColumnCount(2);
+    tableWidgetLaundryCIP->setColumnWidth(0, 300);
+    tableWidgetLaundryCIP->setColumnWidth(1, 125);
+
 
     tableWidgetDryCleanCIP = ui->tableWidgetDryCleanCIP;
     tableWidgetDryCleanCIP->setColumnCount(2);
+    tableWidgetDryCleanCIP->setColumnWidth(0, 300);
+    tableWidgetDryCleanCIP->setColumnWidth(1, 125);
 
     tableWidgetAlterationsCIP = ui->tableWidgetAlterationsCIP;
     tableWidgetAlterationsCIP->setColumnCount(2);
+    tableWidgetAlterationsCIP->setColumnWidth(0, 300);
+    tableWidgetAlterationsCIP->setColumnWidth(1, 125);
 
     showMainPage();
 }
@@ -399,9 +406,10 @@ void MainWindow::on_btnCustomer_clicked()
     if(!order.empty()){ //bug might be here
         orders.pop_back();
         order.clear();
-        curOrderID--;
+        curOrderID = NULL;
     }
 
+    lineSearchCustomerCS->setFocus();
     MainWindow::showSearchPage();
 }
 
@@ -464,6 +472,7 @@ void MainWindow::on_btnOneRecieptDP_clicked(){
     clearScreenDP();
 
     showMainPage();
+    manager->logger->log("One reciept printed, order saved");
 }
 
 void MainWindow::on_btnTwoRecieptDP_clicked(){
@@ -476,6 +485,7 @@ void MainWindow::on_btnTwoRecieptDP_clicked(){
     clearScreenDP();
 
     showMainPage();
+    manager->logger->log("Two reciepts printed, order saved");
 }
 
 void MainWindow::on_btnReturn_clicked(){
@@ -557,6 +567,7 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index)
 void MainWindow::on_btnReturn_3_clicked()
 {
     clearScreenDP();
+    lineSearchCustomerCS->setFocus();
     MainWindow::showSearchPage();
     clearScreenNC();
 }
@@ -573,8 +584,8 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     lastName = lineLNameNC -> text().toStdString();
     phone = linePhoneNC -> text().toStdString();
 
-    firstName = autoCapatilize(firstName);
-    lastName = autoCapatilize(lastName);
+    firstName = cust::customer::autoCapatilize(firstName);
+    lastName = cust::customer::autoCapatilize(lastName);
 
     if(checkForDuplicates(firstName, lastName, phone))
         return;
@@ -1767,32 +1778,18 @@ int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::stri
 bool MainWindow::checkForDuplicates(std::string firstName, std::string lastName, std::string phone){
     size_t i, j;
 
+    phone = cust::customer::createPhone(phone);
+
     for(i = 0; i < customers.size(); i++){
         if((firstName == customers[i].getFirstName()) && (lastName == customers[i].getLastName()))
             return true;
-        else if(cust::customer::createPhone(phone) == customers[i].getPhone())
+        else if(phone == customers[i].getPhone())
             return true;
     }
 
     return false;
 }
 
-std::string MainWindow::autoCapatilize(const std::string string){
-    size_t i;
-    bool cNext = false;
-
-    for(i = 0; i < string.length(); i++){
-        if(std::isspace(string[i]))
-            cNext = true;
-        else if (cNext && std::isalpha(string[i])){
-            string[i] = std::toupper(string[i]);
-            cNext = false;
-        }
-        else
-            string[i] = std::tolower(string[i]);
-    }
-    return string;
-}
 
 void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
 

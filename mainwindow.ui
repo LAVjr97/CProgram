@@ -36,16 +36,16 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="widgetOptionsMain" native="true">
       <property name="geometry">
        <rect>
-        <x>880</x>
-        <y>376</y>
-        <width>161</width>
-        <height>281</height>
+        <x>875</x>
+        <y>371</y>
+        <width>171</width>
+        <height>291</height>
        </rect>
       </property>
       <widget class="QWidget" name="verticalLayoutWidget">
@@ -53,8 +53,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>160</width>
-         <height>281</height>
+         <width>171</width>
+         <height>291</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayoutOptionsMain">
@@ -68,7 +68,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -89,7 +89,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -110,7 +110,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -131,7 +131,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -167,7 +167,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>15</pointsize>
         </font>
        </property>
        <property name="cursor">
@@ -188,7 +188,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <attribute name="horizontalHeaderMinimumSectionSize">
@@ -234,7 +234,7 @@
            <widget class="QLabel" name="lblDropOffDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -249,7 +249,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="frame">
@@ -284,7 +284,7 @@
            <widget class="QLabel" name="lblPickUpDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -296,7 +296,7 @@
            <widget class="QLabel" name="lblVisitsDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -311,7 +311,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -329,7 +329,7 @@
            <widget class="QDateEdit" name="dateDPickUpDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -357,7 +357,7 @@
            <widget class="QLabel" name="lblFNameDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -369,7 +369,7 @@
            <widget class="QLineEdit" name="lineFNameDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -393,7 +393,7 @@
            <widget class="QLabel" name="lblLNameDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -405,7 +405,7 @@
            <widget class="QLineEdit" name="lineLNameDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -426,7 +426,7 @@
            <widget class="QLabel" name="lblPhoneDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -438,7 +438,7 @@
            <widget class="QLineEdit" name="linePhoneDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -472,7 +472,7 @@
            <widget class="QLabel" name="lblCustomerIDDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -484,7 +484,7 @@
            <widget class="QLineEdit" name="lineCustomerIDDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -505,7 +505,7 @@
            <widget class="QLabel" name="lblOrderIDDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -517,7 +517,7 @@
            <widget class="QLineEdit" name="lineOrderIDDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -541,7 +541,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -553,7 +553,7 @@
            <widget class="QCheckBox" name="checkBoxPaidDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -590,7 +590,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -618,7 +618,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -646,7 +646,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -699,7 +699,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>15</pointsize>
               <bold>false</bold>
              </font>
             </property>
@@ -734,7 +734,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>15</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -753,7 +753,7 @@
            <widget class="QLabel" name="lblPieceTotalDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -765,7 +765,7 @@
            <widget class="QLineEdit" name="linePieceTotalDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -787,7 +787,7 @@
            <widget class="QLabel" name="lblOrderTotalDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -799,7 +799,7 @@
            <widget class="QLineEdit" name="lineOrderTotalDP">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -824,7 +824,7 @@
            <widget class="QPushButton" name="btnOneRecieptDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -836,7 +836,7 @@
            <widget class="QPushButton" name="btnTwoRecieptDP">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -854,9 +854,9 @@
      <widget class="QWidget" name="widgetCustomerSearchDP" native="true">
       <property name="geometry">
        <rect>
-        <x>630</x>
+        <x>615</x>
         <y>491</y>
-        <width>661</width>
+        <width>691</width>
         <height>51</height>
        </rect>
       </property>
@@ -865,7 +865,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>661</width>
+         <width>691</width>
          <height>51</height>
         </rect>
        </property>
@@ -882,7 +882,7 @@
            <widget class="QLabel" name="lblLNameCS">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -906,7 +906,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -926,7 +926,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -945,9 +945,15 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -968,7 +974,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -981,6 +987,16 @@
         </item>
        </layout>
       </widget>
+     </widget>
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>1100</x>
+        <y>600</y>
+        <width>120</width>
+        <height>80</height>
+       </rect>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="pgCustomerSearchResults">
@@ -1004,7 +1020,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="cursor" stdset="0">
@@ -1034,7 +1050,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="cursor">
@@ -1062,7 +1078,7 @@
          <x>0</x>
          <y>10</y>
          <width>251</width>
-         <height>95</height>
+         <height>99</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayoutCustomerNC">
@@ -1073,7 +1089,7 @@
          <widget class="QLabel" name="lblFNameNC">
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1085,7 +1101,7 @@
          <widget class="QLineEdit" name="lineFNameNC">
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1097,7 +1113,7 @@
          <widget class="QLabel" name="lblLNameNC">
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1109,7 +1125,7 @@
          <widget class="QLineEdit" name="lineLNameNC">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1121,7 +1137,7 @@
          <widget class="QLabel" name="lblPhoneNC">
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
             <bold>false</bold>
            </font>
           </property>
@@ -1134,7 +1150,7 @@
          <widget class="QLineEdit" name="linePhoneNC">
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1164,7 +1180,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -1185,7 +1201,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -1224,6 +1240,11 @@
          <height>781</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <attribute name="verticalHeaderVisible">
         <bool>false</bool>
        </attribute>
@@ -1246,11 +1267,16 @@
       <widget class="QPushButton" name="btnLaundryReturn">
        <property name="geometry">
         <rect>
-         <x>750</x>
+         <x>740</x>
          <y>370</y>
-         <width>81</width>
+         <width>91</width>
          <height>41</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
        </property>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
@@ -1285,7 +1311,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <attribute name="verticalHeaderVisible">
@@ -1310,15 +1336,15 @@
       <widget class="QPushButton" name="btnDryCleanReturn">
        <property name="geometry">
         <rect>
-         <x>750</x>
+         <x>740</x>
          <y>370</y>
-         <width>81</width>
+         <width>91</width>
          <height>41</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="cursor">
@@ -1346,15 +1372,15 @@
       <widget class="QPushButton" name="btnAlterationsReturn">
        <property name="geometry">
         <rect>
-         <x>750</x>
+         <x>740</x>
          <y>370</y>
-         <width>81</width>
+         <width>91</width>
          <height>41</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="cursor">
@@ -1378,7 +1404,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <attribute name="verticalHeaderVisible">
@@ -1412,6 +1438,11 @@
         <height>751</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
       <widget class="QWidget" name="layoutWidget_2">
        <property name="geometry">
         <rect>
@@ -1437,7 +1468,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>15</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1465,7 +1496,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>15</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1484,7 +1515,7 @@
            <widget class="QLabel" name="lblPieceTotalPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1496,7 +1527,7 @@
            <widget class="QLineEdit" name="linePieceTotalPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1518,7 +1549,7 @@
            <widget class="QLabel" name="lblOrderTotalPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1530,7 +1561,7 @@
            <widget class="QLineEdit" name="lineOrderTotalPU">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1568,7 +1599,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -1589,7 +1620,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -1648,7 +1679,7 @@
            <widget class="QLabel" name="lblDropOffPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1660,7 +1691,7 @@
            <widget class="QLabel" name="lblPickUpPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1672,7 +1703,7 @@
            <widget class="QLineEdit" name="lineRackPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1690,7 +1721,7 @@
            <widget class="QLabel" name="lblRackPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1702,7 +1733,7 @@
            <widget class="QDateTimeEdit" name="dateDTDropOffPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="frame">
@@ -1720,7 +1751,7 @@
            <widget class="QDateEdit" name="dateDPickUpPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1748,7 +1779,7 @@
            <widget class="QLabel" name="lblFNamePU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1760,7 +1791,7 @@
            <widget class="QLineEdit" name="lineFNamePU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1778,7 +1809,7 @@
            <widget class="QLabel" name="lblLNamePU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1790,7 +1821,7 @@
            <widget class="QLineEdit" name="lineLNamePU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1808,7 +1839,7 @@
            <widget class="QLabel" name="lblPhonePU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1820,7 +1851,7 @@
            <widget class="QLineEdit" name="linePhonePU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1851,7 +1882,7 @@
            <widget class="QLabel" name="lblCustomerIDPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1863,7 +1894,7 @@
            <widget class="QLineEdit" name="lineCustomerIDPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1881,7 +1912,7 @@
            <widget class="QLabel" name="lblOrderIDPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1893,7 +1924,7 @@
            <widget class="QLineEdit" name="lineOrderIDPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1911,7 +1942,7 @@
            <widget class="QCheckBox" name="checkBoxPaidPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1926,7 +1957,7 @@
            <widget class="QCheckBox" name="checkBoxPUPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -1947,9 +1978,9 @@
      <widget class="QWidget" name="widgetCustomerSearchPU" native="true">
       <property name="geometry">
        <rect>
-        <x>725</x>
+        <x>690</x>
         <y>491</y>
-        <width>471</width>
+        <width>541</width>
         <height>51</height>
        </rect>
       </property>
@@ -1958,7 +1989,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>471</width>
+         <width>541</width>
          <height>51</height>
         </rect>
        </property>
@@ -1975,7 +2006,7 @@
            <widget class="QLabel" name="lblLNameCSPU">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1999,8 +2030,11 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
@@ -2019,7 +2053,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -2040,7 +2074,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -2064,9 +2098,9 @@
      <widget class="QWidget" name="widgetOrderSearchPU" native="true">
       <property name="geometry">
        <rect>
-        <x>765</x>
+        <x>725</x>
         <y>490</y>
-        <width>391</width>
+        <width>471</width>
         <height>51</height>
        </rect>
       </property>
@@ -2075,7 +2109,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>391</width>
+         <width>471</width>
          <height>51</height>
         </rect>
        </property>
@@ -2092,7 +2126,7 @@
            <widget class="QLabel" name="lblOrderIDOS">
             <property name="font">
              <font>
-              <pointsize>11</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2116,7 +2150,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
            </widget>
@@ -2130,6 +2164,11 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -2146,6 +2185,11 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -2180,7 +2224,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="cursor" stdset="0">
@@ -2210,7 +2254,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="cursor">
@@ -2236,6 +2280,11 @@
         <width>751</width>
         <height>561</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
       <widget class="QPushButton" name="btnReturnOSR">
        <property name="geometry">
@@ -2315,7 +2364,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>15</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2343,7 +2392,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>15</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2362,7 +2411,7 @@
            <widget class="QLineEdit" name="linePieceTotalEO">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2380,7 +2429,7 @@
            <widget class="QLabel" name="lblPieceTotalEO">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2396,7 +2445,7 @@
            <widget class="QLabel" name="lblOrderTotalEO">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2408,7 +2457,7 @@
            <widget class="QLineEdit" name="lineOrderTotalEO">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2436,7 +2485,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2457,7 +2506,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2483,7 +2532,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <attribute name="verticalHeaderVisible">
@@ -2510,7 +2559,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -2531,7 +2580,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -2569,7 +2618,7 @@
            <widget class="QLabel" name="lblCustomerIDEO">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2587,7 +2636,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2605,7 +2654,7 @@
            <widget class="QLabel" name="lblOrderIDEO">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2629,7 +2678,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2647,7 +2696,7 @@
            <widget class="QCheckBox" name="checkBoxPaidEO">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2662,7 +2711,7 @@
            <widget class="QCheckBox" name="checkBoxPUEO">
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2693,7 +2742,7 @@
            <widget class="QLabel" name="lblDropOffEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2705,7 +2754,7 @@
            <widget class="QDateTimeEdit" name="dateDTDropOffEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="frame">
@@ -2723,7 +2772,7 @@
            <widget class="QLabel" name="lblPickUpEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2735,7 +2784,7 @@
            <widget class="QLabel" name="lblRackEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2759,7 +2808,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2777,7 +2826,7 @@
            <widget class="QDateEdit" name="dateDPickUpEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2811,7 +2860,7 @@
            <widget class="QLabel" name="lblFNameEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2829,7 +2878,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2847,7 +2896,7 @@
            <widget class="QLabel" name="lblLNameEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2859,7 +2908,7 @@
            <widget class="QLineEdit" name="lineLNameEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2877,7 +2926,7 @@
            <widget class="QLabel" name="lblPhoneEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2889,7 +2938,7 @@
            <widget class="QLineEdit" name="linePhoneEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="cursor">
@@ -2918,9 +2967,9 @@
      <widget class="QWidget" name="widgetOrderSearchEO" native="true">
       <property name="geometry">
        <rect>
-        <x>765</x>
+        <x>725</x>
         <y>490</y>
-        <width>391</width>
+        <width>471</width>
         <height>51</height>
        </rect>
       </property>
@@ -2929,7 +2978,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>391</width>
+         <width>471</width>
          <height>51</height>
         </rect>
        </property>
@@ -2946,7 +2995,7 @@
            <widget class="QLabel" name="lblOrderIDEO_2">
             <property name="font">
              <font>
-              <pointsize>11</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -2970,7 +3019,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
            </widget>
@@ -2987,7 +3036,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3008,7 +3057,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3027,9 +3076,9 @@
      <widget class="QWidget" name="widgetCustomerSearchEO" native="true">
       <property name="geometry">
        <rect>
-        <x>725</x>
+        <x>690</x>
         <y>491</y>
-        <width>471</width>
+        <width>541</width>
         <height>51</height>
        </rect>
       </property>
@@ -3038,7 +3087,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>471</width>
+         <width>541</width>
          <height>51</height>
         </rect>
        </property>
@@ -3055,7 +3104,7 @@
            <widget class="QLabel" name="lblLNameCSEO">
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -3079,7 +3128,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -3099,7 +3148,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3120,7 +3169,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -3159,6 +3208,11 @@
          <height>561</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="cursor" stdset="0">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
@@ -3184,6 +3238,11 @@
          <height>51</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
@@ -3207,6 +3266,11 @@
         <width>751</width>
         <height>561</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
       <widget class="QPushButton" name="btnReturnOSREO">
        <property name="geometry">
@@ -3255,10 +3319,10 @@
      <widget class="QWidget" name="widgetOptionsAdmin" native="true">
       <property name="geometry">
        <rect>
-        <x>880</x>
-        <y>381</y>
-        <width>161</width>
-        <height>271</height>
+        <x>875</x>
+        <y>371</y>
+        <width>171</width>
+        <height>291</height>
        </rect>
       </property>
       <widget class="QWidget" name="verticalLayoutWidget_4">
@@ -3266,8 +3330,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>160</width>
-         <height>271</height>
+         <width>171</width>
+         <height>291</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayoutAP">
@@ -3281,7 +3345,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="text">
@@ -3299,7 +3363,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="text">
@@ -3317,7 +3381,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="text">
@@ -3335,7 +3399,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>15</pointsize>
             <bold>false</bold>
            </font>
           </property>
@@ -3369,11 +3433,11 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>13</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tabLaundryCIP">
         <attribute name="title">
@@ -3390,7 +3454,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>13</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <attribute name="verticalHeaderVisible">
@@ -3413,7 +3477,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>13</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <attribute name="verticalHeaderVisible">
@@ -3436,7 +3500,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>13</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <attribute name="verticalHeaderVisible">
@@ -3465,7 +3529,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
@@ -3483,7 +3547,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>13</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
