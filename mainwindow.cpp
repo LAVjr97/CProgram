@@ -1425,10 +1425,10 @@ void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::
     size_t row = 0, i, j;
     QFont font;
 
-    tableWidget->setRowCount(calculateSize(prices));
-
-    if(tableWidget->rowCount() == 0)
+    if(calculateSize(prices) == 0)
         return;
+
+    tableWidget->setRowCount(calculateSize(prices));
 
     for(i = 0; i < prices.size(); i++)
         for(j = 0; j < prices[i].size(); j++){

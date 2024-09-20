@@ -1,4 +1,4 @@
-0,Luis,Villalta,1231231234,0,1,0
-1,Veronica,Villalta,4084690277,0,0
+0,Luis,Villalta,1231231234,0,2,0,4
+1,Veronica,Villalta,4084690277,0,1,3
 2,Rita,Villalta,4084649356,0,1,0
 3,ayiana,villalta,408285705,0,1,0
