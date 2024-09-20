@@ -1227,7 +1227,7 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
 
     if(newType != nullptr)
         if(!newType->text().isEmpty())
-            createType(typeI, pos, prices, newType->text().toStdString());
+            createType(typeI, pos, prices, cust::customer::autoCapatilize(newType->text().toStdString()));
 
     row++;
 

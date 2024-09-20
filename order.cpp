@@ -13,9 +13,9 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
     this->pickUp = new date::Date(3);
     this->pieceTotal = 0;
 
-    laundryO.resize(8);
-    dryCleanO.resize(8);
-    alterationsO.resize(8);
+    laundryO.resize(1);
+    dryCleanO.resize(1);
+    alterationsO.resize(1);
 }
 
 //Constructor used when loading in orders from orderFile into the program memory
