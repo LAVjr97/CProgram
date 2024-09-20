@@ -112,10 +112,6 @@ MainWindow::MainWindow(QWidget *parent)
     lineLNameNC = ui -> lineLNameNC;
     linePhoneNC = ui -> linePhoneNC;
 
-    lPrices = calculateSize(laundryPrices);
-    dcPrices = calculateSize(dryCleanPrices);
-    aPrices = calculateSize(alterationsPrices);
-
     //Order Laundry Page
     tableWidgetLaundryOptions = ui->tableWidgetLaundryOptions;
     tableWidgetLaundryOptions->setColumnCount(3);
@@ -1434,7 +1430,7 @@ void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::
         for(j = 0; j < prices[i].size(); j++){
             if(j == 0){
                 QLabel *label = new QLabel(QString::fromStdString(std::get<0>(pos[i])));
-                label->setAlignment(Qt::AlignCenter);
+                label->setAlignment(Qt::AlignLeft);
                 font = label->font();
                 font.setBold(true);
                 label->setFont(font);
@@ -1755,10 +1751,10 @@ int MainWindow::calculateSize(std::vector<std::vector<std::pair<std::string, dou
 
     for(i = 0; i < prices.size(); i++)
         for(j = 0; j < prices[i].size(); j++){
-            if(j == 0)
-                size++;
             if(prices[i][j].first == "")
                 continue;
+            if(j == 0)
+                size++;
             size++;
         }
     return size;
