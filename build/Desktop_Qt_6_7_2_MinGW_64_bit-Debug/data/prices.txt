@@ -1,2 +1,2 @@
-1,1,,0,DC;1,1,Jeans,6,ALT;1,1,,0
-1,,0,0,DC;1,Pants,0,1,ALT;1,,0,0
+1,1,,0,DC;2,2,Pants,6,Dress Pants,9,1,,0,ALT;1,1,,0
+1,,0,0,DC;2,Jeans,0,2,asd,3,4,ALT;1,,0,0

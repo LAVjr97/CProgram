@@ -1184,6 +1184,8 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
         linePiece = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 0));
         piece = linePiece->text().toStdString();
 
+        piece = cust::customer::autoCapatilize(piece);
+
         //if an item has been deleted basically and the price hasn't been set to 0
         if(piece.empty() && price != 0){
             tableWidget->removeRow(row);
@@ -1245,7 +1247,7 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
     if(prices[0][0].first == "" && std::get<0>(pos[0]) == "")
         tableWidget->setRowCount(1);
 
-    else{
+    else{ // was +1
         tableWidget->setRowCount(calculateSize(prices) + prices.size() + 1);
 
         for(i = 0; i < prices.size(); i++)
@@ -1420,15 +1422,17 @@ void MainWindow::clearScreenEO(){
 void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::vector<std::pair<std::string, double>>> prices, std::vector<std::tuple<std::string, int, int>> pos){
     size_t row = 0, i, j;
     QFont font;
-
-    if(calculateSize(prices) == 0)
+    int size = calculateSize(prices);
+    if(size == 0)
         return;
 
-    tableWidget->setRowCount(calculateSize(prices));
+    tableWidget->setRowCount(size);
 
     for(i = 0; i < prices.size(); i++)
         for(j = 0; j < prices[i].size(); j++){
             if(j == 0){
+                if(prices[i][j].first == "")
+                    continue;
                 QLabel *label = new QLabel(QString::fromStdString(std::get<0>(pos[i])));
                 label->setAlignment(Qt::AlignLeft);
                 font = label->font();
@@ -1751,6 +1755,21 @@ int MainWindow::calculateSize(std::vector<std::vector<std::pair<std::string, dou
 
     for(i = 0; i < prices.size(); i++)
         for(j = 0; j < prices[i].size(); j++){
+            if(j == 0)
+                size++;
+            if(prices[i][j].first == "")
+                continue;
+            size++;
+        }
+    return size;
+}
+
+int MainWindow::calculateSizeOptions(std::vector<std::vector<std::pair<std::string, double>>> prices){
+    size_t i, j;
+    int size = 0;
+
+    for(i = 0; i < prices.size(); i++)
+        for(j = 0; j < prices[i].size(); j++){
             if(prices[i][j].first == "")
                 continue;
             if(j == 0)
@@ -1772,16 +1791,14 @@ int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::stri
 }
 
 bool MainWindow::checkForDuplicates(std::string firstName, std::string lastName, std::string phone){
-    size_t i, j;
+    size_t i;
 
     phone = cust::customer::createPhone(phone);
 
-    for(i = 0; i < customers.size(); i++){
-        if((firstName == customers[i].getFirstName()) && (lastName == customers[i].getLastName()))
+    for(i = 0; i < customers.size(); i++)
+        if(((firstName == customers[i].getFirstName()) && (lastName == customers[i].getLastName()) && phone == customers[i].getPhone()) || phone == customers[i].getPhone())
             return true;
-        else if(phone == customers[i].getPhone())
-            return true;
-    }
+
 
     return false;
 }

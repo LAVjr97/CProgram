@@ -245,6 +245,7 @@ private slots:
     size_t getIndex(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
 
     int calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices);
+    int calculateSizeOptions(std::vector<std::vector<std::pair<std::string, double>>> prices);
     int calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, int, double>>> articles);
 
     void createType(size_t curIndex, std::vector<std::tuple<std::string, int, int>> &pos, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string newPiece);
