@@ -266,6 +266,14 @@ void order::setPieceTotal(int pieceTotal){
     this->pieceTotal = pieceTotal;
 }
 
+void order::setDiscountApplied(bool applied){
+    this->discountApplied = applied;
+}
+
+void order::setDiscount(int disc){
+
+}
+
 double order::calculateCostO(){
     this->cost = 0;
 

@@ -25,23 +25,22 @@ namespace orderInfo{
 
             int getLaundryNumberO(int pos, std::string article, double price);
             int getlaundryLength() const;
-            //int calcLaundryLength();
 
             std::vector<std::vector<std::tuple<std::string, int, double>>> getDryCleanO() const;
             int getDryCleanNumberO(int pos, std::string article, double price);
             int getDryCleanLength() const;
-            //int calcDryCleanLength();
 
             std::vector<std::vector<std::tuple<std::string, int, double>>> getAlterationsO() const;
             int getAlterationsNumberO(int pos, std::string article, double price);
             int getAlterationsLength() const;
-            //int calcAlterationsLength();
 
             double getCost() const;
             int getRack() const;
             bool getPickUp() const;
             bool getPaid() const;
             int getPieceTotal() const;
+            bool getDiscountApplied() const;
+            int getDiscount() const;
 
             //Set functions
             int setCustomerID(int id);
@@ -60,10 +59,15 @@ namespace orderInfo{
             int setPickUp(bool pickUp);
             int setPaid(bool paid);
             void setPieceTotal(int pieceTotal);
+            void setDiscountApplied(bool applied);
+            void setDiscount(int disc);
+
+
 
             //Helper functions
             double calculateCostO();
             int calculatePieceTotal();
+            double applyDiscount(int disc);
 
 
             //order& operator=(const order& other);
@@ -91,6 +95,9 @@ namespace orderInfo{
             bool pickedUp;
             bool paid;
             int pieceTotal;
+
+            bool discountApplied;
+            int disount;
     };
 }
 
