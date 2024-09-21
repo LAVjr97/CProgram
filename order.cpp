@@ -12,6 +12,10 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
     this->dropOff = new date::Date();
     this->pickUp = new date::Date(3);
     this->pieceTotal = 0;
+    this->discountApplied = false;
+    this->discount = 0.00;
+    this->discountedCost = 0.00;
+    this->deposit = 0.00;
 
     laundryO.resize(1);
     dryCleanO.resize(1);
@@ -19,7 +23,7 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
 }
 
 //Constructor used when loading in orders from orderFile into the program memory
-order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal,int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations){
+order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, double discountedCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations){
     this->orderID = orderID;
     this->customerID = customerID;
     this->cost = cost;
@@ -27,22 +31,11 @@ order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, 
     this->pickedUp = pickedUp;
     this->paid = paid;
     this->pieceTotal = pieceTotal;
-    this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
-    this->pickUp = new date::Date(pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm);
-    this->laundry = laundry;
-    this->dryClean = dryClean;
-    this->alterations = alterations;
-}
+    this->discountApplied = discountApplied;
+    this->discount = discount;
+    this->discountedCost = discountedCost;
+    this->deposit = deposit;
 
-//Constructor used when loading in orders from orderFile into the program memory
-order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations){
-    this->orderID = orderID;
-    this->customerID = customerID;
-    this->cost = cost;
-    this->rackNumber = rack;
-    this->pickedUp = pickedUp;
-    this->paid = paid;
-    this->pieceTotal = pieceTotal;
     this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
     this->pickUp = new date::Date(pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm);
     this->laundryO = laundry;
@@ -68,10 +61,6 @@ int order::getOrderID() const{
     return orderID;
 }
 
-std::vector<std::vector<std::pair<int, double>>> order::getDetails() const{
-    return laundry;
-}
-
 std::vector<std::vector<std::tuple<std::string, int, double>>> order::getLaundry() const{
     return laundryO;
 }
@@ -80,7 +69,7 @@ std::tuple<std::string, int, double>* order::getLaundryTup(int pos, std::string 
     size_t i, j;
 
     for(i = 0; i < laundryO.size(); i++){
-        for(j = 0; j < laundry[i].size(); j++){
+        for(j = 0; j < laundryO[i].size(); j++){
             if(std::get<0>(laundryO[i][j]) == type)
                 return &laundryO[i][j];
         }
@@ -149,7 +138,23 @@ int order::getPieceTotal() const{
 }
 
 int order::getlaundryLength() const {
-    return laundry.size();
+    return laundryO.size();
+}
+
+bool order::getDiscountApplied() const{
+    return discountApplied;
+}
+
+double order::getDiscount() const{
+    return discount;
+}
+
+double order::getDiscountedCost() const{
+    return discountedCost;
+}
+
+double order::getDeposit() const{
+    return deposit;
 }
 
 /*Set Functions*/
@@ -270,8 +275,16 @@ void order::setDiscountApplied(bool applied){
     this->discountApplied = applied;
 }
 
-void order::setDiscount(int disc){
+void order::setDiscount(double disc){
+    this->discount = disc;
+}
 
+void order::setDiscountedCost(double discCost){
+    this->discountedCost = discCost;
+}
+
+void order::setDeposit(double dep){
+    this->deposit = dep;
 }
 
 double order::calculateCostO(){
@@ -294,7 +307,7 @@ double order::calculateCostO(){
             for (j = 0; j < this->alterationsO[i].size(); j++)
                 this->cost = cost + (std::get<1>(this->alterationsO[i][j]) * std::get<2>(this->alterationsO[i][j]));
 
-    return this->cost;
+    return cost;
 }
 
 int order::calculatePieceTotal(){
@@ -319,6 +332,14 @@ int order::calculatePieceTotal(){
 
     return pieceTotal;
 }
+
+double order::applyDiscount(){
+    if(discountApplied) // = true;
+        discountedCost = cost - (cost * (discount/100.0));
+
+    return discountedCost;
+}
+
 
 /*
 order& order::operator=(const order& other){

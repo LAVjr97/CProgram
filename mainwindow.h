@@ -298,6 +298,7 @@ private:
     QLineEdit *lineOrderTotalDP;
     QLineEdit *lineVisitsDP;
     QLineEdit *linePieceTotalDP;
+    QLineEdit *lineOrderSubTotalDP;
     QDateTimeEdit *dateDTDropOffDP;
     QDateEdit *dateDPickUpDP;
 
@@ -318,6 +319,7 @@ private:
     QLineEdit *lineOrderTotalPU;
     QLineEdit *lineRackPU;
     QLineEdit *linePieceTotalPU;
+    QLineEdit *lineOrderSubTotalPU;
     QDateTimeEdit *dateDTDropOffPU;
     QDateEdit *dateDPickUpPU;
 
@@ -338,6 +340,7 @@ private:
     QLineEdit *lineOrderTotalEO;
     QLineEdit *lineRackEO;
     QLineEdit *linePieceTotalEO;
+    QLineEdit *lineOrderSubTotalEO;
     QDateTimeEdit *dateDTDropOffEO;
     QDateEdit *dateDPickUpEO;
 

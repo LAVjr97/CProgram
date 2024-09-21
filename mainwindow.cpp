@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
     lineOrderTotalDP = ui->lineOrderTotalDP;
     lineVisitsDP = ui->lineVisitsDP;
     linePieceTotalDP = ui->linePieceTotalDP;
+    lineOrderSubTotalDP = ui->lineOrderSubTotalDP;
     checkBoxPaidDP = ui->checkBoxPaidDP;
 
     dateDTDropOffDP = ui->dateDTDropOffDP;
@@ -148,6 +149,7 @@ MainWindow::MainWindow(QWidget *parent)
     dateDTDropOffPU = ui->dateDTDropOffPU;
     dateDPickUpPU = ui->dateDPickUpPU;
     linePieceTotalPU = ui->linePieceTotalPU;
+    lineOrderSubTotalPU = ui->lineOrderSubTotalPU;
 
     modelPU = new QStandardItemModel(this);
     modelPU->setColumnCount(5);
@@ -207,6 +209,7 @@ MainWindow::MainWindow(QWidget *parent)
     dateDTDropOffEO = ui->dateDTDropOffEO;
     dateDPickUpEO = ui->dateDPickUpEO;
     linePieceTotalEO = ui->linePieceTotalEO;
+    lineOrderSubTotalEO = ui->lineOrderSubTotalEO;
 
     modelEO = new QStandardItemModel(this);
     modelEO->setColumnCount(5);
@@ -1568,6 +1571,7 @@ void MainWindow::saveModel(QStandardItemModel *model){
 
     order[0]->calculatePieceTotal();
     order[0]->calculateCostO();
+    order[0]->applyDiscount();
 }
 
 std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>> MainWindow::saveTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row){
@@ -1938,6 +1942,11 @@ void MainWindow::printReciept(){
     }
     painter.drawText(x, y - yInc + 5, "=====================");
 
+    if(order[0]->getDiscountApplied()){
+        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Sub Total: $" + QString::number(order[0]->getCost(), 'f', 2));
+
+        y += yInc;
+    }
 
     //Total Information
     painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");

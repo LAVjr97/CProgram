@@ -11,15 +11,13 @@ namespace orderInfo{
             order(int customerID, int orderID);
 
             //Loads orders at the start of program
-            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::pair<int, double>>> laundry, std::vector<std::vector<std::pair<int, double>>> dryClean, std::vector<std::vector<std::pair<int, double>>> alterations);
-            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
+            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, double discountedCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
 
             ~order();
 
             //Get functions, set to const to insure that data isn't being changed
             int getCustomerID() const;
             int getOrderID() const;
-            std::vector<std::vector<std::pair<int, double>>> getDetails() const;
             std::vector<std::vector<std::tuple<std::string, int, double>>> getLaundry() const;
             std::tuple<std::string, int, double>* getLaundryTup(int pos, std::string);
 
@@ -40,7 +38,11 @@ namespace orderInfo{
             bool getPaid() const;
             int getPieceTotal() const;
             bool getDiscountApplied() const;
-            int getDiscount() const;
+            double getDiscount() const;
+            double getDiscountedCost() const;
+            double getDeposit() const;
+
+
 
             //Set functions
             int setCustomerID(int id);
@@ -60,14 +62,15 @@ namespace orderInfo{
             int setPaid(bool paid);
             void setPieceTotal(int pieceTotal);
             void setDiscountApplied(bool applied);
-            void setDiscount(int disc);
+            void setDiscount(double disc);
+            void setDiscountedCost(double discCost);
 
-
+            void setDeposit(double dep);
 
             //Helper functions
             double calculateCostO();
             int calculatePieceTotal();
-            double applyDiscount(int disc);
+            double applyDiscount();
 
 
             //order& operator=(const order& other);
@@ -81,13 +84,10 @@ namespace orderInfo{
             int orderID;
 
             //[0]: Shirts, [1]: Pants, [2]:Sweaters, [3]:Coats, [4]:Blouses, [5]:2pc Suit, [6]:Jacket, [7]:Vest
-            std::vector<std::vector<std::pair<int, double>>> laundry;
             std::vector<std::vector<std::tuple<std::string, int, double>>> laundryO;
 
-            std::vector<std::vector<std::pair<int, double>>> dryClean;
             std::vector<std::vector<std::tuple<std::string, int, double>>> dryCleanO;
 
-            std::vector<std::vector<std::pair<int, double>>> alterations;
             std::vector<std::vector<std::tuple<std::string, int, double>>> alterationsO;
 
             double cost;
@@ -97,7 +97,10 @@ namespace orderInfo{
             int pieceTotal;
 
             bool discountApplied;
-            int disount;
+            double discount;
+            double discountedCost;
+
+            double deposit;
     };
 }
 
