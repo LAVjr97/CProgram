@@ -1532,7 +1532,7 @@ void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::
 
 void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex &index, std::vector<std::tuple<std::string, int, int>> &pos, int type){
     double price;
-    int n, position, row = index.row(), col = index.column();
+    int n, row = index.row(), col = index.column();
 
     std::string article;
     std::tuple<std::string, int, double> tup;
@@ -1553,8 +1553,8 @@ void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex
     price = dSpinBox->value();
 
     article = qobject_cast<QLabel*>(tableWidget->cellWidget(row, 0))->text().toStdString();
-    position = getIndex(row, pos);
 
+    //position = getIndex(row, pos);
     //type = tableWidgetLaundryOptions->item(row, col);
     //QColor bgColor = type->background().color();
     //qDebug() << "BackGroundColor: " << bgColor.red() << " " << bgColor.green() << " " << bgColor.blue();
@@ -1562,15 +1562,15 @@ void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex
 
     switch(type){
     case 1:
-        order[0]->setLaundryPiece(position, n, price, article);
+        order[0]->setLaundryPiece(getTypeName(row, pos), n, price, article);
         break;
 
     case 2:
-        order[0]->setDryCleanPiece(position, n, price, article);
+        order[0]->setDryCleanPiece(getTypeName(row, pos), n, price, article);
         break;
 
     case 3:
-        order[0]->setAlterationsPiece(position, n, price, article);
+        order[0]->setAlterationsPiece(getTypeName(row, pos), n, price, article);
         break;
     }
 

@@ -12,24 +12,29 @@ namespace orderInfo{
 
             //Loads orders at the start of program
             order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, double discountedCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
+            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, double discountedCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations);
 
             ~order();
 
             //Get functions, set to const to insure that data isn't being changed
             int getCustomerID() const;
             int getOrderID() const;
-            std::vector<std::vector<std::tuple<std::string, int, double>>> getLaundry() const;
-            std::tuple<std::string, int, double>* getLaundryTup(int pos, std::string);
 
-            int getLaundryNumberO(int pos, std::string article, double price);
+            //std::vector<std::vector<std::tuple<std::string, int, double>>> getLaundry() const;
+            std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> getLaundry() const;
+            //std::tuple<std::string, int, double>* getLaundryTup(int pos, std::string);
+            //int getLaundryNumberO(int pos, std::string article, double price);
+            int getLaundryNumber(std::string articleType, std::string article, double price);
             int getlaundryLength() const;
 
-            std::vector<std::vector<std::tuple<std::string, int, double>>> getDryCleanO() const;
-            int getDryCleanNumberO(int pos, std::string article, double price);
+            std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> getDryClean() const;
+            //int getDryCleanNumberO(int pos, std::string article, double price);
+            int getDryCleanNumber(std::string articleType, std::string article, double price);
             int getDryCleanLength() const;
 
-            std::vector<std::vector<std::tuple<std::string, int, double>>> getAlterationsO() const;
-            int getAlterationsNumberO(int pos, std::string article, double price);
+            std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> getAlterations() const;
+            //int getAlterationsNumberO(int pos, std::string article, double price);
+            int getAlterationsNumber(std::string articleType, std::string article, double price);
             int getAlterationsLength() const;
 
             double getCost() const;
@@ -46,14 +51,20 @@ namespace orderInfo{
 
             //Set functions
             int setCustomerID(int id);
-            void setDetails(std::vector<std::vector<std::tuple<std::string, int, double>>> laundry);
-            void setLaundryPiece(int pos, int n, double price, std::string article);
+            //void setDetails(std::vector<std::vector<std::tuple<std::string, int, double>>> laundry);
+            void setLaundry(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry);
+            //void setLaundryPiece(int pos, int n, double price, std::string article);
+            void setLaundryPiece(std::string articleType, int n, double price, std::string article);
 
-            void setDryClean(std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean);
-            void setDryCleanPiece(int pos, int n, double price, std::string article);
+            //void setDryClean(std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean);
+            void setDryClean(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry);
+            //void setDryCleanPiece(int pos, int n, double price, std::string article);
+            void setDryCleanPiece(std::string articleType, int n, double price, std::string article);
 
-            void setAlterations(std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
-            void setAlterationsPiece(int pos, int n, double price, std::string article);
+            //void setAlterations(std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
+            //void setAlterationsPiece(int pos, int n, double price, std::string article);
+            void setAlterations(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations);
+            void setAlterationsPiece(std::string articleType, int n, double price, std::string article);
 
 
             int setCost(double cost);
@@ -85,10 +96,13 @@ namespace orderInfo{
 
             //[0]: Shirts, [1]: Pants, [2]:Sweaters, [3]:Coats, [4]:Blouses, [5]:2pc Suit, [6]:Jacket, [7]:Vest
             std::vector<std::vector<std::tuple<std::string, int, double>>> laundryO;
+            std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry;
 
             std::vector<std::vector<std::tuple<std::string, int, double>>> dryCleanO;
+            std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean;
 
             std::vector<std::vector<std::tuple<std::string, int, double>>> alterationsO;
+            std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations;
 
             double cost;
             int rackNumber;
