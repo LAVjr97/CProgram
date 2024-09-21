@@ -82,9 +82,9 @@ void File::loadCustomers(){
 
 //Orders
 void File::saveOrders(orderInfo::order &order){
-    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order.getLaundry();
-    std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean = order.getDryCleanO();
-    std::vector<std::vector<std::tuple<std::string, int, double>>> alterations = order.getAlterationsO();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order.getLaundry();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean = order.getDryClean();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations = order.getAlterations();
 
 
     size_t outerVectorSize = laundry.size(), innerVectorSize;
@@ -131,7 +131,8 @@ void File::saveOrders(orderInfo::order &order){
         for (const auto& tuple : innerVector) {
             ofs << "," << std::get<0>(tuple);
             ofs << "," << std::get<1>(tuple);
-            ofs << "," << std::get<2>(tuple); //add this line
+            ofs << "," << std::get<2>(tuple);
+            ofs << "," << std::get<3>(tuple);            //add this line
         }
     }
     ofs << "," << "DC" << ";";
@@ -146,6 +147,7 @@ void File::saveOrders(orderInfo::order &order){
             ofs << "," << std::get<0>(tuple);
             ofs << "," << std::get<1>(tuple);
             ofs << "," << std::get<2>(tuple);
+            ofs << "," << std::get<3>(tuple);            //add this line
         }
     }
     ofs << "," << "ALT" << ";";
@@ -160,6 +162,7 @@ void File::saveOrders(orderInfo::order &order){
             ofs << "," << std::get<0>(tuple);
             ofs << "," << std::get<1>(tuple);
             ofs << "," << std::get<2>(tuple);
+            ofs << "," << std::get<3>(tuple);            //add this line
         }
     }
 
@@ -178,10 +181,10 @@ void File::loadOrders() {
     double cost, price, discount, discountedCost, deposit;
     size_t outersize, innersize, i, j;
     bool pickedUp, paid, discountApplied;
-    std::string dropOffAm_Pm, pickUpAm_Pm, line, temp, article;
-    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry;
-    std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean;
-    std::vector<std::vector<std::tuple<std::string, int, double>>> alterations;
+    std::string dropOffAm_Pm, pickUpAm_Pm, line, temp, article, articleType;
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry;
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean;
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations;
 
     std::ifstream ifs(this->orderFile.c_str());
 
@@ -250,12 +253,13 @@ void File::loadOrders() {
             innersize = std::stoi(temp);
             laundry[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
+                std::getline(ss, articleType, ',');
                 std::getline(ss, article, ',');
                 std::getline(ss, temp, ',');
                 n = std::stoi(temp);
                 std::getline(ss, temp, ',');
                 price = std::stod(temp);
-                laundry[i][j] = std::make_tuple(article, n, price);
+                laundry[i][j] = std::make_tuple(articleType, article, n, price);
             }
         }
 
@@ -269,12 +273,13 @@ void File::loadOrders() {
             innersize = std::stoi(temp);
             dryClean[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
+                std::getline(ss, articleType, ',');
                 std::getline(ss, article, ',');
                 std::getline(ss, temp, ',');
                 n = std::stoi(temp);
                 std::getline(ss, temp, ',');
                 price = std::stod(temp);
-                dryClean[i][j] = std::make_tuple(article, n, price);
+                dryClean[i][j] = std::make_tuple(articleType, article, n, price);
             }
         }
 
@@ -288,12 +293,13 @@ void File::loadOrders() {
             innersize = std::stoi(temp);
             alterations[i].resize(innersize);
             for (j = 0; j < innersize; j++) {
+                std::getline(ss, articleType, ',');
                 std::getline(ss, article, ',');
                 std::getline(ss, temp, ',');
                 n = std::stoi(temp);
                 std::getline(ss, temp, ',');
                 price = std::stod(temp);
-                alterations[i][j] = std::make_tuple(article, n, price);
+                alterations[i][j] = std::make_tuple(articleType, article, n, price);
             }
         }
 
@@ -312,9 +318,9 @@ void File::loadOrders() {
 void File::updateOrder(const int id){
     std::string current, line;
     bool found;
-    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = orders[id].getLaundry();
-    std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean = orders[id].getDryCleanO();
-    std::vector<std::vector<std::tuple<std::string, int, double>>> alterations = orders[id].getAlterationsO();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = orders[id].getLaundry();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean = orders[id].getDryClean();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations = orders[id].getAlterations();
 
     size_t outerVectorSize = laundry.size(), innerVectorSize;
 
@@ -374,6 +380,7 @@ void File::updateOrder(const int id){
                     tempF << "," << std::get<0>(tuple);
                     tempF << "," << std::get<1>(tuple);
                     tempF << "," << std::get<2>(tuple);
+                    tempF << "," << std::get<3>(tuple);
                 }
             }
             tempF << "," << "DC" << ";";
@@ -388,6 +395,7 @@ void File::updateOrder(const int id){
                     tempF << "," << std::get<0>(tuple);
                     tempF << "," << std::get<1>(tuple);
                     tempF << "," << std::get<2>(tuple);
+                    tempF << "," << std::get<3>(tuple);
                 }
             }
             tempF << "," << "ALT" << ";";
@@ -402,6 +410,7 @@ void File::updateOrder(const int id){
                     tempF << "," << std::get<0>(tuple);
                     tempF << "," << std::get<1>(tuple);
                     tempF << "," << std::get<2>(tuple);
+                    tempF << "," << std::get<3>(tuple);
                 }
             }
 
