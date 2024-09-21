@@ -487,6 +487,8 @@ void MainWindow::on_btnTwoRecieptDP_clicked(){
     manager->logger->log("Two reciepts printed, order saved");
 }
 
+void MainWindow::on_btn
+
 void MainWindow::on_btnReturn_clicked(){
     showMainPage();
     //If customer information was pulled up but nothing was added to order, delete order
