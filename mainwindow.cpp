@@ -1625,12 +1625,12 @@ void MainWindow::setDate(QDateTimeEdit *dp, QDateEdit *pu){
 
 void MainWindow::saveModel(QStandardItemModel *model){
     size_t row = 0;
-    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
-    std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>> pair;
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
+    std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>>> pair;
 
     pair = saveTableView(laundry, model, "Laundry", row);
     row = pair.first;
-    order[0]->setDetails(pair.second);
+    order[0]->setLaundry(pair.second);
 
     pair = saveTableView(dryClean, model, "Dry Clean", row);
     row = pair.first;
@@ -1644,7 +1644,7 @@ void MainWindow::saveModel(QStandardItemModel *model){
     order[0]->applyDiscount();
 }
 
-std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>> MainWindow::saveTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row){
+std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>>> MainWindow::saveTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row){
     size_t i = 0, posArt = 0, posPiece = 0, size = calculatePieceTotal(article);
 
     while(i < size){
@@ -1657,7 +1657,7 @@ std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>
             QVariant dataPrice = model->data(index);
 
             //If the number of pieces has changed
-            if(dataNumber.toInt() != std::get<1>(article[posArt][posPiece])){
+            if(dataNumber.toInt() != std::get<2>(article[posArt][posPiece])){
                 if(dataNumber.toInt() == 0){
                     //Remove piece from order
                     article[posArt].erase(article[posArt].begin() + posPiece);
@@ -1666,11 +1666,11 @@ std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>
                     continue;
                 }
                 //update data structure
-                std::get<1>(article[posArt][posPiece]) = dataNumber.toInt();
+                std::get<2>(article[posArt][posPiece]) = dataNumber.toInt();
             }
             //If the price has changed of a piece
-            if(dataPrice.toDouble() != std::get<2>(article[posArt][posPiece])){
-                std::get<2>(article[posArt][posPiece]) = dataPrice.toDouble();
+            if(dataPrice.toDouble() != std::get<3>(article[posArt][posPiece])){
+                std::get<3>(article[posArt][posPiece]) = dataPrice.toDouble();
             }
 
             posPiece++;
@@ -1685,7 +1685,7 @@ std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>
 
 void MainWindow::updateModel(QStandardItemModel *model){
     size_t row = 0;
-    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
 
     model->removeRows(0, model->rowCount());
 
@@ -1695,7 +1695,7 @@ void MainWindow::updateModel(QStandardItemModel *model){
 
 }
 
-size_t MainWindow::updateTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row){
+size_t MainWindow::updateTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row){
     double pTotal;
     size_t i, j;
     QStandardItem *number, *type, *piece, *pricePerPiece, *priceTotal;
@@ -1703,19 +1703,19 @@ size_t MainWindow::updateTableView(std::vector<std::vector<std::tuple<std::strin
     for(i = 0; i < articles.size(); i++)
         if(articles[i].empty() == false)
             for(j = 0; j < articles[i].size(); j++){
-                number = new QStandardItem(QString::number(std::get<1>(articles[i][j])));
+                number = new QStandardItem(QString::number(std::get<2>(articles[i][j])));
                 number->setTextAlignment(Qt::AlignCenter);
 
                 type = new QStandardItem(pieceType);
                 type->setTextAlignment(Qt::AlignCenter);
 
-                piece = new QStandardItem(QString::fromStdString(std::get<0>(articles[i][j])));
+                piece = new QStandardItem(QString::fromStdString(std::get<1>(articles[i][j])));
                 piece->setTextAlignment(Qt::AlignCenter);
 
-                pricePerPiece = new QStandardItem(QString::number(std::get<2>(articles[i][j]), 'f', 2));
+                pricePerPiece = new QStandardItem(QString::number(std::get<3>(articles[i][j]), 'f', 2));
                 pricePerPiece->setTextAlignment(Qt::AlignCenter);
 
-                pTotal = std::get<1>(articles[i][j]) * std::get<2>(articles[i][j]);
+                pTotal = std::get<2>(articles[i][j]) * std::get<3>(articles[i][j]);
                 priceTotal = new QStandardItem(QString::number(pTotal, 'f', 2));
                 priceTotal->setTextAlignment(Qt::AlignCenter);
 
@@ -1853,7 +1853,7 @@ int MainWindow::calculateSizeOptions(std::vector<std::vector<std::pair<std::stri
     return size;
 }
 
-int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, int, double>>> articles){
+int MainWindow::calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> articles){
     size_t i, j;
     int size = 0;
 
@@ -1907,7 +1907,7 @@ void MainWindow::printReciept(){
     //X Was 9
     int x = 5, y = 15, yInc = 20;
     size_t i, j;
-    std::vector<std::vector<std::tuple<std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryCleanO(), alterations = order[0]->getAlterationsO();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
     std::vector<QString> info;
 
     int width = 250, difX = 45, difY = 12;

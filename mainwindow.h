@@ -238,17 +238,17 @@ private slots:
     void setDate(QDateTimeEdit *dp, QDateEdit *pu);
 
     void saveModel(QStandardItemModel *model);
-    std::pair<size_t, std::vector<std::vector<std::tuple<std::string, int, double>>>> saveTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row);
+    std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>>> saveTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row);
 
     void updateModel(QStandardItemModel *model);
-    size_t updateTableView(std::vector<std::vector<std::tuple<std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
+    size_t updateTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
 
     std::string getTypeName(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
     size_t getIndex(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
 
     int calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices);
     int calculateSizeOptions(std::vector<std::vector<std::pair<std::string, double>>> prices);
-    int calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, int, double>>> articles);
+    int calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> articles);
 
     void createType(size_t curIndex, std::vector<std::tuple<std::string, int, int>> &pos, std::vector<std::vector<std::pair<std::string, double>>> &prices, std::string newPiece);
     void increaseIndex(size_t index, std::vector<std::tuple<std::string, int, int>> &pos);
