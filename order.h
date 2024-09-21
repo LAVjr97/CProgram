@@ -39,7 +39,7 @@ namespace orderInfo{
             int getPieceTotal() const;
             bool getDiscountApplied() const;
             double getDiscount() const;
-            double getDiscountedCost() const;
+            double getDiscountedCost();
             double getDeposit() const;
 
 

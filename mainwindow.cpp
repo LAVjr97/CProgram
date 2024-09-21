@@ -71,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     lineVisitsDP = ui->lineVisitsDP;
     linePieceTotalDP = ui->linePieceTotalDP;
     lineOrderSubTotalDP = ui->lineOrderSubTotalDP;
+    lineOrderDiscountDP = ui->lineOrderDiscountDP;
     checkBoxPaidDP = ui->checkBoxPaidDP;
 
     dateDTDropOffDP = ui->dateDTDropOffDP;
@@ -150,6 +151,8 @@ MainWindow::MainWindow(QWidget *parent)
     dateDPickUpPU = ui->dateDPickUpPU;
     linePieceTotalPU = ui->linePieceTotalPU;
     lineOrderSubTotalPU = ui->lineOrderSubTotalPU;
+    lineOrderDiscountPU = ui->lineOrderDiscountPU;
+
 
     modelPU = new QStandardItemModel(this);
     modelPU->setColumnCount(5);
@@ -210,6 +213,7 @@ MainWindow::MainWindow(QWidget *parent)
     dateDPickUpEO = ui->dateDPickUpEO;
     linePieceTotalEO = ui->linePieceTotalEO;
     lineOrderSubTotalEO = ui->lineOrderSubTotalEO;
+    lineOrderDiscountEO = ui->lineOrderDiscountEO;
 
     modelEO = new QStandardItemModel(this);
     modelEO->setColumnCount(5);
@@ -455,7 +459,8 @@ void MainWindow::on_btnSaveDP_clicked()
 
 
     linePieceTotalDP->setText(QString::number(order[0]->getPieceTotal()));
-    lineOrderTotalDP->setText(QString::number(order[0]->getCost(), 'f', 2));
+    lineOrderSubTotalDP->setText(QString::number(order[0]->getCost(), 'f', 2));
+    lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
 
     ui->btnOneRecieptDP->setEnabled(true);
     ui->btnTwoRecieptDP->setEnabled(true);
@@ -487,14 +492,46 @@ void MainWindow::on_btnTwoRecieptDP_clicked(){
     manager->logger->log("Two reciepts printed, order saved");
 }
 
-void MainWindow::on_btn
+void MainWindow::on_btnApplyDiscountDP_clicked(){
+    if(lineFNameDP->text().isEmpty())
+        return;
+
+    QInputDialog inputDialog(this, Qt::Dialog);
+    bool ok;
+    double discount;
+    // QFont font = inputDialog.font();
+
+    // inputDialog.setWindowTitle("Enter Discount Percentage");
+    // inputDialog.setLabelText("Discount Percentage (%):");
+
+    // font.setPointSize(14);
+    // inputDialog.setFont(font);
+    // inputDialog.setMinimumSize(400, 200); // Set minimum size
+    // inputDialog.setMaximumSize(400, 200);  // Adjust width and height
+
+    discount = inputDialog.getInt(this, tr("Enter Discount Percentage"), tr("Discount Percentage (%):"), 0, 0, 100, 1, &ok);
+
+    if(ok){
+        if(discount == 0){
+            order[0]->setDiscount(0);
+            order[0]->setDiscountApplied(false);
+            lineOrderDiscountDP->setText("None");
+        }
+        else{
+            order[0]->setDiscount(discount);
+            order[0]->setDiscountApplied(true);
+            lineOrderDiscountDP->setText(QString::number(discount) + "%");
+        }
+        lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2)); //discountedCost will use applyDiscount() to update the cost
+    }
+
+}
 
 void MainWindow::on_btnReturn_clicked(){
     showMainPage();
     //If customer information was pulled up but nothing was added to order, delete order
-    //if(!lineFNameDP ->text().isEmpty() || (!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled())){
-
-    if(!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled()){
+    if(!lineFNameDP ->text().isEmpty() || (!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled())){
+    //if(!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled()){
         orders.pop_back();
         curOrderID--;
     }
@@ -645,7 +682,9 @@ void MainWindow::on_btnLaundryReturn_clicked(){
 
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
-    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+    lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
+
     showDropOffPage();
 }
 
@@ -688,7 +727,9 @@ void MainWindow::on_btnDryCleanReturn_clicked(){
 
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
-    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+    lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
+
     showDropOffPage();
 }
 
@@ -729,7 +770,9 @@ void MainWindow::on_btnAlterationsReturn_clicked(){
 
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
-    lineOrderTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+    lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
+
     showDropOffPage();
 }
 
@@ -1009,7 +1052,8 @@ void MainWindow::on_btnSearchOrderEO_clicked(){
     updateCOInformationEO();
     updateModel(modelEO);
 
-    lineOrderTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
+    lineOrderSubTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
+    lineOrderTotalEO->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
 
     ui->btnOneRecieptEO->setEnabled(true);
     ui->btnTwoRecieptEO->setEnabled(true);
@@ -1321,6 +1365,11 @@ void MainWindow::updateCOInformationDP(){
     lineOrderIDDP->setText(QString::number(order[0]->getOrderID()));
     lineVisitsDP->setText(QString::number(customer[0]->getVisit() + 1));
 
+    if(!order[0]->getDiscountApplied())
+        lineOrderDiscountDP->setText("None");
+    else
+        lineOrderDiscountDP->setText(QString::number(order[0]->getDiscount()) + "%");
+
     setDate(dateDTDropOffDP, dateDPickUpDP);
 
     dateDTDropOffDP->show();
@@ -1334,6 +1383,11 @@ void MainWindow::updateCOInformationPU(){
     lineCustomerIDPU->setText(QString::number(customer[0]->getCustomerID()));
     lineOrderIDPU->setText(QString::number(order[0]->getOrderID()));
     linePieceTotalPU->setText(QString::number(order[0]->getPieceTotal()));
+
+    if(!order[0]->getDiscountApplied())
+        lineOrderDiscountPU->setText("None");
+    else
+        lineOrderDiscountPU->setText(QString::number(order[0]->getDiscount()) + "%");
 
     //Set Date
     setDate(dateDTDropOffPU, dateDPickUpPU);
@@ -1355,6 +1409,11 @@ void MainWindow::updateCOInformationEO(){
     lineCustomerIDEO->setText(QString::number(customer[0]->getCustomerID()));
     lineOrderIDEO->setText(QString::number(order[0]->getOrderID()));
     linePieceTotalEO->setText(QString::number(order[0]->getPieceTotal()));
+
+    if(!order[0]->getDiscountApplied())
+        lineOrderDiscountEO->setText("None");
+    else
+        lineOrderDiscountEO->setText(QString::number(order[0]->getDiscount()) + "%");
 
     //Set Date
     setDate(dateDTDropOffEO, dateDPickUpEO);
@@ -1381,6 +1440,8 @@ void MainWindow::clearScreenDP(){
     lineOrderTotalDP ->clear();
     lineVisitsDP->clear();
     linePieceTotalDP->clear();
+    lineOrderSubTotalDP->clear();
+    lineOrderDiscountDP->clear();
 
     checkBoxPaidDP->setCheckState(Qt::Unchecked);
 
@@ -1404,6 +1465,8 @@ void MainWindow::clearScreenPU(){
     lineOrderTotalPU->clear();
     lineRackPU->clear();
     linePieceTotalPU->clear();
+    lineOrderSubTotalPU->clear();
+    lineOrderDiscountPU->clear();
 
     checkBoxPaidPU->setCheckState(Qt::Unchecked);
     checkBoxPUPU->setCheckState(Qt::Unchecked);
@@ -1419,6 +1482,8 @@ void MainWindow::clearScreenEO(){
     lineOrderTotalEO->clear();
     lineRackEO->clear();
     linePieceTotalEO->clear();
+    lineOrderSubTotalEO->clear();
+    lineOrderDiscountEO->clear();
 
     checkBoxPaidEO->setCheckState(Qt::Unchecked);
     checkBoxPUEO->setCheckState(Qt::Unchecked);
@@ -1528,6 +1593,9 @@ void MainWindow::customerSearchPageSetUp(QTableView *tableView, QStandardItemMod
 
     if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
         customer = search::Search::searchCustAlgo(entry, this->customers);
+
+    if(customer.empty())
+        return;
 
     for(i = 0; i < customer.size(); i++){
         QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
@@ -1824,8 +1892,8 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
     std::thread threadOrder(&fi::File::saveOrders, manager, std::ref(orders[curOrderID]));
     std::thread threadCust(&fi::File::updateCustomer, manager, customer[0]->getCustomerID());
 
-    for(int i = 0; i < n; i++)
-        printReciept();
+    //for(int i = 0; i < n; i++)
+    //    printReciept();
 
     threadOrder.join();
     threadCust.join();

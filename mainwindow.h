@@ -32,6 +32,7 @@
 #include <QLockFile>
 #include <QStandardPaths>
 #include <QMessageBox>
+#include <QInputDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -101,6 +102,7 @@ private slots:
     void on_btnSaveDP_clicked();
     void on_btnOneRecieptDP_clicked();
     void on_btnTwoRecieptDP_clicked();//fi::File &manager);
+    void on_btnApplyDiscountDP_clicked();
 
     void on_btnReturnCS_clicked();
 
@@ -299,6 +301,7 @@ private:
     QLineEdit *lineVisitsDP;
     QLineEdit *linePieceTotalDP;
     QLineEdit *lineOrderSubTotalDP;
+    QLineEdit *lineOrderDiscountDP;
     QDateTimeEdit *dateDTDropOffDP;
     QDateEdit *dateDPickUpDP;
 
@@ -320,6 +323,7 @@ private:
     QLineEdit *lineRackPU;
     QLineEdit *linePieceTotalPU;
     QLineEdit *lineOrderSubTotalPU;
+    QLineEdit *lineOrderDiscountPU;
     QDateTimeEdit *dateDTDropOffPU;
     QDateEdit *dateDPickUpPU;
 
@@ -341,6 +345,7 @@ private:
     QLineEdit *lineRackEO;
     QLineEdit *linePieceTotalEO;
     QLineEdit *lineOrderSubTotalEO;
+    QLineEdit *lineOrderDiscountEO;
     QDateTimeEdit *dateDTDropOffEO;
     QDateEdit *dateDPickUpEO;
 

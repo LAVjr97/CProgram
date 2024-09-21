@@ -149,8 +149,8 @@ double order::getDiscount() const{
     return discount;
 }
 
-double order::getDiscountedCost() const{
-    return discountedCost;
+double order::getDiscountedCost(){
+    return applyDiscount();
 }
 
 double order::getDeposit() const{
@@ -336,7 +336,8 @@ int order::calculatePieceTotal(){
 double order::applyDiscount(){
     if(discountApplied) // = true;
         discountedCost = cost - (cost * (discount/100.0));
-
+    else
+        discountedCost = cost;
     return discountedCost;
 }
 

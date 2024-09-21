@@ -297,7 +297,7 @@ void File::loadOrders() {
             }
         }
 
-        orders.emplace_back(orderID, customerID, cost, rack, pickedUp, paid, discountApplied, discount, discountedCost, deposit, pieceTotal, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, laundry, dryClean, alterations);
+        orders.emplace_back(orderID, customerID, cost, rack, pickedUp, paid, pieceTotal, discountApplied, discount, discountedCost, deposit, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, laundry, dryClean, alterations);
     }
 
     ifs.close();
@@ -485,7 +485,7 @@ void File::updateCustomer(const int id) {
     }
     std::filesystem::resize_file(from, 0);
 
-    logger->log("Updated customer file successfully...\n");
+    logger->log("Updated customer file successfully...");
 }
 
 
