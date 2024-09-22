@@ -969,10 +969,12 @@ void MainWindow::on_tableViewOSR_clicked(const QModelIndex &index){
 //***Edit Order Page (13)***
 //
 void MainWindow::on_btnCustomerEO_clicked(){
+
     showCustomerSearchPageEO();
 }
 
 void MainWindow::on_btnOrderSearchEO_clicked(){
+    lineOrderIDEO->setFocus();
     showOrderSearchPageEO();
 }
 
@@ -1892,8 +1894,8 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
     std::thread threadOrder(&fi::File::saveOrders, manager, std::ref(orders[curOrderID]));
     std::thread threadCust(&fi::File::updateCustomer, manager, customer[0]->getCustomerID());
 
-    //for(int i = 0; i < n; i++)
-    //    printReciept();
+    for(int i = 0; i < n; i++)
+        printReciept();
 
     threadOrder.join();
     threadCust.join();
@@ -2012,17 +2014,24 @@ void MainWindow::printReciept(){
     }
     painter.drawText(x, y - yInc + 5, "=====================");
 
-    if(order[0]->getDiscountApplied()){
-        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Sub Total: $" + QString::number(order[0]->getCost(), 'f', 2));
-
-        y += yInc;
-    }
-
     //Total Information
-    painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
-    if(order[0]->getPaid())
-        painter.drawText(QRect(x, y + 5, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
-    painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getCost(), 'f', 2));
+    if(!order[0]->getDiscountApplied()){
+        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
+        if(order[0]->getPaid())
+            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
+        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getCost(), 'f', 2));
+    }
+    else{
+        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
+        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Subtotal: $" + QString::number(order[0]->getCost(), 'f', 2));
+        y+=yInc;
+        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, "Discount: " + QString::number(order[0]->getDiscount()) + "%");
+        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getDiscountedCost(), 'f', 2));
+        if(order[0]->getPaid()){
+            y += yInc;
+            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
+        }
+    }
 
     y += 75;
     painter.drawText(QRect(x, y, width, metrics.height() + 50), Qt::AlignCenter, "Thank You Very Much");//QString::number(curOrderID));

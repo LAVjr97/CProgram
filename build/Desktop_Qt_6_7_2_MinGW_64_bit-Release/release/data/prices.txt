@@ -1,2 +1,0 @@
-1,1,,0,DC;2,1,Jeans,7,1,Wool Coat,9,ALT;1,1,,0
-1,,0,0,DC;2,Pants,0,1,Coats,2,3,ALT;1,,0,0

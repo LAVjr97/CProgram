@@ -20,20 +20,15 @@ namespace orderInfo{
             int getCustomerID() const;
             int getOrderID() const;
 
-            //std::vector<std::vector<std::tuple<std::string, int, double>>> getLaundry() const;
             std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> getLaundry() const;
-            //std::tuple<std::string, int, double>* getLaundryTup(int pos, std::string);
-            //int getLaundryNumberO(int pos, std::string article, double price);
             int getLaundryNumber(std::string articleType, std::string article, double price);
             int getlaundryLength() const;
 
             std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> getDryClean() const;
-            //int getDryCleanNumberO(int pos, std::string article, double price);
             int getDryCleanNumber(std::string articleType, std::string article, double price);
             int getDryCleanLength() const;
 
             std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> getAlterations() const;
-            //int getAlterationsNumberO(int pos, std::string article, double price);
             int getAlterationsNumber(std::string articleType, std::string article, double price);
             int getAlterationsLength() const;
 
@@ -47,25 +42,16 @@ namespace orderInfo{
             double getDiscountedCost();
             double getDeposit() const;
 
-
-
             //Set functions
             int setCustomerID(int id);
-            //void setDetails(std::vector<std::vector<std::tuple<std::string, int, double>>> laundry);
             void setLaundry(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry);
-            //void setLaundryPiece(int pos, int n, double price, std::string article);
             void setLaundryPiece(std::string articleType, int n, double price, std::string article);
 
-            //void setDryClean(std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean);
             void setDryClean(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry);
-            //void setDryCleanPiece(int pos, int n, double price, std::string article);
             void setDryCleanPiece(std::string articleType, int n, double price, std::string article);
 
-            //void setAlterations(std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
-            //void setAlterationsPiece(int pos, int n, double price, std::string article);
             void setAlterations(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations);
             void setAlterationsPiece(std::string articleType, int n, double price, std::string article);
-
 
             int setCost(double cost);
             int setRack(int rack);
