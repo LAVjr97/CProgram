@@ -12,3 +12,4 @@ Allow for further custimization -> shop name, shop number etc...
 Discount -> Make a popo up that takes a percentage
 Deposit -> allow for deposits to be made and make a boolean if there is a deposit
 Fix Model so when an article is added that has the same name, price but different number, only the number is updated.
+Change Price System -> Sp the category takes control, the article name is just a description of what it is. So on a reciept it will look like "5 Pants<Article Type> Jeans<Article Name> Price", Allow for empty names so on the reciept it will just look like, "5 Pants<Article Type> Jeans Price"
