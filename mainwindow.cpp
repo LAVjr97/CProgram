@@ -1711,7 +1711,7 @@ size_t MainWindow::updateTableView(std::vector<std::vector<std::tuple<std::strin
                 type = new QStandardItem(pieceType);
                 type->setTextAlignment(Qt::AlignCenter);
 
-                piece = new QStandardItem(QString::fromStdString(std::get<1>(articles[i][j])));
+                piece = new QStandardItem(QString::fromStdString(std::get<0>(articles[i][j])) + " " + QString::fromStdString(std::get<1>(articles[i][j])));
                 piece->setTextAlignment(Qt::AlignCenter);
 
                 pricePerPiece = new QStandardItem(QString::number(std::get<3>(articles[i][j]), 'f', 2));
@@ -1976,7 +1976,7 @@ void MainWindow::printReciept(){
             if(laundry[i].empty() == false)
                 for(j = 0; j < laundry[i].size(); j++){
                     painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::number(std::get<2>(laundry[i][j])));
-                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::fromStdString(std::get<1>(laundry[i][j])));
+                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::fromStdString(std::get<0>(laundry[i][j]) + " " + std::get<1>(laundry[i][j])));
                     painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignRight, QString::number(std::get<2>(laundry[i][j]) * std::get<3>(laundry[i][j]), 'f', 2));
                     y += yInc;
                 }
@@ -1991,7 +1991,7 @@ void MainWindow::printReciept(){
             if(dryClean[i].empty() == false)
                 for(j = 0; j < dryClean[i].size(); j++){
                     painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::number(std::get<2>(dryClean[i][j])));
-                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::fromStdString(std::get<1>(dryClean[i][j])));
+                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::fromStdString(std::get<0>(dryClean[i][j]) + " " + std::get<1>(dryClean[i][j])));
                     painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignRight, QString::number(std::get<2>(dryClean[i][j]) * std::get<3>(dryClean[i][j]), 'f', 2));
                     y += yInc;
                 }
@@ -2006,7 +2006,7 @@ void MainWindow::printReciept(){
             if(alterations[i].empty() == false)
                 for(j = 0; j < alterations[i].size(); j++){
                     painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::number(std::get<2>(alterations[i][j])));
-                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::fromStdString(std::get<1>(alterations[i][j])));
+                    painter.drawText(QRect(x + difX, y - difY, width, metrics.height() + 5), Qt::AlignLeft, QString::fromStdString(std::get<0>(alterations[i][j]) + " " + std::get<1>(alterations[i][j])));
                     painter.drawText(QRect(x, y - difY, width, metrics.height() + 5), Qt::AlignRight, QString::number(std::get<2>(alterations[i][j]) * std::get<3>(alterations[i][j]), 'f', 2));
                     y += yInc;
                 }
