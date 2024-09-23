@@ -15,4 +15,10 @@
 14,Denice,Johnson,4089216343,0,0
 15,Jose ,Robledo,4083327575,0,0
 16,Jose ,Grimaldo,4085280845,0,0
-17,Luis,Villalta,4086742579,0,0
+17,Luis,Villalta,4086742579,0,1,1
+18,Alex,Gonzalez,4086612413,0,1,0
+19,Rosa,Gonzalez,4087727503,0,0
+20,Francisco,Fonzalez,4089250154,0,0
+21,Jose,Gonzalez,4084491981,0,0
+22,Jaqueline,Gonzalez,4088438629,0,0
+23,Silvia,Aguilar,4082345158,0,0

@@ -1,0 +1,2 @@
+1,1,,0,DC;6,1,Vest,6,1,Wool Shirt,7.5,1,Cotton,7,1,Cotton Shirt,7,1,Cotton Sweater,7,1,Wool Coat,19,ALT;3,3,Hem Up,13,Waist In,17,Taper,18,3,Hem,15,Size In,17.5,Shorten Sleeves,17.5,3,Sleeves Up,29,Sides In ,32,Hem Up,29
+1,,0,0,DC;6,Pants,0,1,Men Suits,2,3,Vest,4,5,Shirt,6,7,Sweater,8,9,Coat,10,11,ALT;3,Pants,0,3,Shirts,4,7,Coat,8,11

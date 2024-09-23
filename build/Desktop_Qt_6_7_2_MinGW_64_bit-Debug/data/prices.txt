@@ -1,2 +1,0 @@
-1,1,,0,DC;2,1,Jeans,6,1,T-shirts,5,ALT;1,1,,0
-1,,0,0,DC;2,Pants,0,1,Shirts,2,3,ALT;1,,0,0
