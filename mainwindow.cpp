@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Everything after this point is GUI related
     ui->setupUi(this);
     this->showMaximized();
-
+    stackedWidget = ui->stackedWidget;
 
     //
     //Drop Off Page
@@ -290,82 +290,102 @@ MainWindow::~MainWindow()
 //***Page Movement***
 //
 void MainWindow::showMainPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::showDropOffPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::showSearchPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::showCustomerSearchResultsPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::showNewCustomerPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(4);
 }
 
 void MainWindow::showOrderLaundryPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(5);
 }
 
 void MainWindow::showOrderDryCleanPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(6);
 }
 
 void MainWindow::showOrderAlterationsPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(7);
 }
 
 void MainWindow::showPickUpPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(8);
 }
 
 void MainWindow::showCustomerSearchPagePU(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(9);
 }
 
 void MainWindow::showOrderSearchPagePU(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(10);
 }
 
 void MainWindow::showCustomerSearchResultsPU(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(11);
 }
 
 void MainWindow::showOrderSearchResultsPU(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(12);
 }
 
 void MainWindow::showEditOrderPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(13);
 }
 
 void MainWindow::showOrderSearchPageEO(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(14);
 }
 
 void MainWindow::showCustomerSearchPageEO(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(15);
 }
 
 void MainWindow::showCustomerSearchResultsEO(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(16);
 }
 
 void MainWindow::showOrderSearchResultsEO(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(17);
 }
 
 void MainWindow::showAdminPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(18);
 }
 
 void MainWindow::showItemsAndPricePage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(19);
 }
 
@@ -1198,7 +1218,7 @@ void MainWindow::on_btnExportData_clicked(){
 //
 void MainWindow::on_btnReturnCIP_clicked(){
     tableWidgetDryCleanCIP->clear();
-    showAdminPage();
+    returnToRecentStackedWidget();
 }
 
 void MainWindow::on_btnSaveCIP_clicked(){
@@ -1576,6 +1596,8 @@ void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex
         break;
     }
 
+    tableWidget->item(row, 0)->setBackground(Qt::green);
+
 }
 
 
@@ -1879,6 +1901,11 @@ bool MainWindow::checkForDuplicates(std::string firstName, std::string lastName,
     return false;
 }
 
+void MainWindow::returnToRecentStackedWidget(){
+    size_t temp = stackedWidget->currentIndex();
+    ui->stackedWidget->setCurrentIndex(recentStackedWidgetIndex);
+    recentStackedWidgetIndex = temp;
+}
 
 void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
 

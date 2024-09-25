@@ -33,6 +33,7 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QStackedWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -257,7 +258,7 @@ private slots:
 
     bool checkForDuplicates(std::string firstName, std::string lastName, std::string phone);
     //std::string autoCapatilize(const std::string string);
-
+    void returnToRecentStackedWidget();
 
     void saveAndPrint(int n, QDateEdit *p, QCheckBox *b);
     void printReciept();
@@ -274,11 +275,9 @@ private:
     std::vector<std::tuple<std::string, int, int>> dryCleanPos;
     std::vector<std::tuple<std::string, int, int>> alterationsPos;
 
-    size_t lPrices;
-    size_t dcPrices;
-    size_t aPrices;
+    //Currently Used variables
+    size_t curOrderID, lau, dc, alt, recentStackedWidgetIndex;
 
-    size_t curOrderID, lau, dc, alt;
 
     //Stacked Widget
     QStackedWidget *stackedWidget;
@@ -425,6 +424,7 @@ private:
 
 
     QStandardItemModel *modelCIP;
+
 
 
 };
