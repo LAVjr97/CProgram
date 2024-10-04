@@ -920,6 +920,8 @@ void MainWindow::on_tableViewCSRPU_clicked(const QModelIndex &index){
     customer.push_back(temp);
 
     lineSearchCustomerCSPU->clear();
+    modelOSR->removeRows(0, modelOSR -> rowCount());
+
 
     std::vector<int> orderIDs = customer[0]->getOrders();
 
@@ -1124,6 +1126,8 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
     customer.push_back(temp);
 
     lineSearchCustomerCSEO->clear();
+
+    modelOSREO->removeRows(0, modelOSREO -> rowCount());
 
     std::vector<int> orderIDs = customer[0]->getOrders();
 
