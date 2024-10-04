@@ -1596,7 +1596,7 @@ void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex
         break;
     }
 
-    tableWidget->item(row, 0)->setBackground(Qt::green);
+    //tableWidget->item(row, 0)->setBackground(Qt::green);
 
 }
 
