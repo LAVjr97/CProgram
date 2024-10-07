@@ -104,6 +104,7 @@ private slots:
     void on_btnOneRecieptDP_clicked();
     void on_btnTwoRecieptDP_clicked();//fi::File &manager);
     void on_btnApplyDiscountDP_clicked();
+    void on_btnCIPDP_clicked();
 
     void on_btnReturnCS_clicked();
 

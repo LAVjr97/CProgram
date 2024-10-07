@@ -545,6 +545,8 @@ void MainWindow::on_btnApplyDiscountDP_clicked(){
         lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2)); //discountedCost will use applyDiscount() to update the cost
     }
 
+}void MainWindow::on_btnCIPDP_clicked(){
+    showItemsAndPricePage();
 }
 
 void MainWindow::on_btnReturn_clicked(){
@@ -1345,6 +1347,7 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
                     piece->setAlignment(Qt::AlignCenter);
 
                     QDoubleSpinBox *price = new QDoubleSpinBox(tableWidget);
+                    price->setMaximum(9999);
                     price->setDecimals(2);
                     price->setValue(prices[i][j].second);
 
@@ -1358,6 +1361,7 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
                     newPiece->setAlignment(Qt::AlignCenter);
 
                     QDoubleSpinBox *newPrice = new QDoubleSpinBox(tableWidget);
+                    newPrice->setMaximum(9999);
                     newPrice->setDecimals(2);
                     newPrice->setValue(0.00);
 
@@ -1546,6 +1550,7 @@ void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::
             count->setValue(0);
 
             QDoubleSpinBox *price = new QDoubleSpinBox(tableWidget);
+            price->setMaximum(9999);
             price->setDecimals(2);
             price->setValue(prices[i][j].second);
 
