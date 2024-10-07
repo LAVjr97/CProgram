@@ -422,10 +422,7 @@ private:
     QTableWidget *tableWidgetDryCleanCIP;
     QTableWidget *tableWidgetAlterationsCIP;
 
-
     QStandardItemModel *modelCIP;
-
-
 
 };
 #endif // MAINWINDOW_H
