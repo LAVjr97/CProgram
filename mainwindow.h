@@ -88,13 +88,13 @@ private slots:
     void showAdminPage();
     void showItemsAndPricePage();
 
-    //Main Page
+    //Main Page (0)
     void on_btnDropOff_clicked();
     void on_btnPickUp_clicked();
     void on_btnEditOrder_clicked();
     void on_btnAdmin_clicked();
 
-    //Drop Off Page
+    //Drop Off Page (1)
     void on_btnLaundry_clicked();
     void on_btnDryClean_clicked();
     void on_btnAlterations_clicked();
@@ -113,17 +113,6 @@ private slots:
     void on_btnReturn_3_clicked();
 
     void on_btnCreate_clicked();
-
-    //
-    //Custom Private Slots For...
-    //
-
-    //Customer Search Page
-    //void custom_on_btnCreate_clicked(fi::File &manager);
-
-    //Customer Search Results
-    //void custom_on_btnSearchCS_clicked(fi::File &manager);
-    //void custom_on_tableViewCSR_Row_Clicked(const QModelIndex &index);
 
     void on_btnReturnCSR_clicked();
 
@@ -215,6 +204,7 @@ private slots:
     void on_btnReturnAP_clicked();
     void on_btnCIP_clicked();
     void on_btnExportData_clicked();
+    void on_btnCustomerData_clicked();
 
     //Create Items And Price (19)
     void on_btnReturnCIP_clicked();
@@ -223,6 +213,9 @@ private slots:
     void setUpCIPPage();
     void setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget);
 
+    //Customer Data Page (20);
+    void on_btnReturnCD_clicked();
+    void on_tableViewCD_clicked(const QModelIndex &index);
 
     //Help functions
     void clearScreenDP();
@@ -242,8 +235,13 @@ private slots:
     void saveModel(QStandardItemModel *model);
     std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>>> saveTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row);
 
+    //Price Tables
     void updateModel(QStandardItemModel *model);
     size_t updateTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
+
+    //Customer tables
+    void saveCustomerTable();
+    void updateCustomerTable();
 
     std::string getTypeName(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
     size_t getIndex(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
@@ -417,13 +415,18 @@ private:
     QStandardItemModel *modelOSREO;
 
     //
-    //Create Items and Price Page()
+    //Create Items and Price Page(19)
     //
     QTableWidget *tableWidgetLaundryCIP;
     QTableWidget *tableWidgetDryCleanCIP;
     QTableWidget *tableWidgetAlterationsCIP;
 
     QStandardItemModel *modelCIP;
+
+    //Customer Data Page(20)
+    QTableView *tableViewCustomerD;
+    QStandardItemModel *modelCustomerD;
+
 
 };
 #endif // MAINWINDOW_H

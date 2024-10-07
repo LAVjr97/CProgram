@@ -1383,9 +1383,14 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
 
 
 
+//
+//***Customer Data Page (20)***
+//
+void
+
 
 //
-//Helper Functions
+//***Helper Functions***
 //
 void MainWindow::updateCOInformationDP(){
     lineFNameDP->setText(QString::fromStdString(customer[0]->getFirstName()));
@@ -1762,6 +1767,14 @@ size_t MainWindow::updateTableView(std::vector<std::vector<std::tuple<std::strin
             }
 
     return row;
+}
+
+void MainWindow::saveCustomerTable(){
+
+}
+
+void MainWindow::updateCustomerTable(){
+
 }
 
 std::string MainWindow::getTypeName(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos){
