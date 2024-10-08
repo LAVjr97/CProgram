@@ -36,7 +36,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>19</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="widgetOptionsMain" native="true">
@@ -596,14 +596,42 @@
        <property name="geometry">
         <rect>
          <x>970</x>
-         <y>90</y>
+         <y>-10</y>
          <width>211</width>
-         <height>661</height>
+         <height>761</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QVBoxLayout" name="verticalLayoutOptionsDP">
+          <item>
+           <widget class="QPushButton" name="btnCIPDP">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Apply Discount</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_8">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QPushButton" name="btnApplyDiscountDP">
             <property name="sizePolicy">
