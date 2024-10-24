@@ -36,7 +36,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="widgetOptionsMain" native="true">
@@ -1426,7 +1426,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>691</width>
+         <width>711</width>
          <height>781</height>
         </rect>
        </property>
@@ -1513,7 +1513,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>691</width>
+         <width>711</width>
          <height>781</height>
         </rect>
        </property>
@@ -1627,7 +1627,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>691</width>
+         <width>711</width>
          <height>781</height>
         </rect>
        </property>
@@ -1679,7 +1679,7 @@
         <x>370</x>
         <y>140</y>
         <width>1181</width>
-        <height>751</height>
+        <height>781</height>
        </rect>
       </property>
       <property name="font">
@@ -2696,7 +2696,7 @@
         <x>370</x>
         <y>140</y>
         <width>1181</width>
-        <height>751</height>
+        <height>771</height>
        </rect>
       </property>
       <widget class="QWidget" name="layoutWidget_3">

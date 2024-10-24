@@ -204,7 +204,7 @@ private slots:
     void on_btnReturnAP_clicked();
     void on_btnCIP_clicked();
     void on_btnExportData_clicked();
-    void on_btnCustomerData_clicked();
+    //void on_btnCustomerData_clicked();
 
     //Create Items And Price (19)
     void on_btnReturnCIP_clicked();
@@ -214,8 +214,8 @@ private slots:
     void setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget);
 
     //Customer Data Page (20);
-    void on_btnReturnCD_clicked();
-    void on_tableViewCD_clicked(const QModelIndex &index);
+    //void on_btnReturnCD_clicked();
+    //void on_tableViewCD_clicked(const QModelIndex &index);
 
     //Help functions
     void clearScreenDP();
