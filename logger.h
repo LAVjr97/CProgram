@@ -9,6 +9,7 @@ namespace logger{
             ~Logger();
 
             void log(const std::string &message);
+            void saveAsNewLog();
 
             // Get current time for timestamping log entries
             std::string getCurrentTime();

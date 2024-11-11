@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     manager->checkAndCreateFile(tempCustFile);
     manager->checkAndCreateFile(logFile);
         */
-    //Indepently load up customers and orders
+    //Indepently load up customers, orders and prices
     std::thread threadCust(&fi::File::loadCustomers, manager);
     std::thread threadOrder(&fi::File::loadOrders, manager);
     std::thread threadPrices(&fi::File::loadPrices, manager);
@@ -820,6 +820,14 @@ void MainWindow::on_btnSavePU_clicked(){
     if(lineFNamePU->text().isEmpty())
         return;
 
+
+    if(curOrderID != orders[curOrderID].getOrderID()){
+        std::string logmsg = "Critical Error in Saving Picked Up Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
+        manager->logger->log(logmsg);
+        handleCritcalError();
+        //Implement something so when a crital error occurs, the current file name changes, and closes the file and a new one is made using the old generic log name, starting a new file.
+    }
+
     orders[curOrderID].setPaid(checkBoxPaidPU->isChecked());
     orders[curOrderID].setPickUp(checkBoxPUPU->isChecked());
 
@@ -980,6 +988,13 @@ void MainWindow::on_tableViewOSR_clicked(const QModelIndex &index){
     order.clear();
 
     order.push_back(&orders[curOrderID]);
+
+    if(curOrderID != orders[curOrderID].getOrderID()){
+        std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
+        manager->logger->log(logmsg);
+        handleCritcalError();
+    }
+
     updateCOInformationPU();
     updateModel(modelPU);
     lineOrderTotalPU->setText(QString::number(order[0]->getCost(), 'f', 2));
@@ -1012,9 +1027,17 @@ void MainWindow::on_btnSaveEO_clicked(){
 
     if(!lineRackEO->text().isEmpty())
         orders[curOrderID].setRack(lineRackEO->text().toInt());
+    else
+        orders[curOrderID].setRack(-1);
 
     saveModel(modelEO);
     updateModel(modelEO);
+
+    if(curOrderID != orders[curOrderID].getOrderID()){
+        std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
+        manager->logger->log(logmsg);
+        handleCritcalError();
+    }
 
     std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID);
     std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
@@ -1187,6 +1210,12 @@ void MainWindow::on_btnReturnOSREO_clicked(){
 void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
     curOrderID = order[index.row()]->getOrderID();
     order.clear();
+
+    if(curOrderID != orders[curOrderID].getOrderID()){
+        std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
+        manager->logger->log(logmsg);
+        handleCritcalError();
+    }
 
     order.push_back(&orders[curOrderID]);
     updateCOInformationEO();
@@ -1929,6 +1958,18 @@ void MainWindow::returnToRecentStackedWidget(){
     recentStackedWidgetIndex = temp;
 }
 
+void MainWindow::handleCritcalError(){
+    QMessageBox messageBox;
+
+    manager->logger->log("File will be saved as a new log!");
+    manager->logger->saveAsNewLog();
+
+    messageBox.critical(0,"Error","An error has occured !");
+    messageBox.setFixedSize(500,200);
+    QCoreApplication::quit();
+    QCoreApplication::exit();
+}
+
 void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
 
     //Setting Date
@@ -1955,7 +1996,6 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
 }
 
 void MainWindow::printReciept(){
-    //X Was 9
     int x = 5, y = 15, yInc = 20;
     size_t i, j;
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
@@ -2015,7 +2055,6 @@ void MainWindow::printReciept(){
     //Order Information
     y += 10;
     painter.drawText(x, y, "=====================");
-    //yInc = 30;
     y += yInc;
     if(calculatePieceTotal(laundry)){
         painter.drawText(x, y, "Laundry: ");

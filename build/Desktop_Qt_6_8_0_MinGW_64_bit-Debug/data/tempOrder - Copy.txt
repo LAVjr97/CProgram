@@ -1,0 +1,11 @@
+The bug is that somewhere, curOrder ID is being changed so when it goes to change something in memory
+when it goes to the index of orders[curOrderID], it might belong to a different orderID in that object
+So when it goes to print out the data, when the curOrderID does not align with the proper index, (curOrderID = 181, but in reality, index 181's object has an order ID of 178)
+it will print the object that has the orderID of 178, since it will print the .getOrderID, resulting in multiple versions of 178,
+so when the program is opened, it keeps pushing along 178 if an order is ever edited. The source of the problem is with edits, because that is whats overwriting data (in updateOrders)
+
+
+either curOrderID is not being cleared after being used for the next order, 
+
+
+Implement something so when a crital error occurs, the current file name changes, and closes the file and a new one is made using the old generic log name, starting a new file.

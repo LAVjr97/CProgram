@@ -343,7 +343,7 @@ void File::updateOrder(const int id){
         std::stringstream ss(line);
         std::getline(ss, current, ',');
 
-        if(std::stoi(current) == id){
+        if(std::stoi(current) == id && !found){
             found = true;
 
             tempF   << orders[id].getOrderID() << ","

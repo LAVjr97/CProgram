@@ -258,6 +258,7 @@ private slots:
     bool checkForDuplicates(std::string firstName, std::string lastName, std::string phone);
     //std::string autoCapatilize(const std::string string);
     void returnToRecentStackedWidget();
+    void handleCritcalError();
 
     void saveAndPrint(int n, QDateEdit *p, QCheckBox *b);
     void printReciept();
