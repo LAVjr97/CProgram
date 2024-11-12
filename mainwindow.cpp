@@ -18,22 +18,22 @@ MainWindow::MainWindow(QWidget *parent)
     //Debug uses main folder, where source files are located, change file locations to just "[...].txt"
 
     //Setting up database
-
+    /*
     std::string customerFile = "./data/customers.txt";
     std::string orderFile = "./data/orders.txt";
     std::string priceFile = "./data/prices.txt";
     std::string tempOrderFile = "./data/tempOrder.txt";
     std::string tempCustFile = "./data/tempCust.txt";
     std::string logFile = "./logs/log.txt";
-
-    /*
+    */
+    //Release versiom uses these file paths
     std::string customerFile = "customers.txt";
     std::string orderFile = "orders.txt";
     std::string priceFile = "prices.txt";
     std::string tempOrderFile = "tempOrder.txt";
     std::string tempCustFile = "tempCust.txt";
     std::string logFile = "log.txt";
-    */
+
     manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos, logFile);
     /*
     manager->checkAndCreateFile(customerFile);
