@@ -27,13 +27,14 @@ MainWindow::MainWindow(QWidget *parent)
     std::string logFile = "./logs/log.txt";
     */
     //Release versiom uses these file paths
+    ///*
     std::string customerFile = "customers.txt";
     std::string orderFile = "orders.txt";
     std::string priceFile = "prices.txt";
     std::string tempOrderFile = "tempOrder.txt";
     std::string tempCustFile = "tempCust.txt";
     std::string logFile = "log.txt";
-
+    //*/
     manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos, logFile);
     /*
     manager->checkAndCreateFile(customerFile);
@@ -496,7 +497,6 @@ void MainWindow::on_btnOneRecieptDP_clicked(){
     clearScreenDP();
 
     showMainPage();
-    manager->logger->log("One reciept printed, order saved");
 }
 
 void MainWindow::on_btnTwoRecieptDP_clicked(){
@@ -545,7 +545,9 @@ void MainWindow::on_btnApplyDiscountDP_clicked(){
         lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2)); //discountedCost will use applyDiscount() to update the cost
     }
 
-}void MainWindow::on_btnCIPDP_clicked(){
+}
+
+void MainWindow::on_btnCIPDP_clicked(){
     showItemsAndPricePage();
 }
 
@@ -569,15 +571,13 @@ void MainWindow::on_btnReturn_clicked(){
 //
 //***Customer Search Page (2)***
 //
-void MainWindow::on_btnReturnCS_clicked()
-{
+void MainWindow::on_btnReturnCS_clicked(){
     clearScreenDP();
     MainWindow::showDropOffPage();
     lineSearchCustomerCS -> clear();
 }
 
-void MainWindow::on_btnNewCustomersCS_clicked()
-{
+void MainWindow::on_btnNewCustomersCS_clicked(){
     MainWindow::showNewCustomerPage();
     lineFNameNC->setFocus();
     lineSearchCustomerCS -> clear();
@@ -591,14 +591,12 @@ void MainWindow::on_btnSearchCS_clicked(){
 //
 //***Customer Search Results Page (3)***
 //
-void MainWindow::on_btnReturnCSR_clicked()
-{
+void MainWindow::on_btnReturnCSR_clicked(){
     modelCSR -> removeRows(0, modelCSR -> rowCount());
     showSearchPage();
 }
 
-void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index)
-{
+void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
     cust::customer* temp = customer[index.row()];
     curOrderID = orders.size();
 
@@ -624,8 +622,7 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index)
 //
 //***New Customer Page (4)***
 //
-void MainWindow::on_btnReturn_3_clicked()
-{
+void MainWindow::on_btnReturn_3_clicked(){
     clearScreenDP();
     lineSearchCustomerCS->setFocus();
     MainWindow::showSearchPage();
@@ -825,7 +822,6 @@ void MainWindow::on_btnSavePU_clicked(){
         std::string logmsg = "Critical Error in Saving Picked Up Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
         manager->logger->log(logmsg);
         handleCritcalError();
-        //Implement something so when a crital error occurs, the current file name changes, and closes the file and a new one is made using the old generic log name, starting a new file.
     }
 
     orders[curOrderID].setPaid(checkBoxPaidPU->isChecked());
@@ -1971,7 +1967,7 @@ void MainWindow::handleCritcalError(){
 }
 
 void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
-
+    std::string message;
     //Setting Date
     QDateTime dateTime = p->dateTime();
     order[0]->pickUp->setYear(dateTime.date().year());
@@ -1993,6 +1989,12 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
     customer.clear();
     order.clear();
     curOrderID = NULL;
+
+    if(n > 1)
+        message = std::to_string(n) + " Reciepts printed";
+    else
+        message = std::to_string(n) + " Reciept printed";
+    logger->log(message);
 }
 
 void MainWindow::printReciept(){

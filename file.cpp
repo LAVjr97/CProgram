@@ -23,7 +23,9 @@ void File::saveCustomers(cust::customer& customer){
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
-        logger->log("Error opening file to write to: " + this->customerFile);
+        logger->log("In saveCustomers(): Error opening file to write to: " + this->customerFile);
+        logger->saveAsNewLog();
+
         return;
     }
 
@@ -47,7 +49,8 @@ void File::loadCustomers(){
     std::ifstream ifs(this->customerFile.c_str());
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
-        logger->log("Error opening file to write to: " + this->customerFile);
+        logger->log("In loadCustomers(): Error opening file to write to: " + this->customerFile);
+        logger->saveAsNewLog();
 
         return;
     }
@@ -92,7 +95,7 @@ void File::saveOrders(orderInfo::order &order){
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
-        logger->log("Error opening file to write to: " + this->orderFile);
+        logger->log("In saveOrders(): Error opening file to write to: " + this->orderFile);
         return;
     }
 
@@ -172,8 +175,6 @@ void File::saveOrders(orderInfo::order &order){
 
     std::cout << "\n" << "Successfully saved order data..." << "\n";
     logger->log("Successfully saved order data...");
-
-
 }
 
 void File::loadOrders() {
@@ -190,7 +191,7 @@ void File::loadOrders() {
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
-        logger->log("Error opening file to write to: " + this->orderFile);
+        logger->log("In loadOrders(): Error opening file to write to: " + this->orderFile);
         return;
     }
 
@@ -317,7 +318,7 @@ void File::loadOrders() {
 //random functions to go to certain customers to update.
 void File::updateOrder(const int id){
     std::string current, line;
-    bool found;
+    bool found = false;
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = orders[id].getLaundry();
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean = orders[id].getDryClean();
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations = orders[id].getAlterations();
@@ -327,15 +328,17 @@ void File::updateOrder(const int id){
     std::ifstream ifs(this->orderFile.c_str());
     std::ofstream tempF(this->tempOrderFile.c_str());
 
+    if(orders[id].getCustomerID() )
+
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
-        logger->log("Error opening file to write to: " + this->orderFile);
+        logger->log("In updateOrder(): Error opening file to write to: " + this->orderFile);
         return;
     }
 
     if (!tempF) {
         std::cerr << "Error opening file to write to: " << this->tempOrderFile << "\n";
-        logger->log("Error opening file to write to: " + this->tempOrderFile);
+        logger->log("In updateOrder(): Error opening file to write to: " + this->tempOrderFile);
         return;
     }
 
@@ -433,26 +436,26 @@ void File::updateOrder(const int id){
     }
 
     std::filesystem::resize_file(from, 0);
-
-    logger->log("Updated order file successfully...");
+    std::string message = "Updated order file successfully, Order ID: " + std::to_string(id) + ", Customer ID: " + std::to_string(orders[id].getCustomerID()) + ", Customer Name: " + customers[orders[id].getCustomerID()].getName();
+    logger->log(message);
 }
 
 void File::updateCustomer(const int id) {
     std::string current, line;
-    bool found;
+    bool found = false;
 
     std::ifstream ifs(this->customerFile.c_str());
     std::ofstream tempF(this->tempCustFile.c_str());
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
-        logger->log("Error opening file to write to: " + this->customerFile);
+        logger->log("In updateCustomer(): Error opening file to write to: " + this->customerFile);
 
         return;
     }
     if (!tempF) {
         std::cerr << "Error opening file to write to: " << this->tempCustFile << "\n";
-        logger->log("Error opening file to write to: " + this->tempCustFile);
+        logger->log("In updateCustomer(): Error opening file to write to: " + this->tempCustFile);
         return;
     }
 
@@ -461,7 +464,7 @@ void File::updateCustomer(const int id) {
         std::stringstream ss(line); //istringstream
         std::getline(ss, current, ',');
 
-        if (std::stoi(current) == id) {
+        if (std::stoi(current) == id && !found) {
             found = true;
 
             tempF << customers[id].getCustomerID() << ","
@@ -494,7 +497,8 @@ void File::updateCustomer(const int id) {
     }
     std::filesystem::resize_file(from, 0);
 
-    logger->log("Updated customer file successfully...");
+    std::string message = "Updated customer file successfully, Customer ID: " + std::to_string(id) + ", Customer Name: " + customers[id].getName();
+    logger->log(message);
 }
 
 
