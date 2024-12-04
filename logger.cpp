@@ -19,7 +19,7 @@ Logger::~Logger() {
 }
 
 void Logger::log(const std::string &message) {
-    std::lock_guard<std::mutex> lock(logMutex); //error occurs here, fix the mutex lock or change the desing of locking the file and writing to it
+    //std::lock_guard<std::mutex> lock(logMutex); //error occurs here, fix the mutex lock or change the desing of locking the file and writing to it
 
     if (logFile.is_open()){
         logFile << getCurrentTime() << " - " << message << "\n";
@@ -37,7 +37,7 @@ std::string Logger::getCurrentTime() {
 }
 
 void Logger::saveAsNewLog(){
-    std::lock_guard<std::mutex> lock(logMutex); //error occurs here, fix the mutex lock or change the desing of locking the file and writing to it, previously use guard
+    //std::lock_guard<std::mutex> lock(logMutex); //error occurs here, fix the mutex lock or change the desing of locking the file and writing to it, previously use guard
     if (logFile.is_open()){
         std::string newLogFile = getCurrentTime() + "_Log.txt";
 
