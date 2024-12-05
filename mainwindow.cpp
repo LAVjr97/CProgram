@@ -986,7 +986,7 @@ void MainWindow::on_tableViewOSR_clicked(const QModelIndex &index){
     order.push_back(&orders[curOrderID]);
 
     if(curOrderID != orders[curOrderID].getOrderID()){
-        std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
+        std::string logmsg = "Critical Error in Saving Edited Order, selecting order from table! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
         manager->logger->log(logmsg);
         handleCritcalError();
     }
@@ -1994,7 +1994,7 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
         message = std::to_string(n) + " Reciepts printed";
     else
         message = std::to_string(n) + " Reciept printed";
-    logger->log(message);
+    manager->logger->log(message);
 }
 
 void MainWindow::printReciept(){
