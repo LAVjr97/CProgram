@@ -1,4 +1,4 @@
-0,Jania,Parrales,4085936049,0,0
+0,Jania,Parrales,4085936049,0,1,52
 1,Juan,Viramonte,4088931612,0,0
 2,Silvia,Villavicencio,6508691929,0,0
 3,Roberto,Aguirre,4086979707,0,0
@@ -7,16 +7,16 @@
 6,Fermin ,Macia,6692783027,0,0
 7,Alfredo,Madrigal,6692977349,0,0
 8,Charvarius,Ward,4088108980,0,0
-9,Karina,Quintero,4088416497,0,0
+9,Karina,Quintero,4088416497,0,1,56
 10,Maria,Solis,4084391827,0,0
 11,Alma,Guzman,4085681285,0,0
-12,Sara,Melendes,4084493419,0,0
+12,Sara,Melendes,4084493419,0,1,45
 13,Oscar,Ducusin,4085097598,0,0
 14,Denice,Johnson,4089216343,0,0
 15,Jose ,Robledo,4083327575,0,0
 16,Jose ,Grimaldo,4085280845,0,0
-17,Luis,Villalta,4086742579,0,1,1
-18,Alex,Gonzalez,4086612413,0,0
+17,Luis,Villalta,4086742579,0,3,1,24,25
+18,Alex,Gonzalez,4086612413,0,1,44
 19,Rosa,Gonzalez,4087727503,0,0
 20,Francisco,Fonzalez,4089250154,0,0
 21,Jose,Gonzalez,4084491981,0,0
@@ -34,7 +34,7 @@
 33,Ray,Marquez,80609969,0,0
 34,Guadalupe,Hernandez,4083731418,0,0
 35,Jonathan,Borca,4084827670,0,0
-36,Jose,Rodrigues,4086674558,0,0
+36,Jose,Rodrigues,4086674558,0,1,34
 37,Jose,Torres,4085189800,0,0
 38,Julio,Fuentes,4086557504,0,0
 39,Susana,Rodrigues,4083645990,0,0
@@ -48,10 +48,10 @@
 47,Oscar,Ducusin,4085097578,0,0
 48,Jenifer,Le,4086238344,0,1,12
 49,Tony,Williams,2094517055,0,0
-50,Juan,Tinajero,4088398919,0,0
+50,Juan,Tinajero,4088398919,0,1,35
 51,Emilio,Navarro,4089871101,0,0
-52,H.,Bronson,4083141246,0,0
-53,Ubaldo,Valencia,408696529,0,0
+52,H.,Bronson,4083141246,0,1,26
+53,Ubaldo,Valencia,408696529,0,2,29,75
 54,Darshan,Singh,4083906194,0,0
 55,Teresa,Valdez,2522001620,0,0
 56,Jairo,Lopes,4089036445,0,0
@@ -63,17 +63,17 @@
 62,Jose,Millan,4088306340,0,0
 63,Guadalupe,Rodrigues,4084696444,0,0
 64,Laura,Corona,4084174090,0,0
-65,Jerry,Marcial,4087914613,0,0
-66,Victor,Napan,4088304968,0,0
+65,Jerry,Marcial,4087914613,0,1,73
+66,Victor,Napan,4088304968,0,1,60
 67,Sergio,Herrera,6616215560,0,0
 68,Mario,Zuniga,4085615881,0,0
 69,Antonio,Campos,4087719135,0,0
 70,Marvin,Piril,6236937125,0,0
 71,Consepcion,Blanco,4087572644,0,0
-72,Robert,Benford,4089980593,0,0
+72,Robert,Benford,4089980593,0,1,82
 73,Hector,Sarte,4086493298,0,0
-74,Lesly,Mendoza,4085957017,0,0
-75,Jorge,Nava,4089148810,0,0
+74,Lesly,Mendoza,4085957017,0,1,39
+75,Jorge,Nava,4089148810,0,1,28
 76,Meshbaur,Rahman,4085095134,0,1,18
 77,Abe,Gorgonio,4086900127,0,1,15
 78,Guillermo,Olmedo,4082955441,0,0
@@ -99,7 +99,7 @@
 98,Emely,Jimenez,6692163018,0,0
 99,Diaz,Mireya,4083377952,0,0
 100,Edgar,Gabriel,4084061877,0,0
-101,Maria Elena,Guerrero,4084068059,0,0
+101,Maria Elena,Guerrero,4084068059,0,1,71
 102,Sonia,Demarciales,4082173079,0,0
 103,Mauro,Rosales,4086259826,0,0
 104,Cristal,Valdovinos,4086468170,0,0
@@ -117,7 +117,7 @@
 116,Jose,Martinez,4086607841,0,0
 117,Juan,Avelar,4086487329,0,1,6
 118,Miguel,Favela,4084833294,0,0
-119,Frank,Hernandez,4082216341,0,0
+119,Frank,Hernandez,4082216341,0,1,73
 120,Jesus,Flores,4089310735,0,0
 121,Flor,Romano,4083842495,0,0
 122,Mauricio,Salazar,4087990171,0,0
@@ -138,17 +138,17 @@
 137,Henrry,Navarro,4085096187,0,0
 138,Steven,Le,6694677321,0,0
 139,Ivon,Adame,6692160191,0,0
-140,Arturo,Villareal,4085152003,0,0
+140,Arturo,Villareal,4085152003,0,1,48
 141,Vai,Malauulu,4086557691,0,0
 142,Atanacio,Vera,4089338312,0,0
 143,Anthony,Gutierrez,4088495500,0,0
 144,Victor,Solorio,4087266067,0,0
-145,David,Cardenas,4082705146,0,0
+145,David,Cardenas,4082705146,0,1,79
 146,Ray,Cobambio,6692930692,0,0
 147,Esequias,Ortiz,4089100667,0,0
 148,Silvia,Florian,6506700423,0,0
 149,Aurelio,Espinoza,4089048497,0,0
-150,Teresita,Crueldad,4087915043,0,0
+150,Teresita,Crueldad,4087915043,0,1,63
 151,Alberta,Rocamora,6506606434,0,0
 152,Rogelio ,Moya,4086441438,0,0
 153,Francisco,Vasquez,6692430443,0,0
@@ -163,7 +163,7 @@
 162,Everett,Randolph,4088194149,0,0
 163,Edgardop,Camarena,6692515479,0,0
 164,Uma,Sharma,000,0,0
-165,Sergio,Rodriguez,4089663047,0,0
+165,Sergio,Rodriguez,4089663047,0,1,48
 166,Rudy,Afuola,4084012391,0,0
 167,Cesar,Tronco,6503389469,0,0
 168,Andres,Eusebio,4083985720,0,0
@@ -185,13 +185,13 @@
 184,Morgan,Nakamura,4088236050,0,0
 185,Liliana,Garcia,4089103114,0,0
 186,Samane,Phomphkdy,4084555097,0,0
-187,Mindy,Duong,4082028049,0,0
+187,Mindy,Duong,4082028049,0,1,69
 188,Toniesha,Ruby,6693772573,0,0
-189,Carlos,Villalobos,4084663221,0,0
+189,Carlos,Villalobos,4084663221,0,1,57
 190,Duc,Duong,4088243186,0,0
 191,Lidia,Rodrigues,4084493228,0,0
 192,Shirley,Williams,5599031152,0,0
-193,Manuel,Rivera,408580799,0,0
+193,Manuel,Rivera,408580799,0,1,59
 194,Leo,Ceja,4158236206,0,0
 195,Daniel,Aguilar,4086609063,0,0
 196,Nora,Nieto,4086613356,0,0
@@ -204,12 +204,12 @@
 203,Jack,Nguyen,4086606135,0,0
 204,Erick,Jacobo,5103599891,0,0
 205,Gael,Rodriguez,4085323122,0,0
-206,Maria,Corona,4082174305,0,0
+206,Maria,Corona,4082174305,0,1,53
 207,Kenny,Buttler,6692854085,0,0
 208,Vicente,Flores,4088211398,0,0
 209,Huong,Nguyen,4084206448,0,0
 210,Jesus,Gutierrez,6693698671,0,0
-211,Ricardo,Camarena,4083032811,0,1,9
+211,Ricardo,Camarena,4083032811,0,2,9,83
 212,Ranbir,Rajasansi,4088078257,0,0
 213,Reyes,Severiano,4089103947,0,0
 214,Robin,Hernandez,4156406397,0,0
@@ -232,8 +232,8 @@
 231,Ray ,Martinez,4982300822,0,0
 232,Soila,Geronimo,4087690594,0,0
 233,Willor,Zabala,4086559936,0,0
-234,Thanh,Le,4084093911,0,0
-235,Luz,Galindo,4082024831,0,0
+234,Thanh,Le,4084093911,0,1,61
+235,Luz,Galindo,4082024831,0,1,51
 236,Manuel,Pulido,4085904545,0,1,13
 237,Rosa,Bara,4085096553,0,0
 238,Mario,Ramires,4085907501,0,0
@@ -243,25 +243,25 @@
 242,Nguyen,Vo,4086936595,0,0
 243,Maria,Arroyo,4085930946,0,0
 244,Ernesto,Estrada,40890380634,0,0
-245,Steve,Jackson,4083161388,0,0
+245,Steve,Jackson,4083161388,0,1,42
 246,Linda,Alcantara,4085937948,0,0
 247,Antony,Lazo,4083944075,0,0
 248,Andres,Ramos,4083064938,0,0
 249,Gilbert,Camacho,6692900649,0,0
-250,Rosa,Marcos,4089637995,0,0
+250,Rosa,Marcos,4089637995,0,1,36
 251,Antonio,Garcia,4085919238,0,0
 252,Truc,Bui,4088356926,0,0
 253,Gilbert,Esparza,4082305676,0,1,19
 254,Martin,Cuevas,14087281954,0,0
 255,Lupe,Vega,4087999701,0,0
-256,Maria,Flolres,4084492423,0,0
+256,Maria,Flores,4084492423,0,0
 257,Juan,Gamino,4088340295,0,0
 258,Magdalena,Gamino,4085458247,0,0
 259,Magdalena,Gamino,4085458287,0,0
 260,Roberto,Mejia,4086031262,0,0
-261,Rachael,Garcia,5108675202,0,0
+261,Rachael,Garcia,5108675202,0,1,50
 262,Adela,Maldonado,4088296304,0,0
-263,Lourdes,Medal,4086058178,0,0
+263,Lourdes,Medal,4086058178,0,1,43
 264,Daniel,Borca,4084821674,0,0
 265,Agustin,Arroyo,9709149007,0,0
 266,Jorge,Guerrero,4087571123,0,0
@@ -270,7 +270,7 @@
 269,Petriuk,P.,4086376550,0,0
 270,Junior,Loia,4089915304,0,0
 271,Jose,Robledo,6692397587,0,0
-272,Rudy,Diaz,4082158526,0,0
+272,Rudy,Diaz,4082158526,0,1,30
 273,Juan,Sanchez,4084225191,0,0
 274,Mai,Nguyen,4087507934,0,0
 275,Harry,Wong,4084762303,0,0
@@ -280,8 +280,8 @@
 279,Angelica,Aguilar,4084200224,0,1,3
 280,Hung,Nguyen,4086911000,0,1,5
 281,Phoung,Lam,4082393078,0,0
-282,Cyber Glove,Systems,4084205354,0,1,7
-283,Ramon,Viscarra,4086916392,0,1,8
+282,Cyber Glove,Systems,4084205354,0,2,7,80
+283,Ramon,Viscarra,4086916392,0,2,8,66
 284,Manuel,Villa,4088436761,0,1,10
 285,Plumbing,Superior,4085284103,0,0
 286,Leah,Taylor,4088132056,0,1,14
@@ -292,3 +292,37 @@
 291,Marion,Elizaga,4082077565,0,1,21
 292,Jaime,Noriega,4086876685,0,1,22
 293,Yvette,Gurat,4084211551,0,1,23
+294,Rosa,Muniz,4086055420,0,1,27
+295,Reyna,Paz,4083323816,0,1,31
+296,Magela,Castaneda,4088543547,0,1,32
+297,Elena,Galindo,4085097721,0,1,33
+298,David ,Urena,6692853478,0,2,37,68
+299,Thanh,Bua,4088812617,0,1,38
+300,Gopal,Singh,4082302613,0,1,70
+301,Tran,Thai,4085208293,0,0
+302,Cyntia,Keene,4083969447,0,0
+303,Francisco,Solorio,4087266014,0,1,40
+304,Alan ,Vu,4159969496,0,2,41,46
+305,Lupita,Martinez,4089124156,0,1,47
+306,Huy,Trinh,4086614914,0,0
+307,Juan,Armenta,4085901739,0,0
+308,Barney,Tomacder,4086676973,0,0
+309,Maria,Hernandez,4086554077,0,1,54
+310,Claudia,Robledo,4086485102,0,1,55
+311,Jaqueline,Samudio,4088243719,0,1,58
+312,David,Pena,4086561108,0,1,62
+313,Margie,Ddavis,4088960256,0,1,64
+314,Hugo,Tacos,4089383139,0,0
+315,Raul,Armamnento,4088364405,0,0
+316,Luis,Alonso,4086405842,0,2,65,81
+317,Sandra,Moran,6692458257,0,1,67
+318,Mguel,Aguilar,2047614,0,1,72
+319,Celeste,Ramires,4083935649,0,1,74
+320,Chery,Caspe,8177743704,0,0
+321,Sanchez,Elizaberth,4088935020,0,1,76
+322,Sergio,Sandoval,4159883776,0,0
+323,Anh,Le,4082411552,0,1,78
+324,Pedro,Cruz,4085404338,0,0
+325,Ana,Cisnero,4084895658,0,1,80
+326,Jose,Limon,0000000000,0,1,84
+327,Eddie,Hernandez,4086231395,0,1,85
