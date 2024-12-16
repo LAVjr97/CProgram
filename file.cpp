@@ -92,6 +92,8 @@ void File::saveOrders(orderInfo::order &order){
 
     size_t outerVectorSize = laundry.size(), innerVectorSize;
     std::ofstream ofs(this->orderFile.c_str(), std::ios::app);
+    // int curOrderID = order.getOrderID();
+    // if(order.getCustomerID() != customers[orders[curOrderID].getCustomerID()].getCustomerOrderID())
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";

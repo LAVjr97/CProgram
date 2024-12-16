@@ -399,6 +399,7 @@ void MainWindow::on_btnDropOff_clicked(){
     dateDPickUpDP->hide();
     ui->btnOneRecieptDP->setEnabled(false);
     ui->btnTwoRecieptDP->setEnabled(false);
+    curOrderID = orders.size();
     showDropOffPage();
 }
 
@@ -554,11 +555,14 @@ void MainWindow::on_btnCIPDP_clicked(){
 void MainWindow::on_btnReturn_clicked(){
     showMainPage();
     //If customer information was pulled up but nothing was added to order, delete order
-    if(!lineFNameDP ->text().isEmpty() || (!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled())){
+    //if(!lineFNameDP ->text().isEmpty() || (!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled())){
     //if(!lineFNameDP ->text().isEmpty() && ui->btnOneRecieptDP->isEnabled()){
-        orders.pop_back();
-        curOrderID--;
-    }
+      //  orders.pop_back();
+        //curOrderID--;
+    //}
+
+
+    curOrderID = -1;
 
     //Clear
     customer.clear();
@@ -599,6 +603,9 @@ void MainWindow::on_btnReturnCSR_clicked(){
 void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
     cust::customer* temp = customer[index.row()];
     curOrderID = orders.size();
+
+    if(orders[curOrderID - 1].getOrderID() == curOrderID)
+        curOrderID;
 
     modelCSR -> removeRows(0, modelCSR -> rowCount());
 
