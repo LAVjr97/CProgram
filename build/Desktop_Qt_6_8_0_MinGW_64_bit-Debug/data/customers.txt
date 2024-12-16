@@ -15,7 +15,7 @@
 14,Denice,Johnson,4089216343,0,0
 15,Jose ,Robledo,4083327575,0,0
 16,Jose ,Grimaldo,4085280845,0,0
-17,Luis,Villalta,4086742579,0,5,0,1,2,3,4
+17,Luis,Villalta,4086742579,0,6,0,1,2,3,4,5
 18,Alex,Gonzalez,4086612413,0,0
 19,Rosa,Gonzalez,4087727503,0,0
 20,Francisco,Fonzalez,4089250154,0,0
@@ -118,7 +118,7 @@
 117,Juan,Avelar,4086487329,0,0
 118,Miguel,Favela,4084833294,0,0
 119,Frank,Hernandez,4082216341,0,0
-120,Jesus,Flores,4089310735,0,0
+120,Jesus,Flores,4089310735,0,1,6
 121,Flor,Romano,4083842495,0,0
 122,Mauricio,Salazar,4087990171,0,0
 123,Justine,Darden,4082349463,0,0
@@ -206,7 +206,7 @@
 205,Gael,Rodriguez,4085323122,0,0
 206,Maria,Corona,4082174305,0,0
 207,Kenny,Buttler,6692854085,0,0
-208,Vicente,Flores,4088211398,0,0
+208,Vicente,Flores,4088211398,0,1,7
 209,Huong,Nguyen,4084206448,0,0
 210,Jesus,Gutierrez,6693698671,0,0
 211,Ricardo,Camarena,4083032811,0,0

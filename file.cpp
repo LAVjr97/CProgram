@@ -179,6 +179,35 @@ void File::saveOrders(orderInfo::order &order){
     logger->log("Successfully saved order data...");
 }
 
+/*void File::checkOrderID(int curOrderID){
+    int n, orderID, customerID;
+    bool flag;
+    std::string line, temp;
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry;
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean;
+    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations;
+
+    std::ifstream ifs(this->orderFile.c_str());
+
+    if (!ifs) {
+        std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
+        logger->log("In loadOrders(): Error opening file to write to: " + this->orderFile);
+        return;
+    }
+
+    while (std::getline(ifs, line)) {
+        std::stringstream ss(line);
+
+        std::getline(ss, temp, ',');
+        orderID = std::stoi(temp);
+        std::getline(ss, temp, ',');
+        customerID = std::stoi(temp);
+        if(orderID)
+
+    }
+}
+*/
+
 void File::loadOrders() {
     int n, orderID, customerID, rack, pieceTotal, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin;
     double cost, price, discount, discountedCost, deposit;

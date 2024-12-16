@@ -400,6 +400,7 @@ void MainWindow::on_btnDropOff_clicked(){
     ui->btnOneRecieptDP->setEnabled(false);
     ui->btnTwoRecieptDP->setEnabled(false);
     curOrderID = orders.size();
+    order.clear();
     showDropOffPage();
 }
 
@@ -431,7 +432,8 @@ void MainWindow::on_btnCustomer_clicked()
     if(!order.empty()){ //bug might be here
         orders.pop_back();
         order.clear();
-        curOrderID = NULL;
+        curOrderID = -1;
+        clearScreenDP();
     }
 
     lineSearchCustomerCS->setFocus();
@@ -603,10 +605,6 @@ void MainWindow::on_btnReturnCSR_clicked(){
 void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
     cust::customer* temp = customer[index.row()];
     curOrderID = orders.size();
-
-    if(orders[curOrderID - 1].getOrderID() == curOrderID)
-        curOrderID;
-
     modelCSR -> removeRows(0, modelCSR -> rowCount());
 
     customer.clear();
@@ -614,11 +612,16 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
 
     lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner
 
+    if(orders[curOrderID - 1].getOrderID() == curOrderID){
+        std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getOrderID()) + " Occured in 'on_tableViewCSR_clicked'";
+        manager->logger->log(message);
+        handleCritcalError();
+    }
+
     //Add order to orders
     orders.emplace_back(customer[0]->getCustomerID(), curOrderID);
     order.clear();
     order.push_back(&orders[curOrderID]);
-
     updateCOInformationDP();
 
     showDropOffPage();
@@ -661,6 +664,12 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     customers.emplace_back(customerID, firstName, lastName, phone);
     customer.clear();
     customer.push_back(&customers[customerID]); //contains only the customer that will be worked on
+
+    if(orders[curOrderID - 1].getOrderID() == curOrderID){
+        std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getOrderID()) + " Occured in 'on_tableViewCSR_clicked'";
+        manager->logger->log(message);
+        handleCritcalError();
+    }
 
     //Creating a new order object
     orders.emplace_back(customerID, curOrderID);
@@ -841,7 +850,7 @@ void MainWindow::on_btnSavePU_clicked(){
 
     customer.clear();
     order.clear();
-    curOrderID = NULL;
+    curOrderID = -1;
 
     showMainPage();
     clearScreenPU();
