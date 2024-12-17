@@ -40,6 +40,8 @@ namespace fi{
 
             void checkAndCreateFile(const std::string& filename);
 
+            void checkOrderIDs();
+
             std::string customerFile;
             std::string orderFile;
             std::string priceFile;

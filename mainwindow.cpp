@@ -481,7 +481,6 @@ void MainWindow::on_btnSaveDP_clicked()
     saveModel(modelDP);
     updateModel(modelDP);
 
-
     linePieceTotalDP->setText(QString::number(order[0]->getPieceTotal()));
     lineOrderSubTotalDP->setText(QString::number(order[0]->getCost(), 'f', 2));
     lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
