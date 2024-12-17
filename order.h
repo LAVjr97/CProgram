@@ -68,7 +68,7 @@ namespace orderInfo{
             double calculateCostO();
             int calculatePieceTotal();
             double applyDiscount();
-
+            bool verifyOrderIDs();
 
             //order& operator=(const order& other);
 
