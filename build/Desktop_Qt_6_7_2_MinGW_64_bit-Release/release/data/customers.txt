@@ -1,4 +1,4 @@
-0,Jania,Parrales,4085936049,0,1,52
+0,Jania,Parrales,4085936049,0,2,52,144
 1,Juan,Viramonte,4088931612,0,0
 2,Silvia,Villavicencio,6508691929,0,0
 3,Roberto,Aguirre,4086979707,0,0
@@ -14,7 +14,7 @@
 13,Oscar,Ducusin,4085097598,0,0
 14,Denice,Johnson,4089216343,0,0
 15,Jose ,Robledo,4083327575,0,0
-16,Jose ,Grimaldo,4085280845,0,0
+16,Jose ,Grimaldo,4085280845,0,1,136
 17,Luis,Villalta,4086742579,0,3,1,24,25
 18,Alex,Gonzalez,4086612413,0,1,44
 19,Rosa,Gonzalez,4087727503,0,0
@@ -24,7 +24,7 @@
 23,Silvia,Aguilar,4082345158,0,0
 24,Gina,Sanchez,6692959652,0,0
 25,Antonio,Castillo,4083168683,0,0
-26,Erick,Vargas,0000,0,0
+26,Erick,Vargas,0000,0,1,138
 27,Petra,Medina,4088244084,0,0
 28,Bryan,Martinez,4084839975,0,0
 29,Vu,Thinh,4084895074,0,0
@@ -54,13 +54,13 @@
 53,Ubaldo,Valencia,408696529,0,2,29,76
 54,Darshan,Singh,4083906194,0,0
 55,Teresa,Valdez,2522001620,0,0
-56,Jairo,Lopes,4089036445,0,0
+56,Jairo,Lopes,4089036445,0,1,146
 57,Luis,Corona,6692104331,0,0
 58,Silvia,Jimenes,4086494347,0,0
 59,Alexander,Jimenez,4087242977,0,0
 60,Silvia,Cardenas,4082309925,0,0
 61,Antonio,Hernandez,5596794266,0,0
-62,Jose,Millan,4088306340,0,0
+62,Jose,Millan,4088306340,0,1,135
 63,Guadalupe,Rodrigues,4084696444,0,0
 64,Laura,Corona,4084174090,0,0
 65,Jerry,Marcial,4087914613,0,1,73
@@ -79,15 +79,15 @@
 78,Guillermo,Olmedo,4082955441,0,0
 79,Phillip,Manithep,4085610460,0,0
 80,Mario,Esteves,7074946252,0,0
-81,Rosa,Esparza,4084834890,0,0
+81,Rosa,Esparza,4084834890,0,1,130
 82,Dyana,Huaraz,6508345157,0,0
 83,Garry,Church,4088785792,0,0
 84,Roberto,Plancarte,4087086640,0,0
 85,Luis,Caro,4085936490,0,0
-86,Albert,Candelaria,4083963736,0,0
+86,Albert,Candelaria,4083963736,0,1,120
 87,Rigo,Medina,4088346994,0,0
 88,Noel,Serrano,4086242987,0,0
-89,Arturo,Alvarado,6692199176,0,1,0
+89,Arturo,Alvarado,6692199176,0,2,0,131
 90,Marcus,Parker,6506175227,0,0
 91,Maria,Escalante,4083008990,0,0
 92,Cato,Moctezuma,40821071878,0,0
@@ -109,7 +109,7 @@
 108,Serrano,Oscar,4088541536,0,0
 109,David,Cabrera,4085922535,0,0
 110,Lazaro,Valencia,4083869162,0,0
-111,Fernanddo,Torres,4086489887,0,0
+111,Fernanddo,Torres,4086489887,0,1,121
 112,Ana ,Mauga,4084781707,0,0
 113,Antonio,Cardenas,4088433824,0,0
 114,Maria,Lopes,4086662698,0,0
@@ -117,7 +117,7 @@
 116,Jose,Martinez,4086607841,0,0
 117,Juan,Avelar,4086487329,0,1,6
 118,Miguel,Favela,4084833294,0,0
-119,Frank,Hernandez,4082216341,0,1,74
+119,Frank,Hernandez,4082216341,0,2,74,132
 120,Jesus,Flores,4089310735,0,0
 121,Flor,Romano,4083842495,0,0
 122,Mauricio,Salazar,4087990171,0,0
@@ -161,11 +161,11 @@
 160,Deon,Galicinao,4083060967,0,0
 161,Naser,Khan,0,0,0
 162,Everett,Randolph,4088194149,0,0
-163,Edgardop,Camarena,6692515479,0,0
+163,Edgardop,Camarena,6692515479,0,1,139
 164,Uma,Sharma,000,0,0
 165,Sergio,Rodriguez,4089663047,0,1,48
 166,Rudy,Afuola,4084012391,0,0
-167,Cesar,Tronco,6503389469,0,0
+167,Cesar,Tronco,6503389469,0,1,117
 168,Andres,Eusebio,4083985720,0,1,102
 169,Norie,Gabatino,4088020367,0,0
 170,Erick,Corona,4084605043,0,0
@@ -218,7 +218,7 @@
 217,Jose,Ortiz,8313158033,0,0
 218,Reynaldo,Estrada,4089100067,0,0
 219,Edgardo,Camacho,4082025932,0,0
-220,Alan,Garcia,4087025042,0,0
+220,Alan,Garcia,4087025042,0,1,140
 221,Moises,Viramontez,4087572401,0,0
 222,Rosa,Garcia,4087262018,0,0
 223,Alex,Urive,4086236154,0,0
@@ -262,14 +262,14 @@
 261,Rachael,Garcia,5108675202,0,1,50
 262,Adela,Maldonado,4088296304,0,0
 263,Lourdes,Medal,4086058178,0,1,43
-264,Daniel,Borca,4084821674,0,0
+264,Daniel,Borca,4084821674,0,1,115
 265,Agustin,Arroyo,9709149007,0,0
 266,Jorge,Guerrero,4087571123,0,0
 267,Alfonso,Plancarte,4088236488,0,0
 268,Alberto,Salinas,4087575079,0,0
 269,Petriuk,P.,4086376550,0,0
 270,Junior,Loia,4089915304,0,0
-271,Jose,Robledo,6692397587,0,0
+271,Jose,Robledo,6692397587,0,1,146
 272,Rudy,Diaz,4082158526,0,1,30
 273,Juan,Sanchez,4084225191,0,0
 274,Mai,Nguyen,4087507934,0,0
@@ -317,7 +317,7 @@
 316,Luis,Alonso,4086405842,0,2,65,82
 317,Sandra,Moran,6692458257,0,1,67
 318,Mguel,Aguilar,2047614,0,1,72
-319,Celeste,Ramires,4083935649,0,1,75
+319,Celeste,Ramires,4083935649,0,2,75,136
 320,Chery,Caspe,8177743704,0,0
 321,Sanchez,Elizaberth,4088935020,0,1,77
 322,Sergio,Sandoval,4159883776,0,0
@@ -341,3 +341,20 @@
 340,Christina,Navarro,4083867261,0,1,112
 341,Saul,Casillas,4085440357,0,1,113
 342,Paul,Tautolo,4089123313,0,1,114
+343,Jaqueline,Gonzalez,4084838629,0,0
+344,Jhon,Cantu,4088587444,0,1,116
+345,Jarde,Cariaga,4086038345,0,1,118
+346,Conie,Dove,4082041843,0,1,119
+347,Jerry,Lewis,4083329448,0,1,122
+348,Eloisa,Garcia,5107065885,0,1,122
+349,Jd,Sharma,4082036731,0,1,123
+350,Robert,Vergara,4083866067,0,1,124
+351,Carolina,Osorio,4087599327,0,1,125
+352,Gil,Velasquez,4085940122,0,1,128
+353,Autorepair,J&c,4089816487,0,1,129
+354,Nar,Adriano,4087993812,0,1,132
+355,Ana,Rivera,4082308886,0,1,133
+356,Juan,Carrillo,5103557960,0,1,134
+357,Hue,Nguyen,4088134783,0,1,137
+358,Javier,Rivera,4087262204,0,1,140
+359,Francisco,Morales,4084396914,0,1,145

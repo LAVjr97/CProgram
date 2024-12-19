@@ -1,0 +1,11 @@
+2024-12-19_11-45-11 - Successfully loaded price data...
+2024-12-19_11-45-11 - Successfully loaded customer data...
+2024-12-19_11-45-11 - Successfully loaded order data...
+2024-12-19_11-50-43 - Updated customer file successfully, Customer ID: 198, Customer Name: Juan Villa
+2024-12-19_11-50-43 - Updated order file successfully, Order ID: 11, Customer ID: 198, Customer Name: Juan Villa
+2024-12-19_11-51-40 - Updated customer file successfully, Customer ID: 306, Customer Name: Huy Trinh
+2024-12-19_11-51-40 - Updated order file successfully, Order ID: 90, Customer ID: 306, Customer Name: Huy Trinh
+2024-12-19_11-55-18 - Updated customer file successfully, Customer ID: 179, Customer Name: Salvador Rojas
+2024-12-19_11-55-18 - Updated order file successfully, Order ID: 106, Customer ID: 179, Customer Name: Salvador Rojas
+2024-12-19_12-13-01 - Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: 116 Object OrderID: 115
+2024-12-19_12-13-01 - File will be saved as a new log!

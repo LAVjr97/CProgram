@@ -1,0 +1,30 @@
+2024-12-19_09-30-49 - Successfully loaded price data...
+2024-12-19_09-30-49 - Successfully loaded customer data...
+2024-12-19_09-30-49 - Successfully loaded order data...
+2024-12-19_09-40-46 - Successfully saved order data...
+2024-12-19_09-40-46 - Updated customer file successfully, Customer ID: 0, Customer Name: Jania Parrales
+2024-12-19_09-40-46 - 2 Reciepts printed
+2024-12-19_09-40-46 - Two reciepts printed, order saved
+2024-12-19_10-24-42 - Successfully saved customer data...
+2024-12-19_10-25-01 - Successfully saved order data...
+2024-12-19_10-25-01 - Updated customer file successfully, Customer ID: 359, Customer Name: Francisco Morales
+2024-12-19_10-25-01 - 2 Reciepts printed
+2024-12-19_10-25-01 - Two reciepts printed, order saved
+2024-12-19_10-29-33 - Successfully saved order data...
+2024-12-19_10-29-33 - Updated customer file successfully, Customer ID: 271, Customer Name: Jose Robledo
+2024-12-19_10-29-33 - 2 Reciepts printed
+2024-12-19_10-29-33 - Two reciepts printed, order saved
+2024-12-19_10-38-53 - Successfully saved order data...
+2024-12-19_10-38-53 - Updated customer file successfully, Customer ID: 56, Customer Name: Jairo Lopes
+2024-12-19_10-38-53 - 2 Reciepts printed
+2024-12-19_10-38-53 - Two reciepts printed, order saved
+2024-12-19_10-49-41 - Updated customer file successfully, Customer ID: 342, Customer Name: Paul Tautolo
+2024-12-19_10-49-41 - Updated order file successfully, Order ID: 114, Customer ID: 342, Customer Name: Paul Tautolo
+2024-12-19_11-22-27 - Updated customer file successfully, Customer ID: 328, Customer Name: Antony Mesquita
+2024-12-19_11-22-27 - Updated order file successfully, Order ID: 88, Customer ID: 328, Customer Name: Antony Mesquita
+2024-12-19_11-24-52 - Updated customer file successfully, Customer ID: 334, Customer Name: Hector Solorio
+2024-12-19_11-24-52 - Updated order file successfully, Order ID: 99, Customer ID: 334, Customer Name: Hector Solorio
+2024-12-19_11-29-56 - Updated customer file successfully, Customer ID: 337, Customer Name: Salvador Sandoval
+2024-12-19_11-29-56 - Updated order file successfully, Order ID: 105, Customer ID: 337, Customer Name: Salvador Sandoval
+2024-12-19_11-31-38 - Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: 118 Object OrderID: 117
+2024-12-19_11-31-38 - File will be saved as a new log!
