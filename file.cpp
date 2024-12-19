@@ -180,7 +180,7 @@ void File::saveOrders(orderInfo::order &order){
 }
 
 int File::checkOrderIDs(){
-    int n, prevOrderID = 0, curOrderID = 0, prevCustomerID = 0, curCustomerID = 0;
+    int prevOrderID = 0, curOrderID = 0, prevCustomerID = 0, curCustomerID = 0;
     int errors = 0;
     std::string line, temp;
 
@@ -353,7 +353,7 @@ void File::loadOrders() {
 
 //random functions to go to certain customers to update.
 void File::updateOrder(const int id){
-    std::string current, line;
+    std::string currentID, currentCustomerID, line;
     bool found = false;
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = orders[id].getLaundry();
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean = orders[id].getDryClean();
@@ -363,8 +363,7 @@ void File::updateOrder(const int id){
 
     std::ifstream ifs(this->orderFile.c_str());
     std::ofstream tempF(this->tempOrderFile.c_str());
-
-    if(orders[id].getCustomerID() )
+    int customerID = orders[id].getCustomerID();
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
@@ -380,9 +379,10 @@ void File::updateOrder(const int id){
 
     while(std::getline(ifs, line)){
         std::stringstream ss(line);
-        std::getline(ss, current, ',');
+        std::getline(ss, currentID, ',');
+        std::getline(ss, currentCustomerID, ',');
 
-        if(std::stoi(current) == id && !found){
+        if(std::stoi(currentID) == id && std::stoi(currentCustomerID) == customerID && !found){
             found = true;
 
             tempF   << orders[id].getOrderID() << ","
@@ -410,6 +410,7 @@ void File::updateOrder(const int id){
                     << orders[id].pickUp->getHour() << ","
                     << orders[id].pickUp->getMin() << ","
                     << orders[id].pickUp->getAm_Pm() << ",";
+
             //Laundry
             tempF << outerVectorSize;
             for (const auto& innerVector : laundry) {

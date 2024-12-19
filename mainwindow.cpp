@@ -399,7 +399,6 @@ void MainWindow::on_btnDropOff_clicked(){
     dateDPickUpDP->hide();
     ui->btnOneRecieptDP->setEnabled(false);
     ui->btnTwoRecieptDP->setEnabled(false);
-    curOrderID = orders.size();
     order.clear();
     showDropOffPage();
 }
@@ -407,6 +406,7 @@ void MainWindow::on_btnDropOff_clicked(){
 void MainWindow::on_btnPickUp_clicked(){
     dateDTDropOffPU->hide();
     dateDPickUpPU->hide();
+    order.clear();
     showPickUpPage();
 }
 
@@ -415,6 +415,7 @@ void MainWindow::on_btnEditOrder_clicked(){
     dateDPickUpEO->hide();
     ui->btnOneRecieptEO->setEnabled(false);
     ui->btnTwoRecieptEO->setEnabled(false);
+    order.clear();
     showEditOrderPage();
 }
 
@@ -434,6 +435,8 @@ void MainWindow::on_btnCustomer_clicked()
         order.clear();
         curOrderID = -1;
         clearScreenDP();
+
+
     }
 
     lineSearchCustomerCS->setFocus();

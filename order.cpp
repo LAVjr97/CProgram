@@ -17,9 +17,6 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
     this->discountedCost = 0.00;
     this->deposit = 0.00;
 
-    // laundryO.resize(1);
-    // dryCleanO.resize(1);
-    // alterationsO.resize(1);
     laundry.resize(1);
     dryClean.resize(1);
     alterations.resize(1);
