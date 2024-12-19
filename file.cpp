@@ -179,34 +179,39 @@ void File::saveOrders(orderInfo::order &order){
     logger->log("Successfully saved order data...");
 }
 
-/*void File::checkOrderID(int curOrderID){
-    int n, orderID, customerID;
-    bool flag;
+int File::checkOrderIDs(){
+    int n, prevOrderID = 0, curOrderID = 0, prevCustomerID = 0, curCustomerID = 0;
+    int errors = 0;
     std::string line, temp;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations;
 
     std::ifstream ifs(this->orderFile.c_str());
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
         logger->log("In loadOrders(): Error opening file to write to: " + this->orderFile);
-        return;
+        return -1;
     }
 
     while (std::getline(ifs, line)) {
+        prevOrderID = curOrderID;
+        prevCustomerID = curCustomerID;
+
         std::stringstream ss(line);
-
         std::getline(ss, temp, ',');
-        orderID = std::stoi(temp);
+        curOrderID = std::stoi(temp);
+        curCustomerID = std::stoi(temp);
         std::getline(ss, temp, ',');
-        customerID = std::stoi(temp);
-        if(orderID)
 
+        if(curOrderID == prevOrderID){
+            errors++;
+            std::string message = "Matching orderIDs found: " + std::to_string(curOrderID) + ", Current Customer ID: " + std::to_string(curCustomerID) + ", Previous Customer ID:" + std::to_string(prevCustomerID);
+            logger->log(message);
+        }
     }
+
+    return errors;
 }
-*/
+
 
 void File::loadOrders() {
     int n, orderID, customerID, rack, pieceTotal, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin;

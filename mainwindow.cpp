@@ -839,6 +839,13 @@ void MainWindow::on_btnSavePU_clicked(){
         handleCritcalError();
     }
 
+    int errors = manager->checkOrderIDs();
+    if(errors != 0){
+        std::string logmsg = "Critical Error in Saving Edited Order! Error in File, there are multiple matches of differnt orderIDs: " + std::to_string(errors) + " times";
+        manager->logger->log(logmsg);
+        handleCritcalError();
+    }
+
     orders[curOrderID].setPaid(checkBoxPaidPU->isChecked());
     orders[curOrderID].setPickUp(checkBoxPUPU->isChecked());
 
@@ -1050,6 +1057,13 @@ void MainWindow::on_btnSaveEO_clicked(){
         handleCritcalError();
     }
 
+    int errors = manager->checkOrderIDs();
+    if(errors != 0){
+        std::string logmsg = "Critical Error in Saving Edited Order! Error in File, there are multiple matches of differnt orderIDs: " + std::to_string(errors) + " times";
+        manager->logger->log(logmsg);
+        handleCritcalError();
+    }
+
     std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID);
     std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
     threadOrder.join();
@@ -1227,7 +1241,6 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
         manager->logger->log(logmsg);
         handleCritcalError();
     }
-
     order.push_back(&orders[curOrderID]);
     updateCOInformationEO();
     updateModel(modelEO);
