@@ -37,7 +37,7 @@
 36,Jose,Rodrigues,4086674558,0,1,34
 37,Jose,Torres,4085189800,0,1,92
 38,Julio,Fuentes,4086557504,0,0
-39,Susana,Rodrigues,4083645990,0,0
+39,Susana,Rodrigues,4083645990,0,1,151
 40,Ildelisa,Hernandez,4082505101,0,0
 41,Le,Ann,4083865465,0,0
 42,Ana,Torres,6692386135,0,0
@@ -358,3 +358,5 @@
 357,Hue,Nguyen,4088134783,0,1,139
 358,Javier,Rivera,4087262204,0,1,143
 359,Francisco,Morales,4084396914,0,1,145
+360,Ivett,Colorado,4086406047,0,1,148
+361,Indru,Bhatia,4082068215,0,1,149
