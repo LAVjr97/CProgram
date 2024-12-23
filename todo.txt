@@ -1,15 +1,19 @@
 <DONE>Fix Reciepts ->  align order ID at the top, align dry cleaner's name, align prices so its all the way to the left and lines up with total at the bottom, add total pieces.
 Add ability to edit customer information -> edit name, number etc...
 Change file saves to binary -> Make the program run faster
-Add threads -> under save and load customers/orders. Assign threads to portions of the array etc...
+<DONE> Add threads -> under save and load customers/orders. Assign threads to portions of the array etc...
 (Sort of added) Add ability to create new categories of article types -> Long term goal is to allow for the creation of articles wherever in the stack
-Create tabbed widget for order options -> create a tabbed widget to house the drop off options, laundry, dry clean, and alterations for faster access to all of them, save will save the entire table and will display the current items in the order
+<DONE> Create tabbed widget for order options -> create a tabbed widget to house the drop off options, laundry, dry clean, and alterations for faster access to all of them, save will save the entire table and will display the current items in the order
 Add comments -> readme, change variable names
-Allow for further custimization -> shop name, shop number etc...
-<DONEChange so that the item type is stored by pos -> Type name is no longer dependent on the first piece in prices vector.
-<DONEAdd picked up status and piece total to order search page by customer name -> use check box to show if it has been picked up and the piece total
-<DONE>Update items and prices, so if price is 0 and line edit is filled, nothing will be added. Make sure that that even if 5.00 is being added, that the ".00" appears.
-Discount -> Make a popo up that takes a percentage
+---Allow for further custimization -> shop name, shop number etc...
+<DONE> Change so that the item type is stored by pos -> Type name is no longer dependent on the first piece in prices vector.
+<DONE> Add picked up status and piece total to order search page by customer name -> use check box to show if it has been picked up and the piece total
+<DONE> Update items and prices, so if price is 0 and line edit is filled, nothing will be added. Make sure that that even if 5.00 is being added, that the ".00" appears.
+<DONE> Discount -> Make a popo up that takes a percentage
 Deposit -> allow for deposits to be made and make a boolean if there is a deposit
-Fix Model so when an article is added that has the same name, price but different number, only the number is updated.
-Change Price System -> Sp the category takes control, the article name is just a description of what it is. So on a reciept it will look like "5 Pants<Article Type> Jeans<Article Name> Price", Allow for empty names so on the reciept it will just look like, "5 Pants<Article Type> Jeans Price"
+<DONE> Fix Model so when an article is added that has the same name, price but different number, only the number is updated.
+<DONE> Change Price System -> Sp the category takes control, the article name is just a description of what it is. So on a reciept it will look like "5 Pants<Article Type> Jeans<Article Name> Price", Allow for empty names so on the reciept it will just look like, "5 Pants<Article Type> Jeans Price"
+
+prevOrderID = orders[curOrderID - 1]; 
+if(curOrderID - 1 != prevOrderID)
+    curOrderID = prevOrderID++;
