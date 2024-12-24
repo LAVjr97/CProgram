@@ -18,11 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     //Debug uses main folder, where source files are located, change file locations to just "[...].txt"
 
     //Setting up database
-<<<<<<< Updated upstream
-    ///*
-=======
-   // /*
->>>>>>> Stashed changes
     std::string customerFile = "./data/customers.txt";
     std::string orderFile = "./data/orders.txt";
     std::string priceFile = "./data/prices.txt";
