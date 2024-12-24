@@ -621,7 +621,7 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
             curOrderID = prevOrderID++;
 
         if(orders[curOrderID - 1].getOrderID() == curOrderID){
-            std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getCustomerID()) + " Occured in 'on_tableViewCSR_clicked'";
+            std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getCustomerID()) + ", Existing OrderID: " + std::to_string(orders[curOrderID - 1].getOrderID()) + " Occured in 'on_tableViewCSR_clicked'";
             manager->logger->log(message);
             handleCritcalError();
         }
