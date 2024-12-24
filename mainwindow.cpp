@@ -568,9 +568,11 @@ void MainWindow::on_btnReturn_clicked(){
       //  orders.pop_back();
         //curOrderID--;
     //}
-
-
-    curOrderID = -1;
+    /*
+    if(!lineFNameDP->text().isEmpty() && ui->btnOneRecieptDP->isEnabled()){
+        orders.pop_back();
+        curOrderID = -1;
+    }*/
 
     //Clear
     customer.clear();
@@ -618,11 +620,19 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
 
     lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner
 
-    if(orders[curOrderID - 1].getOrderID() == curOrderID){
-        std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getOrderID()) + " Occured in 'on_tableViewCSR_clicked'";
-        manager->logger->log(message);
-        handleCritcalError();
+    if(curOrderID != 0){
+        size_t prevOrderID = orders[curOrderID - 1].getOrderID();
+        if(curOrderID - 1 != prevOrderID)
+            curOrderID = prevOrderID++;
+
+        if(orders[curOrderID - 1].getOrderID() == curOrderID){
+            std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getCustomerID()) + " Occured in 'on_tableViewCSR_clicked'";
+            manager->logger->log(message);
+            handleCritcalError();
+        }
     }
+    else
+        manager->logger->log("CurOrderID was 0");
 
     //Add order to orders
     orders.emplace_back(customer[0]->getCustomerID(), curOrderID);
@@ -671,11 +681,20 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     customer.clear();
     customer.push_back(&customers[customerID]); //contains only the customer that will be worked on
 
-    if(orders[curOrderID - 1].getOrderID() == curOrderID){
-        std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getOrderID()) + " Occured in 'on_tableViewCSR_clicked'";
-        manager->logger->log(message);
-        handleCritcalError();
+    if(curOrderID != 0){
+        size_t prevOrderID = orders[curOrderID - 1].getOrderID();
+        if(curOrderID - 1 != prevOrderID)
+            curOrderID = prevOrderID++;
+
+        if(orders[curOrderID - 1].getOrderID() == curOrderID){
+            std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getCustomerID()) + " Occured in 'on_btnCreate_clicked'";
+            manager->logger->log(message);
+            handleCritcalError();
+        }
     }
+    else
+        manager->logger->log("CurOrderID was 0");
+
 
     //Creating a new order object
     orders.emplace_back(customerID, curOrderID);
@@ -848,9 +867,8 @@ void MainWindow::on_btnSavePU_clicked(){
 
     int errors = manager->checkOrderIDs();
     if(errors != 0){
-        std::string logmsg = "Critical Error in Saving Edited Order! Error in File, there are multiple matches of differnt orderIDs: " + std::to_string(errors) + " times";
+        std::string logmsg = "Critical Error in Saving Picked Up Order! Error in File, there are multiple matches of differnt orderIDs: " + std::to_string(errors) + " times";
         manager->logger->log(logmsg);
-        handleCritcalError();
     }
 
     orders[curOrderID].setPaid(checkBoxPaidPU->isChecked());
