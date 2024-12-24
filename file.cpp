@@ -180,7 +180,7 @@ void File::saveOrders(orderInfo::order &order){
 }
 
 int File::checkOrderIDs(){
-    int prevOrderID = 0, curOrderID = 0, prevCustomerID = 0, curCustomerID = -1;
+    int prevOrderID = 0, curOrderID = -1, prevCustomerID = 0, curCustomerID = -1;
     int errors = 0;
     std::string line, temp;
 

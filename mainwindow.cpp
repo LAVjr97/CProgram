@@ -563,11 +563,11 @@ void MainWindow::on_btnReturn_clicked(){
       //  orders.pop_back();
         //curOrderID--;
     //}
-    /*
-    if(!lineFNameDP->text().isEmpty() && ui->btnOneRecieptDP->isEnabled()){
+
+    if(!lineFNameDP->text().isEmpty()){
         orders.pop_back();
         curOrderID = -1;
-    }*/
+    }
 
     //Clear
     customer.clear();

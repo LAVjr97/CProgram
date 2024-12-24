@@ -4,5 +4,3 @@
 2024-12-23_18-23-14 - Matching orderIDs found: 0, Current Customer ID: 0, Previous Customer ID:-1
 2024-12-23_18-23-14 - Critical Error in Saving Edited Order! Error in File, there are multiple matches of differnt orderIDs: 1 times
 2024-12-23_18-23-14 - File will be saved as a new log!
-2024-12-23_18-23-15 - Updated customer file successfully, Customer ID: 155, Customer Name: Jesus Fletes
-2024-12-23_18-23-15 - Updated order file successfully, Order ID: 115, Customer ID: 155, Customer Name: Jesus Fletes
