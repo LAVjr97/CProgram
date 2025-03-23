@@ -87,6 +87,7 @@ private slots:
     void showOrderSearchResultsEO();
     void showAdminPage();
     void showItemsAndPricePage();
+    void showCustomerEditPage();
 
     //Main Page (0)
     void on_btnDropOff_clicked();
@@ -216,6 +217,14 @@ private slots:
     //Customer Data Page (20);
     //void on_btnReturnCD_clicked();
     //void on_tableViewCD_clicked(const QModelIndex &index);
+    
+    //Customer Edit Page (21)
+    void on_btnSaveCEP();
+    void on_btnReturnCEP();
+    void on_btnSearchCEP();
+    void updateCustomerInfoTable();
+    void clearScreenCEP();
+    void customerSetUpScreenCEP();
 
     //Help functions
     void clearScreenDP();
@@ -424,10 +433,17 @@ private:
 
     QStandardItemModel *modelCIP;
 
-    //Customer Data Page(20)
+    //Customer Data Page(?)
     QTableView *tableViewCustomerD;
     QStandardItemModel *modelCustomerD;
 
+    //Customer Edit Page (20)
+    QStandardItemModel *modelCEP;
+    QTableView *tableViewCustomerInfoCEP;
+    QLineEdit *lineFNameCEP;
+    QLineEdit *lineLNameCEP;
+    QLineEdit *linePhoneCEP;
+    QLineEdit *lineSearchCEP;
 
 };
 #endif // MAINWINDOW_H

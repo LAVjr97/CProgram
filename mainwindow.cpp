@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     std::string tempCustFile = "./data/tempCust.txt";
     std::string logFile = "./logs/log.txt";
     //*/
-    //Release versiom uses these file paths
+    //Release version uses these file paths
     /*
     std::string customerFile = "customers.txt";
     std::string orderFile = "orders.txt";
@@ -265,7 +265,6 @@ MainWindow::MainWindow(QWidget *parent)
     tableWidgetLaundryCIP->setColumnWidth(0, 300);
     tableWidgetLaundryCIP->setColumnWidth(1, 125);
 
-
     tableWidgetDryCleanCIP = ui->tableWidgetDryCleanCIP;
     tableWidgetDryCleanCIP->setColumnCount(2);
     tableWidgetDryCleanCIP->setColumnWidth(0, 300);
@@ -275,6 +274,23 @@ MainWindow::MainWindow(QWidget *parent)
     tableWidgetAlterationsCIP->setColumnCount(2);
     tableWidgetAlterationsCIP->setColumnWidth(0, 300);
     tableWidgetAlterationsCIP->setColumnWidth(1, 125);
+
+
+    //
+    //***Customer Edit Page (20)***
+    //
+    modelCEP = new QStandardItemModel(this);
+    modelCEP->setColumnCount(5);
+    modelCEP->setHorizontalHeaderLabels({"ID", "First Name", "Last Name", "Phone Number", "Number of Orders"});
+    
+    tableViewCustomerInfoCEP = ui->tableViewCustomerInfoCEP;
+    tableViewCustomerInfoCEP->setModel(modelCEP);
+    tableViewCustomerInfoCEP->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    lineFNameCEP = ui->lineFNameCEP;
+    lineLNameCEP = ui->lineLNameCEP;
+    linePhoneCEP = ui->linePhoneCEP; 
+    lineSearchCEP = ui->lineSearchCEP;
 
     showMainPage();
 }
@@ -389,6 +405,10 @@ void MainWindow::showItemsAndPricePage(){
     ui->stackedWidget->setCurrentIndex(19);
 }
 
+void MainWindow::showCustomerEditPage(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
+    ui->stackedWidget->setCurrentIndex(20);
+}
 
 //
 //***Main Home Page (0)***
@@ -1454,12 +1474,91 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
     tableWidget->setCellWidget(row, 1, newTypeLine);
 }
 
+//
+//***Customer Edit Page (21)***
+//
+
+void MainWindow::on_btnSaveCEP(){
+    
+}
+
+void MainWindow::on_btnReturnCEP(){
+    clearScreenCEP();
+    showAdminPage();
+}
+
+//Given a phone number 
+void MainWindow::on_btnSearchCEP(){
+    QString entryQ;
+    std::string entry;
+
+    entryQ = lineSearchCEP->text();
+    if(entryQ.isEmpty())
+        return;
+
+    entry = entryQ.toStdString();
+
+    if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
+        customer = search::Search::searchCustAlgo(entry, this->customers);
+
+    if(customer.empty())
+        return;
+    
+    updateCustomerInfoTable();
+}
+
+
+void MainWindow::updateCustomerInfoTable(){
+    size_t i;
+
+    for(i = 0; i < customer.size(); i++){
+        QStandardItem *id = new QStandardItem(QString::number(customer[i]->getCustomerID()));
+        id->setTextAlignment(Qt::AlignCenter);
+
+        QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
+        firstNameItem->setTextAlignment(Qt::AlignCenter);
+
+        QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
+        lastNameItem->setTextAlignment(Qt::AlignCenter);
+
+        QStandardItem *phoneItem = new QStandardItem(QString::fromStdString(customer[i]->getFormattedPhone()));
+        phoneItem->setTextAlignment(Qt::AlignCenter);
+
+        QStandardItem *visits = new QStandardItem(QString::number(customer[i]->getVisit()));
+        visits->setTextAlignment(Qt::AlignCenter);
+
+        modelCEP->setItem(i, 0, id);
+        modelCEP->setItem(i, 1, firstNameItem);
+        modelCEP->setItem(i, 2, lastNameItem);
+        modelCEP->setItem(i, 3, phoneItem);
+        modelCEP->setItem(i, 4, visits);
+    }  
+}
+
+void MainWindow::clearScreenCEP(){
+    modelCEP -> removeRows(0, modelCEP -> rowCount());
+
+    lineFNameCEP->clear();
+    lineLNameCEP->clear();
+    linePhoneCEP->clear();
+    lineSearchCEP->clear();
+}
+
+void MainWindow::customerSetUpScreenCEP(){
+    QString entryQ;
+    std::string entry;
+    size_t i;
+
+    customer.clear();
+    modelCEP -> removeRows(0, modelCEP -> rowCount());
+}
 
 
 //
-//***Customer Data Page (20)***
+//***Customer Data Page ()***
 //
 //void
+
 
 
 //
