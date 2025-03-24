@@ -107,6 +107,32 @@ std::vector<orderInfo::order*> Search::searchOrderCustomerID(const std::string& 
     return order;
 }
 
+std::vector<cust::customer*> Search::copyVector(std::vector<cust::customer>& customers){
+    size_t i, end = customers.size();
+    std::vector<cust::customer*> customerCopy
+
+    for(i = 0; i < end; i++)
+        customerCopy.push_back(&customers[i]);
+    
+    return customerCopy;
+}
+
+/*
+bool Search::comp(std::string a, std::string b) {
+    return a > b;
+}
+
+std::vector<cust::customer*> Search::sortByLastName(std::vector<cust::customer>& customers){
+    std::vector<cust::customer*> customer;
+
+
+
+
+
+    return customer;
+}*/
+
+
 //Determining Functions
 bool Search::isNameWithSpace(const std::string& entry){
     size_t i;

@@ -65,6 +65,7 @@ public:
     std::vector<std::vector<std::pair<std::string, double>>> *dryCleanPrices;
     std::vector<std::vector<std::pair<std::string, double>>> *alterationsPrices;
     */
+   
 private slots:
     //Page Movement
     void showMainPage();

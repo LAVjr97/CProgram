@@ -1550,6 +1550,8 @@ void MainWindow::customerSetUpScreenCEP(){
     size_t i;
 
     customer.clear();
+    copyVector()
+    
     modelCEP -> removeRows(0, modelCEP -> rowCount());
 }
 
