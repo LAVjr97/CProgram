@@ -1308,6 +1308,11 @@ void MainWindow::on_btnCIP_clicked(){
     showItemsAndPricePage();
 }
 
+void MainWindow::on_btnCustomerAP_clicked(){
+    customerSetUpScreenCEP();
+    showCustomerEditPage();
+}
+
 void MainWindow::on_btnExportData_clicked(){
 
 }
@@ -1478,23 +1483,31 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
 //***Customer Edit Page (21)***
 //
 
-void MainWindow::on_btnSaveCEP(){
-    
+void MainWindow::on_btnSaveCEP_clicked(){
+    customer[0]->setFirstName(lineFNameCEP->text().toStdString());
+    customer[0]->setLastName(lineLNameCEP->text().toStdString());
+    customer[0]->setPhone(linePhoneCEP->text().toStdString());
+
+    std::thread threadCust(&fi::File::updateCustomer, manager, customer[0]->getCustomerID());
+
+    threadCust.join();
 }
 
-void MainWindow::on_btnReturnCEP(){
+void MainWindow::on_btnReturnCEP_clicked(){
     clearScreenCEP();
     showAdminPage();
 }
 
 //Given a phone number 
-void MainWindow::on_btnSearchCEP(){
+void MainWindow::on_btnSearchCEP_clicked(){
     QString entryQ;
     std::string entry;
 
     entryQ = lineSearchCEP->text();
-    if(entryQ.isEmpty())
+    if(entryQ.isEmpty()){
+        customerSetUpScreenCEP();
         return;
+    }
 
     entry = entryQ.toStdString();
 
@@ -1510,6 +1523,8 @@ void MainWindow::on_btnSearchCEP(){
 
 void MainWindow::updateCustomerInfoTable(){
     size_t i;
+
+    modelCEP -> removeRows(0, modelCEP -> rowCount());
 
     for(i = 0; i < customer.size(); i++){
         QStandardItem *id = new QStandardItem(QString::number(customer[i]->getCustomerID()));
@@ -1545,15 +1560,52 @@ void MainWindow::clearScreenCEP(){
 }
 
 void MainWindow::customerSetUpScreenCEP(){
-    QString entryQ;
     std::string entry;
     size_t i;
 
     customer.clear();
-    copyVector()
+    customer = search::Search::copyVector(customers);
     
     modelCEP -> removeRows(0, modelCEP -> rowCount());
+
+    for(i = 0; i < customer.size(); i++){
+        QStandardItem *id = new QStandardItem(QString::number(customer[i]->getCustomerID()));
+        id->setTextAlignment(Qt::AlignCenter);
+
+        QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
+        firstNameItem->setTextAlignment(Qt::AlignCenter);
+
+        QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
+        lastNameItem->setTextAlignment(Qt::AlignCenter);
+
+        QStandardItem *phoneItem = new QStandardItem(QString::fromStdString(customer[i]->getFormattedPhone()));
+        phoneItem->setTextAlignment(Qt::AlignCenter);
+
+        QStandardItem *visits = new QStandardItem(QString::number(customer[i]->getVisit()));
+        visits->setTextAlignment(Qt::AlignCenter);
+
+        modelCEP->setItem(i, 0, id);
+        modelCEP->setItem(i, 1, firstNameItem);
+        modelCEP->setItem(i, 2, lastNameItem);
+        modelCEP->setItem(i, 3, phoneItem);
+        modelCEP->setItem(i, 4, visits);
+    }
 }
+
+void MainWindow::on_tableViewCustomerInfoCEP_clicked(const QModelIndex &index){
+    cust::customer *temp = customer[index.row()];
+
+    customer.clear();
+    customer.push_back(temp);
+    modelCEP -> removeRows(0, modelCEP -> rowCount());
+
+    lineFNameCEP->setText(QString::fromStdString(customer[0]->getFirstName()));
+    lineLNameCEP->setText(QString::fromStdString(customer[0]->getLastName()));
+    linePhoneCEP->setText(QString::fromStdString(customer[0]->getPhone()));
+
+    updateCustomerInfoTable();
+}
+
 
 
 //

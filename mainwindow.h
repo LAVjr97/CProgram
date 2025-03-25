@@ -205,7 +205,9 @@ private slots:
     //Admin Page (18)
     void on_btnReturnAP_clicked();
     void on_btnCIP_clicked();
+    void on_btnCustomerAP_clicked();
     void on_btnExportData_clicked();
+
     //void on_btnCustomerData_clicked();
 
     //Create Items And Price (19)
@@ -220,12 +222,13 @@ private slots:
     //void on_tableViewCD_clicked(const QModelIndex &index);
     
     //Customer Edit Page (21)
-    void on_btnSaveCEP();
-    void on_btnReturnCEP();
-    void on_btnSearchCEP();
+    void on_btnSaveCEP_clicked();
+    void on_btnReturnCEP_clicked();
+    void on_btnSearchCEP_clicked();
     void updateCustomerInfoTable();
     void clearScreenCEP();
     void customerSetUpScreenCEP();
+    void on_tableViewCustomerInfoCEP_clicked(const QModelIndex &index);
 
     //Help functions
     void clearScreenDP();

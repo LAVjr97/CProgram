@@ -15,7 +15,7 @@
 14,Denice,Johnson,4089216343,0,0
 15,Jose ,Robledo,4083327575,0,0
 16,Jose ,Grimaldo,4085280845,0,0
-17,Luis,Villalta,4086742579,0,6,0,1,2,3,4,5
+17,Luis A,Villalta,4086742579,0,6,0,1,2,3,4,5
 18,Alex,Gonzalez,4086612413,0,0
 19,Rosa,Gonzalez,4087727503,0,0
 20,Francisco,Fonzalez,4089250154,0,0
@@ -101,7 +101,7 @@
 100,Edgar,Gabriel,4084061877,0,0
 101,Maria Elena,Guerrero,4084068059,0,0
 102,Sonia,Demarciales,4082173079,0,0
-103,Mauro,Rosales,4086259826,0,0
+103,Romero,Rosales,4086259826,0,0
 104,Cristal,Valdovinos,4086468170,0,0
 105,Elena,Robles,4087914568,0,0
 106,Ivett,Colorado,4086706047,0,0

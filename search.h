@@ -28,7 +28,8 @@ namespace search{
             static std::vector<orderInfo::order*> searchOrderID(const std::string& entry, std::vector<orderInfo::order> &orders);
             static std::vector<orderInfo::order*> searchOrderCustomerID(const std::string& entry, std::vector<orderInfo::order> &orders);
 
-            //Sort by Last Name 
+            //Sort by Last Name
+            static std::vector<cust::customer*> copyVector(std::vector<cust::customer>& customers);
             //bool Search::comp(std::string a, std::string b);
             //static std::vector<cust::customer*> sortByLastName(std::vector<cust::customer>& customers);
 

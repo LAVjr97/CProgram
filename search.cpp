@@ -109,7 +109,7 @@ std::vector<orderInfo::order*> Search::searchOrderCustomerID(const std::string& 
 
 std::vector<cust::customer*> Search::copyVector(std::vector<cust::customer>& customers){
     size_t i, end = customers.size();
-    std::vector<cust::customer*> customerCopy
+    std::vector<cust::customer*> customerCopy;
 
     for(i = 0; i < end; i++)
         customerCopy.push_back(&customers[i]);
