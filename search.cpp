@@ -1,4 +1,6 @@
 #include "search.h"
+#include "levenshtein.h"
+#include <QElapsedTimer>
 
 using namespace search;
 
@@ -38,11 +40,20 @@ std::vector<cust::customer*> Search::searchCustLastName(const std::string& entry
     std::vector<cust::customer*> customer;
     size_t i;
 
-    for (i = 0; i < customers.size(); i++) {
-        if (entry == customers[i].getLastName())
+    // for (i = 0; i < customers.size(); i++) {
+    //     if (entry == customers[i].getLastName())
+    //         customer.push_back(&customers[i]);
+
+    // }
+    // return customer;
+
+    QElapsedTimer timer;
+    timer.start();
+
+    for (i = 0; i < customers.size(); i++)
+        if (levenshteinDist(entry, customers[i].getLastName()) < 4)
             customer.push_back(&customers[i]);
 
-    }
     return customer;
 }
 std::vector<cust::customer*> Search::searchCustPhone(const std::string& entry, std::vector<cust::customer>& customers) {

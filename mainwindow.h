@@ -34,6 +34,9 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QStackedWidget>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QLineEdit>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

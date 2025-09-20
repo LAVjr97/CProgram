@@ -4096,17 +4096,17 @@
      <widget class="QWidget" name="widgetCustomerInfoCEP" native="true">
       <property name="geometry">
        <rect>
-        <x>440</x>
-        <y>90</y>
-        <width>1041</width>
+        <x>340</x>
+        <y>60</y>
+        <width>1211</width>
         <height>741</height>
        </rect>
       </property>
       <widget class="QWidget" name="verticalLayoutWidget_5">
        <property name="geometry">
         <rect>
-         <x>800</x>
-         <y>360</y>
+         <x>960</x>
+         <y>390</y>
          <width>160</width>
          <height>131</height>
         </rect>
@@ -4122,7 +4122,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>14</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="text">
@@ -4143,7 +4143,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>14</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="text">
@@ -4159,10 +4159,10 @@
       <widget class="QWidget" name="verticalLayoutWidget_6">
        <property name="geometry">
         <rect>
-         <x>710</x>
-         <y>200</y>
+         <x>880</x>
+         <y>260</y>
          <width>321</width>
-         <height>91</height>
+         <height>101</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayoutCustomerInfoCEP">
@@ -4170,33 +4170,66 @@
          <layout class="QFormLayout" name="formLayoutCustomerINfoCEP">
           <item row="0" column="0">
            <widget class="QLabel" name="lblFNameCEP">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>First Name:</string>
             </property>
            </widget>
           </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineFNameCEP">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="lblLNameCEP">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Last Name:</string>
             </property>
            </widget>
           </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineLNameCEP">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+           </widget>
+          </item>
           <item row="2" column="0">
            <widget class="QLabel" name="lblPhoneCEP">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Phone Number:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineFNameCEP"/>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineLNameCEP"/>
-          </item>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="linePhoneCEP"/>
+           <widget class="QLineEdit" name="linePhoneCEP">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -4205,15 +4238,20 @@
       <widget class="QWidget" name="verticalLayoutWidget_8">
        <property name="geometry">
         <rect>
-         <x>770</x>
-         <y>50</y>
-         <width>201</width>
+         <x>900</x>
+         <y>130</y>
+         <width>291</width>
          <height>101</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayoutSearchCEP">
         <item>
          <widget class="QLabel" name="labelSearchCEP">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Enter Last Name or Phone Number</string>
           </property>
@@ -4223,7 +4261,13 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineSearchCEP"/>
+         <widget class="QLineEdit" name="lineSearchCEP">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="btnSearchCEP">
@@ -4235,7 +4279,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>14</pointsize>
+            <pointsize>15</pointsize>
            </font>
           </property>
           <property name="cursor">
@@ -4256,9 +4300,14 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>691</width>
+         <width>851</width>
          <height>711</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
        </property>
       </widget>
      </widget>

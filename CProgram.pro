@@ -15,16 +15,23 @@ SOURCES += \
     customer.cpp \
     date.cpp \
     file.cpp \
+    levenshtein.cpp \
     logger.cpp \
     main.cpp \
     mainwindow.cpp \
     order.cpp \
-    search.cpp
+    search.cpp \
+    ui_admin.cpp \
+    ui_dropoff.cpp \
+    ui_init.cpp \
+    ui_pickup.cpp \
+    ui_util.cpp
 
 HEADERS += \
     customer.h \
     date.h \
     file.h \
+    levenshtein.h \
     logger.h \
     main.h \
     mainwindow.h \
