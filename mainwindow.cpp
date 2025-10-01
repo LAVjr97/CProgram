@@ -270,18 +270,14 @@ void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex
 
 
 void MainWindow::customerSearchPageSetUp(QTableView *tableView, QStandardItemModel *model, QLineEdit *lineSearch){
-    QString entryQ;
-    std::string entry;
-    size_t i;
-
     customer.clear();
     model -> removeRows(0, model -> rowCount());
 
-    entryQ = lineSearch->text();
+    QString entryQ = lineSearch->text();
     if(entryQ.isEmpty())
         return;
 
-    entry = entryQ.toStdString();
+    std::string entry = entryQ.toStdString();
 
     if(search::Search::isPhoneNumber(entry) || search::Search::isName(entry))
         customer = search::Search::searchCustAlgo(entry, this->customers);
@@ -289,7 +285,7 @@ void MainWindow::customerSearchPageSetUp(QTableView *tableView, QStandardItemMod
     if(customer.empty())
         return;
 
-    for(i = 0; i < customer.size(); i++){
+    for(size_t i = 0; i < customer.size(); i++){
         QStandardItem *firstNameItem = new QStandardItem(QString::fromStdString(customer[i]->getFirstName()));
         firstNameItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *lastNameItem = new QStandardItem(QString::fromStdString(customer[i]->getLastName()));
@@ -432,11 +428,10 @@ void MainWindow::updateCustomerTable(){
 }
 
 std::string MainWindow::getTypeName(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos){
-    size_t i;
     std::string typeName;
     typeName.clear();
 
-    for(i = 0; i < articlePos.size(); i++)
+    for(size_t i = 0; i < articlePos.size(); i++)
         if(curRow >= std::get<1>(articlePos[i]) && curRow <= std::get<2>(articlePos[i]))
             typeName = get<0>(articlePos[i]);
 

@@ -40,15 +40,20 @@ std::vector<cust::customer*> Search::searchCustLastName(const std::string& entry
     std::vector<cust::customer*> customer;
     size_t i;
 
-    // for (i = 0; i < customers.size(); i++) {
-    //     if (entry == customers[i].getLastName())
+    // std::vector<cust::customer*> customer;
+    // std::vector<int> customerAccuracyValues;
+    // int val;
+
+    // for (size_t i = 0; i < customers.size(); i++){
+    //     val = levenshteinDist(entry, customers[i].getLastName());
+    //     if (val < 4){
+    //         customerAccuracyValues.push_back(val);
     //         customer.push_back(&customers[i]);
-
+    //     }
     // }
-    // return customer;
 
-    QElapsedTimer timer;
-    timer.start();
+    // std::sort(customer.begin(), customer.end(), []() {})
+    //     return customer;
 
     for (i = 0; i < customers.size(); i++)
         if (levenshteinDist(entry, customers[i].getLastName()) < 4)

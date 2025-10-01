@@ -1,3 +1,14 @@
+/**
+ * @file customer.h
+ * @brief <One-line description of file's purpose>
+ * @author <Author Name>
+ * @date <YYYY-MM-DD>
+ * @copyright <Year> <Copyright Owner>
+ * @license <Open Source License, if applicable>
+ *
+ * <More detailed description of the file's contents, module, or package.>
+ */
+
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
