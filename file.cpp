@@ -6,25 +6,41 @@ using namespace fi;
 //Windows: C:/Code/repos/LAVjr97/CProgram/
 
 //Constructors
-File::File(std::string customerFile, std::string orderFile, std::string priceFile, std::string tempOrderFile, std::string tempCustFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders, std::vector<std::vector<std::pair<std::string, double>>> &laundryPrices, std::vector<std::vector<std::pair<std::string, double>>> &dryCleanPrices, std::vector<std::vector<std::pair<std::string, double>>> &alterationsPrices, std::vector<std::tuple<std::string, int, int>> &laundryPos, std::vector<std::tuple<std::string, int, int>> &dryCleanPos, std::vector<std::tuple<std::string, int, int>> &alterationsPos, std::string logFile) : customerFile(customerFile), orderFile(orderFile), priceFile(priceFile), tempOrderFile(tempOrderFile), tempCustFile(tempCustFile), customers(customers), orders(orders), laundryPrices(laundryPrices), dryCleanPrices(dryCleanPrices), alterationsPrices(alterationsPrices), laundryPos(laundryPos), dryCleanPos(dryCleanPos), alterationsPos(alterationsPos){
+// File::File(std::string customerFile, std::string orderFile, std::string priceFile, std::string tempOrderFile, std::string tempCustFile, std::vector<cust::customer>& customers, std::vector<orderInfo::order>& orders, std::vector<std::vector<std::pair<std::string, float>>> &laundryPrices, std::vector<std::vector<std::pair<std::string, float>>> &dryCleanPrices, std::vector<std::vector<std::pair<std::string, float>>> &alterationsPrices, std::vector<std::tuple<std::string, int, int>> &laundryPos, std::vector<std::tuple<std::string, int, int>> &dryCleanPos, std::vector<std::tuple<std::string, int, int>> &alterationsPos, std::string logFile) : customerFile(customerFile), orderFile(orderFile), priceFile(priceFile), tempOrderFile(tempOrderFile), tempCustFile(tempCustFile), customers(customers), orders(orders), laundryPrices(laundryPrices), dryCleanPrices(dryCleanPrices), alterationsPrices(alterationsPrices), laundryPos(laundryPos), dryCleanPos(dryCleanPos), alterationsPos(alterationsPos){
 
-    checkAndCreateFile(customerFile);
-    checkAndCreateFile(orderFile);
-    checkAndCreateFile(priceFile);
-    checkAndCreateFile(tempOrderFile);
-    checkAndCreateFile(tempCustFile);
-    checkAndCreateFile(logFile);
+//     checkAndCreateFile(customerFile);
+//     checkAndCreateFile(orderFile);
+//     checkAndCreateFile(priceFile);
+//     checkAndCreateFile(tempOrderFile);
+//     checkAndCreateFile(tempCustFile);
+//     checkAndCreateFile(logFile);
 
-    logger = new logger::Logger(logFile);
+//     logger = new logger::Logger(logFile);
+// }
+
+File::File(const Params& params) :
+    customerFile(params.customerFile),
+    orderFile(params.orderFile),
+    priceFile(params.priceFile),
+    tempOrderFile(params.tempOrderFile),
+    tempCustFile(params.tempCustFile),
+    logger(params.logFile),
+    customers(params.customers),
+    orders(params.orders),
+    laundry(params.laundry),
+    dryClean(params.dryClean),
+    alterations(params.alterations)
+{
 }
+
 
 void File::saveCustomers(cust::customer& customer){
     std::ofstream ofs(this->customerFile.c_str(), std::ios::app);
 
     if (!ofs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
-        logger->log("In saveCustomers(): Error opening file to write to: " + this->customerFile);
-        logger->saveAsNewLog();
+        logger.log("In saveCustomers(): Error opening file to write to: " + this->customerFile);
+        logger.saveAsNewLog();
 
         return;
     }
@@ -38,7 +54,7 @@ void File::saveCustomers(cust::customer& customer){
     ofs.close();
 
     std::cout << "\n" << "Successfully saved customer data..." << "\n";
-    logger->log("Successfully saved customer data...");
+    logger.log("Successfully saved customer data...");
 
 }
 
@@ -49,8 +65,8 @@ void File::loadCustomers(){
     std::ifstream ifs(this->customerFile.c_str());
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
-        logger->log("In loadCustomers(): Error opening file to write to: " + this->customerFile);
-        logger->saveAsNewLog();
+        logger.log("In loadCustomers(): Error opening file to write to: " + this->customerFile);
+        logger.saveAsNewLog();
 
         return;
     }
@@ -78,16 +94,17 @@ void File::loadCustomers(){
 
     ifs.close();
     std::cout << "\n" << "Successfully loaded customer data..." <<"\n";
-    logger->log("Successfully loaded customer data...");
+    logger.log("Successfully loaded customer data...");
 
 
 }
 
 //Orders
+/*
 void File::saveOrders(orderInfo::order &order){
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order.getLaundry();
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean = order.getDryClean();
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations = order.getAlterations();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> laundry = order.getLaundry();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> dryClean = order.getDryClean();
+    std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> alterations = order.getAlterations();
 
 
     size_t outerVectorSize = laundry.size(), innerVectorSize;
@@ -111,7 +128,8 @@ void File::saveOrders(orderInfo::order &order){
         << order.getDiscountApplied() << ","
         << order.getDiscount() << ","
         << order.getDiscountedCost() << ","
-        << order.getDeposit() << ",";
+        << order.getDeposit() << ","
+        << order.getVoidOrder() << ",";
 
     ofs << order.dropOff->getDay() << ","
         << order.dropOff->getMonth() << ","
@@ -177,7 +195,158 @@ void File::saveOrders(orderInfo::order &order){
 
     std::cout << "\n" << "Successfully saved order data..." << "\n";
     logger->log("Successfully saved order data...");
+} */
+
+
+void File::saveOrders(orderInfo::order &order){
+    services::serviceOrder laundry;
+    services::serviceOrder dryClean;
+    services::serviceOrder alterations;
+
+    size_t outerVectorSize = laundry.getTypeListSize(), innerVectorSize;
+
+    std::ofstream ofs(this->orderFile.c_str(), std::ios::app);
+    // int curOrderID = order.getOrderID();
+    // if(order.getCustomerID() != customers[orders[curOrderID].getCustomerID()].getCustomerOrderID())
+
+    if (!ofs) {
+        std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
+        logger.log("In saveOrders(): Error opening file to write to: " + this->orderFile);
+        return;
+    }
+
+    ofs << order.getOrderID() << ","
+        << order.getCustomerID() << ","
+        << order.getCost() << ","
+        << order.getRack() << ","
+        << order.getPickUp() << ","
+        << order.getPaid() << ","
+        << order.getPieceTotal() << ","
+        << order.getDiscountApplied() << ","
+        << order.getDiscount() << ","
+        << order.getDiscountedCost() << ","
+        << order.getDeposit() << ","
+        << order.getVoidOrder() << ",";
+
+    ofs << order.dropOff.getDay() << ","
+        << order.dropOff.getMonth() << ","
+        << order.dropOff.getYear() << ","
+        << order.dropOff.getHour() << ","
+        << order.dropOff.getMin() << ","
+        << order.dropOff.getAm_Pm() << ",";
+
+    ofs << order.pickUp.getDay() << ","
+        << order.pickUp.getMonth() << ","
+        << order.pickUp.getYear() << ","
+        << order.pickUp.getHour() << ","
+        << order.pickUp.getMin() << ","
+        << order.pickUp.getAm_Pm() << ",";
+
+
+
+
+    //Laundry
+    ofs << outerVectorSize;
+    for(const auto& innerVector : laundry.getServiceTypeList()) {
+        innerVectorSize = innerVector.getPieceListSize();
+        ofs << "," << innerVectorSize;
+
+        for(const auto& pieceOrder : innerVector.getPieceList()){
+            ofs << "," << pieceOrder.getPieceName()
+                << "," << pieceOrder.getPieceID()
+                << "," << pieceOrder.getPiecePrice()
+                << "," << pieceOrder.getPieceCount()
+                << "," << pieceOrder.getPieceOrderItemCount()
+                << "," << pieceOrder.getPieceOrderCost();
+        }
+    }
+
+    ofs << "," << "DC" << ";";
+    outerVectorSize = dryClean.getTypeListSize();
+    ofs << outerVectorSize;
+
+    for(const auto& innerVector : dryClean.getServiceTypeList()) {
+        innerVectorSize = innerVector.getPieceListSize();
+        ofs << "," << innerVectorSize;
+
+        for(const auto& pieceOrder : innerVector.getPieceList()){
+            ofs << "," << pieceOrder.getPieceName()
+            << "," << pieceOrder.getPieceID()
+            << "," << pieceOrder.getPiecePrice()
+            << "," << pieceOrder.getPieceCount()
+            << "," << pieceOrder.getPieceOrderItemCount()
+            << "," << pieceOrder.getPieceOrderCost();
+        }
+    }
+
+    ofs << "," << "ALT" << ";";
+    outerVectorSize = alterations.getTypeListSize();
+    ofs << outerVectorSize;
+
+    for(const auto& innerVector : alterations.getServiceTypeList()) {
+        innerVectorSize = innerVector.getPieceListSize();
+        ofs << "," << innerVectorSize;
+
+        for(const auto& pieceOrder : innerVector.getPieceList()){
+            ofs << "," << pieceOrder.getPieceName()
+            << "," << pieceOrder.getPieceID()
+            << "," << pieceOrder.getPiecePrice()
+            << "," << pieceOrder.getPieceCount()
+            << "," << pieceOrder.getPieceOrderItemCount()
+            << "," << pieceOrder.getPieceOrderCost();
+        }
+    }
+
+    /*
+    for (const auto& innerVector : laundry) {
+        innerVectorSize = innerVector.size();
+        ofs << "," << innerVectorSize;
+        for (const auto& tuple : innerVector) {
+            ofs << "," << std::get<0>(tuple);
+            ofs << "," << std::get<1>(tuple);
+            ofs << "," << std::get<2>(tuple);
+            ofs << "," << std::get<3>(tuple);            //add this line
+        }
+    }
+    ofs << "," << "DC" << ";";
+
+    //Dry Clean
+    outerVectorSize = dryClean.size();
+    ofs << outerVectorSize;
+    for (const auto& innerVector : dryClean) {
+        innerVectorSize = innerVector.size();
+        ofs << "," << innerVectorSize;
+        for (const auto& tuple : innerVector) {
+            ofs << "," << std::get<0>(tuple);
+            ofs << "," << std::get<1>(tuple);
+            ofs << "," << std::get<2>(tuple);
+            ofs << "," << std::get<3>(tuple);            //add this line
+        }
+    }
+    ofs << "," << "ALT" << ";";
+
+    //Alterations
+    outerVectorSize = alterations.size();
+    ofs << outerVectorSize;
+    for (const auto& innerVector : alterations) {
+        innerVectorSize = innerVector.size();
+        ofs << "," << innerVectorSize;
+        for (const auto& tuple : innerVector) {
+            ofs << "," << std::get<0>(tuple);
+            ofs << "," << std::get<1>(tuple);
+            ofs << "," << std::get<2>(tuple);
+            ofs << "," << std::get<3>(tuple);            //add this line
+        }
+    } */
+
+    ofs << "\n";
+
+    ofs.close();
+
+    std::cout << "\n" << "Successfully saved order data..." << "\n";
+    logger.log("Successfully saved order data...");
 }
+
 
 int File::checkOrderIDs(){
     int prevOrderID = 0, curOrderID = -1, prevCustomerID = 0, curCustomerID = -1;
@@ -188,7 +357,7 @@ int File::checkOrderIDs(){
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
-        logger->log("In loadOrders(): Error opening file to write to: " + this->orderFile);
+        logger.log("In loadOrders(): Error opening file to write to: " + this->orderFile);
         return -1;
     }
 
@@ -205,7 +374,7 @@ int File::checkOrderIDs(){
         if(curOrderID == prevOrderID){
             errors++;
             std::string message = "Matching orderIDs found: " + std::to_string(curOrderID) + ", Current Customer ID: " + std::to_string(curCustomerID) + ", Previous Customer ID:" + std::to_string(prevCustomerID);
-            logger->log(message);
+            logger.log(message);
         }
     }
 
@@ -217,17 +386,20 @@ void File::loadOrders() {
     int n, orderID, customerID, rack, pieceTotal, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin;
     double cost, price, discount, discountedCost, deposit;
     size_t outersize, innersize, i, j;
-    bool pickedUp, paid, discountApplied;
+    bool pickedUp, paid, discountApplied, voidOrder;
     std::string dropOffAm_Pm, pickUpAm_Pm, line, temp, article, articleType;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations;
+
+    std::vector<>
+
+    services::serviceList laundry;
+    services::serviceList dryClean;
+    services::serviceList alterations;
 
     std::ifstream ifs(this->orderFile.c_str());
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
-        logger->log("In loadOrders(): Error opening file to write to: " + this->orderFile);
+        logger.log("In loadOrders(): Error opening file to write to: " + this->orderFile);
         return;
     }
 
@@ -256,6 +428,8 @@ void File::loadOrders() {
         discountedCost = std::stod(temp);
         std::getline(ss, temp, ',');
         deposit = std::stod(temp);
+        std::getline(ss,temp, ',');
+        voidOrder = std::stod(temp);
 
         std::getline(ss, temp, ',');
         dropOffDay = std::stoi(temp);
@@ -340,13 +514,15 @@ void File::loadOrders() {
             }
         }
 
+
+
         orders.emplace_back(orderID, customerID, cost, rack, pickedUp, paid, pieceTotal, discountApplied, discount, discountedCost, deposit, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, laundry, dryClean, alterations);
     }
 
     ifs.close();
 
     std::cout << "\n" << "Successfully loaded order data..." << "\n";
-    logger->log("Successfully loaded order data...");
+    logger.log("Successfully loaded order data...");
 
 
 }
@@ -355,11 +531,11 @@ void File::loadOrders() {
 void File::updateOrder(const int id){
     std::string currentID, currentCustomerID, line;
     bool found = false;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = orders[id].getLaundry();
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean = orders[id].getDryClean();
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations = orders[id].getAlterations();
+    services::serviceOrder laundry = orders[id].getLaundry();
+    services::serviceOrder dryClean = orders[id].getDryClean();
+    services::serviceOrder alterations = orders[id].getAlterations();
 
-    size_t outerVectorSize = laundry.size(), innerVectorSize;
+    size_t outerVectorSize = laundry, innerVectorSize;
 
     std::ifstream ifs(this->orderFile.c_str());
     std::ofstream tempF(this->tempOrderFile.c_str());
@@ -367,13 +543,13 @@ void File::updateOrder(const int id){
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
-        logger->log("In updateOrder(): Error opening file to write to: " + this->orderFile);
+        logger.log("In updateOrder(): Error opening file to write to: " + this->orderFile);
         return;
     }
 
     if (!tempF) {
         std::cerr << "Error opening file to write to: " << this->tempOrderFile << "\n";
-        logger->log("In updateOrder(): Error opening file to write to: " + this->tempOrderFile);
+        logger.log("In updateOrder(): Error opening file to write to: " + this->tempOrderFile);
         return;
     }
 
@@ -395,21 +571,22 @@ void File::updateOrder(const int id){
                     << orders[id].getDiscountApplied() << ","
                     << orders[id].getDiscount() << ","
                     << orders[id].getDiscountedCost() << ","
-                    << orders[id].getDeposit() << ",";
+                    << orders[id].getDeposit() << ","
+                    << orders[id].getVoidOrder() << ",";
 
-            tempF   << orders[id].dropOff->getDay() << ","
-                    << orders[id].dropOff->getMonth() << ","
-                    << orders[id].dropOff->getYear() << ","
-                    << orders[id].dropOff->getHour() << ","
-                    << orders[id].dropOff->getMin() << ","
-                    << orders[id].dropOff->getAm_Pm() << ",";
+            tempF   << orders[id].dropOff.getDay() << ","
+                    << orders[id].dropOff.getMonth() << ","
+                    << orders[id].dropOff.getYear() << ","
+                    << orders[id].dropOff.getHour() << ","
+                    << orders[id].dropOff.getMin() << ","
+                    << orders[id].dropOff.getAm_Pm() << ",";
 
-            tempF   << orders[id].pickUp->getDay() << ","
-                    << orders[id].pickUp->getMonth() << ","
-                    << orders[id].pickUp->getYear() << ","
-                    << orders[id].pickUp->getHour() << ","
-                    << orders[id].pickUp->getMin() << ","
-                    << orders[id].pickUp->getAm_Pm() << ",";
+            tempF   << orders[id].pickUp.getDay() << ","
+                    << orders[id].pickUp.getMonth() << ","
+                    << orders[id].pickUp.getYear() << ","
+                    << orders[id].pickUp.getHour() << ","
+                    << orders[id].pickUp.getMin() << ","
+                    << orders[id].pickUp.getAm_Pm() << ",";
 
             //Laundry
             tempF << outerVectorSize;
@@ -474,7 +651,7 @@ void File::updateOrder(const int id){
 
     std::filesystem::resize_file(from, 0);
     std::string message = "Updated order file successfully, Order ID: " + std::to_string(id) + ", Customer ID: " + std::to_string(orders[id].getCustomerID()) + ", Customer Name: " + customers[orders[id].getCustomerID()].getName();
-    logger->log(message);
+    logger.log(message);
 }
 
 void File::updateCustomer(const int id) {
@@ -486,13 +663,13 @@ void File::updateCustomer(const int id) {
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->customerFile << "\n";
-        logger->log("In updateCustomer(): Error opening file to write to: " + this->customerFile);
+        logger.log("In updateCustomer(): Error opening file to write to: " + this->customerFile);
 
         return;
     }
     if (!tempF) {
         std::cerr << "Error opening file to write to: " << this->tempCustFile << "\n";
-        logger->log("In updateCustomer(): Error opening file to write to: " + this->tempCustFile);
+        logger.log("In updateCustomer(): Error opening file to write to: " + this->tempCustFile);
         return;
     }
 
@@ -535,7 +712,7 @@ void File::updateCustomer(const int id) {
     std::filesystem::resize_file(from, 0);
 
     std::string message = "Updated customer file successfully, Customer ID: " + std::to_string(id) + ", Customer Name: " + customers[id].getName();
-    logger->log(message);
+    logger.log(message);
 }
 
 
@@ -544,11 +721,11 @@ void File::savePrices(){
     size_t outerVectorSize, innerVectorSize;
     if(!ofs){
         std::cerr << "Error opening file to write to: " << this->priceFile << "\n";
-        logger->log("Error opening file to write to: " + this->priceFile);
+        logger.log("Error opening file to write to: " + this->priceFile);
         return;
     }
 
-    outerVectorSize = laundryPrices.size();
+    outerVectorSize = laundryPrices.get();
     ofs << outerVectorSize;
     for(const auto &innerVector : laundryPrices){
         innerVectorSize = innerVector.size();
@@ -616,7 +793,7 @@ void File::savePrices(){
     ofs.close();
 
     std::cout << "\n" << "Successfully saved price data..." << "\n";
-    logger->log("Successfully saved price data...");
+    logger.log("Successfully saved price data...");
 
 }
 
@@ -628,7 +805,7 @@ void File::loadPrices(){
 
     if(!ifs){
         std::cerr << "Error opening file to write to: " << this->priceFile <<"\n";
-        logger->log("Error opening file to write to: " + this->priceFile);
+        logger.log("Error opening file to write to: " + this->priceFile);
 
         return;
     }
@@ -746,7 +923,7 @@ void File::loadPrices(){
     ifs.close();
 
     std::cout << "\n" << "Successfully loaded price data..." << "\n";
-    logger->log("Successfully loaded price data...");
+    logger.log("Successfully loaded price data...");
 
 }
 

@@ -52,16 +52,21 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    //Contains all orders and customers in a vector for easy look up using order/customer ID
     std::vector<orderInfo::order> orders;
     std::vector<cust::customer> customers;
 
+    //Used to store temporary search results or current customer or order being worked on
     std::vector<cust::customer*> customer;
     std::vector<orderInfo::order*> order;
+
+
     fi::File *manager;
     logger::Logger *logger;
 
     QPrinter printer;
     QPainter painter;
+
 
     /*
     std::vector<std::vector<std::pair<std::string, double>>> *laundryPrices;
@@ -283,9 +288,9 @@ private slots:
 private:
     Ui::Cleaning_and_Alteration_Shop *ui;
 
-    std::vector<std::vector<std::pair<std::string, double>>> laundryPrices;
-    std::vector<std::vector<std::pair<std::string, double>>> dryCleanPrices;
-    std::vector<std::vector<std::pair<std::string, double>>> alterationsPrices;
+    std::vector<std::vector<std::pair<std::string, float>>> laundryPrices;
+    std::vector<std::vector<std::pair<std::string, float>>> dryCleanPrices;
+    std::vector<std::vector<std::pair<std::string, float>>> alterationsPrices;
 
     std::vector<std::tuple<std::string, int, int>> laundryPos;
     std::vector<std::tuple<std::string, int, int>> dryCleanPos;

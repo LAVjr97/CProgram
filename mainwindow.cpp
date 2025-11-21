@@ -313,8 +313,8 @@ void MainWindow::setDate(QDateTimeEdit *dp, QDateEdit *pu){
 
 void MainWindow::saveModel(QStandardItemModel *model){
     size_t row = 0;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
-    std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>>> pair;
+    std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
+    std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, float>>>> pair;
 
     pair = saveTableView(laundry, model, "Laundry", row);
     row = pair.first;

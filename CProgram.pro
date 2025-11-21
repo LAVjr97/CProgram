@@ -20,7 +20,9 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     order.cpp \
+    pieces.cpp \
     search.cpp \
+    service.cpp \
     ui_admin.cpp \
     ui_dropoff.cpp \
     ui_init.cpp \
@@ -36,7 +38,9 @@ HEADERS += \
     main.h \
     mainwindow.h \
     order.h \
-    search.h
+    pieces.h \
+    search.h \
+    service.h
 
 FORMS += \
     mainwindow.ui

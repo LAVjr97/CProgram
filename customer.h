@@ -18,7 +18,7 @@ namespace cust{
     class customer{
         public:
             //Constructors & Destructor
-            customer(int customerID, std::string firstName, std::string lastName, std::string phone, int visits, double total, std::vector<int> orders);
+            customer(int customerID, std::string firstName, std::string lastName, std::string phone, int visits, float total, std::vector<int> orders);
             customer(int customerID, std::string firstName, std::string lastName, std::string phone);
             customer(std::string firstName, std::string lastName);
 
@@ -32,7 +32,7 @@ namespace cust{
             std::string getFormattedPhone() const;
             std::string getLastVisit() const;
             int getVisit() const;
-            double getTotal() const;
+            float getTotal() const;
             std::vector<int> getOrders() const;
             int getOrderSize() const;
             int getOrderID(int i) const; //used to get the specific order id of a customer, usefull in loops where i is used to traverse through the array
@@ -46,7 +46,7 @@ namespace cust{
             int setLatestOrder(int orderID);
             int updateLastVisit(std::string lastVisit);
             int updateVisits(int visits);
-            int updateTotal(double total);
+            int updateTotal(float total);
 
             //Helper functions
             static std::string createPhone(std::string phone);
@@ -56,16 +56,16 @@ namespace cust{
             //serialize functions
 
         private:
-            int customerID;
-            std::string firstName;
-            std::string lastName;
-            std::string phone;
+            int _customerID;
+            std::string _firstName;
+            std::string _lastName;
+            std::string _phone;
 
-            std::vector<int> orders;
+            std::vector<int> _orders;
 
-            std::string lastVisit;
-            int visits;
-            double total;
+            std::string _lastVisit;
+            int _visits;
+            float _total;
     };
 }
 #endif

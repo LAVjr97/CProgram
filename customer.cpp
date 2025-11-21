@@ -8,137 +8,137 @@ using namespace cust;
 
 //Constructors
 //Used to load
-customer::customer(int customerID, std::string firstName, std::string lastName, std::string phone, int visits, double total, std::vector<int> orders){
-    this->customerID = customerID;
-    this->firstName = firstName;
-    this->lastName = lastName;
-    this->phone = phone;
-    this->visits = visits;
-    this->total = total;
-    this->orders = orders;
+customer::customer(int customerID, std::string firstName, std::string lastName, std::string phone, int visits, float total, std::vector<int> orders){
+    this->_customerID = customerID;
+    this->_firstName = firstName;
+    this->_lastName = lastName;
+    this->_phone = phone;
+    this->_visits = visits;
+    this->_total = total;
+    this->_orders = orders;
     return;
 }
 
 //first time customer
 customer::customer(int customerID, std::string firstName, std::string lastName, std::string phone){
-    this->customerID = customerID;
-    this->firstName = firstName;
-    this->lastName = lastName;
-    this-> phone = this->createPhone(phone);
-    this->visits = 0;
-    this->total = 0;
+    this->_customerID = customerID;
+    this->_firstName = firstName;
+    this->_lastName = lastName;
+    this->_phone = this->createPhone(phone);
+    this->_visits = 0;
+    this->_total = 0;
     return;
 }
 
 customer::customer(std::string firstName, std::string lastName){
-    this->firstName = firstName;
-    this->lastName = lastName;
+    this->_firstName = firstName;
+    this->_lastName = lastName;
 }
 
 //Get functions
 int customer::getCustomerID() const{
-    return customerID;
+    return _customerID;
 }
 
 std::string customer::getName() const{
-    return firstName + ' ' + lastName;
+    return _firstName + ' ' + _lastName;
 }
 
 std::string customer::getFirstName() const{
-    return firstName;
+    return _firstName;
 }
 std::string customer::getLastName() const{
-    return lastName;
+    return _lastName;
 }
 
 std::string customer::getPhone() const{
-    return phone;
+    return _phone;
 }
 
 std::string customer::getFormattedPhone() const{
     std::string fPhone;
     size_t i;
 
-    for(i = 0; i < this->phone.size(); i++){
+    for(i = 0; i < this->_phone.size(); i++){
         if(i == 0)
             fPhone = fPhone + "(";
         if(i == 3)
             fPhone = fPhone + ") ";
         if(i == 6)
             fPhone = fPhone + "-";
-        fPhone += phone[i];
+        fPhone += _phone[i];
     }
 
     return fPhone;
 }
 
 std::vector<int> customer::getOrders() const {
-    return orders;
+    return _orders;
 }
 
 std::string customer::getLastVisit() const{
-    return lastVisit;
+    return _lastVisit;
 }
 
 int customer::getVisit() const{
-    return visits;
+    return _visits;
 }
-double customer::getTotal() const{
-    return total;
+float customer::getTotal() const{
+    return _total;
 }
 
 int customer::getOrderSize() const {
-    return this->orders.size();
+    return this->_orders.size();
 }
 
 int customer::getOrderID(int i) const {
-    return this->orders[i];
+    return this->_orders[i];
 }
 
 //Set functions
 int customer::setCustomerID(int id) {
-    this->customerID = id;
+    this->_customerID = id;
     return 0;
 }
 
 int customer::setFirstName(std::string firstName) {
-    this->firstName = firstName;
+    this->_firstName = firstName;
     return 0;
 }
 
 int customer::setLastName(std::string lastName) {
-    this->lastName = lastName;
+    this->_lastName = lastName;
     return 0;
 }
 
 
 int customer::setPhone(std::string phone) {
-    this->phone = phone;
+    this->_phone = phone;
     return 0;
 }
 
 int customer::setOrders(std::vector<int> orders) {
-    this->orders = orders;
+    this->_orders = orders;
     return 0;
 }
 
 int customer::setLatestOrder(int orderID) {
-    this->orders.emplace_back(orderID);
+    this->_orders.emplace_back(orderID);
     return 0;
 }
 
 int customer::updateLastVisit(std::string lastVisit) {
-    this->lastVisit = lastVisit;
+    this->_lastVisit = lastVisit;
     return 0;
 }
 
 int customer::updateVisits(int visits) {
-    this->visits = visits;
+    this->_visits = visits;
     return 0;
 }
 
-int customer::updateTotal(double total){
-    this->total = total;
+int customer::updateTotal(float total){
+    this->_total = total;
     return 0;
 }
 

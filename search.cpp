@@ -1,6 +1,7 @@
 #include "search.h"
 #include "levenshtein.h"
 #include <QElapsedTimer>
+#include <utility>
 
 using namespace search;
 
@@ -38,28 +39,37 @@ std::vector<cust::customer*> Search::searchCustName(const std::string& entry, st
 
 std::vector<cust::customer*> Search::searchCustLastName(const std::string& entry, std::vector<cust::customer>& customers){
     std::vector<cust::customer*> customer;
-    size_t i;
 
     // std::vector<cust::customer*> customer;
-    // std::vector<int> customerAccuracyValues;
-    // int val;
+    std::vector<int> customerAccuracyValues;
+    int val;
 
-    // for (size_t i = 0; i < customers.size(); i++){
-    //     val = levenshteinDist(entry, customers[i].getLastName());
-    //     if (val < 4){
-    //         customerAccuracyValues.push_back(val);
-    //         customer.push_back(&customers[i]);
-    //     }
-    // }
 
-    // std::sort(customer.begin(), customer.end(), []() {})
-    //     return customer;
-
-    for (i = 0; i < customers.size(); i++)
-        if (levenshteinDist(entry, customers[i].getLastName()) < 4)
+    for (size_t i = 0; i < customers.size(); i++){
+        val = levenshteinDist(entry, customers[i].getLastName());
+        if (val < 4){
+            customerAccuracyValues.push_back(val);
             customer.push_back(&customers[i]);
+            for(int j = customerAccuracyValues.size() - 1; j > 0; j--){
+                if(customerAccuracyValues[j] < customerAccuracyValues[j - 1]){
+                    std::swap(customerAccuracyValues[j], customerAccuracyValues[j - 1]);
+                    std::swap(customer[j], customer[j - 1]);
+                }
+                else
+                    break;
+            }
+        }
+    }
 
     return customer;
+
+
+
+    // for (i = 0; i < customers.size(); i++)
+    //     if (levenshteinDist(entry, customers[i].getLastName()) < 4)
+    //         customer.push_back(&customers[i]);
+
+    // return customer;
 }
 std::vector<cust::customer*> Search::searchCustPhone(const std::string& entry, std::vector<cust::customer>& customers) {
     std::vector<cust::customer*> customer;
@@ -180,7 +190,6 @@ bool Search::isPhoneNumber(const std::string& entry){
 bool Search::isID(const std::string& entry){
     return std::all_of(entry.begin(), entry.end(), ::isdigit) && entry.length() <= 7;
 }
-
 
 
 
