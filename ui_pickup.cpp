@@ -20,14 +20,14 @@ void MainWindow::on_btnSavePU_clicked(){
 
     if(curOrderID != orders[curOrderID].getOrderID()){
         std::string logmsg = "Critical Error in Saving Picked Up Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
-        manager->logger->log(logmsg);
+        manager->logger.log(logmsg);
         handleCritcalError();
     }
 
     int errors = manager->checkOrderIDs();
     if(errors != 0){
         std::string logmsg = "Critical Error in Saving Picked Up Order! Error in File, there are multiple matches of differnt orderIDs: " + std::to_string(errors) + " times";
-        manager->logger->log(logmsg);
+        manager->logger.log(logmsg);
     }
 
     orders[curOrderID].setPaid(checkBoxPaidPU->isChecked());
@@ -148,7 +148,7 @@ void MainWindow::on_tableViewCSRPU_clicked(const QModelIndex &index){
 
         QStandardItem *orderIDItem = new QStandardItem(QString::number(order[i]->getOrderID()));
         orderIDItem->setTextAlignment(Qt::AlignCenter);
-        QStandardItem *dropOffItem = new QStandardItem(QString::fromStdString(order[i]->dropOff->getDate()));
+        QStandardItem *dropOffItem = new QStandardItem(QString::fromStdString(order[i]->dropOff.getDate()));
         dropOffItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *totalPiecesItem = new QStandardItem(QString::number(order[i]->getPieceTotal()));
         totalPiecesItem->setTextAlignment(Qt::AlignCenter);
@@ -193,7 +193,7 @@ void MainWindow::on_tableViewOSR_clicked(const QModelIndex &index){
 
     if(curOrderID != orders[curOrderID].getOrderID()){
         std::string logmsg = "Critical Error in Saving Edited Order, selecting order from table! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
-        manager->logger->log(logmsg);
+        manager->logger.log(logmsg);
         handleCritcalError();
     }
 
@@ -237,14 +237,14 @@ void MainWindow::on_btnSaveEO_clicked(){
 
     if(curOrderID != orders[curOrderID].getOrderID()){
         std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
-        manager->logger->log(logmsg);
+        manager->logger.log(logmsg);
         handleCritcalError();
     }
 
     int errors = manager->checkOrderIDs();
     if(errors != 0){
         std::string logmsg = "Critical Error in Saving Edited Order! Error in File, there are multiple matches of differnt orderIDs: " + std::to_string(errors) + " times";
-        manager->logger->log(logmsg);
+        manager->logger.log(logmsg);
         handleCritcalError();
     }
 
@@ -376,7 +376,7 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
 
         QStandardItem *orderIDItem = new QStandardItem(QString::number(order[i]->getOrderID()));
         orderIDItem->setTextAlignment(Qt::AlignCenter);
-        QStandardItem *dropOffItem = new QStandardItem(QString::fromStdString(order[i]->dropOff->getDate()));
+        QStandardItem *dropOffItem = new QStandardItem(QString::fromStdString(order[i]->dropOff.getDate()));
         dropOffItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *totalPiecesItem = new QStandardItem(QString::number(order[i]->getPieceTotal()));
         totalPiecesItem->setTextAlignment(Qt::AlignCenter);
@@ -422,7 +422,7 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
 
     if(curOrderID != orders[curOrderID].getOrderID()){
         std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
-        manager->logger->log(logmsg);
+        manager->logger.log(logmsg);
         handleCritcalError();
     }
     order.push_back(&orders[curOrderID]);

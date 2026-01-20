@@ -37,13 +37,15 @@ order::order(const Params& params) :
 {
 }
 
+
+
 /*Set Functions*/
 int order::setCustomerID(int id){
     this->_customerID = id;
     return 0;
 }
 
-float order::calculateTotal(void){
+float order::calculateSubTotal(void){
     _total = 0;
 
     _total += _laundry.calculateTotalPrice();

@@ -26,15 +26,18 @@ namespace services
 
     class serviceList : public service{
         public:
+            //Constructor
+            serviceList();
+            serviceList(std::string serviceName, std::vector<pieces::pieceTypeList> typeList);
             //Getter functions
-            std::vector<pieces::pieceType> getServiceTypeList(void) const {return _typeList;}
+            std::vector<pieces::pieceTypeList> getServiceTypeList(void) const {return _typeList;}
             int getTypeListSize() const {return _typeList.size();}
 
             //Setter functions
-            void setServiceTypeList(std::vector<pieces::pieceType> typeList) {_typeList = typeList;}
+            void setServiceTypeList(std::vector<pieces::pieceTypeList> typeList) {_typeList = typeList;}
 
         private:
-            std::vector<pieces::pieceType> _typeList;
+            std::vector<pieces::pieceTypeList> _typeList;
     };
 
     class serviceOrder : public service
@@ -42,6 +45,7 @@ namespace services
         public:
             serviceOrder();
             serviceOrder(float serviceCost) : _cost(serviceCost){}
+            serviceOrder(std::string serviceName, float serviceCost, std::vector<pieces::pieceTypeOrder> typeList);
 
             //Getter functions
             float getServiceTotal(void) const {return _cost;}
@@ -67,4 +71,3 @@ namespace services
 }
     
 #endif // SERVICE_H
-\

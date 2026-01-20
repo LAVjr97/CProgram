@@ -28,8 +28,10 @@ pieceOrder::pieceOrder(piece parent, float price, int itemCount) : piece(parent)
 }
 
 
-pieceOrder::pieceOrder(std::string pieceName, float piecePrice, int pieceCount, int itemCount, float cost) : _itemCount(itemCount), _cost(cost){
+pieceOrder::pieceOrder(std::string pieceName, int pieceID, int typeID, float piecePrice, int pieceCount, int itemCount, float cost) : _itemCount(itemCount), _cost(cost){
     _name = pieceName;
+    _pieceID = pieceID;
+    _typeID = typeID;
     _price = piecePrice;
     _count = pieceCount;
 }
@@ -45,10 +47,21 @@ bool pieceOrder::operator==(const piece& other) const{
     return other.getPieceName() == this->_name && other.getPiecePrice() == this->_price && other.getPieceID() == this->_pieceID;
 }
 
+pieceType::pieceType(){
+    _name = "";
+    _typeID = -1;
+}
+
+pieceTypeList::pieceTypeList(std::string pieceTypeName, int typeID, std::vector<piece> pieceList) : _pieceList(pieceList){
+    _name = pieceTypeName;
+    _typeID = typeID;
+}
+
 pieceTypeList::pieceTypeList(std::string pieceTypeName, std::vector<piece> pieceList, position positionInList) : _positionInList(positionInList){
     _name = pieceTypeName;
     _pieceList = pieceList;
 }
+
 
 int pieceTypeList::updatePositionInList(int first){
     _positionInList.first = first;
@@ -78,6 +91,11 @@ pieceTypeOrder::pieceTypeOrder(std::string pieceTypeName, std::vector<pieceOrder
 pieceTypeOrder::pieceTypeOrder(std::string pieceTypeName, std::vector<pieceOrder> pieceList, float cost) : _cost(cost){
     _name = pieceTypeName;
     _pieceList = pieceList;
+}
+
+pieceTypeOrder::pieceTypeOrder(std::string typeName, int typeID, float cost, std::vector<pieceOrder> pieceList, int pieceTotal) : _cost(cost), _pieceList(pieceList), _pieceTotal(pieceTotal){
+    _name = typeName;
+    _typeID = typeID;
 }
 
 float pieceTypeOrder::calculateTypeCost(void){

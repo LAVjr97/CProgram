@@ -23,7 +23,7 @@ void MainWindow::on_btnLaundry_clicked(){
     if(lineFNameDP->text().isEmpty())
         return;
 
-    setUpOptionsTables(tableWidgetLaundryOptions, laundryPrices, laundryPos);
+    setUpOptionsTables(tableWidgetLaundryOptions, laundry);
 
     MainWindow::showOrderLaundryPage();
     ui->btnOneRecieptDP->setEnabled(false);
@@ -34,7 +34,7 @@ void MainWindow::on_btnDryClean_clicked(){
     if(lineFNameDP->text().isEmpty())
         return;
 
-    setUpOptionsTables(tableWidgetDryCleanOptions, dryCleanPrices, dryCleanPos);
+    setUpOptionsTables(tableWidgetDryCleanOptions, dryClean);
 
     MainWindow::showOrderDryCleanPage();
     ui->btnOneRecieptDP->setEnabled(false);
@@ -45,7 +45,7 @@ void MainWindow::on_btnAlterations_clicked(){
     if(lineFNameDP->text().isEmpty())
         return;
 
-    setUpOptionsTables(tableWidgetAlterationsOptions, alterationsPrices, alterationsPos);
+    setUpOptionsTables(tableWidgetAlterationsOptions, alterations);
 
     MainWindow::showOrderAlterationsPage();
     ui->btnOneRecieptDP->setEnabled(false);
@@ -61,7 +61,7 @@ void MainWindow::on_btnSaveDP_clicked()
     updateModel(modelDP);
 
     linePieceTotalDP->setText(QString::number(order[0]->getPieceTotal()));
-    lineOrderSubTotalDP->setText(QString::number(order[0]->getCost(), 'f', 2));
+    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateSubTotal(), 'f', 2));
     lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
 
     ui->btnOneRecieptDP->setEnabled(true);
@@ -90,7 +90,7 @@ void MainWindow::on_btnTwoRecieptDP_clicked(){
     clearScreenDP();
 
     showMainPage();
-    manager->logger->log("Two reciepts printed, order saved");
+    manager->logger.log("Two reciepts printed, order saved");
 }
 
 void MainWindow::on_btnApplyDiscountDP_clicked(){
@@ -199,12 +199,12 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
 
         if(orders[curOrderID - 1].getOrderID() == curOrderID){
             std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getCustomerID()) + ", Existing OrderID: " + std::to_string(orders[curOrderID - 1].getOrderID()) + " Occured in 'on_tableViewCSR_clicked'";
-            manager->logger->log(message);
+            manager->logger.log(message);
             handleCritcalError();
         }
     }
     else
-        manager->logger->log("CurOrderID was 0");
+        manager->logger.log("CurOrderID was 0");
 
     //Add order to orders
     orders.emplace_back(customer[0]->getCustomerID(), curOrderID);
@@ -260,12 +260,12 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
 
         if(orders[curOrderID - 1].getOrderID() == curOrderID){
             std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getCustomerID()) + " Occured in 'on_btnCreate_clicked'";
-            manager->logger->log(message);
+            manager->logger.log(message);
             handleCritcalError();
         }
     }
     else
-        manager->logger->log("CurOrderID was 0");
+        manager->logger.log("CurOrderID was 0");
 
 
     //Creating a new order object
@@ -314,14 +314,14 @@ void MainWindow::on_btnLaundryReturn_clicked(){
 
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
-    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateSubTotal(), 'f', 2));
     lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
 
     showDropOffPage();
 }
 
 void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
-    tableWidgetOptions(tableWidgetLaundryOptions, index, laundryPos, 1);
+    tableWidgetOptions(tableWidgetLaundryOptions, index, laundry, 1);
 }
 
 
@@ -359,14 +359,14 @@ void MainWindow::on_btnDryCleanReturn_clicked(){
 
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
-    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateSubTotal(), 'f', 2));
     lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
 
     showDropOffPage();
 }
 
 void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index){
-    tableWidgetOptions(tableWidgetDryCleanOptions, index, dryCleanPos, 2);
+    tableWidgetOptions(tableWidgetDryCleanOptions, index, dryClean, 2);
 }
 
 
@@ -402,12 +402,12 @@ void MainWindow::on_btnAlterationsReturn_clicked(){
 
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
-    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+    lineOrderSubTotalDP->setText(QString::number(order[0]->calculateSubTotal(), 'f', 2));
     lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
 
     showDropOffPage();
 }
 
 void MainWindow::on_tableWidgetAlterationsOptions_clicked(const QModelIndex &index){
-    tableWidgetOptions(tableWidgetAlterationsOptions, index, alterationsPos, 3);
+    tableWidgetOptions(tableWidgetAlterationsOptions, index, alterations, 3);
 }

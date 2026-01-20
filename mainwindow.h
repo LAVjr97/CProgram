@@ -60,19 +60,16 @@ public:
     std::vector<cust::customer*> customer;
     std::vector<orderInfo::order*> order;
 
+    //Contains all the pieces and prices
+    services::serviceList laundry;
+    services::serviceList dryClean;
+    services::serviceList alterations;
 
     fi::File *manager;
     logger::Logger *logger;
 
     QPrinter printer;
     QPainter painter;
-
-
-    /*
-    std::vector<std::vector<std::pair<std::string, double>>> *laundryPrices;
-    std::vector<std::vector<std::pair<std::string, double>>> *dryCleanPrices;
-    std::vector<std::vector<std::pair<std::string, double>>> *alterationsPrices;
-    */
    
 private slots:
     //Page Movement
@@ -221,9 +218,9 @@ private slots:
     //Create Items And Price (19)
     void on_btnReturnCIP_clicked();
     void on_btnSaveCIP_clicked();
-    void saveTableCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget);
+    void saveTableCIP(services::serviceList service, QTableWidget *tableWidget);
     void setUpCIPPage();
-    void setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget);
+    void setUpTableWidgetsCIP(services::serviceList& prices, QTableWidget *tableWidget);
 
     //Customer Data Page (20);
     //void on_btnReturnCD_clicked();
@@ -247,27 +244,28 @@ private slots:
     void updateCOInformationPU();
     void updateCOInformationEO();
 
-    void setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::vector<std::pair<std::string, double>>> prices, std::vector<std::tuple<std::string, int, int>> pos);
-    void tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex &index, std::vector<std::tuple<std::string, int, int>> &pos, int typ);
+    //void setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::vector<std::pair<std::string, double>>> prices, std::vector<std::tuple<std::string, int, int>> pos);
+    void setUpOptionsTables(QTableWidget *tableWidget, services::serviceList service);
+    void tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex &index, services::serviceList service, int typ);
     void customerSearchPageSetUp(QTableView *tableView, QStandardItemModel *model, QLineEdit *lineSearch);
 
     void setDate(QDateTimeEdit *dp, QDateEdit *pu);
 
     void saveModel(QStandardItemModel *model);
-    std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>>> saveTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row);
+    services::serviceOrder saveTableView(services::serviceOrder article, QStandardItemModel *model, size_t &row);
 
     //Price Tables
     void updateModel(QStandardItemModel *model);
-    size_t updateTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row);
+    void updateTableView(services::serviceOrder &service, QStandardItemModel *model, size_t &currentRow);
 
     //Customer tables
     void saveCustomerTable();
     void updateCustomerTable();
 
-    std::string getTypeName(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
+    std::string getTypeName(int typeID, services::serviceList service);
     size_t getIndex(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos);
 
-    int calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices);
+    int calculateSize(services::serviceList prices);
     int calculateSizeOptions(std::vector<std::vector<std::pair<std::string, double>>> prices);
     int calculatePieceTotal(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> articles);
 
@@ -288,13 +286,16 @@ private slots:
 private:
     Ui::Cleaning_and_Alteration_Shop *ui;
 
-    std::vector<std::vector<std::pair<std::string, float>>> laundryPrices;
-    std::vector<std::vector<std::pair<std::string, float>>> dryCleanPrices;
-    std::vector<std::vector<std::pair<std::string, float>>> alterationsPrices;
+    // std::vector<std::vector<std::pair<std::string, float>>> laundryPrices;
+    // std::vector<std::vector<std::pair<std::string, float>>> dryCleanPrices;
+    // std::vector<std::vector<std::pair<std::string, float>>> alterationsPrices;
 
-    std::vector<std::tuple<std::string, int, int>> laundryPos;
-    std::vector<std::tuple<std::string, int, int>> dryCleanPos;
-    std::vector<std::tuple<std::string, int, int>> alterationsPos;
+    // std::vector<std::tuple<std::string, int, int>> laundryPos;
+    // std::vector<std::tuple<std::string, int, int>> dryCleanPos;
+    // std::vector<std::tuple<std::string, int, int>> alterationsPos;
+
+
+
 
     //Currently Used variables
     size_t curOrderID, lau, dc, alt, recentStackedWidgetIndex;

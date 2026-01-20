@@ -2,9 +2,25 @@
 
 using namespace services;
 
+service::service(){
+    _name = "";
+}
+
+serviceList::serviceList(){
+    _name = "";
+}
+
+serviceList::serviceList(std::string serviceName, std::vector<pieces::pieceTypeList> typeList) : _typeList(typeList){
+    _name = serviceName;
+}
+
 serviceOrder::serviceOrder(){
     _typeList.resize(1);
     _cost = 0;
+}
+
+serviceOrder::serviceOrder(std::string serviceName, float serviceCost, std::vector<pieces::pieceTypeOrder> typeList) : _cost(serviceCost), _typeList(typeList){
+    _name = serviceName;
 }
 
 float serviceOrder::calculateTotalPrice(void){
@@ -36,7 +52,7 @@ int serviceOrder::addPiece(std::string typeName, int typeID, pieces::piece piece
     }
 
     if(!typeFound && !typeInserted){
-        _typeList.emplace_back(typeName, piece, pieceCount);
+        _typeList.emplace_back(typeName, typeID, piece, pieceCount);
     }
 
     calculateTotalPrice();

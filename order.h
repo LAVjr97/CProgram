@@ -44,7 +44,7 @@ namespace orderInfo{
             order(int orderID, int customerID, float cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, float discount, float discountedCost, float deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, float>>> laundry, std::vector<std::vector<std::tuple<std::string, int, float>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, float>>> alterations);
             order(int orderID, int customerID, float cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, float discount, float discountedCost, float deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> laundry, std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> dryClean, std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> alterations);
 
-            ~order();
+            //~order();
 
             //Get functions, set to const to insure that data isn't being changed
             int getCustomerID() const {return _customerID;}
@@ -69,13 +69,13 @@ namespace orderInfo{
             int setCustomerID(int id);
 
             void setLaundry(services::serviceOrder laundry) {_laundry = laundry;}
-            void addLaundryPiece(std::string typeName, pieces::piece piece, int pieceCount) {_laundry.addPiece(typeName, piece, pieceCount); calculatePieceTotal();}
+            void addLaundryPiece(std::string typeName, int typeID, pieces::piece piece, int pieceCount) {_laundry.addPiece(typeName, typeID, piece, pieceCount); calculatePieceTotal();}
 
             void setDryClean(services::serviceOrder dryClean) {_dryClean = dryClean;}
-            void addDryCleanPiece(std::string typeName, pieces::piece piece, int pieceCount) {_dryClean.addPiece(typeName, piece, pieceCount); calculatePieceTotal();}
+            void addDryCleanPiece(std::string typeName, int typeID, pieces::piece piece, int pieceCount) {_dryClean.addPiece(typeName, typeID, piece, pieceCount); calculatePieceTotal();}
 
             void setAlterations(services::serviceOrder alterations) {_alterations = alterations;}
-            void addAlterationsPiece(std::string typeName, pieces::piece piece, int pieceCount) {_alterations.addPiece(typeName, piece, pieceCount); calculatePieceTotal();}
+            void addAlterationsPiece(std::string typeName, int typeID, pieces::piece piece, int pieceCount) {_alterations.addPiece(typeName, typeID, piece, pieceCount); calculatePieceTotal();}
 
             void setTotal(float total) {_total = total;}
             void setRack(int rack) {_rackNumber = rack;}
@@ -89,7 +89,7 @@ namespace orderInfo{
             void setVoidOrder(bool voidOrder) {_voidOrder = voidOrder;}
 
             //Helper functions
-            float calculateTotal();
+            float calculateSubTotal();
             int calculatePieceTotal();
             float applyDiscount();
             bool verifyOrderIDs();

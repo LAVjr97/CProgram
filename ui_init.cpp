@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "custombuttondelegate.h"
 
 //Mac: /Users/luisvillalta/CProgram
 //Windows: C:/Code/repos/LAVjr97/CProgram/
@@ -30,7 +31,22 @@ MainWindow::MainWindow(QWidget *parent)
     std::string tempCustFile = "tempCust.txt";
     std::string logFile = "log.txt";
     */
-    manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos, logFile);
+    fi::File::Params params{
+        .customerFile = customerFile,
+        .orderFile = orderFile,
+        .priceFile = priceFile,
+        .tempOrderFile = tempOrderFile,
+        .tempCustFile = tempCustFile,
+        .logFile = logFile,
+        .customers = customers,
+        .orders = orders,
+        .laundry = laundry,
+        .dryClean = dryClean,
+        .alterations = alterations
+    };
+
+    manager = new fi::File(params);
+
     /*
     manager->checkAndCreateFile(customerFile);
     manager->checkAndCreateFile(orderFile);
@@ -81,6 +97,36 @@ MainWindow::MainWindow(QWidget *parent)
     tableViewOrdersDP->setModel(modelDP);
     headerTVODP = tableViewOrdersDP->horizontalHeader();
     tableViewOrdersDP->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    tableViewOrdersDP->setMouseTracking(true);
+
+    //Hovering over the last column now paints a "button" to delete the row from the table
+
+    int lastCol = modelDP->columnCount() - 1;
+
+    auto* delegate = new HoverButtonDelegate(this);
+    tableViewOrdersDP->setItemDelegateForColumn(lastCol, delegate);
+
+    connect(delegate, &HoverButtonDelegate::buttonClicked, this,
+            [](const QModelIndex& idx) {
+                // idx.row() identifies the row whose button was clicked
+                // idx.data() is your QString from the QStandardItem
+                QString cellText = idx.data(Qt::DisplayRole).toString();
+
+                // Do your action here:
+                qDebug() << "Button clicked on row" << idx.row() << "text:" << cellText;
+            });
+
+    // Hover tracking
+    connect(tableViewOrdersDP, &QTableView::entered, this,
+            [=](const QModelIndex& idx) {
+                if (idx.column() == lastCol) {
+                    delegate->setHoveredIndex(idx);
+                    tableViewOrdersDP->viewport()->update();
+                } else {
+                    delegate->setHoveredIndex(QModelIndex());
+                    tableViewOrdersDP->viewport()->update();
+                }
+            });
 
     //
     //Search Customer Page

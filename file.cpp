@@ -95,113 +95,16 @@ void File::loadCustomers(){
     ifs.close();
     std::cout << "\n" << "Successfully loaded customer data..." <<"\n";
     logger.log("Successfully loaded customer data...");
-
-
 }
-
-//Orders
-/*
-void File::saveOrders(orderInfo::order &order){
-    std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> laundry = order.getLaundry();
-    std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> dryClean = order.getDryClean();
-    std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> alterations = order.getAlterations();
-
-
-    size_t outerVectorSize = laundry.size(), innerVectorSize;
-    std::ofstream ofs(this->orderFile.c_str(), std::ios::app);
-    // int curOrderID = order.getOrderID();
-    // if(order.getCustomerID() != customers[orders[curOrderID].getCustomerID()].getCustomerOrderID())
-
-    if (!ofs) {
-        std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
-        logger->log("In saveOrders(): Error opening file to write to: " + this->orderFile);
-        return;
-    }
-
-    ofs << order.getOrderID() << ","
-        << order.getCustomerID() << ","
-        << order.getCost() << ","
-        << order.getRack() << ","
-        << order.getPickUp() << ","
-        << order.getPaid() << ","
-        << order.getPieceTotal() << ","
-        << order.getDiscountApplied() << ","
-        << order.getDiscount() << ","
-        << order.getDiscountedCost() << ","
-        << order.getDeposit() << ","
-        << order.getVoidOrder() << ",";
-
-    ofs << order.dropOff->getDay() << ","
-        << order.dropOff->getMonth() << ","
-        << order.dropOff->getYear() << ","
-        << order.dropOff->getHour() << ","
-        << order.dropOff->getMin() << ","
-        << order.dropOff->getAm_Pm() << ",";
-
-    ofs << order.pickUp->getDay() << ","
-        << order.pickUp->getMonth() << ","
-        << order.pickUp->getYear() << ","
-        << order.pickUp->getHour() << ","
-        << order.pickUp->getMin() << ","
-        << order.pickUp->getAm_Pm() << ",";
-
-
-    //Laundry
-    ofs << outerVectorSize;
-    for (const auto& innerVector : laundry) {
-        innerVectorSize = innerVector.size();
-        ofs << "," << innerVectorSize;
-        for (const auto& tuple : innerVector) {
-            ofs << "," << std::get<0>(tuple);
-            ofs << "," << std::get<1>(tuple);
-            ofs << "," << std::get<2>(tuple);
-            ofs << "," << std::get<3>(tuple);            //add this line
-        }
-    }
-    ofs << "," << "DC" << ";";
-
-    //Dry Clean
-    outerVectorSize = dryClean.size();
-    ofs << outerVectorSize;
-    for (const auto& innerVector : dryClean) {
-        innerVectorSize = innerVector.size();
-        ofs << "," << innerVectorSize;
-        for (const auto& tuple : innerVector) {
-            ofs << "," << std::get<0>(tuple);
-            ofs << "," << std::get<1>(tuple);
-            ofs << "," << std::get<2>(tuple);
-            ofs << "," << std::get<3>(tuple);            //add this line
-        }
-    }
-    ofs << "," << "ALT" << ";";
-
-    //Alterations
-    outerVectorSize = alterations.size();
-    ofs << outerVectorSize;
-    for (const auto& innerVector : alterations) {
-        innerVectorSize = innerVector.size();
-        ofs << "," << innerVectorSize;
-        for (const auto& tuple : innerVector) {
-            ofs << "," << std::get<0>(tuple);
-            ofs << "," << std::get<1>(tuple);
-            ofs << "," << std::get<2>(tuple);
-            ofs << "," << std::get<3>(tuple);            //add this line
-        }
-    }
-
-    ofs << "\n";
-
-    ofs.close();
-
-    std::cout << "\n" << "Successfully saved order data..." << "\n";
-    logger->log("Successfully saved order data...");
-} */
-
 
 void File::saveOrders(orderInfo::order &order){
     services::serviceOrder laundry;
     services::serviceOrder dryClean;
     services::serviceOrder alterations;
+
+    std::vector<pieces::pieceOrder> pieceList; //Vector contained by type class, meant to store pieces
+    std::vector<pieces::pieceTypeOrder> typeList; //Vector contained by Service class, meant to store types
+
 
     size_t outerVectorSize = laundry.getTypeListSize(), innerVectorSize;
 
@@ -242,18 +145,26 @@ void File::saveOrders(orderInfo::order &order){
         << order.pickUp.getMin() << ","
         << order.pickUp.getAm_Pm() << ",";
 
-
-
-
     //Laundry
-    ofs << outerVectorSize;
-    for(const auto& innerVector : laundry.getServiceTypeList()) {
+    ofs << laundry.getServiceName() << ","
+        << laundry.getServiceTotal() << ","
+        << outerVectorSize;
+
+    typeList = laundry.getServiceTypeList();
+    for(const auto& innerVector : typeList) {
+        ofs << "," << innerVector.getPieceTypeName()
+            << "," << innerVector.getTypeID()
+            << "," << innerVector.getTypeCost()
+            << "," << innerVector.getPieceTotal();
+
         innerVectorSize = innerVector.getPieceListSize();
         ofs << "," << innerVectorSize;
 
-        for(const auto& pieceOrder : innerVector.getPieceList()){
+        pieceList = innerVector.getPieceList();
+        for(const auto& pieceOrder : pieceList){
             ofs << "," << pieceOrder.getPieceName()
                 << "," << pieceOrder.getPieceID()
+                << "," << pieceOrder.getTypeID()
                 << "," << pieceOrder.getPiecePrice()
                 << "," << pieceOrder.getPieceCount()
                 << "," << pieceOrder.getPieceOrderItemCount()
@@ -263,13 +174,22 @@ void File::saveOrders(orderInfo::order &order){
 
     ofs << "," << "DC" << ";";
     outerVectorSize = dryClean.getTypeListSize();
-    ofs << outerVectorSize;
+    ofs << dryClean.getServiceName() << ","
+        << dryClean.getServiceTotal() << ","
+        << outerVectorSize;
 
-    for(const auto& innerVector : dryClean.getServiceTypeList()) {
+    typeList = dryClean.getServiceTypeList();
+    for(const auto& innerVector : typeList) {
+        ofs << "," << innerVector.getPieceTypeName()
+            << "," << innerVector.getTypeID()
+            << "," << innerVector.getTypeCost()
+            << "," << innerVector.getPieceTotal();
+
         innerVectorSize = innerVector.getPieceListSize();
         ofs << "," << innerVectorSize;
 
-        for(const auto& pieceOrder : innerVector.getPieceList()){
+        pieceList = innerVector.getPieceList();
+        for(const auto& pieceOrder : pieceList){
             ofs << "," << pieceOrder.getPieceName()
             << "," << pieceOrder.getPieceID()
             << "," << pieceOrder.getPiecePrice()
@@ -281,13 +201,22 @@ void File::saveOrders(orderInfo::order &order){
 
     ofs << "," << "ALT" << ";";
     outerVectorSize = alterations.getTypeListSize();
-    ofs << outerVectorSize;
+    ofs << alterations.getServiceName() << ","
+        << alterations.getServiceTotal() << ","
+        << outerVectorSize;
 
-    for(const auto& innerVector : alterations.getServiceTypeList()) {
+    typeList = alterations.getServiceTypeList();
+    for(const auto& innerVector : typeList) {
+        ofs << "," << innerVector.getPieceTypeName()
+            << "," << innerVector.getTypeID()
+            << "," << innerVector.getTypeCost()
+            << "," << innerVector.getPieceTotal();
+
         innerVectorSize = innerVector.getPieceListSize();
         ofs << "," << innerVectorSize;
 
-        for(const auto& pieceOrder : innerVector.getPieceList()){
+        pieceList = innerVector.getPieceList();
+        for(const auto& pieceOrder : pieceList){
             ofs << "," << pieceOrder.getPieceName()
             << "," << pieceOrder.getPieceID()
             << "," << pieceOrder.getPiecePrice()
@@ -296,48 +225,6 @@ void File::saveOrders(orderInfo::order &order){
             << "," << pieceOrder.getPieceOrderCost();
         }
     }
-
-    /*
-    for (const auto& innerVector : laundry) {
-        innerVectorSize = innerVector.size();
-        ofs << "," << innerVectorSize;
-        for (const auto& tuple : innerVector) {
-            ofs << "," << std::get<0>(tuple);
-            ofs << "," << std::get<1>(tuple);
-            ofs << "," << std::get<2>(tuple);
-            ofs << "," << std::get<3>(tuple);            //add this line
-        }
-    }
-    ofs << "," << "DC" << ";";
-
-    //Dry Clean
-    outerVectorSize = dryClean.size();
-    ofs << outerVectorSize;
-    for (const auto& innerVector : dryClean) {
-        innerVectorSize = innerVector.size();
-        ofs << "," << innerVectorSize;
-        for (const auto& tuple : innerVector) {
-            ofs << "," << std::get<0>(tuple);
-            ofs << "," << std::get<1>(tuple);
-            ofs << "," << std::get<2>(tuple);
-            ofs << "," << std::get<3>(tuple);            //add this line
-        }
-    }
-    ofs << "," << "ALT" << ";";
-
-    //Alterations
-    outerVectorSize = alterations.size();
-    ofs << outerVectorSize;
-    for (const auto& innerVector : alterations) {
-        innerVectorSize = innerVector.size();
-        ofs << "," << innerVectorSize;
-        for (const auto& tuple : innerVector) {
-            ofs << "," << std::get<0>(tuple);
-            ofs << "," << std::get<1>(tuple);
-            ofs << "," << std::get<2>(tuple);
-            ofs << "," << std::get<3>(tuple);            //add this line
-        }
-    } */
 
     ofs << "\n";
 
@@ -383,17 +270,21 @@ int File::checkOrderIDs(){
 
 
 void File::loadOrders() {
-    int n, orderID, customerID, rack, pieceTotal, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin;
-    double cost, price, discount, discountedCost, deposit;
+    int orderID, customerID, rack, pieceTotal, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, typeID, pieceTypeTotal, pieceID, pieceTypeID, pieceCount, pieceOrderItemCount;
+    float total, discount, discountedCost, deposit, typeCost, piecePrice, pieceOrderCost, serviceTotal;
     size_t outersize, innersize, i, j;
     bool pickedUp, paid, discountApplied, voidOrder;
-    std::string dropOffAm_Pm, pickUpAm_Pm, line, temp, article, articleType;
+    std::string dropOffAm_Pm, pickUpAm_Pm, line, temp, article, articleType, pieceTypeName, pieceName, serviceName;
 
-    std::vector<>
+    //pieces::pieceOrder piece;
+    pieces::pieceTypeOrder type;
 
-    services::serviceList laundry;
-    services::serviceList dryClean;
-    services::serviceList alterations;
+    std::vector<pieces::pieceOrder> pieceList; //Vector contained by type class, meant to store pieces
+    std::vector<pieces::pieceTypeOrder> typeList; //Vector contained by Service class, meant to store types
+
+    services::serviceOrder laundry;
+    services::serviceOrder dryClean;
+    services::serviceOrder alterations;
 
     std::ifstream ifs(this->orderFile.c_str());
 
@@ -411,7 +302,7 @@ void File::loadOrders() {
         std::getline(ss, temp, ',');
         customerID = std::stoi(temp);
         std::getline(ss, temp, ',');
-        cost = std::stod(temp);
+        total = std::stof(temp);
         std::getline(ss, temp, ',');
         rack = std::stoi(temp);
         std::getline(ss, temp, ',');
@@ -429,7 +320,7 @@ void File::loadOrders() {
         std::getline(ss, temp, ',');
         deposit = std::stod(temp);
         std::getline(ss,temp, ',');
-        voidOrder = std::stod(temp);
+        voidOrder = std::stof(temp);
 
         std::getline(ss, temp, ',');
         dropOffDay = std::stoi(temp);
@@ -455,68 +346,180 @@ void File::loadOrders() {
         pickUpMin = std::stoi(temp);
         std::getline(ss, pickUpAm_Pm, ',');
 
+        std::getline(ss, serviceName, ',');
+        std::getline(ss, temp, ',');
+        serviceTotal = std::stof(temp);
+
         std::getline(ss, temp, ',');
         outersize = std::stoi(temp);
-        laundry.resize(outersize);
+
+        typeList.resize(outersize);
 
         for (i = 0; i < outersize; i++) {
+            std::getline(ss, pieceTypeName, ',');
+            std::getline(ss, temp, ',');
+            typeID = std::stoi(temp);
+            std::getline(ss, temp, ',');
+            typeCost = std::stof(temp);
+            std::getline(ss, temp, ',');
+            pieceTypeTotal = std::stoi(temp);
+
             std::getline(ss, temp, ',');
             innersize = std::stoi(temp);
-            laundry[i].resize(innersize);
+            pieceList.resize(innersize);
+
             for (j = 0; j < innersize; j++) {
-                std::getline(ss, articleType, ',');
-                std::getline(ss, article, ',');
+                std::getline(ss, pieceName, ',');
                 std::getline(ss, temp, ',');
-                n = std::stoi(temp);
+                pieceID = std::stoi(temp);
                 std::getline(ss, temp, ',');
-                price = std::stod(temp);
-                laundry[i][j] = std::make_tuple(articleType, article, n, price);
+                pieceTypeID = std::stoi(temp);
+                std::getline(ss, temp, ',');
+                piecePrice = std::stof(temp);
+                std::getline(ss, temp, ',');
+                pieceCount = std::stoi(temp);
+                std::getline(ss, temp, ',');
+                pieceOrderItemCount = std::stoi(temp);
+                std::getline(ss, temp, ',');
+                pieceOrderCost = std::stof(temp);
+
+                pieceList[j] = pieces::pieceOrder(pieceName, pieceID, pieceTypeID, piecePrice, pieceCount, pieceOrderItemCount, pieceOrderCost);;
             }
+
+            type = pieces::pieceTypeOrder(pieceTypeName, typeID, typeCost, pieceList, pieceTypeTotal);
+            typeList[i] = type;
         }
+
+        laundry = services::serviceOrder(serviceName, serviceTotal, typeList);
+        pieceList.clear();
+        typeList.clear();
+
+        //Finish below this
 
         std::getline(ss, temp, ';'); //DC part of order
+
+        std::getline(ss, serviceName, ',');
+        std::getline(ss, temp, ',');
+        serviceTotal = std::stof(temp);
+
         std::getline(ss, temp, ',');
         outersize = std::stoi(temp);
-        dryClean.resize(outersize);
+
+        typeList.resize(outersize);
 
         for (i = 0; i < outersize; i++) {
+            std::getline(ss, pieceTypeName, ',');
+            std::getline(ss, temp, ',');
+            typeID = std::stoi(temp);
+            std::getline(ss, temp, ',');
+            typeCost = std::stof(temp);
+            std::getline(ss, temp, ',');
+            pieceTypeTotal = std::stoi(temp);
+
             std::getline(ss, temp, ',');
             innersize = std::stoi(temp);
-            dryClean[i].resize(innersize);
+            pieceList.resize(innersize);
+
             for (j = 0; j < innersize; j++) {
-                std::getline(ss, articleType, ',');
-                std::getline(ss, article, ',');
+                std::getline(ss, pieceName, ',');
                 std::getline(ss, temp, ',');
-                n = std::stoi(temp);
+                pieceID = std::stoi(temp);
                 std::getline(ss, temp, ',');
-                price = std::stod(temp);
-                dryClean[i][j] = std::make_tuple(articleType, article, n, price);
+                pieceTypeID = std::stoi(temp);
+                std::getline(ss, temp, ',');
+                piecePrice = std::stof(temp);
+                std::getline(ss, temp, ',');
+                pieceCount = std::stoi(temp);
+                std::getline(ss, temp, ',');
+                pieceOrderItemCount = std::stoi(temp);
+                std::getline(ss, temp, ',');
+                pieceOrderCost = std::stof(temp);
+
+                pieceList[j] = pieces::pieceOrder(pieceName, pieceID, pieceTypeID, piecePrice, pieceCount, pieceOrderItemCount, pieceOrderCost);
             }
+
+            type = pieces::pieceTypeOrder(pieceTypeName, typeID, typeCost, pieceList, pieceTypeTotal);
+            typeList[i] = type;
         }
+
+        dryClean = services::serviceOrder(serviceName, serviceTotal, typeList);
+        pieceList.clear();
+        typeList.clear();
 
         std::getline(ss, temp, ';'); //ALT part of order
+
+        std::getline(ss, serviceName, ',');
+        std::getline(ss, temp, ',');
+        serviceTotal = std::stof(temp);
+
         std::getline(ss, temp, ',');
         outersize = std::stoi(temp);
-        alterations.resize(outersize);
+
+        typeList.resize(outersize);
 
         for (i = 0; i < outersize; i++) {
+            std::getline(ss, pieceTypeName, ',');
+            std::getline(ss, temp, ',');
+            typeID = std::stoi(temp);
+            std::getline(ss, temp, ',');
+            typeCost = std::stof(temp);
+            std::getline(ss, temp, ',');
+            pieceTypeTotal = std::stoi(temp);
+
             std::getline(ss, temp, ',');
             innersize = std::stoi(temp);
-            alterations[i].resize(innersize);
+            pieceList.resize(innersize);
+
             for (j = 0; j < innersize; j++) {
-                std::getline(ss, articleType, ',');
-                std::getline(ss, article, ',');
+                std::getline(ss, pieceName, ',');
                 std::getline(ss, temp, ',');
-                n = std::stoi(temp);
+                pieceID = std::stoi(temp);
                 std::getline(ss, temp, ',');
-                price = std::stod(temp);
-                alterations[i][j] = std::make_tuple(articleType, article, n, price);
+                pieceTypeID = std::stoi(temp);
+                std::getline(ss, temp, ',');
+                piecePrice = std::stof(temp);
+                std::getline(ss, temp, ',');
+                pieceCount = std::stoi(temp);
+                std::getline(ss, temp, ',');
+                pieceOrderItemCount = std::stoi(temp);
+                std::getline(ss, temp, ',');
+                pieceOrderCost = std::stof(temp);
+
+                pieceList[j] = pieces::pieceOrder(pieceName, pieceID, pieceTypeID, piecePrice, pieceCount, pieceOrderItemCount, pieceOrderCost);
             }
+
+            type = pieces::pieceTypeOrder(pieceTypeName, typeID, typeCost, pieceList, pieceTypeTotal);
+            typeList[i] = type;
         }
 
+        alterations = services::serviceOrder(serviceName, serviceTotal, typeList);
+        pieceList.clear();
+        typeList.clear();
 
+        orderInfo::order::Params params {
+            .orderID = orderID,
+            .customerID = customerID,
+            .laundry = laundry,
+            .dryClean = dryClean,
+            .alterations = alterations,
 
-        orders.emplace_back(orderID, customerID, cost, rack, pickedUp, paid, pieceTotal, discountApplied, discount, discountedCost, deposit, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, laundry, dryClean, alterations);
+            .total = total,
+            .rack = rack,
+            .pickedUp = pickedUp,
+            .paid = paid,
+            .pieceTotal = pieceTotal,
+            .discountApplied = discountApplied,
+            .discount = discount,
+            .discountedCost = discountedCost,
+            .deposit = deposit,
+            .voidOrder = voidOrder,
+
+            .dropOff = date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm),
+            .pickUp = date::Date(pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm)
+        };
+
+        orders.emplace_back(params);
+
     }
 
     ifs.close();
@@ -535,7 +538,10 @@ void File::updateOrder(const int id){
     services::serviceOrder dryClean = orders[id].getDryClean();
     services::serviceOrder alterations = orders[id].getAlterations();
 
-    size_t outerVectorSize = laundry, innerVectorSize;
+    std::vector<pieces::pieceOrder> pieceList; //Vector contained by type class, meant to store pieces
+    std::vector<pieces::pieceTypeOrder> typeList; //Vector contained by Service class, meant to store types
+
+    size_t outerVectorSize = laundry.getTypeListSize(), innerVectorSize;
 
     std::ifstream ifs(this->orderFile.c_str());
     std::ofstream tempF(this->tempOrderFile.c_str());
@@ -561,73 +567,113 @@ void File::updateOrder(const int id){
         if(std::stoi(currentID) == id && std::stoi(currentCustomerID) == customerID && !found){
             found = true;
 
-            tempF   << orders[id].getOrderID() << ","
-                    << orders[id].getCustomerID() << ","
-                    << orders[id].getCost() << ","
-                    << orders[id].getRack() << ","
-                    << orders[id].getPickUp() << ","
-                    << orders[id].getPaid() << ","
-                    << orders[id].getPieceTotal() << ","
-                    << orders[id].getDiscountApplied() << ","
-                    << orders[id].getDiscount() << ","
-                    << orders[id].getDiscountedCost() << ","
-                    << orders[id].getDeposit() << ","
-                    << orders[id].getVoidOrder() << ",";
+            orderInfo::order &order = orders[id];
 
-            tempF   << orders[id].dropOff.getDay() << ","
-                    << orders[id].dropOff.getMonth() << ","
-                    << orders[id].dropOff.getYear() << ","
-                    << orders[id].dropOff.getHour() << ","
-                    << orders[id].dropOff.getMin() << ","
-                    << orders[id].dropOff.getAm_Pm() << ",";
 
-            tempF   << orders[id].pickUp.getDay() << ","
-                    << orders[id].pickUp.getMonth() << ","
-                    << orders[id].pickUp.getYear() << ","
-                    << orders[id].pickUp.getHour() << ","
-                    << orders[id].pickUp.getMin() << ","
-                    << orders[id].pickUp.getAm_Pm() << ",";
+            tempF << order.getOrderID() << ","
+                << order.getCustomerID() << ","
+                << order.getCost() << ","
+                << order.getRack() << ","
+                << order.getPickUp() << ","
+                << order.getPaid() << ","
+                << order.getPieceTotal() << ","
+                << order.getDiscountApplied() << ","
+                << order.getDiscount() << ","
+                << order.getDiscountedCost() << ","
+                << order.getDeposit() << ","
+                << order.getVoidOrder() << ",";
+
+            tempF << order.dropOff.getDay() << ","
+                << order.dropOff.getMonth() << ","
+                << order.dropOff.getYear() << ","
+                << order.dropOff.getHour() << ","
+                << order.dropOff.getMin() << ","
+                << order.dropOff.getAm_Pm() << ",";
+
+            tempF << order.pickUp.getDay() << ","
+                << order.pickUp.getMonth() << ","
+                << order.pickUp.getYear() << ","
+                << order.pickUp.getHour() << ","
+                << order.pickUp.getMin() << ","
+                << order.pickUp.getAm_Pm() << ",";
 
             //Laundry
-            tempF << outerVectorSize;
-            for (const auto& innerVector : laundry) {
-                innerVectorSize = innerVector.size();
+            tempF << laundry.getServiceName() << ","
+                << laundry.getServiceTotal() << ","
+                << outerVectorSize;
+
+            typeList = laundry.getServiceTypeList();
+            for(const auto& innerVector : typeList) {
+                tempF << "," << innerVector.getPieceTypeName()
+                    << "," << innerVector.getTypeID()
+                    << "," << innerVector.getTypeCost()
+                    << "," << innerVector.getPieceTotal();
+
+                innerVectorSize = innerVector.getPieceListSize();
                 tempF << "," << innerVectorSize;
-                for (const auto& tuple : innerVector) {
-                    tempF << "," << std::get<0>(tuple);
-                    tempF << "," << std::get<1>(tuple);
-                    tempF << "," << std::get<2>(tuple);
-                    tempF << "," << std::get<3>(tuple);
+
+                pieceList = innerVector.getPieceList();
+                for(const auto& pieceOrder : pieceList){
+                    tempF << "," << pieceOrder.getPieceName()
+                            << "," << pieceOrder.getPieceID()
+                            << "," << pieceOrder.getPiecePrice()
+                            << "," << pieceOrder.getPieceCount()
+                            << "," << pieceOrder.getPieceOrderItemCount()
+                            << "," << pieceOrder.getPieceOrderCost();
                 }
             }
+
             tempF << "," << "DC" << ";";
+            outerVectorSize = dryClean.getTypeListSize();
+            tempF << dryClean.getServiceName() << ","
+                  << dryClean.getServiceTotal() << ","
+                  << outerVectorSize;
 
-            //Dry Clean
-            outerVectorSize = dryClean.size();
-            tempF << outerVectorSize;
-            for (const auto& innerVector : dryClean) {
-                innerVectorSize = innerVector.size();
+            typeList = dryClean.getServiceTypeList();
+            for(const auto& innerVector : typeList) {
+                tempF << "," << innerVector.getPieceTypeName()
+                    << "," << innerVector.getTypeID()
+                    << "," << innerVector.getTypeCost()
+                    << "," << innerVector.getPieceTotal();
+
+                innerVectorSize = innerVector.getPieceListSize();
                 tempF << "," << innerVectorSize;
-                for (const auto& tuple : innerVector) {
-                    tempF << "," << std::get<0>(tuple);
-                    tempF << "," << std::get<1>(tuple);
-                    tempF << "," << std::get<2>(tuple);
-                    tempF << "," << std::get<3>(tuple);
+
+                pieceList = innerVector.getPieceList();
+                for(const auto& pieceOrder : pieceList){
+                    tempF << "," << pieceOrder.getPieceName()
+                        << "," << pieceOrder.getPieceID()
+                        << "," << pieceOrder.getPiecePrice()
+                        << "," << pieceOrder.getPieceCount()
+                        << "," << pieceOrder.getPieceOrderItemCount()
+                        << "," << pieceOrder.getPieceOrderCost();
                 }
             }
-            tempF << "," << "ALT" << ";";
 
-            //Alterations
-            outerVectorSize = alterations.size();
-            tempF << outerVectorSize;
-            for (const auto& innerVector : alterations) {
-                innerVectorSize = innerVector.size();
+            tempF << "," << "ALT" << ";";
+            outerVectorSize = alterations.getTypeListSize();
+            tempF << alterations.getServiceName() << ","
+                    << alterations.getServiceTotal() << ","
+                    << outerVectorSize;
+
+            typeList = alterations.getServiceTypeList();
+            for(const auto& innerVector : typeList) {
+                tempF << "," << innerVector.getPieceTypeName()
+                    << "," << innerVector.getTypeID()
+                    << "," << innerVector.getTypeCost()
+                    << "," << innerVector.getPieceTotal();
+
+                innerVectorSize = innerVector.getPieceListSize();
                 tempF << "," << innerVectorSize;
-                for (const auto& tuple : innerVector) {
-                    tempF << "," << std::get<0>(tuple);
-                    tempF << "," << std::get<1>(tuple);
-                    tempF << "," << std::get<2>(tuple);
-                    tempF << "," << std::get<3>(tuple);
+
+                pieceList = innerVector.getPieceList();
+                for(const auto& pieceOrder : pieceList){
+                    tempF << "," << pieceOrder.getPieceName()
+                        << "," << pieceOrder.getPieceID()
+                        << "," << pieceOrder.getPiecePrice()
+                        << "," << pieceOrder.getPieceCount()
+                        << "," << pieceOrder.getPieceOrderItemCount()
+                        << "," << pieceOrder.getPieceOrderCost();
                 }
             }
 
@@ -718,77 +764,84 @@ void File::updateCustomer(const int id) {
 
 void File::savePrices(){
     std::ofstream ofs(this->priceFile.c_str());
-    size_t outerVectorSize, innerVectorSize;
+
+    std::vector<pieces::pieceTypeList> typeList;
+    std::vector<pieces::piece> pieceList;
+
+
     if(!ofs){
         std::cerr << "Error opening file to write to: " << this->priceFile << "\n";
         logger.log("Error opening file to write to: " + this->priceFile);
         return;
     }
 
-    outerVectorSize = laundryPrices.get();
-    ofs << outerVectorSize;
-    for(const auto &innerVector : laundryPrices){
-        innerVectorSize = innerVector.size();
-        ofs << "," << innerVectorSize;
-        for(const auto& pair : innerVector){
-            ofs << "," << pair.first
-                << "," << pair.second;
+
+
+    ofs << laundry.getServiceName()
+        << "," << laundry.getTypeListSize();
+
+    typeList = laundry.getServiceTypeList();
+
+    for(const auto &type : typeList){
+        pieceList = type.getPieceList();
+
+        ofs << "," << type.getPieceTypeName()
+            << "," << type.getTypeID()
+            << "," << pieceList.size();
+
+        for(const auto& piece : pieceList){
+            ofs << "," << piece.getPieceName()
+                << "," << piece.getPieceID()
+                << "," << piece.getTypeID()
+                << "," << piece.getPiecePrice()
+                << "," << piece.getPieceCount();
         }
     }
 
     ofs << "," << "DC" << ";";
 
-    outerVectorSize = dryCleanPrices.size();
-    ofs << outerVectorSize;
-    for(const auto &innerVector : dryCleanPrices){
-        innerVectorSize = innerVector.size();
-        ofs << "," << innerVectorSize;
-        for(const auto& pair : innerVector){
-            ofs << "," << pair.first
-                << "," << pair.second;
+    ofs << dryClean.getServiceName()
+        << "," << dryClean.getTypeListSize();
+
+    typeList = dryClean.getServiceTypeList();
+
+    for(const auto &type : typeList){
+        pieceList = type.getPieceList();
+
+        ofs << "," << type.getPieceTypeName()
+            << "," << type.getTypeID()
+            << "," << pieceList.size();
+
+        for(const auto& piece : pieceList){
+            ofs << "," << piece.getPieceName()
+            << "," << piece.getPieceID()
+            << "," << piece.getPiecePrice()
+            << "," << piece.getPieceCount();
         }
     }
 
-    ofs << "," << "ALT" << ";";
-    outerVectorSize = alterationsPrices.size();
-    ofs << outerVectorSize;
-    for(const auto &innerVector : alterationsPrices){
-        innerVectorSize = innerVector.size();
-        ofs << "," << innerVectorSize;
-        for(const auto& pair : innerVector){
-            ofs << "," << pair.first
-                << "," << pair.second;
+
+    ofs << alterations.getServiceName()
+        << "," << alterations.getTypeListSize();
+
+    typeList = alterations.getServiceTypeList();
+
+    for(const auto &type : typeList){
+        pieceList = type.getPieceList();
+
+        ofs << "," << type.getPieceTypeName()
+            << "," << type.getTypeID()
+            << "," << pieceList.size();
+
+        for(const auto& piece : pieceList){
+            ofs << "," << piece.getPieceName()
+            << "," << piece.getPieceID()
+            << "," << piece.getPiecePrice()
+            << "," << piece.getPieceCount();
         }
     }
     
     ofs << "\n";
-
-    
-    outerVectorSize = laundryPos.size();
-    ofs << outerVectorSize;
-    for(const auto &tuple : laundryPos){
-        ofs << "," << std::get<0>(tuple)
-            << "," << std::get<1>(tuple)
-            << "," << std::get<2>(tuple);
-    }
-
-    ofs << "," << "DC" << ";";
-    outerVectorSize = dryCleanPos.size();
-    ofs << outerVectorSize;
-    for(const auto &tuple : dryCleanPos){
-        ofs << "," << std::get<0>(tuple)
-            << "," << std::get<1>(tuple)
-            << "," << std::get<2>(tuple);
-    }
-
-    ofs << "," << "ALT" << ";";
-    outerVectorSize = alterationsPos.size();
-    ofs << outerVectorSize;
-    for(const auto &tuple : alterationsPos){
-        ofs << "," << std::get<0>(tuple)
-            << "," << std::get<1>(tuple)
-            << "," << std::get<2>(tuple);
-    }
 
     ofs.close();
 
@@ -798,10 +851,13 @@ void File::savePrices(){
 }
 
 void File::loadPrices(){
-    int rPos, lPos, outerSize, innerSize, i, j;
-    double price;
-    std::string line, piece, temp;
+    int typeListSize, pieceListSize, i, j, typeID, pieceID, pieceTypeID, pieceCount;
+    float piecePrice;
+    std::string line, piece, temp, service, type;
     std::ifstream ifs(this->priceFile.c_str());
+
+    std::vector<pieces::pieceTypeList> typeList;
+    std::vector<pieces::piece> pieceList;
 
     if(!ifs){
         std::cerr << "Error opening file to write to: " << this->priceFile <<"\n";
@@ -810,9 +866,7 @@ void File::loadPrices(){
         return;
     }
 
-
-
-    if(!std::getline(ifs, line)){
+    /*if(!std::getline(ifs, line)){
         laundryPrices.resize(1);
         laundryPrices[0].resize(1);
         laundryPos.resize(1);
@@ -828,98 +882,107 @@ void File::loadPrices(){
         alterationsPos.resize(1);
         alterationsPos[0] = std::make_tuple("", 0, 0);
         return;
-    }
+    } */
 
     std::stringstream ss(line);
+    std::getline(ss, service, ',');
     std::getline(ss, temp, ',');
-    outerSize = std::stoi(temp);
-    laundryPrices.resize(outerSize);
-    for(i = 0; i < outerSize; i++){
+    typeListSize = std::stoi(temp);
+
+    typeList.reserve(typeListSize);
+
+    for(i = 0; i < typeListSize; i++){
+        std::getline(ss, type, ',');
         std::getline(ss, temp, ',');
-        innerSize = std::stoi(temp);
-        laundryPrices[i].resize(innerSize);
-        for(j = 0; j < innerSize; j++){
+        typeID = std::stoi(temp);
+
+        std::getline(ss, temp, ',');
+        pieceListSize = std::stoi(temp);
+        pieceList.reserve(pieceListSize);
+
+        for(j = 0; j < pieceListSize; j++){
             std::getline(ss, piece, ',');
             std::getline(ss, temp, ',');
-            price = std::stod(temp);
-            laundryPrices[i][j] = std::make_pair(piece, price);
+            pieceID = std::stoi(temp);
+            std::getline(ss, temp, ',');
+            pieceTypeID = std::stoi(temp);
+            std::getline(ss, temp, ',');
+            piecePrice = std::stof(temp);
+            std::getline(ss, temp, ',');
+            pieceCount = std::stoi(temp);
+
+            pieceList[j] = pieces::piece(piece, pieceID, pieceTypeID, piecePrice, pieceCount);
         }
+        typeList[i] = pieces::pieceTypeList(type, typeID, pieceList);
     }
+    laundry = services::serviceList(service, typeList);
 
     std::getline(ss, temp, ';');
+    std::getline(ss, service, ',');
     std::getline(ss, temp, ',');
-    outerSize = std::stoi(temp);
-    dryCleanPrices.resize(outerSize);
-    for(i = 0; i < outerSize; i++){
+    typeListSize = std::stoi(temp);
+
+    typeList.reserve(typeListSize);
+
+    for(i = 0; i < typeListSize; i++){
+        std::getline(ss, type, ',');
         std::getline(ss, temp, ',');
-        innerSize = std::stoi(temp);
-        dryCleanPrices[i].resize(innerSize);
-        for(j = 0; j < innerSize; j++){
+        typeID = std::stoi(temp);
+
+        std::getline(ss, temp, ',');
+        pieceListSize = std::stoi(temp);
+        pieceList.reserve(pieceListSize);
+
+        for(j = 0; j < pieceListSize; j++){
             std::getline(ss, piece, ',');
             std::getline(ss, temp, ',');
-            price = std::stod(temp);
-            dryCleanPrices[i][j] = std::make_pair(piece, price);
+            pieceID = std::stoi(temp);
+            std::getline(ss, temp, ',');
+            pieceTypeID = std::stoi(temp);
+            std::getline(ss, temp, ',');
+            piecePrice = std::stof(temp);
+            std::getline(ss, temp, ',');
+            pieceCount = std::stoi(temp);
+
+            pieceList[j] = pieces::piece(piece, pieceID, pieceTypeID, piecePrice, pieceCount);
         }
+        typeList[i] = pieces::pieceTypeList(type, typeID, pieceList);
     }
+    dryClean = services::serviceList(service, typeList);
 
     std::getline(ss, temp, ';');
+    std::getline(ss, service, ',');
     std::getline(ss, temp, ',');
-    outerSize = std::stoi(temp);
-    alterationsPrices.resize(outerSize);
-    for(i = 0; i < outerSize; i++){
+    typeListSize = std::stoi(temp);
+
+    typeList.reserve(typeListSize);
+
+    for(i = 0; i < typeListSize; i++){
+        std::getline(ss, type, ',');
         std::getline(ss, temp, ',');
-        innerSize = std::stoi(temp);
-        alterationsPrices[i].resize(innerSize);
-        for(j = 0; j < innerSize; j++){
+        typeID = std::stoi(temp);
+
+        std::getline(ss, temp, ',');
+        pieceListSize = std::stoi(temp);
+        pieceList.reserve(pieceListSize);
+
+        for(j = 0; j < pieceListSize; j++){
             std::getline(ss, piece, ',');
             std::getline(ss, temp, ',');
-            price = std::stod(temp);
-            alterationsPrices[i][j] = std::make_pair(piece, price);
+            pieceID = std::stoi(temp);
+            std::getline(ss, temp, ',');
+            pieceTypeID = std::stoi(temp);
+            std::getline(ss, temp, ',');
+            piecePrice = std::stof(temp);
+            std::getline(ss, temp, ',');
+            pieceCount = std::stoi(temp);
+
+            pieceList[j] = pieces::piece(piece, pieceID, pieceTypeID, piecePrice, pieceCount);
         }
+        typeList[i] = pieces::pieceTypeList(type, typeID, pieceList);
     }
+    alterations = services::serviceList(service, typeList);
 
-    std::getline(ifs, line);
-    ss.clear();
-    ss.str(line);
-
-    std::getline(ss, temp, ',');
-    outerSize = std::stoi(temp);
-    laundryPos.resize(outerSize);
-    for(i = 0; i < outerSize; i++){
-        std::getline(ss, piece, ',');
-        std::getline(ss, temp, ',');
-        rPos = std::stoi(temp);
-        std::getline(ss, temp, ',');
-        lPos = std::stoi(temp);
-        laundryPos[i] = std::make_tuple(piece, rPos, lPos);
-    }
-
-    std::getline(ss, temp, ';');
-    std::getline(ss, temp, ',');
-    outerSize = std::stoi(temp);
-    dryCleanPos.resize(outerSize);
-    for(i = 0; i < outerSize; i++){
-        std::getline(ss, piece, ',');
-        std::getline(ss, temp, ',');
-        rPos = std::stoi(temp);
-        std::getline(ss, temp, ',');
-        lPos = std::stoi(temp);
-        dryCleanPos[i] = std::make_tuple(piece, rPos, lPos);
-    }
-
-    std::getline(ss, temp, ';');
-    std::getline(ss, temp, ',');
-    outerSize = std::stoi(temp);
-    alterationsPos.resize(outerSize);
-    for(i = 0; i < outerSize; i++){
-        std::getline(ss, piece, ',');
-        std::getline(ss, temp, ',');
-        rPos = std::stoi(temp);
-        std::getline(ss, temp, ',');
-        lPos = std::stoi(temp);
-        alterationsPos[i] = std::make_tuple(piece, rPos, lPos);
-    }
-    
     ifs.close();
 
     std::cout << "\n" << "Successfully loaded price data..." << "\n";

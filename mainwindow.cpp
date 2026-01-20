@@ -4,6 +4,13 @@
 #include <QVBoxLayout>
 #include <QLineEdit>
 
+Q_DECLARE_METATYPE(services::serviceOrder*);
+Q_DECLARE_METATYPE(pieces::pieceOrder*);
+
+Q_DECLARE_METATYPE(pieces::pieceTypeList*);
+Q_DECLARE_METATYPE(pieces::piece);
+
+
 //
 //***Main Home Page (0)***
 //
@@ -178,54 +185,71 @@ void MainWindow::clearScreenEO(){
     checkBoxPUEO->setCheckState(Qt::Unchecked);
 }
 
-void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, std::vector<std::vector<std::pair<std::string, double>>> prices, std::vector<std::tuple<std::string, int, int>> pos){
-    size_t row = 0, i, j;
+void MainWindow::setUpOptionsTables(QTableWidget *tableWidget, services::serviceList service){
+    size_t currentRow = 0, i, j;
     QFont font;
-    int size = calculateSize(prices);
-    if(size == 0)
-        return;
 
-    tableWidget->setRowCount(size);
 
-    for(i = 0; i < prices.size(); i++)
-        for(j = 0; j < prices[i].size(); j++){
-            if(j == 0){
-                if(prices[i][j].first == "")
-                    continue;
-                QLabel *label = new QLabel(QString::fromStdString(std::get<0>(pos[i])));
-                label->setAlignment(Qt::AlignLeft);
-                font = label->font();
-                font.setBold(true);
-                label->setFont(font);
+    pieces::pieceTypeList *typeP;
+    pieces::piece *pieceP;
 
-                tableWidget->setCellWidget(row, 0, label);
-                row++;
+    std::vector<pieces::pieceTypeList> typeList = service.getServiceTypeList();
+    std::vector<pieces::piece> pieceList;
+
+    i = 0;
+    while(i < typeList.size()){
+        pieceList = typeList[i].getPieceList();
+
+        if(pieceList.empty() == false){
+            QLabel *label = new QLabel(QString::fromStdString(typeList[i].getPieceTypeName()));
+            label->setAlignment(Qt::AlignLeft);
+            font = label->font();
+            font.setBold(true);
+            label->setFont(font);
+
+            typeP = &typeList[i];
+            label->setProperty("typeP", QVariant::fromValue(typeP));
+            //Retrieve pointer by "pieces::pieceTypeList *typeP = label->property("typeP").value<pieces::pieceTypeList*>();
+
+            tableWidget->insertRow(currentRow);
+            currentRow++;
+
+            j = 0;
+            while(j < pieceList.size()){
+                QLabel *type = new QLabel(QString::fromStdString(pieceList[j].getPieceName()));
+                type->setAlignment(Qt::AlignCenter);
+
+                QSpinBox *count = new QSpinBox(tableWidget);
+                count->setValue(0);
+
+                QDoubleSpinBox *price = new QDoubleSpinBox(tableWidget);
+                price->setMaximum(9999);
+                price->setDecimals(2);
+                price->setValue(pieceList[j].getPiecePrice());
+
+                pieceP = &pieceList[j];
+                type->setProperty("pieceP", QVariant::fromValue(pieceP));
+
+                tableWidget->insertRow(currentRow);
+
+                tableWidget->setCellWidget(currentRow, 0, type);
+                tableWidget->setCellWidget(currentRow, 1, count);
+                tableWidget->setCellWidget(currentRow, 2, price);
+                currentRow++;
+                j++;
             }
-
-            QLabel *type = new QLabel(QString::fromStdString(prices[i][j].first));
-            type->setAlignment(Qt::AlignCenter);
-
-            QSpinBox *count = new QSpinBox(tableWidget);
-            count->setValue(0);
-
-            QDoubleSpinBox *price = new QDoubleSpinBox(tableWidget);
-            price->setMaximum(9999);
-            price->setDecimals(2);
-            price->setValue(prices[i][j].second);
-
-            tableWidget->setCellWidget(row, 0, type);
-            tableWidget->setCellWidget(row, 1, count);
-            tableWidget->setCellWidget(row, 2, price);
-            row++;
         }
+        i++;
+    }
 }
 
-void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex &index, std::vector<std::tuple<std::string, int, int>> &pos, int type){
+void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex &index, services::serviceList service, int type){
     double price;
     int n, row = index.row(), col = index.column();
 
+    pieces::piece *pieceP, piece;
+
     std::string article;
-    std::tuple<std::string, int, double> tup;
     QSpinBox *spinBox;
     QDoubleSpinBox *dSpinBox;
 
@@ -244,23 +268,23 @@ void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex
 
     article = qobject_cast<QLabel*>(tableWidget->cellWidget(row, 0))->text().toStdString();
 
-    //position = getIndex(row, pos);
-    //type = tableWidgetLaundryOptions->item(row, col);
-    //QColor bgColor = type->background().color();
-    //qDebug() << "BackGroundColor: " << bgColor.red() << " " << bgColor.green() << " " << bgColor.blue();
-    //type->setBackground(Qt::green);
+
+    pieceP = index.data(Qt::UserRole + 1).value<pieces::piece*>();
+    piece = *pieceP;
+
+    piece.setPiecePrice(price);
 
     switch(type){
     case 1:
-        order[0]->setLaundryPiece(getTypeName(row, pos), n, price, article);
+        order[0]->addLaundryPiece(getTypeName(piece.getTypeID(), service), piece.getPieceID(), piece, n);
         break;
 
     case 2:
-        order[0]->setDryCleanPiece(getTypeName(row, pos), n, price, article);
+        order[0]->addDryCleanPiece(getTypeName(piece.getTypeID(), service), piece.getPieceID(), piece, n);
         break;
 
     case 3:
-        order[0]->setAlterationsPiece(getTypeName(row, pos), n, price, article);
+        order[0]->addAlterationsPiece(getTypeName(piece.getTypeID(), service), piece.getPieceID(), piece, n);
         break;
     }
 
@@ -302,38 +326,61 @@ void MainWindow::customerSearchPageSetUp(QTableView *tableView, QStandardItemMod
 }
 
 void MainWindow::setDate(QDateTimeEdit *dp, QDateEdit *pu){
-    QDate dateD(order[0]->dropOff->getYear(), order[0]->dropOff->getMonth(), order[0]->dropOff->getDay());
-    QTime timeD(order[0]->dropOff->getHour(), order[0]->dropOff->getMin());
+    QDate dateD(order[0]->dropOff.getYear(), order[0]->dropOff.getMonth(), order[0]->dropOff.getDay());
+    QTime timeD(order[0]->dropOff.getHour(), order[0]->dropOff.getMin());
     QDateTime dateTimeD(dateD, timeD);
     dp->setDateTime(dateTimeD);
 
-    QDate dateP(order[0]->pickUp->getYear(), order[0]->pickUp->getMonth(), order[0]->pickUp->getDay());
+    QDate dateP(order[0]->pickUp.getYear(), order[0]->pickUp.getMonth(), order[0]->pickUp.getDay());
     pu->setDate(dateP);
 }
-
+//Finish this
 void MainWindow::saveModel(QStandardItemModel *model){
     size_t row = 0;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, float>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
+    services::serviceOrder laundryOrder = order[0]->getLaundry(), dryCleanOrder = order[0]->getDryClean(), alterationsOrder = order[0]->getAlterations();
+
     std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, float>>>> pair;
 
-    pair = saveTableView(laundry, model, "Laundry", row);
-    row = pair.first;
-    order[0]->setLaundry(pair.second);
+    laundryOrder = saveTableView(laundryOrder, model, row);
+    order[0]->setLaundry(laundryOrder);
 
-    pair = saveTableView(dryClean, model, "Dry Clean", row);
-    row = pair.first;
-    order[0]->setDryClean(pair.second);
+    dryCleanOrder = saveTableView(dryCleanOrder, model, row);
+    order[0]->setDryClean(dryCleanOrder);
 
-    pair = saveTableView(alterations, model, "Alterations", row);
-    order[0]->setAlterations(pair.second);
+    alterationsOrder = saveTableView(alterationsOrder, model, row);
+    order[0]->setAlterations(alterationsOrder);
 
     order[0]->calculatePieceTotal();
-    order[0]->calculateCostO();
+    order[0]->calculateSubTotal();
     order[0]->applyDiscount();
 }
+//Finish this
+services::serviceOrder MainWindow::saveTableView(services::serviceOrder service, QStandardItemModel *model, size_t &row){
+    /*size_t i = 0, rowCount = model->rowCount(), posArt = 0, posPiece = 0;
 
-std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>>> MainWindow::saveTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row){
-    size_t i = 0, posArt = 0, posPiece = 0, size = calculatePieceTotal(article);
+    while(i < model->rowCount()){
+        QModelIndex index = model->index(row, 0);
+        QVariant dataNumber = model->data(index);
+
+        if(dataNumber.typeId() == QMetaType::QString && service.getServiceName() == dataNumber.toString()){
+            i++;
+            continue;
+        }
+
+        while()
+
+        index = model->index(row, 3);
+        QVariant dataPrice = model->data(index);
+        index = model->index(row);
+
+
+        if(dataNumber.toInt != )
+
+
+        i++;
+    }
+
+
 
     while(i < size){
         //size_t artSize = article[posArt].size();
@@ -368,55 +415,90 @@ std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, i
         posPiece = 0;
         posArt++;
     }
-    return std::make_pair(row, article);;
+    return std::make_pair(row, article);*/
+
+    return service;
 }
 
 void MainWindow::updateModel(QStandardItemModel *model){
-    size_t row = 0;
-    std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
+    // size_t row = 0;
+    // std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
+
+    // model->removeRows(0, model->rowCount());
+
+    // row = updateTableView(laundry, model, "Laundry", row);
+    // row = updateTableView(dryClean, model, "Dry Clean", row);
+    // updateTableView(alterations, model, "Alterations", row);
+
+    size_t currentRow = 0;
+    //std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
+    services::serviceOrder laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
 
     model->removeRows(0, model->rowCount());
 
-    row = updateTableView(laundry, model, "Laundry", row);
-    row = updateTableView(dryClean, model, "Dry Clean", row);
-    updateTableView(alterations, model, "Alterations", row);
-
+    updateTableView(laundry, model, currentRow);
+    updateTableView(dryClean, model, currentRow);
+    updateTableView(alterations, model, currentRow);
 }
 
-size_t MainWindow::updateTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> articles, QStandardItemModel *model, QString pieceType, size_t row){
-    double pTotal;
-    size_t i, j;
-    QStandardItem *number, *type, *piece, *pricePerPiece, *priceTotal;
+//Finsh this, add a way to save a pointer to a piece from the order.
+void MainWindow::updateTableView(services::serviceOrder &service, QStandardItemModel *model, size_t &currentRow){
+    float pTotal;
+    size_t i = 0, j;
+    QStandardItem *number, *type, *piece, *pricePerPiece, *priceTotal, *serviceName;
+    QString typeName;
+    services::serviceOrder* serviceP = &service;
+    pieces::pieceOrder* pieceP;
 
-    for(i = 0; i < articles.size(); i++)
-        if(articles[i].empty() == false)
-            for(j = 0; j < articles[i].size(); j++){
-                number = new QStandardItem(QString::number(std::get<2>(articles[i][j])));
+    std::vector<pieces::pieceTypeOrder> typeList = service.getServiceTypeList();
+    std::vector<pieces::pieceOrder> pieceList;
+    model->insertRow(currentRow);
+    serviceName = new QStandardItem(QString::fromStdString(service.getServiceName()));
+    serviceName->setTextAlignment(Qt::AlignCenter);
+    serviceName -> setData(QVariant::fromValue(serviceP), Qt::UserRole + 1);
+    model->setItem(currentRow, 0, serviceName);
+
+    while(i < typeList.size()){
+        pieceList = typeList[i].getPieceList();
+        typeName = QString::fromStdString(typeList[i].getPieceTypeName());
+
+        if(pieceList.empty() == false){
+            j = 0;
+            while(j < pieceList.size()){
+                pieceP = &pieceList[i];
+
+                number = new QStandardItem(QString::number(pieceList[i].getPieceOrderItemCount()));
                 number->setTextAlignment(Qt::AlignCenter);
 
-                type = new QStandardItem(pieceType);
+                type = new QStandardItem(typeName);
                 type->setTextAlignment(Qt::AlignCenter);
 
-                piece = new QStandardItem(QString::fromStdString(std::get<0>(articles[i][j])) + " " + QString::fromStdString(std::get<1>(articles[i][j])));
+                piece = new QStandardItem(QString::fromStdString(pieceList[i].getPieceName()));
                 piece->setTextAlignment(Qt::AlignCenter);
+                piece->setData(QVariant::fromValue(pieceP), Qt::UserRole + 2);
 
-                pricePerPiece = new QStandardItem(QString::number(std::get<3>(articles[i][j]), 'f', 2));
+                pricePerPiece = new QStandardItem(QString::number(pieceList[i].getPiecePrice(), 'f', 2));
                 pricePerPiece->setTextAlignment(Qt::AlignCenter);
 
-                pTotal = std::get<2>(articles[i][j]) * std::get<3>(articles[i][j]);
+                pTotal = pieceList[i].calculateCost();
                 priceTotal = new QStandardItem(QString::number(pTotal, 'f', 2));
                 priceTotal->setTextAlignment(Qt::AlignCenter);
 
-                model->setItem(row, 0, number);
-                model->setItem(row, 1, type);
-                model->setItem(row, 2, piece);
-                model->setItem(row, 3, pricePerPiece);
-                model->setItem(row, 4, priceTotal);
+                model->insertRow(currentRow);
 
-                row++;
+                model->setItem(currentRow, 0, number);
+                model->setItem(currentRow, 1, type);
+                model->setItem(currentRow, 2, piece);
+                model->setItem(currentRow, 3, pricePerPiece);
+                model->setItem(currentRow, 4, priceTotal);
+
+                currentRow++;
+                j++;
             }
+        }
+        i++;
 
-    return row;
+    }
 }
 
 void MainWindow::saveCustomerTable(){
@@ -427,13 +509,16 @@ void MainWindow::updateCustomerTable(){
 
 }
 
-std::string MainWindow::getTypeName(int curRow, std::vector<std::tuple<std::string, int, int>> articlePos){
-    std::string typeName;
-    typeName.clear();
+//Finish this
+std::string MainWindow::getTypeName(int typeID, services::serviceList service){
+    std::vector<pieces::pieceTypeList> typeList = service.getServiceTypeList();
 
-    for(size_t i = 0; i < articlePos.size(); i++)
-        if(curRow >= std::get<1>(articlePos[i]) && curRow <= std::get<2>(articlePos[i]))
-            typeName = get<0>(articlePos[i]);
+    std::string typeName;
+
+    for(size_t i = 0; i < typeList.size(); i++){
+        if(typeList[i].getTypeID() == typeID)
+            typeName = typeList[i].getPieceTypeName();
+    }
 
     return typeName;
 }
@@ -518,6 +603,29 @@ void MainWindow::createType(size_t curIndex, std::vector<std::tuple<std::string,
     prices.push_back(newType);
 }
 
+int MainWindow::calculateSize(services::serviceList prices){
+    size_t i, j;
+    int size = 0;
+
+    std::vector<pieces::pieceTypeList> typeList = prices.getServiceTypeList();
+    std::vector<pieces::piece> pieceList;
+
+
+    for(i = 0; i < typeList.size(); i++){
+        pieceList = typeList[i].getPieceList();
+        for(j = 0; j < pieceList.size(); j++){
+            if(j == 0)
+                size++;
+            if(pieceList[j].getPieceName() == "")
+                continue;
+            size++;
+        }
+    }
+
+    return size;
+}
+
+/*
 int MainWindow::calculateSize(std::vector<std::vector<std::pair<std::string, double>>> prices){
     size_t i, j;
     int size = 0;
@@ -531,7 +639,7 @@ int MainWindow::calculateSize(std::vector<std::vector<std::pair<std::string, dou
             size++;
         }
     return size;
-}
+}*/
 
 int MainWindow::calculateSizeOptions(std::vector<std::vector<std::pair<std::string, double>>> prices){
     size_t i, j;
@@ -581,8 +689,8 @@ void MainWindow::returnToRecentStackedWidget(){
 void MainWindow::handleCritcalError(){
     QMessageBox messageBox;
 
-    manager->logger->log("File will be saved as a new log!");
-    manager->logger->saveAsNewLog();
+    manager->logger.log("File will be saved as a new log!");
+    manager->logger.saveAsNewLog();
 
     messageBox.critical(0,"Error","An error has occured !");
     messageBox.setFixedSize(500,200);
@@ -594,10 +702,10 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
     std::string message;
     //Setting Date
     QDateTime dateTime = p->dateTime();
-    order[0]->pickUp->setYear(dateTime.date().year());
-    order[0]->pickUp->setMonth(dateTime.date().month());
-    order[0]->pickUp->setDay(dateTime.date().day());
-    order[0]->pickUp->updateClass();
+    order[0]->pickUp.setYear(dateTime.date().year());
+    order[0]->pickUp.setMonth(dateTime.date().month());
+    order[0]->pickUp.setDay(dateTime.date().day());
+    order[0]->pickUp.updateClass();
 
     order[0]->setPaid(b->isChecked());
 
@@ -618,10 +726,10 @@ void MainWindow::saveAndPrint(int n, QDateEdit *p, QCheckBox *b){
         message = std::to_string(n) + " Reciepts printed";
     else
         message = std::to_string(n) + " Reciept printed";
-    manager->logger->log(message);
+    manager->logger.log(message);
 }
 
-void MainWindow::printReciept(){
+void MainWindow::printReciept(){/*
     int x = 5, y = 15, yInc = 20;
     size_t i, j;
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = order[0]->getLaundry(), dryClean = order[0]->getDryClean(), alterations = order[0]->getAlterations();
@@ -673,9 +781,9 @@ void MainWindow::printReciept(){
     y += yInc;
 
     //Dates
-    painter.drawText(x, y, "Drop Off: " + QString::fromStdString(order[0]->dropOff->dayOfWeekString()) + " " + QString::fromStdString(order[0]->dropOff->getAbbreviatedMonth()) +" " + QString::number(order[0]->dropOff->getDay()) + " " + QString::number(order[0]->dropOff->getYear()));
+    painter.drawText(x, y, "Drop Off: " + QString::fromStdString(order[0]->dropOff.dayOfWeekString()) + " " + QString::fromStdString(order[0]->dropOff.getAbbreviatedMonth()) +" " + QString::number(order[0]->dropOff.getDay()) + " " + QString::number(order[0]->dropOff.getYear()));
     y += yInc;
-    painter.drawText(x, y, "Pick Up: " + QString::fromStdString(order[0]->pickUp->dayOfWeekString()) + " " + QString::fromStdString(order[0]->pickUp->getAbbreviatedMonth()) +" " + QString::number(order[0]->pickUp->getDay()) + " " + QString::number(order[0]->pickUp->getYear()));
+    painter.drawText(x, y, "Pick Up: " + QString::fromStdString(order[0]->pickUp.dayOfWeekString()) + " " + QString::fromStdString(order[0]->pickUp.getAbbreviatedMonth()) +" " + QString::number(order[0]->pickUp.getDay()) + " " + QString::number(order[0]->pickUp.getYear()));
     y += yInc;
 
     //Order Information
@@ -750,7 +858,7 @@ void MainWindow::printReciept(){
     y += 75;
     painter.drawText(QRect(x, y, width, metrics.height() + 50), Qt::AlignCenter, "Thank You Very Much");//QString::number(curOrderID));
 
-    painter.end();
+    painter.end(); */
 }
 
 

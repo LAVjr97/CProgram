@@ -8,26 +8,31 @@ namespace pieces{
     {
         public:
             piece();
-            piece(std::string pieceName, float piecePrice, int pieceCount) : _name(pieceName), _price(piecePrice), _count(pieceCount) {};
+            //piece(std::string pieceName, int pieceID, float piecePrice, int pieceCount) : _name(pieceName), _pieceID(pieceID), _price(piecePrice), _count(pieceCount) {};
+            piece(std::string pieceName, int pieceID, int typeID, float piecePrice, int pieceCount) : _name(pieceName), _pieceID(pieceID), _typeID(typeID), _price(piecePrice), _count(pieceCount) {};
 
             //Getter functions
             std::string getPieceName(void) const {return _name;}
             int getPieceID(void) const {return _pieceID;}
+            int getTypeID(void) const {return _typeID;}
             float getPiecePrice(void) const {return _price;}
             int getPieceCount(void) const {return _count;}
 
             //Setter functions
             void setPieceName(std::string pieceName) {_name = pieceName;}
             void setPieceID(int pieceID) {_pieceID = pieceID;}
+            void setTypeID(int typeID) {_typeID = typeID;}
             void setPiecePrice(float piecePrice) {_price = piecePrice;}
             void setPieceCount(int pieceCount) {_count = pieceCount;}
 
             //Helper functions
             int updatePieceCount(void);
+            piece(const piece &other) : _name(other._name), _pieceID(other._pieceID), _typeID(other._typeID), _price(other._price), _count(other._count) {};
 
         protected:
             std::string _name;
             int _pieceID;
+            int _typeID;
             float _price;
             int _count; //So if a 2pc suit, this will be two, individual piece value
     };
@@ -37,7 +42,8 @@ namespace pieces{
             pieceOrder();
             pieceOrder(piece parent, int itemCount) : piece(parent), _itemCount(itemCount) {calculateCost();}
             pieceOrder(piece parent, float price, int itemCount);
-            pieceOrder(std::string pieceName, float piecePrice, int pieceCount, int itemCount, float cost); //Used to load from file at start up
+            //pieceOrder(std::string pieceName, int pieceID, float piecePrice, int pieceCount, int itemCount, float cost); //Used to load from file at start up
+            pieceOrder(std::string pieceName, int pieceID, int typeID, float piecePrice, int pieceCount, int itemCount, float cost); //Used to load from file at start up
 
             //Getter functions
             //int getPieceOrderNumber(void) const {return _number;}
@@ -90,6 +96,7 @@ namespace pieces{
             int last;
         };
 
+        pieceTypeList(std::string pieceTypeName, int typeID, std::vector<piece> pieceList);
         pieceTypeList(std::string pieceTypeName, std::vector<piece> pieceList, position positionInList);
 
         //Getter functions
@@ -120,6 +127,7 @@ namespace pieces{
             pieceTypeOrder(std::string typeName, int typeID, pieces::piece piece, int pieceCount); //When creating a new type list given a type name, typeID, piece, and count
             pieceTypeOrder(std::string pieceTypeName, std::vector<pieceOrder> pieceList);
             pieceTypeOrder(std::string pieceTypeName, std::vector<pieceOrder> pieceList, float cost);
+            pieceTypeOrder(std::string typeName, int typeID, float cost, std::vector<pieceOrder> pieceList, int pieceTotal);
 
             //Getter functions
             float getTypeCost(void) const {return _cost;}

@@ -1,9 +1,16 @@
 #include "mainwindow.h"
 #include "qlabel.h"
 
+
+Q_DECLARE_METATYPE(std::vector<pieces::piece>*);
+Q_DECLARE_METATYPE(pieces::piece*);
+
+
 //
 //***Admin Page (18)***
 //
+
+
 
 void MainWindow::on_btnReturnAP_clicked(){
     showMainPage();
@@ -33,9 +40,9 @@ void MainWindow::on_btnReturnCIP_clicked(){
 
 void MainWindow::on_btnSaveCIP_clicked(){
 
-    saveTableCIP(laundryPrices, laundryPos, tableWidgetLaundryCIP);
-    saveTableCIP(dryCleanPrices, dryCleanPos, tableWidgetDryCleanCIP);
-    saveTableCIP(alterationsPrices, alterationsPos, tableWidgetAlterationsCIP);
+    saveTableCIP(laundry, tableWidgetLaundryCIP);
+    saveTableCIP(dryClean, tableWidgetDryCleanCIP);
+    saveTableCIP(alterations, tableWidgetAlterationsCIP);
 
     manager->savePrices();
     tableWidgetDryCleanCIP->clear();
@@ -43,14 +50,63 @@ void MainWindow::on_btnSaveCIP_clicked(){
 }
 
 
-void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget){
+void MainWindow::saveTableCIP(services::serviceList service, QTableWidget *tableWidget){/*
     size_t row, pieceI = 0, typeI = 0, index, rowCount = tableWidget->rowCount() - 1;
-    double price;
+    float price;
     std::string piece;
     QDoubleSpinBox *dSpinBox;
     QLineEdit *linePiece, *newType;
 
+
+
     for(row = 0; row < rowCount; row++){
+        QWidget *w = tableWidget->cellWidget(row, 0);
+
+
+        //If the current row is the type Name
+        if(QLabel* label = qobject_cast<QLabel*>(w)){
+            typeI++;
+            pieceI = 0;
+            continue;
+        }
+
+        //if the current row is an individual piece
+        if(QLineEdit* lineEdit = qobject_cast<QLineEdit*>(w)){
+            dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 1));
+            if(dSpinBox == nullptr){
+                if(row == 0)
+                    continue;
+
+                pieceI = 0;
+                typeI++;
+                continue;
+            }
+
+            price = dSpinBox->value();
+            linePiece = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 0));
+            piece = linePiece->text().toStdString();
+
+            piece = cust::customer::autoCapatilize(piece);
+
+            //if an item has been deleted and the price hasn't been set to 0
+            if(piece.empty() && price != 0){
+                tableWidget->removeRow(row);
+
+                //remove this
+                index = getIndex(row, pos); //interchange typeI and index, might be the same values. UPDATE: Index is giving the incorrext postion, either typeI or pieceI are wrong
+                if(removeItemPrice(index, prices, pieceI))
+                    removeIndex(index, pos);
+                row--;
+                continue;
+            }
+
+            if(price == 0)
+                continue;
+
+        }
+
+
+
         dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 1));
         if(dSpinBox == nullptr){
             if(row == 0)
@@ -67,9 +123,11 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
 
         piece = cust::customer::autoCapatilize(piece);
 
-        //if an item has been deleted basically and the price hasn't been set to 0
+        //if an item has been deleted and the price hasn't been set to 0
         if(piece.empty() && price != 0){
             tableWidget->removeRow(row);
+
+            //remove this
             index = getIndex(row, pos); //interchange typeI and index, might be the same values. UPDATE: Index is giving the incorrext postion, either typeI or pieceI are wrong
             if(removeItemPrice(index, prices, pieceI))
                 removeIndex(index, pos);
@@ -112,33 +170,116 @@ void MainWindow::saveTableCIP(std::vector<std::vector<std::pair<std::string, dou
 
     row++;
 
+    if(row > 1
+
+
+
+
+    // size_t row, pieceI = 0, typeI = 0, index, rowCount = tableWidget->rowCount() - 1;
+    // double price;
+    // std::string piece;
+    // QDoubleSpinBox *dSpinBox;
+    // QLineEdit *linePiece, *newType;
+
+    // for(row = 0; row < rowCount; row++){
+    //     dSpinBox = qobject_cast<QDoubleSpinBox*>(tableWidget->cellWidget(row, 1));
+    //     if(dSpinBox == nullptr){
+    //         if(row == 0)
+    //             continue;
+
+    //         pieceI = 0;
+    //         typeI++;
+    //         continue;
+    //     }
+
+    //     price = dSpinBox->value();
+    //     linePiece = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 0));
+    //     piece = linePiece->text().toStdString();
+
+    //     piece = cust::customer::autoCapatilize(piece);
+
+    //     //if an item has been deleted basically and the price hasn't been set to 0
+    //     if(piece.empty() && price != 0){
+    //         tableWidget->removeRow(row);
+    //         index = getIndex(row, pos); //interchange typeI and index, might be the same values. UPDATE: Index is giving the incorrext postion, either typeI or pieceI are wrong
+    //         if(removeItemPrice(index, prices, pieceI))
+    //             removeIndex(index, pos);
+    //         row--;
+    //         continue;
+    //     }
+
+    //     //The empty row, where price is still 0, gets skipped
+    //     if(price == 0)
+    //         continue;
+
+    //     //if an item has been added
+    //     if(pieceI >= prices[typeI].size()){
+    //         if(prices[typeI][0].first == "" && prices[typeI][0].second == 0.00){
+    //             prices[typeI].pop_back();
+    //             prices[typeI].push_back(std::make_pair(piece, price));
+    //         }
+    //         else{
+    //             prices[typeI].push_back(std::make_pair(piece, price));
+    //             increaseIndex(typeI, pos);
+    //         }
+    //     }
+
+    //     //if the name has been changed
+    //     if(piece != prices[typeI][pieceI].first)
+    //         prices[typeI][pieceI].first = piece;
+
+
+    //     //if the price has been changed
+    //     if(price != prices[typeI][pieceI].second)
+    //         prices[typeI][pieceI].second = price;
+
+    //     pieceI++;
+    // }
+    // newType = qobject_cast<QLineEdit*>(tableWidget->cellWidget(row, 1));
+
+    // if(newType != nullptr)
+    //     if(!newType->text().isEmpty())
+    //         createType(typeI, pos, prices, cust::customer::autoCapatilize(newType->text().toStdString()));
+
+    // row++;
+*/
 }
 
 
 void MainWindow::setUpCIPPage(){
-    setUpTableWidgetsCIP(laundryPrices, laundryPos, tableWidgetLaundryCIP);
-    setUpTableWidgetsCIP(dryCleanPrices, dryCleanPos, tableWidgetDryCleanCIP);
-    setUpTableWidgetsCIP(alterationsPrices, alterationsPos, tableWidgetAlterationsCIP);
+    setUpTableWidgetsCIP(laundry, tableWidgetLaundryCIP);
+    setUpTableWidgetsCIP(dryClean, tableWidgetDryCleanCIP);
+    setUpTableWidgetsCIP(alterations, tableWidgetAlterationsCIP);
 }
 
-void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::string, double>>> &prices, std::vector<std::tuple<std::string, int, int>> &pos, QTableWidget *tableWidget){
+void MainWindow::setUpTableWidgetsCIP(services::serviceList& prices, QTableWidget *tableWidget){
     size_t row = 0, i, j;
     QFont font;
 
-    if(prices[0][0].first == "" && std::get<0>(pos[0]) == "")
+    std::vector<pieces::pieceTypeList> typeList = prices.getServiceTypeList();
+    std::vector<pieces::piece> pieceList, *pieceListP;
+    pieces::piece piece, *pieceP;
+
+    //If empty
+
+    if(prices.getTypeListSize() == 0) //Might contain a bug
         tableWidget->setRowCount(1);
-
-    else{ // was +1
-        tableWidget->setRowCount(calculateSize(prices) + prices.size() + 1);
-
-        for(i = 0; i < prices.size(); i++)
-            for(j = 0; j < prices[i].size(); j++){
+    else{
+        for(i = 0; i < typeList.size(); i++){
+            pieceList = typeList[i].getPieceList();
+            pieceListP = &pieceList;
+            for(j = 0; j < pieceList.size(); j++){
                 if(j == 0){
-                    QLabel *label = new QLabel(QString::fromStdString(std::get<0>(pos[i])));
+                    // QLabel *label = new QLabel(QString::fromStdString(pieceList[j].getPieceName()));
+                    QLabel *label = new QLabel(QString::fromStdString(typeList[i].getPieceTypeName()));
                     label->setAlignment(Qt::AlignCenter);
                     font = label->font();
                     font.setBold(true);
                     label->setFont(font);
+
+                    label->setProperty("pieceListP", QVariant::fromValue(pieceListP));
+
+                    tableWidget->insertRow(row);
 
                     tableWidget->setCellWidget(row, 0, label);
                     tableWidget->setCellWidget(row, 1, nullptr);
@@ -146,21 +287,28 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
                 }
 
                 //If the type hasn't just been created so there arent any piece types
-                if(prices[i][j].first != "" && prices[i][j].second != 0.00){
-                    QLineEdit *piece = new QLineEdit(QString::fromStdString(prices[i][j].first), nullptr);
+                if(pieceList[j].getPieceName() != "" && pieceList[j].getPiecePrice() != 0.00){
+                    QLineEdit *piece = new QLineEdit(QString::fromStdString(pieceList[j].getPieceName()), nullptr);
                     piece->setAlignment(Qt::AlignCenter);
 
                     QDoubleSpinBox *price = new QDoubleSpinBox(tableWidget);
                     price->setMaximum(9999);
                     price->setDecimals(2);
-                    price->setValue(prices[i][j].second);
+                    price->setValue(pieceList[j].getPiecePrice());
+
+                    pieceP = &pieceList[j];
+                    piece->setProperty("pieceP", QVariant::fromValue(pieceP));
+
+                    tableWidget->insertRow(row);
 
                     tableWidget->setCellWidget(row, 0, piece);
                     tableWidget->setCellWidget(row, 1, price);
                     row++;
+                    continue;
                 }
 
-                if((j == prices[i].size() - 1) || (prices[i][j].first == "" && prices[i][j].second == 0.00) ){
+                //The last piece in the list
+                if(typeList.size() - 1 == j || (pieceList[j].getPieceName() == "" && pieceList[j].getPiecePrice() != 0.00)){
                     QLineEdit *newPiece = new QLineEdit(tableWidget);
                     newPiece->setAlignment(Qt::AlignCenter);
 
@@ -169,17 +317,23 @@ void MainWindow::setUpTableWidgetsCIP(std::vector<std::vector<std::pair<std::str
                     newPrice->setDecimals(2);
                     newPrice->setValue(0.00);
 
+                    tableWidget->insertRow(row);
+
                     tableWidget->setCellWidget(row, 0, newPiece);
                     tableWidget->setCellWidget(row, 1, newPrice);
                     row++;
+                    continue;
                 }
             }
+        }
     }
 
     QLabel *newTypeLabel = new QLabel("New Type");
     newTypeLabel->setAlignment(Qt::AlignCenter);
 
     QLineEdit *newTypeLine = new QLineEdit(this);
+
+    tableWidget->insertRow(row);
 
     tableWidget->setCellWidget(row, 0, newTypeLabel);
     tableWidget->setCellWidget(row, 1, newTypeLine);
