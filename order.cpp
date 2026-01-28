@@ -385,8 +385,10 @@ double order::calculateFinalCost(){
 
     tempCost = finalCost;
 
-    if(taxable)
-        finalCost = tempCost + (tempCost * .09375);
+    if(taxable){
+        set_calculateTax();
+        finalCost = tempCost + tax;
+    }
     else
         finalCost = tempCost;
 

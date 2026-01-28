@@ -1,0 +1,1 @@
+2025-10-10_16-28-11 - In loadCustomers(): Error opening file to write to: ./data/customers.txt

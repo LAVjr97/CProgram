@@ -185,6 +185,9 @@ void MainWindow::clearScreenDP(){
 
     dateDTDropOffDP->hide();
     dateDPickUpDP->hide();
+
+    ui->btnLaundry->setEnabled(true);
+    ui->btnDryClean->setEnabled(true);
 }
 
 void MainWindow::clearScreenNC(){
@@ -788,29 +791,32 @@ void MainWindow::printReciept(){
     //Total Information
     if(!order[0]->getDiscountApplied()){
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
-        if(order[0]->getPaid())
+        if(order[0]->getPaid()){
             painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
+        }
         if(order[0]->getTaxable()){
             painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Subtotal: $" + QString::number(order[0]->getCost(), 'f', 2));
-            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Tax: $" + QString::number(order[0]->getTax(), 'f', 2));
+            y += yInc;
+            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Sales Tax: $" + QString::number(order[0]->getTax(), 'f', 2));
+            y += yInc;
         }
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getFinalCost(), 'f', 2));
     }
     else{
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
+        if(order[0]->getPaid()){
+            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
+        }
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Subtotal: $" + QString::number(order[0]->getCost(), 'f', 2));
         y+=yInc;
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, "Discount: " + QString::number(order[0]->getDiscount()) + "%");
 
         if(order[0]->getTaxable()){
-            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Tax: $" + QString::number(order[0]->getTax(), 'f', 2));
+            y += yInc;
+            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Sales Tax: $" + QString::number(order[0]->getTax(), 'f', 2));
         }
 
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getFinalCost(), 'f', 2));
-        if(order[0]->getPaid()){
-            y += yInc;
-            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
-        }
     }
 
     y += 75;
