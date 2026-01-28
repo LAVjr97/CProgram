@@ -124,6 +124,7 @@ private slots:
     void on_btnSearchCS_clicked();
 
     void on_tableViewCSR_clicked(const QModelIndex &index);
+    void update_checkBoxToggleDP(bool checked);
 
     //
     //New Customer Page (4)
@@ -279,6 +280,8 @@ private slots:
     void saveAndPrint(int n, QDateEdit *p, QCheckBox *b);
     void printReciept();
 
+    float calculateTax(float subTotal);
+
 
 private:
     Ui::Cleaning_and_Alteration_Shop *ui;
@@ -316,11 +319,14 @@ private:
     QLineEdit *lineVisitsDP;
     QLineEdit *linePieceTotalDP;
     QLineEdit *lineOrderSubTotalDP;
+    QWidget *widgetTaxDP;
+    QLineEdit *lineOrderTaxDP;
     QLineEdit *lineOrderDiscountDP;
     QDateTimeEdit *dateDTDropOffDP;
     QDateEdit *dateDPickUpDP;
 
     QCheckBox *checkBoxPaidDP;
+    QCheckBox *checkBoxTaxDP;
 
     QStandardItemModel *modelDP;
     QTableView *tableViewOrdersDP;
@@ -338,11 +344,15 @@ private:
     QLineEdit *lineRackPU;
     QLineEdit *linePieceTotalPU;
     QLineEdit *lineOrderSubTotalPU;
+    QWidget *widgetTaxPU;
+    QLineEdit *lineOrderTaxPU;
+    QWidget *widgetDiscountPU;
     QLineEdit *lineOrderDiscountPU;
     QDateTimeEdit *dateDTDropOffPU;
     QDateEdit *dateDPickUpPU;
 
     QCheckBox *checkBoxPUPU;
+    QCheckBox *checkBoxTaxPU;
     QCheckBox *checkBoxPaidPU;
 
     QStandardItemModel *modelPU;
@@ -360,11 +370,15 @@ private:
     QLineEdit *lineRackEO;
     QLineEdit *linePieceTotalEO;
     QLineEdit *lineOrderSubTotalEO;
+    QWidget *widgetTaxEO;
+    QLineEdit *lineOrderTaxEO;
+    QWidget *widgetDiscountEO;
     QLineEdit *lineOrderDiscountEO;
     QDateTimeEdit *dateDTDropOffEO;
     QDateEdit *dateDPickUpEO;
 
     QCheckBox *checkBoxPUEO;
+    QCheckBox *checkBoxTaxEO;
     QCheckBox *checkBoxPaidEO;
 
     QStandardItemModel *modelEO;

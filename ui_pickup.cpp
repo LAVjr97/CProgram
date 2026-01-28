@@ -103,8 +103,6 @@ void MainWindow::on_btnSearchOrderOS_clicked(){
     updateCOInformationPU();
     updateModel(modelPU);
 
-    lineOrderTotalPU->setText(QString::number(order[0]->getCost(), 'f', 2));
-
     showPickUpPage();
 }
 
@@ -189,19 +187,19 @@ void MainWindow::on_tableViewOSR_clicked(const QModelIndex &index){
     curOrderID = order[index.row()]->getOrderID();
     order.clear();
 
-    order.push_back(&orders[curOrderID]);
-
     if(curOrderID != orders[curOrderID].getOrderID()){
         std::string logmsg = "Critical Error in Saving Edited Order, selecting order from table! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
         manager->logger->log(logmsg);
         handleCritcalError();
     }
 
+    order.push_back(&orders[curOrderID]);
+
     updateCOInformationPU();
     updateModel(modelPU);
-    lineOrderTotalPU->setText(QString::number(order[0]->getCost(), 'f', 2));
 
     showPickUpPage();
+    lineRackPU->setFocus();
 }
 
 
@@ -310,9 +308,6 @@ void MainWindow::on_btnSearchOrderEO_clicked(){
     updateCOInformationEO();
     updateModel(modelEO);
 
-    lineOrderSubTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
-    lineOrderTotalEO->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
-
     ui->btnOneRecieptEO->setEnabled(true);
     ui->btnTwoRecieptEO->setEnabled(true);
 
@@ -400,8 +395,6 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
 
     showOrderSearchResultsEO();
     modelCSREO->removeRows(0, modelCSREO->rowCount());
-
-    lineRackEO->setFocus();
 }
 
 
@@ -428,10 +421,10 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
     order.push_back(&orders[curOrderID]);
     updateCOInformationEO();
     updateModel(modelEO);
-    lineOrderTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
 
     ui->btnOneRecieptEO->setEnabled(true);
     ui->btnTwoRecieptEO->setEnabled(true);
 
     showEditOrderPage();
+    lineRackEO->setFocus();
 }

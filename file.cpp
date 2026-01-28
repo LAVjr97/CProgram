@@ -110,7 +110,9 @@ void File::saveOrders(orderInfo::order &order){
         << order.getPieceTotal() << ","
         << order.getDiscountApplied() << ","
         << order.getDiscount() << ","
-        << order.getDiscountedCost() << ","
+        << order.getTaxable() << ","
+        << order.getTax() << ","
+        << order.getFinalCost() << ","
         << order.getDeposit() << ",";
 
     ofs << order.dropOff->getDay() << ","
@@ -215,9 +217,9 @@ int File::checkOrderIDs(){
 
 void File::loadOrders() {
     int n, orderID, customerID, rack, pieceTotal, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin;
-    double cost, price, discount, discountedCost, deposit;
+    double cost, price, discount, tax, finalCost, deposit;
     size_t outersize, innersize, i, j;
-    bool pickedUp, paid, discountApplied;
+    bool pickedUp, paid, discountApplied, taxable;
     std::string dropOffAm_Pm, pickUpAm_Pm, line, temp, article, articleType;
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry;
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean;
@@ -253,7 +255,11 @@ void File::loadOrders() {
         std::getline(ss, temp, ',');
         discount = std::stod(temp);
         std::getline(ss, temp, ',');
-        discountedCost = std::stod(temp);
+        taxable = std::stoi(temp);
+        std::getline(ss, temp, ',');
+        tax = std::stod(temp);
+        std::getline(ss, temp, ',');
+        finalCost = std::stod(temp);
         std::getline(ss, temp, ',');
         deposit = std::stod(temp);
 
@@ -340,7 +346,7 @@ void File::loadOrders() {
             }
         }
 
-        orders.emplace_back(orderID, customerID, cost, rack, pickedUp, paid, pieceTotal, discountApplied, discount, discountedCost, deposit, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, laundry, dryClean, alterations);
+        orders.emplace_back(orderID, customerID, cost, rack, pickedUp, paid, pieceTotal, discountApplied, discount, taxable, tax, finalCost, deposit, dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm, pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm, laundry, dryClean, alterations);
     }
 
     ifs.close();
@@ -394,7 +400,9 @@ void File::updateOrder(const int id){
                     << orders[id].getPieceTotal() << ","
                     << orders[id].getDiscountApplied() << ","
                     << orders[id].getDiscount() << ","
-                    << orders[id].getDiscountedCost() << ","
+                    << orders[id].getTaxable() << ","
+                    << orders[id].getTax() << ","
+                    << orders[id].getFinalCost() << ","
                     << orders[id].getDeposit() << ",";
 
             tempF   << orders[id].dropOff->getDay() << ","

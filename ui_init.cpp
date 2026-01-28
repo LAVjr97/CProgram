@@ -67,8 +67,17 @@ MainWindow::MainWindow(QWidget *parent)
     lineVisitsDP = ui->lineVisitsDP;
     linePieceTotalDP = ui->linePieceTotalDP;
     lineOrderSubTotalDP = ui->lineOrderSubTotalDP;
+    widgetTaxDP = ui->widgetTaxDP;
+    lineOrderTaxDP = ui->lineOrderTaxDP;
     lineOrderDiscountDP = ui->lineOrderDiscountDP;
     checkBoxPaidDP = ui->checkBoxPaidDP;
+    checkBoxTaxDP = ui->checkBoxTaxDP;
+
+    //connect(checkBoxTaxDP, &QCheckBox::toggled, widgetTaxDP, &QWidget::setVisible);
+    connect(checkBoxTaxDP, &QCheckBox::toggled, this, &MainWindow::update_checkBoxToggleDP);
+    checkBoxPaidDP->setCheckable(false);
+    checkBoxTaxDP->setCheckable(false);
+    widgetTaxDP->setVisible(false);
 
     dateDTDropOffDP = ui->dateDTDropOffDP;
     dateDPickUpDP = ui->dateDPickUpDP;
@@ -142,13 +151,21 @@ MainWindow::MainWindow(QWidget *parent)
     lineOrderTotalPU = ui->lineOrderTotalPU;
     lineRackPU = ui->lineRackPU;
     checkBoxPUPU = ui->checkBoxPUPU;
+    checkBoxTaxPU = ui->checkBoxTaxPU;
     checkBoxPaidPU = ui->checkBoxPaidPU;
+
+    checkBoxTaxPU->setEnabled(false);
+
     dateDTDropOffPU = ui->dateDTDropOffPU;
     dateDPickUpPU = ui->dateDPickUpPU;
     linePieceTotalPU = ui->linePieceTotalPU;
     lineOrderSubTotalPU = ui->lineOrderSubTotalPU;
+    widgetTaxPU = ui->widgetTaxPU;
+    widgetTaxPU->setVisible(false);
+    lineOrderTaxPU = ui->lineOrderTaxPU;
     lineOrderDiscountPU = ui->lineOrderDiscountPU;
-
+    widgetDiscountPU = ui->widgetDiscountPU;
+    widgetDiscountPU->setVisible(false);
 
     modelPU = new QStandardItemModel(this);
     modelPU->setColumnCount(5);
@@ -204,12 +221,21 @@ MainWindow::MainWindow(QWidget *parent)
     lineOrderTotalEO = ui->lineOrderTotalEO;
     lineRackEO = ui->lineRackEO;
     checkBoxPUEO = ui->checkBoxPUEO;
+    checkBoxTaxEO = ui->checkBoxTaxEO;
     checkBoxPaidEO = ui->checkBoxPaidEO;
+
+    checkBoxTaxEO->setEnabled(false);
+
     dateDTDropOffEO = ui->dateDTDropOffEO;
     dateDPickUpEO = ui->dateDPickUpEO;
     linePieceTotalEO = ui->linePieceTotalEO;
     lineOrderSubTotalEO = ui->lineOrderSubTotalEO;
+    widgetTaxEO = ui->widgetTaxEO;
+    widgetTaxEO->setVisible(false);
+    lineOrderTaxEO = ui->lineOrderTaxEO;
     lineOrderDiscountEO = ui->lineOrderDiscountEO;
+    widgetDiscountEO = ui->widgetDiscountEO;
+    widgetDiscountEO->setVisible(false);
 
     modelEO = new QStandardItemModel(this);
     modelEO->setColumnCount(5);

@@ -55,9 +55,14 @@ void MainWindow::updateCOInformationDP(){
     lineVisitsDP->setText(QString::number(customer[0]->getVisit() + 1));
 
     if(!order[0]->getDiscountApplied())
-        lineOrderDiscountDP->setText("None");
+        lineOrderDiscountDP->clear();
     else
         lineOrderDiscountDP->setText(QString::number(order[0]->getDiscount()) + "%");
+
+    if(checkBoxTaxDP->isChecked())
+        widgetTaxDP->setVisible(true);
+    else
+        widgetTaxDP->setVisible(false);
 
     setDate(dateDTDropOffDP, dateDPickUpDP);
 
@@ -73,20 +78,38 @@ void MainWindow::updateCOInformationPU(){
     lineOrderIDPU->setText(QString::number(order[0]->getOrderID()));
     linePieceTotalPU->setText(QString::number(order[0]->getPieceTotal()));
 
-    if(!order[0]->getDiscountApplied())
-        lineOrderDiscountPU->setText("None");
-    else
+    if(order[0]->getDiscountApplied()){
+        widgetDiscountPU->setVisible(true);
         lineOrderDiscountPU->setText(QString::number(order[0]->getDiscount()) + "%");
+    }else{
+        widgetDiscountPU->setVisible(false);
+        lineOrderDiscountPU->clear();
+    }
+
+    if(order[0]->getTaxable()){
+        widgetTaxPU->setVisible(true);
+        lineOrderTaxPU->setText(QString::number(order[0]->getTax(), 'f', 2));
+        checkBoxTaxPU->setCheckState(Qt::Checked);
+    }else{
+        widgetTaxPU->setVisible(false);
+        lineOrderTaxPU->clear();
+        checkBoxTaxPU->setCheckState(Qt::Unchecked);
+    }
+
+    lineOrderSubTotalPU->setText(QString::number(order[0]->getCost(), 'f', 2));
+    lineOrderTotalPU->setText(QString::number(order[0]->getFinalCost(), 'f', 2));
+
 
     //Set Date
     setDate(dateDTDropOffPU, dateDPickUpPU);
     dateDTDropOffPU->show();
     dateDPickUpPU->show();
 
-    if(order[0]->getPaid() == true)
+    if(order[0]->getPaid())
         checkBoxPaidPU->setCheckState(Qt::Checked);
-    if(order[0]->getPickUp() == true)
+    if(order[0]->getPickUp())
         checkBoxPUPU->setCheckState(Qt::Checked);
+
     if(order[0]->getRack() != -1)
         lineRackPU->setText(QString::number(order[0]->getRack()));
 }
@@ -99,20 +122,39 @@ void MainWindow::updateCOInformationEO(){
     lineOrderIDEO->setText(QString::number(order[0]->getOrderID()));
     linePieceTotalEO->setText(QString::number(order[0]->getPieceTotal()));
 
-    if(!order[0]->getDiscountApplied())
-        lineOrderDiscountEO->setText("None");
-    else
+    if(order[0]->getDiscountApplied()){
+        widgetDiscountEO->setVisible(true);
         lineOrderDiscountEO->setText(QString::number(order[0]->getDiscount()) + "%");
+    }else{
+        widgetDiscountEO->setVisible(false);
+        lineOrderDiscountEO->clear();
+    }
+
+    if(order[0]->getTaxable()){
+        widgetTaxEO->setVisible(true);
+        lineOrderTaxEO->setText(QString::number(order[0]->getTax(), 'f', 2));
+        checkBoxTaxEO->setCheckState(Qt::Checked);
+
+    }else{
+        widgetTaxEO->setVisible(false);
+        lineOrderTaxEO->clear();
+        checkBoxTaxEO->setCheckState(Qt::Unchecked);
+
+    }
+
+    lineOrderSubTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
+    lineOrderTotalEO->setText(QString::number(order[0]->getFinalCost(), 'f', 2));
 
     //Set Date
     setDate(dateDTDropOffEO, dateDPickUpEO);
     dateDTDropOffEO->show();
     dateDPickUpEO->show();
 
-    if(order[0]->getPaid() == true)
+    if(order[0]->getPaid())
         checkBoxPaidEO->setCheckState(Qt::Checked);
-    if(order[0]->getPickUp() == true)
+    if(order[0]->getPickUp())
         checkBoxPUEO->setCheckState(Qt::Checked);
+
     if(order[0]->getRack() != -1)
         lineRackEO->setText(QString::number(order[0]->getRack()));
 }
@@ -130,9 +172,16 @@ void MainWindow::clearScreenDP(){
     lineVisitsDP->clear();
     linePieceTotalDP->clear();
     lineOrderSubTotalDP->clear();
+    lineOrderTaxDP->clear();
+    widgetTaxDP->setVisible(false);    
     lineOrderDiscountDP->clear();
 
     checkBoxPaidDP->setCheckState(Qt::Unchecked);
+    checkBoxPaidDP->setCheckable(false);
+
+    checkBoxTaxDP->setCheckState(Qt::Unchecked);
+    checkBoxTaxDP->setCheckable(false);
+    checkBoxTaxDP->setEnabled(false);
 
     dateDTDropOffDP->hide();
     dateDPickUpDP->hide();
@@ -155,9 +204,13 @@ void MainWindow::clearScreenPU(){
     lineRackPU->clear();
     linePieceTotalPU->clear();
     lineOrderSubTotalPU->clear();
+    lineOrderTaxPU->clear();
+    widgetTaxPU->setVisible(false);
     lineOrderDiscountPU->clear();
+    widgetDiscountPU->setVisible(false);
 
     checkBoxPaidPU->setCheckState(Qt::Unchecked);
+    checkBoxTaxPU->setCheckState(Qt::Unchecked);
     checkBoxPUPU->setCheckState(Qt::Unchecked);
 }
 
@@ -172,9 +225,13 @@ void MainWindow::clearScreenEO(){
     lineRackEO->clear();
     linePieceTotalEO->clear();
     lineOrderSubTotalEO->clear();
+    lineOrderTaxEO->clear();
+    widgetTaxEO->setVisible(false);
     lineOrderDiscountEO->clear();
+    widgetDiscountEO->setVisible(false);
 
     checkBoxPaidEO->setCheckState(Qt::Unchecked);
+    checkBoxTaxEO->setCheckState(Qt::Unchecked);
     checkBoxPUEO->setCheckState(Qt::Unchecked);
 }
 
@@ -329,7 +386,7 @@ void MainWindow::saveModel(QStandardItemModel *model){
 
     order[0]->calculatePieceTotal();
     order[0]->calculateCostO();
-    order[0]->applyDiscount();
+    order[0]->calculateFinalCost();
 }
 
 std::pair<size_t, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>>> MainWindow::saveTableView(std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> article, QStandardItemModel *model, QString pieceType, size_t row){
@@ -733,14 +790,23 @@ void MainWindow::printReciept(){
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
         if(order[0]->getPaid())
             painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
-        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getCost(), 'f', 2));
+        if(order[0]->getTaxable()){
+            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Subtotal: $" + QString::number(order[0]->getCost(), 'f', 2));
+            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Tax: $" + QString::number(order[0]->getTax(), 'f', 2));
+        }
+        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getFinalCost(), 'f', 2));
     }
     else{
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, QString::number(order[0]->getPieceTotal()) + " Pieces");
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Subtotal: $" + QString::number(order[0]->getCost(), 'f', 2));
         y+=yInc;
         painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignLeft, "Discount: " + QString::number(order[0]->getDiscount()) + "%");
-        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getDiscountedCost(), 'f', 2));
+
+        if(order[0]->getTaxable()){
+            painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Tax: $" + QString::number(order[0]->getTax(), 'f', 2));
+        }
+
+        painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignRight, "Total: $" + QString::number(order[0]->getFinalCost(), 'f', 2));
         if(order[0]->getPaid()){
             y += yInc;
             painter.drawText(QRect(x, y, width, metrics.height() + 5), Qt::AlignCenter, "Paid");
@@ -753,6 +819,12 @@ void MainWindow::printReciept(){
     painter.end();
 }
 
+float MainWindow::calculateTax(float subTotal){
+    if(checkBoxTaxDP->isChecked())
+        return subTotal * .09375;
+    else
+        return 0;
+}
 
 
 

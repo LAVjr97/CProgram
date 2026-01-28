@@ -11,8 +11,8 @@ namespace orderInfo{
             order(int customerID, int orderID);
 
             //Loads orders at the start of program
-            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, double discountedCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
-            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, double discountedCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations);
+            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
+            order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations);
 
             ~order();
 
@@ -39,7 +39,11 @@ namespace orderInfo{
             int getPieceTotal() const;
             bool getDiscountApplied() const;
             double getDiscount() const;
-            double getDiscountedCost();
+
+            bool getTaxable() const {return taxable;}
+            double getTax() const {return tax;}
+
+            double getFinalCost() const {return finalCost;}
             double getDeposit() const;
 
             //Set functions
@@ -60,15 +64,19 @@ namespace orderInfo{
             void setPieceTotal(int pieceTotal);
             void setDiscountApplied(bool applied);
             void setDiscount(double disc);
-            void setDiscountedCost(double discCost);
+            void setTaxable(bool taxable) {this->taxable = taxable;}
+            void setTax(double tax) {this->tax = tax;}
+            void setfinalCost(double finalCost) {this->finalCost = finalCost;}
 
             void setDeposit(double dep);
 
             //Helper functions
             double calculateCostO();
             int calculatePieceTotal();
-            double applyDiscount();
             bool verifyOrderIDs();
+            double calculateFinalCost();
+            void set_calculateTax(){tax = (cost * .09375);}
+            void taxReset(){dryClean.clear(); dryClean.resize(1); laundry.clear(); laundry.shrink_to_fit();}
 
             //order& operator=(const order& other);
 
@@ -77,7 +85,7 @@ namespace orderInfo{
             date::Date* pickUp;
 
         private:
-            int customerID;
+            int  customerID;
             int orderID;
 
             //[0]: Shirts, [1]: Pants, [2]:Sweaters, [3]:Coats, [4]:Blouses, [5]:2pc Suit, [6]:Jacket, [7]:Vest
@@ -98,7 +106,11 @@ namespace orderInfo{
 
             bool discountApplied;
             double discount;
-            double discountedCost;
+
+            bool taxable;
+            double tax;
+
+            double finalCost;
 
             double deposit;
     };

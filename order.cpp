@@ -14,7 +14,9 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
     this->pieceTotal = 0;
     this->discountApplied = false;
     this->discount = 0.00;
-    this->discountedCost = 0.00;
+    taxable = false;
+    tax = 0.00;
+    finalCost = 0.00;
     this->deposit = 0.00;
 
     laundry.resize(1);
@@ -23,7 +25,7 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
 }
 
 //Constructor used when loading in orders from orderFile into the program memory
-order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, double discountedCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations){
+order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations){
     this->orderID = orderID;
     this->customerID = customerID;
     this->cost = cost;
@@ -33,7 +35,9 @@ order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, 
     this->pieceTotal = pieceTotal;
     this->discountApplied = discountApplied;
     this->discount = discount;
-    this->discountedCost = discountedCost;
+    this->taxable = taxable;
+    this->tax = tax;
+    this->finalCost = finalCost;
     this->deposit = deposit;
 
     this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
@@ -43,7 +47,7 @@ order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, 
     this->alterationsO = alterations;
 }
 
-order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, double discountedCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations){
+order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations){
     this->orderID = orderID;
     this->customerID = customerID;
     this->cost = cost;
@@ -53,7 +57,9 @@ order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, 
     this->pieceTotal = pieceTotal;
     this->discountApplied = discountApplied;
     this->discount = discount;
-    this->discountedCost = discountedCost;
+    this->taxable = taxable;
+    this->tax = tax;
+    this->finalCost = finalCost;
     this->deposit = deposit;
 
     this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
@@ -162,10 +168,6 @@ bool order::getDiscountApplied() const{
 
 double order::getDiscount() const{
     return discount;
-}
-
-double order::getDiscountedCost(){
-    return applyDiscount();
 }
 
 double order::getDeposit() const{
@@ -323,10 +325,6 @@ void order::setDiscount(double disc){
     this->discount = disc;
 }
 
-void order::setDiscountedCost(double discCost){
-    this->discountedCost = discCost;
-}
-
 void order::setDeposit(double dep){
     this->deposit = dep;
 }
@@ -377,14 +375,23 @@ int order::calculatePieceTotal(){
     return pieceTotal;
 }
 
-double order::applyDiscount(){
-    if(discountApplied) // = true;
-        discountedCost = cost - (cost * (discount/100.0));
-    else
-        discountedCost = cost;
-    return discountedCost;
-}
+double order::calculateFinalCost(){
+    double tempCost;
 
+    if(discountApplied)
+        finalCost = cost - (cost * (discount/100.0));
+    else
+        finalCost = cost;
+
+    tempCost = finalCost;
+
+    if(taxable)
+        finalCost = tempCost + (tempCost * .09375);
+    else
+        finalCost = tempCost;
+
+    return finalCost;
+}
 
 /*
 order& order::operator=(const order& other){

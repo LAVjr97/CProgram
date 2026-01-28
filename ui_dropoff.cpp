@@ -60,9 +60,12 @@ void MainWindow::on_btnSaveDP_clicked()
     saveModel(modelDP);
     updateModel(modelDP);
 
+\
     linePieceTotalDP->setText(QString::number(order[0]->getPieceTotal()));
     lineOrderSubTotalDP->setText(QString::number(order[0]->getCost(), 'f', 2));
-    lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
+    lineOrderTaxDP->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
+    float total = order[0]->calculateFinalCost();
+    lineOrderTotalDP->setText(QString::number(total, 'f', 2));
 
     ui->btnOneRecieptDP->setEnabled(true);
     ui->btnTwoRecieptDP->setEnabled(true);
@@ -74,9 +77,13 @@ void MainWindow::on_btnOneRecieptDP_clicked(){
     customer[0]->setLatestOrder(curOrderID);
     customer[0]->updateVisits(customer[0]->getVisit() + 1);
 
-    saveAndPrint(1, dateDPickUpDP, checkBoxPaidDP);
-    clearScreenDP();
+    saveAndPrint(1, dateDPickUpDP, checkBoxPaidDP);\
 
+    //Potential Bug Here
+    order.clear();
+    curOrderID = -1;
+
+    clearScreenDP();
     showMainPage();
 }
 
@@ -88,6 +95,10 @@ void MainWindow::on_btnTwoRecieptDP_clicked(){
     //Setting Date
     saveAndPrint(2, dateDPickUpDP, checkBoxPaidDP);
     clearScreenDP();
+
+    //Potential Bug Here
+    order.clear();
+    curOrderID = -1;
 
     showMainPage();
     manager->logger->log("Two reciepts printed, order saved");
@@ -123,7 +134,7 @@ void MainWindow::on_btnApplyDiscountDP_clicked(){
             order[0]->setDiscountApplied(true);
             lineOrderDiscountDP->setText(QString::number(discount) + "%");
         }
-        lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2)); //discountedCost will use applyDiscount() to update the cost
+        lineOrderTotalDP->setText(QString::number(order[0]->calculateFinalCost(), 'f', 2)); //discountedCost will use applyDiscount() to update the cost
     }
 
 }
@@ -150,6 +161,38 @@ void MainWindow::on_btnReturn_clicked(){
     customer.clear();
     order.clear();
     clearScreenDP();
+}
+
+void MainWindow::update_checkBoxToggleDP(bool checked){
+    if(order.empty())
+        return;
+
+    widgetTaxDP->setVisible(checked);
+    order[0]->setTaxable(checked);
+
+    if(checked){
+        if(!order[0]->getLaundry().empty() || !order[0]->getDryClean().empty()){
+            order[0]->taxReset();
+            updateModel(modelDP);
+        }
+
+        lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+        lineOrderTaxDP->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
+        order[0]->set_calculateTax();
+
+        lineOrderTotalDP->setText(QString::number(order[0]->calculateFinalCost(), 'f', 2));
+        ui->btnLaundry->setEnabled(false);
+        ui->btnDryClean->setEnabled(false);
+
+
+
+    }else{
+        lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+        lineOrderTotalDP->setText(QString::number(order[0]->calculateFinalCost(), 'f', 2));
+        order[0]->setTax(0.00);
+        ui->btnLaundry->setEnabled(true);
+        ui->btnDryClean->setEnabled(true);
+    }
 }
 
 
@@ -211,6 +254,10 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
     order.clear();
     order.push_back(&orders[curOrderID]);
     updateCOInformationDP();
+    checkBoxPaidDP->setCheckable(true);
+    checkBoxTaxDP->setCheckable(true);
+    checkBoxTaxDP->setEnabled(true);
+
 
     showDropOffPage();
 }
@@ -276,6 +323,10 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     //Update on-screen information
     clearScreenDP();
     updateCOInformationDP();
+    checkBoxPaidDP->setCheckable(true);
+    checkBoxTaxDP->setCheckable(true);
+    checkBoxTaxDP->setEnabled(true);
+
 
     manager->saveCustomers(customers[customerID]);
     showDropOffPage();
@@ -290,6 +341,7 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
 void MainWindow::on_btnLaundryReturn_clicked(){
     QSpinBox *spinBox;
     bool empty = true;
+    float total = 0;
 
     if(modelDP->rowCount() == 0 && lineFNameDP->text().isEmpty()){
         showDropOffPage();
@@ -315,7 +367,15 @@ void MainWindow::on_btnLaundryReturn_clicked(){
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
     lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
-    lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
+
+    if(checkBoxTaxDP->isChecked())
+        lineOrderTaxDP->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
+    else
+        lineOrderTaxDP->setText(QString::number(0, 'f', 2));
+
+    total = order[0]->calculateFinalCost();
+    lineOrderTotalDP->setText(QString::number(total, 'f', 2));
+
 
     showDropOffPage();
 }
@@ -332,6 +392,7 @@ void MainWindow::on_tableWidgetLaundryOptions_clicked(const QModelIndex &index){
 void MainWindow::on_btnDryCleanReturn_clicked(){
     QSpinBox *spinBox;
     bool empty = true;
+    float total = 0;
 
     //If the model is empty and a customer hasn't been selected
     if(modelDP->rowCount() == 0 && lineFNameDP->text().isEmpty()){
@@ -360,7 +421,14 @@ void MainWindow::on_btnDryCleanReturn_clicked(){
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
     lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
-    lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
+
+    if(checkBoxTaxDP->isChecked())
+        lineOrderTaxDP->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
+    else
+        lineOrderTaxDP->setText(QString::number(0, 'f', 2));
+
+    total = order[0]->calculateFinalCost();
+    lineOrderTotalDP->setText(QString::number(total, 'f', 2));
 
     showDropOffPage();
 }
@@ -378,6 +446,7 @@ void MainWindow::on_tableWidgetDryCleanOptions_clicked(const QModelIndex &index)
 void MainWindow::on_btnAlterationsReturn_clicked(){
     QSpinBox *spinBox;
     bool empty = true;
+    float total = 0;
 
     if(modelDP->rowCount() == 0 && lineFNameDP->text().isEmpty()){
         showDropOffPage();
@@ -403,7 +472,14 @@ void MainWindow::on_btnAlterationsReturn_clicked(){
     updateModel(modelDP);
     linePieceTotalDP->setText(QString::number(order[0]->calculatePieceTotal()));
     lineOrderSubTotalDP->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
-    lineOrderTotalDP->setText(QString::number(order[0]->getDiscountedCost(), 'f', 2));
+
+    if(checkBoxTaxDP->isChecked())
+        lineOrderTaxDP->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
+    else
+        lineOrderTaxDP->setText(QString::number(0, 'f', 2));
+
+    total = order[0]->calculateFinalCost();
+    lineOrderTotalDP->setText(QString::number(total, 'f', 2));
 
     showDropOffPage();
 }
