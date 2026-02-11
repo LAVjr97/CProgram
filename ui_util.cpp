@@ -108,3 +108,19 @@ void MainWindow::showCustomerEditPage(){
     recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(20);
 }
+
+
+void MainWindow::showOrderLaundryPageEO(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
+    ui->stackedWidget->setCurrentIndex(23);
+}
+
+void MainWindow::showOrderDryCleanPageEO(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
+    ui->stackedWidget->setCurrentIndex(22);
+}
+
+void MainWindow::showOrderAlterationsPageEO(){
+    recentStackedWidgetIndex = ui->stackedWidget->currentIndex();
+    ui->stackedWidget->setCurrentIndex(21);
+}

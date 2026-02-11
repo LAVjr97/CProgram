@@ -51,7 +51,8 @@ void MainWindow::updateCOInformationDP(){
     lineLNameDP->setText(QString::fromStdString(customer[0]->getLastName()));
     linePhoneDP->setText(QString::fromStdString(customer[0]->getFormattedPhone()));
     lineCustomerIDDP->setText(QString::number(customer[0]->getCustomerID()));
-    lineOrderIDDP->setText(QString::number(order[0]->getOrderID()));
+    QString orderIDString = order[0]->getOrderID() ? QString::number(*order[0]->getOrderID()) : QString("VOID Order");
+    lineOrderIDDP->setText(orderIDString);
     lineVisitsDP->setText(QString::number(customer[0]->getVisit() + 1));
 
     if(!order[0]->getDiscountApplied())
@@ -75,7 +76,8 @@ void MainWindow::updateCOInformationPU(){
     lineLNamePU->setText(QString::fromStdString(customer[0]->getLastName()));
     linePhonePU->setText(QString::fromStdString(customer[0]->getFormattedPhone()));
     lineCustomerIDPU->setText(QString::number(customer[0]->getCustomerID()));
-    lineOrderIDPU->setText(QString::number(order[0]->getOrderID()));
+    QString orderIDString = order[0]->getOrderID() ? QString::number(*order[0]->getOrderID()) : QString("VOID Order");
+    lineOrderIDPU->setText(orderIDString);
     linePieceTotalPU->setText(QString::number(order[0]->getPieceTotal()));
 
     if(order[0]->getDiscountApplied()){
@@ -119,7 +121,8 @@ void MainWindow::updateCOInformationEO(){
     lineLNameEO->setText(QString::fromStdString(customer[0]->getLastName()));
     linePhoneEO->setText(QString::fromStdString(customer[0]->getFormattedPhone()));
     lineCustomerIDEO->setText(QString::number(customer[0]->getCustomerID()));
-    lineOrderIDEO->setText(QString::number(order[0]->getOrderID()));
+    QString orderIDString = order[0]->getOrderID() ? QString::number(*order[0]->getOrderID()) : QString("VOID Order");
+    lineOrderIDEO->setText(orderIDString);
     linePieceTotalEO->setText(QString::number(order[0]->getPieceTotal()));
 
     if(order[0]->getDiscountApplied()){
@@ -139,8 +142,13 @@ void MainWindow::updateCOInformationEO(){
         widgetTaxEO->setVisible(false);
         lineOrderTaxEO->clear();
         checkBoxTaxEO->setCheckState(Qt::Unchecked);
-
     }
+
+    widgetVoidOrderEO->setVisible(true);
+    ui->btnLaundryEO->setEnabled(true);
+    ui->btnDryCleanEO->setEnabled(true);
+    ui->btnAlterationsEO->setEnabled(true);
+
 
     lineOrderSubTotalEO->setText(QString::number(order[0]->getCost(), 'f', 2));
     lineOrderTotalEO->setText(QString::number(order[0]->getFinalCost(), 'f', 2));
@@ -232,9 +240,18 @@ void MainWindow::clearScreenEO(){
     widgetTaxEO->setVisible(false);
     lineOrderDiscountEO->clear();
     widgetDiscountEO->setVisible(false);
+    widgetVoidOrderEO->setVisible(false);
+
+    ui->btnLaundryEO->setEnabled(false);
+    ui->btnDryCleanEO->setEnabled(false);
+    ui->btnLaundryEO->setEnabled(false);
 
     checkBoxPaidEO->setCheckState(Qt::Unchecked);
-    checkBoxTaxEO->setCheckState(Qt::Unchecked);
+
+    checkBoxTaxDP->setCheckState(Qt::Unchecked);
+    checkBoxTaxDP->setCheckable(false);
+    checkBoxTaxDP->setEnabled(false);
+
     checkBoxPUEO->setCheckState(Qt::Unchecked);
 }
 
@@ -304,12 +321,6 @@ void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex
 
     article = qobject_cast<QLabel*>(tableWidget->cellWidget(row, 0))->text().toStdString();
 
-    //position = getIndex(row, pos);
-    //type = tableWidgetLaundryOptions->item(row, col);
-    //QColor bgColor = type->background().color();
-    //qDebug() << "BackGroundColor: " << bgColor.red() << " " << bgColor.green() << " " << bgColor.blue();
-    //type->setBackground(Qt::green);
-
     switch(type){
     case 1:
         order[0]->setLaundryPiece(getTypeName(row, pos), n, price, article);
@@ -324,8 +335,10 @@ void MainWindow::tableWidgetOptions(QTableWidget *tableWidget, const QModelIndex
         break;
     }
 
-    //tableWidget->item(row, 0)->setBackground(Qt::green);
+    QWidget* widgetFromCell = tableWidget->cellWidget(row, 0);
+    QLabel* newColoredLabel = qobject_cast<QLabel*>(widgetFromCell);
 
+    newColoredLabel->setStyleSheet("QLabel { background-color : green; color : white; }");
 }
 
 
@@ -831,6 +844,9 @@ float MainWindow::calculateTax(float subTotal){
     else
         return 0;
 }
+
+
+
 
 
 

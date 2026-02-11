@@ -1,8 +1,12 @@
-#ifndef ORDER_H
+ #ifndef ORDER_H
 #define ORDER_H
 
 #include "main.h"
 #include "date.h"
+#include <optional>
+
+constexpr int INVALID_ORDER_ID = -1;
+
 
 namespace orderInfo{
     class order{
@@ -18,7 +22,7 @@ namespace orderInfo{
 
             //Get functions, set to const to insure that data isn't being changed
             int getCustomerID() const;
-            int getOrderID() const;
+            std::optional<int> getOrderID() const;
 
             std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> getLaundry() const;
             int getLaundryNumber(std::string articleType, std::string article, double price);
@@ -77,6 +81,7 @@ namespace orderInfo{
             double calculateFinalCost();
             void set_calculateTax(){tax = (cost * .09375);}
             void taxReset(){dryClean.clear(); dryClean.resize(1); laundry.clear(); laundry.shrink_to_fit();}
+            void voidOrder();
 
             //order& operator=(const order& other);
 
@@ -85,17 +90,14 @@ namespace orderInfo{
             date::Date* pickUp;
 
         private:
-            int  customerID;
-            int orderID;
+            int customerID;
+            std::optional<int> orderID;
 
             //[0]: Shirts, [1]: Pants, [2]:Sweaters, [3]:Coats, [4]:Blouses, [5]:2pc Suit, [6]:Jacket, [7]:Vest
-            std::vector<std::vector<std::tuple<std::string, int, double>>> laundryO;
             std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry;
 
-            std::vector<std::vector<std::tuple<std::string, int, double>>> dryCleanO;
             std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean;
 
-            std::vector<std::vector<std::tuple<std::string, int, double>>> alterationsO;
             std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations;
 
             double cost;

@@ -77,7 +77,7 @@ void MainWindow::on_btnOneRecieptDP_clicked(){
     customer[0]->setLatestOrder(curOrderID);
     customer[0]->updateVisits(customer[0]->getVisit() + 1);
 
-    saveAndPrint(1, dateDPickUpDP, checkBoxPaidDP);\
+    saveAndPrint(1, dateDPickUpDP, checkBoxPaidDP);
 
     //Potential Bug Here
     order.clear();
@@ -236,12 +236,12 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
     lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner
 
     if(curOrderID != 0){
-        size_t prevOrderID = orders[curOrderID - 1].getOrderID();
+        size_t prevOrderID = orders[curOrderID - 1].getOrderID().value_or(INVALID_ORDER_ID);
         if(curOrderID - 1 != prevOrderID)
             curOrderID = prevOrderID++;
 
         if(orders[curOrderID - 1].getOrderID() == curOrderID){
-            std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getCustomerID()) + ", Existing OrderID: " + std::to_string(orders[curOrderID - 1].getOrderID()) + " Occured in 'on_tableViewCSR_clicked'";
+            std::string message = "New OrderID: " + std::to_string(curOrderID) + " with CustomerID: " + std::to_string(customer[0]->getCustomerID()) +  " already exists, existing customerID is: " + std::to_string(orders[curOrderID - 1].getCustomerID()) + ", Existing OrderID: " + (orders[curOrderID - 1].getOrderID() ? std::to_string(*order[0]->getOrderID()) : "VOID Order") + " Occured in 'on_tableViewCSR_clicked'";
             manager->logger->log(message);
             handleCritcalError();
         }
@@ -301,7 +301,7 @@ void MainWindow::on_btnCreate_clicked(){//(fi::File &manager){
     customer.push_back(&customers[customerID]); //contains only the customer that will be worked on
 
     if(curOrderID != 0){
-        size_t prevOrderID = orders[curOrderID - 1].getOrderID();
+        size_t prevOrderID = orders[curOrderID - 1].getOrderID().value_or(INVALID_ORDER_ID);
         if(curOrderID - 1 != prevOrderID)
             curOrderID = prevOrderID++;
 

@@ -224,7 +224,8 @@ MainWindow::MainWindow(QWidget *parent)
     checkBoxTaxEO = ui->checkBoxTaxEO;
     checkBoxPaidEO = ui->checkBoxPaidEO;
 
-    checkBoxTaxEO->setEnabled(false);
+    connect(checkBoxTaxDP, &QCheckBox::toggled, this, &MainWindow::update_checkBoxToggleDP);
+    checkBoxTaxEO->setCheckable(false);
 
     dateDTDropOffEO = ui->dateDTDropOffEO;
     dateDPickUpEO = ui->dateDPickUpEO;
@@ -236,6 +237,13 @@ MainWindow::MainWindow(QWidget *parent)
     lineOrderDiscountEO = ui->lineOrderDiscountEO;
     widgetDiscountEO = ui->widgetDiscountEO;
     widgetDiscountEO->setVisible(false);
+    widgetVoidOrderEO = ui->widgetVoidOrderEO;
+    widgetVoidOrderEO->setVisible(false);
+
+    ui->btnLaundryEO->setEnabled(false);
+    ui->btnDryCleanEO->setEnabled(false);
+    ui->btnAlterationsEO->setEnabled(false);
+
 
     modelEO = new QStandardItemModel(this);
     modelEO->setColumnCount(5);
@@ -244,6 +252,11 @@ MainWindow::MainWindow(QWidget *parent)
     tableViewOrdersEO = ui->tableViewOrdersEO;
     tableViewOrdersEO->setModel(modelEO);
     tableViewOrdersEO->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    tableWidgetLaundryOptionsEO = ui->tableWidgetLaundryOptionsEO;
+    tableWidgetDryCleanOptionsEO = ui->tableWidgetDryCleanOptionsEO;
+    tableWidgetAlterationsOptionsEO = ui->tableWidgetAlterationsOptionsEO;
+
     //
     //Order Search PageEO ()
     //

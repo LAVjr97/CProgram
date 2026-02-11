@@ -1,4 +1,5 @@
 #include "order.h"
+#include <optional>
 
 using namespace orderInfo;
 
@@ -24,31 +25,34 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
     alterations.resize(1);
 }
 
-//Constructor used when loading in orders from orderFile into the program memory
-order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations){
-    this->orderID = orderID;
-    this->customerID = customerID;
-    this->cost = cost;
-    this->rackNumber = rack;
-    this->pickedUp = pickedUp;
-    this->paid = paid;
-    this->pieceTotal = pieceTotal;
-    this->discountApplied = discountApplied;
-    this->discount = discount;
-    this->taxable = taxable;
-    this->tax = tax;
-    this->finalCost = finalCost;
-    this->deposit = deposit;
+// //Constructor used when loading in orders from orderFile into the program memory
+// order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations){
+//     this->orderID = orderID;
+//     this->customerID = customerID;
+//     this->cost = cost;
+//     this->rackNumber = rack;
+//     this->pickedUp = pickedUp;
+//     this->paid = paid;
+//     this->pieceTotal = pieceTotal;
+//     this->discountApplied = discountApplied;
+//     this->discount = discount;
+//     this->taxable = taxable;
+//     this->tax = tax;
+//     this->finalCost = finalCost;
+//     this->deposit = deposit;
 
-    this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
-    this->pickUp = new date::Date(pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm);
-    this->laundryO = laundry;
-    this->dryCleanO = dryClean;
-    this->alterationsO = alterations;
-}
+//     this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
+//     this->pickUp = new date::Date(pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm);
+//     this->laundryO = laundry;
+//     this->dryCleanO = dryClean;
+//     this->alterationsO = alterations;
+// }
 
 order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations){
-    this->orderID = orderID;
+    if(orderID != -1)
+        this->orderID = orderID;
+    else
+        this->orderID = std::nullopt;
     this->customerID = customerID;
     this->cost = cost;
     this->rackNumber = rack;
@@ -83,7 +87,7 @@ int order::getCustomerID() const{
     return this->customerID;
 }
 
-int order::getOrderID() const{
+std::optional<int> order::getOrderID() const{
     return orderID;
 }
 
@@ -159,7 +163,7 @@ int order::getPieceTotal() const{
 }
 
 int order::getlaundryLength() const {
-    return laundryO.size();
+    return laundry.size();
 }
 
 bool order::getDiscountApplied() const{
@@ -393,6 +397,31 @@ double order::calculateFinalCost(){
         finalCost = tempCost;
 
     return finalCost;
+}
+
+
+void order::voidOrder(){
+    orderID = std::nullopt;
+    customerID = -1;
+
+    laundry.clear();
+    laundry.resize(1);
+    dryClean.clear();
+    dryClean.resize(1);
+    alterations.clear();
+    alterations.resize(1);
+
+    cost = 0.0;
+    rackNumber = 0;
+    pickedUp = false;
+    paid = false;
+    pieceTotal = 0;
+    discountApplied = false;
+    discount = 0.0;
+    taxable = false;
+    tax = 0.0;
+    finalCost = 0.0;
+    deposit = 0.0;
 }
 
 /*

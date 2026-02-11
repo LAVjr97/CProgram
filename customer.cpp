@@ -173,3 +173,15 @@ std::string customer::autoCapatilize(const std::string &string){
     return result;
 }
 
+void customer::voidCustomerOrder(int orderID, double cost){
+
+    for(size_t i = 0; i < orders.size(); i++){
+        if(orderID == orders[i]){
+            orders.erase(orders.begin() + i);
+            break;
+        }
+    }
+
+    visits--;
+    //total -= cost;
+}

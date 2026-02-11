@@ -19,7 +19,7 @@ void MainWindow::on_btnSavePU_clicked(){
 
 
     if(curOrderID != orders[curOrderID].getOrderID()){
-        std::string logmsg = "Critical Error in Saving Picked Up Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
+        std::string logmsg = "Critical Error in Saving Picked Up Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + (orders[curOrderID].getOrderID() ? std::to_string(*orders[curOrderID].getOrderID()) : "VOID Order");
         manager->logger->log(logmsg);
         handleCritcalError();
     }
@@ -33,7 +33,7 @@ void MainWindow::on_btnSavePU_clicked(){
     orders[curOrderID].setPaid(checkBoxPaidPU->isChecked());
     orders[curOrderID].setPickUp(checkBoxPUPU->isChecked());
 
-    std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID);
+    std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID, orders[curOrderID].getCustomerID());
     std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
     threadOrder.join();
     threadCust.join();
@@ -51,8 +51,37 @@ void MainWindow::on_btnReturnPU_clicked(){
     clearScreenPU();
 }
 
+void MainWindow::update_checkBoxToggleEO(bool checked){
+    if(order.empty())
+        return;
+
+    widgetTaxEO->setVisible(checked);
+    order[0]->setTaxable(checked);
+
+    if(checked){
+        if(!order[0]->getLaundry().empty() || !order[0]->getDryClean().empty()){
+            order[0]->taxReset();
+            updateModel(modelEO);
+        }
+
+        lineOrderSubTotalEO->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+        lineOrderTaxEO->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
+        order[0]->set_calculateTax();
+
+        lineOrderTotalEO->setText(QString::number(order[0]->calculateFinalCost(), 'f', 2));
+        ui->btnLaundryEO->setEnabled(false);
+        ui->btnDryCleanEO->setEnabled(false);
 
 
+
+    }else{
+        lineOrderSubTotalEO->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+        lineOrderTotalEO->setText(QString::number(order[0]->calculateFinalCost(), 'f', 2));
+        order[0]->setTax(0.00);
+        ui->btnLaundryEO->setEnabled(true);
+        ui->btnDryCleanEO->setEnabled(true);
+    }
+}
 //
 //***Customer Search Page (9)***
 //
@@ -124,6 +153,7 @@ void MainWindow::on_tableViewCSRPU_clicked(const QModelIndex &index){
     cust::customer *temp = customer[index.row()];
     std::vector<orderInfo::order*> oTemp;
     QStandardItem *pickUpItem;
+    QString orderIDString;
 
     customer.clear();
     order.clear();
@@ -144,7 +174,9 @@ void MainWindow::on_tableViewCSRPU_clicked(const QModelIndex &index){
         order.push_back(oTemp.back());
         oTemp.pop_back();
 
-        QStandardItem *orderIDItem = new QStandardItem(QString::number(order[i]->getOrderID()));
+        orderIDString = order[i]->getOrderID() ? QString::number(*order[i]->getOrderID()) : QString("VOID Order");
+
+        QStandardItem *orderIDItem = new QStandardItem(orderIDString);
         orderIDItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *dropOffItem = new QStandardItem(QString::fromStdString(order[i]->dropOff->getDate()));
         dropOffItem->setTextAlignment(Qt::AlignCenter);
@@ -184,11 +216,11 @@ void MainWindow::on_btnReturnOSR_clicked(){
 }
 
 void MainWindow::on_tableViewOSR_clicked(const QModelIndex &index){
-    curOrderID = order[index.row()]->getOrderID();
+    curOrderID = order[index.row()]->getOrderID().value_or(INVALID_ORDER_ID);
     order.clear();
 
     if(curOrderID != orders[curOrderID].getOrderID()){
-        std::string logmsg = "Critical Error in Saving Edited Order, selecting order from table! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
+        std::string logmsg = "Critical Error in Saving Edited Order, selecting order from table! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + (orders[curOrderID].getOrderID() ? std::to_string(*orders[curOrderID].getOrderID()) : "VOID Order");
         manager->logger->log(logmsg);
         handleCritcalError();
     }
@@ -217,6 +249,39 @@ void MainWindow::on_btnOrderSearchEO_clicked(){
     showOrderSearchPageEO();
 }
 
+void MainWindow::on_btnLaundryEO_clicked(){
+    if(lineFNameEO->text().isEmpty())
+        return;
+
+    setUpOptionsTables(tableWidgetLaundryOptionsEO, laundryPrices, laundryPos);
+
+    MainWindow::showOrderLaundryPageEO();
+    ui->btnOneRecieptEO->setEnabled(false);
+    ui->btnTwoRecieptEO->setEnabled(false);
+}
+
+void MainWindow::on_btnDryCleanEO_clicked(){
+    if(lineFNameEO->text().isEmpty())
+        return;
+
+    setUpOptionsTables(tableWidgetDryCleanOptionsEO, dryCleanPrices, dryCleanPos);
+
+    MainWindow::showOrderDryCleanPageEO();
+    ui->btnOneRecieptEO->setEnabled(false);
+    ui->btnTwoRecieptEO->setEnabled(false);
+}
+
+void MainWindow::on_btnAlterationsEO_clicked(){
+    if(lineFNameEO->text().isEmpty())
+        return;
+
+    setUpOptionsTables(tableWidgetAlterationsOptionsEO, alterationsPrices, alterationsPos);
+
+    MainWindow::showOrderAlterationsPageEO();
+    ui->btnOneRecieptEO->setEnabled(false);
+    ui->btnTwoRecieptEO->setEnabled(false);
+}
+
 void MainWindow::on_btnSaveEO_clicked(){
     std::tuple<std::string, int, double> temp;
     if(lineFNameEO->text().isEmpty())
@@ -234,7 +299,7 @@ void MainWindow::on_btnSaveEO_clicked(){
     updateModel(modelEO);
 
     if(curOrderID != orders[curOrderID].getOrderID()){
-        std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
+        std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + (orders[curOrderID].getOrderID() ? std::to_string(*orders[curOrderID].getOrderID()) : "VOID Order");
         manager->logger->log(logmsg);
         handleCritcalError();
     }
@@ -246,7 +311,7 @@ void MainWindow::on_btnSaveEO_clicked(){
         handleCritcalError();
     }
 
-    std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID);
+    std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID, orders[curOrderID].getCustomerID());
     std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
     threadOrder.join();
     threadCust.join();
@@ -272,6 +337,36 @@ void MainWindow::on_btnTwoRecieptEO_clicked(){
 void MainWindow::on_btnReturnEO_clicked(){
     showMainPage();
     clearScreenEO();
+}
+
+void MainWindow::on_btnVoidOrcerEO_clicked()
+{
+    QMessageBox::StandardButton reply;
+
+    reply = QMessageBox::question(this, "Void Order", "Do you want to void the current order?" ,QMessageBox::Yes | QMessageBox::No);
+    if(reply == QMessageBox::Yes){
+        int curCustomerID = order[0]->getCustomerID();
+
+        customers[curCustomerID].voidCustomerOrder(curOrderID, order[0]->getFinalCost());
+        order[0]->voidOrder();
+
+        std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID, curCustomerID);
+        std::thread threadCust(&fi::File::updateCustomer, manager, curCustomerID);
+
+        threadOrder.join();
+        threadCust.join();
+
+        reply = QMessageBox::information(this, "Void Order", "Order Successfully Voided.", QMessageBox::Ok);
+
+        customer.clear();
+        order.clear();
+        curOrderID = NULL;
+
+        showMainPage();
+        clearScreenEO();
+    } else {
+        return;
+    }
 }
 
 //
@@ -368,8 +463,9 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
     for(i = 0; i < size; i++){
         order.push_back(oTemp.back());
         oTemp.pop_back();
+        QString orderIDString = order[i]->getOrderID() ? QString::number(*order[i]->getOrderID()) : QString("VOID Order");
 
-        QStandardItem *orderIDItem = new QStandardItem(QString::number(order[i]->getOrderID()));
+        QStandardItem *orderIDItem = new QStandardItem(orderIDString);
         orderIDItem->setTextAlignment(Qt::AlignCenter);
         QStandardItem *dropOffItem = new QStandardItem(QString::fromStdString(order[i]->dropOff->getDate()));
         dropOffItem->setTextAlignment(Qt::AlignCenter);
@@ -392,6 +488,9 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
         modelOSREO->setItem(i, 4, totalItem);
 
     }
+    checkBoxPaidEO->setCheckable(true);
+    checkBoxTaxEO->setCheckable(true);
+    checkBoxTaxEO->setEnabled(true);
 
     showOrderSearchResultsEO();
     modelCSREO->removeRows(0, modelCSREO->rowCount());
@@ -410,11 +509,11 @@ void MainWindow::on_btnReturnOSREO_clicked(){
 }
 
 void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
-    curOrderID = order[index.row()]->getOrderID();
+    curOrderID = order[index.row()]->getOrderID().value_or(INVALID_ORDER_ID);
     order.clear();
 
     if(curOrderID != orders[curOrderID].getOrderID()){
-        std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + std::to_string(orders[curOrderID].getOrderID());
+        std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + (orders[curOrderID].getOrderID() ? std::to_string(*orders[curOrderID].getOrderID()) : "VOID Order");
         manager->logger->log(logmsg);
         handleCritcalError();
     }
@@ -427,4 +526,158 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
 
     showEditOrderPage();
     lineRackEO->setFocus();
+}
+
+//
+//***Laundry Order Page (22)***
+//
+
+void MainWindow::on_btnLaundryReturnEO_clicked(){
+    QSpinBox *spinBox;
+    bool empty = true;
+    float total = 0;
+
+    if(modelEO->rowCount() == 0 && lineFNameEO->text().isEmpty()){
+        showEditOrderPage();
+        return;
+    }
+
+    for(int row = 0; row < tableWidgetLaundryOptionsEO->rowCount(); row++){
+        spinBox = qobject_cast<QSpinBox*>(tableWidgetLaundryOptionsEO->cellWidget(row, 1));
+        if(spinBox == nullptr)
+            continue;
+
+        if(spinBox->value() != 0){
+            empty = false;
+            break;
+        }
+    }
+
+    if(empty == true){
+        showEditOrderPage();
+        return;
+    }
+
+    updateModel(modelEO);
+    linePieceTotalEO->setText(QString::number(order[0]->calculatePieceTotal()));
+    lineOrderSubTotalEO->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+
+    if(checkBoxTaxEO->isChecked())
+        lineOrderTaxEO->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
+    else
+        lineOrderTaxEO->setText(QString::number(0, 'f', 2));
+
+    total = order[0]->calculateFinalCost();
+    lineOrderTotalEO->setText(QString::number(total, 'f', 2));
+
+
+    showEditOrderPage();
+}
+
+void MainWindow::on_tableWidgetLaundryOptionsEO_clicked(const QModelIndex &index){
+    tableWidgetOptions(tableWidgetLaundryOptionsEO, index, laundryPos, 1);
+}
+
+
+
+//
+//***DryClean Order Page (23)***
+//
+void MainWindow::on_btnDryCleanReturnEO_clicked(){
+    QSpinBox *spinBox;
+    bool empty = true;
+    float total = 0;
+
+    //If the model is empty and a customer hasn't been selected
+    if(modelEO->rowCount() == 0 && lineFNameEO->text().isEmpty()){
+        showEditOrderPage();
+        return;
+    }
+
+    //Checks every row, to see if an article has been added
+    for(int row = 0; row < tableWidgetDryCleanOptionsEO->rowCount(); row++){
+        spinBox = qobject_cast<QSpinBox*>(tableWidgetDryCleanOptionsEO->cellWidget(row, 1));
+        //Skips the row that has a label
+        if(spinBox == nullptr)
+            continue;
+
+        if(spinBox->value() != 0){
+            empty = false;
+            break;
+        }
+    }
+
+    if(empty == true){
+        showEditOrderPage();
+        return;
+    }
+
+    updateModel(modelEO);
+    linePieceTotalEO->setText(QString::number(order[0]->calculatePieceTotal()));
+    lineOrderSubTotalEO->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+
+    if(checkBoxTaxEO->isChecked())
+        lineOrderTaxEO->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
+    else
+        lineOrderTaxEO->setText(QString::number(0, 'f', 2));
+
+    total = order[0]->calculateFinalCost();
+    lineOrderTotalEO->setText(QString::number(total, 'f', 2));
+
+    showEditOrderPage();
+}
+
+void MainWindow::on_tableWidgetDryCleanOptionsEO_clicked(const QModelIndex &index){
+    tableWidgetOptions(tableWidgetDryCleanOptionsEO, index, dryCleanPos, 2);
+}
+
+
+
+//
+//***Alterations Order Page (24)***
+//
+
+void MainWindow::on_btnAlterationsReturnEO_clicked(){
+    QSpinBox *spinBox;
+    bool empty = true;
+    float total = 0;
+
+    if(modelEO->rowCount() == 0 && lineFNameEO->text().isEmpty()){
+        showEditOrderPage();
+        return;
+    }
+
+    for(int row = 0; row < tableWidgetAlterationsOptionsEO->rowCount(); row++){
+        spinBox = qobject_cast<QSpinBox*>(tableWidgetAlterationsOptionsEO->cellWidget(row, 1));
+        if(spinBox == nullptr)
+            continue;
+
+        if(spinBox->value() != 0){
+            empty = false;
+            break;
+        }
+    }
+
+    if(empty == true){
+        showEditOrderPage();
+        return;
+    }
+
+    updateModel(modelEO);
+    linePieceTotalEO->setText(QString::number(order[0]->calculatePieceTotal()));
+    lineOrderSubTotalEO->setText(QString::number(order[0]->calculateCostO(), 'f', 2));
+
+    if(checkBoxTaxEO->isChecked())
+        lineOrderTaxEO->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
+    else
+        lineOrderTaxEO->setText(QString::number(0, 'f', 2));
+
+    total = order[0]->calculateFinalCost();
+    lineOrderTotalEO->setText(QString::number(total, 'f', 2));
+
+    showEditOrderPage();
+}
+
+void MainWindow::on_tableWidgetAlterationsOptionsEO_clicked(const QModelIndex &index){
+    tableWidgetOptions(tableWidgetAlterationsOptionsEO, index, alterationsPos, 3);
 }

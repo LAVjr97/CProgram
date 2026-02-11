@@ -37,6 +37,9 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include <QMessageBox>
+//include <QtWidgets/QLabel>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -93,6 +96,10 @@ private slots:
     void showItemsAndPricePage();
     void showCustomerEditPage();
 
+    void showOrderLaundryPageEO();
+    void showOrderDryCleanPageEO();
+    void showOrderAlterationsPageEO();
+
     //Main Page (0)
     void on_btnDropOff_clicked();
     void on_btnPickUp_clicked();
@@ -125,6 +132,10 @@ private slots:
 
     void on_tableViewCSR_clicked(const QModelIndex &index);
     void update_checkBoxToggleDP(bool checked);
+
+    void on_btnLaundryEO_clicked();
+    void on_btnDryCleanEO_clicked();
+    void on_btnAlterationsEO_clicked();
 
     //
     //New Customer Page (4)
@@ -189,6 +200,8 @@ private slots:
     void on_btnOneRecieptEO_clicked();
     void on_btnTwoRecieptEO_clicked();
     void on_btnReturnEO_clicked();
+    void on_btnVoidOrcerEO_clicked();
+    void update_checkBoxToggleEO(bool checked);
 
     //Order Search EO Page (14)
     void on_btnReturnOSEO_clicked();
@@ -233,6 +246,18 @@ private slots:
     void clearScreenCEP();
     void customerSetUpScreenCEP();
     void on_tableViewCustomerInfoCEP_clicked(const QModelIndex &index);
+
+    //Edit Order Laundry Page ()
+    void on_btnLaundryReturnEO_clicked();
+    void on_tableWidgetLaundryOptionsEO_clicked(const QModelIndex &index);
+
+    //Edit Order DryClean Page ()
+    void on_btnDryCleanReturnEO_clicked();
+    void on_tableWidgetDryCleanOptionsEO_clicked(const QModelIndex &index);
+
+    //Edit Order Alterations Page ()
+    void on_btnAlterationsReturnEO_clicked();
+    void on_tableWidgetAlterationsOptionsEO_clicked(const QModelIndex &index);
 
     //Help functions
     void clearScreenDP();
@@ -281,6 +306,7 @@ private slots:
     void printReciept();
 
     float calculateTax(float subTotal);
+    //void voidOrder(size_t orderIndex);
 
 
 private:
@@ -376,6 +402,7 @@ private:
     QLineEdit *lineOrderDiscountEO;
     QDateTimeEdit *dateDTDropOffEO;
     QDateEdit *dateDPickUpEO;
+    QWidget *widgetVoidOrderEO;
 
     QCheckBox *checkBoxPUEO;
     QCheckBox *checkBoxTaxEO;
@@ -383,6 +410,15 @@ private:
 
     QStandardItemModel *modelEO;
     QTableView *tableViewOrdersEO;
+
+    //Edit Order Laundry Page
+    QTableWidget *tableWidgetLaundryOptionsEO;
+
+    //Edit Order DryClean Page()
+    QTableWidget *tableWidgetDryCleanOptionsEO;
+
+    //Edit Order Alterations Page()
+    QTableWidget *tableWidgetAlterationsOptionsEO;
 
 
     //

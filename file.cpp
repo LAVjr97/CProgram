@@ -101,7 +101,7 @@ void File::saveOrders(orderInfo::order &order){
         return;
     }
 
-    ofs << order.getOrderID() << ","
+    ofs << order.getOrderID().value_or(INVALID_ORDER_ID) << ","
         << order.getCustomerID() << ","
         << order.getCost() << ","
         << order.getRack() << ","
@@ -358,7 +358,7 @@ void File::loadOrders() {
 }
 
 //random functions to go to certain customers to update.
-void File::updateOrder(const int id){
+void File::updateOrder(const int id, const int customerID){
     std::string currentID, currentCustomerID, line;
     bool found = false;
     std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry = orders[id].getLaundry();
@@ -369,7 +369,6 @@ void File::updateOrder(const int id){
 
     std::ifstream ifs(this->orderFile.c_str());
     std::ofstream tempF(this->tempOrderFile.c_str());
-    int customerID = orders[id].getCustomerID();
 
     if (!ifs) {
         std::cerr << "Error opening file to write to: " << this->orderFile << "\n";
@@ -391,7 +390,7 @@ void File::updateOrder(const int id){
         if(std::stoi(currentID) == id && std::stoi(currentCustomerID) == customerID && !found){
             found = true;
 
-            tempF   << orders[id].getOrderID() << ","
+            tempF   << orders[id].getOrderID().value_or(INVALID_ORDER_ID) << ","
                     << orders[id].getCustomerID() << ","
                     << orders[id].getCost() << ","
                     << orders[id].getRack() << ","

@@ -51,7 +51,7 @@ namespace cust{
             //Helper functions
             static std::string createPhone(std::string phone);
             static std::string autoCapatilize(const std::string &string);
-
+            void voidCustomerOrder(int orderID, double cost);
 
             //serialize functions
 

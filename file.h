@@ -27,7 +27,7 @@ namespace fi{
 
             //Helper Functions;
             void updateCustomer(const int id);
-            void updateOrder(const int id);
+            void updateOrder(const int id, const int customerID);
 
             //Prices
             void savePrices();
