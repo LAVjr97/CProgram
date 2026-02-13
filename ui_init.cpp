@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
     std::string logFile = "log.txt";
     */
     manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos, logFile);
+    orderCopy = nullptr; // new orderInfo::order(0,0);
+
     /*
     manager->checkAndCreateFile(customerFile);
     manager->checkAndCreateFile(orderFile);
@@ -224,7 +226,7 @@ MainWindow::MainWindow(QWidget *parent)
     checkBoxTaxEO = ui->checkBoxTaxEO;
     checkBoxPaidEO = ui->checkBoxPaidEO;
 
-    connect(checkBoxTaxDP, &QCheckBox::toggled, this, &MainWindow::update_checkBoxToggleDP);
+    connect(checkBoxTaxEO, &QCheckBox::toggled, this, &MainWindow::update_checkBoxToggleEO);
     checkBoxTaxEO->setCheckable(false);
 
     dateDTDropOffEO = ui->dateDTDropOffEO;

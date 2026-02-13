@@ -195,8 +195,6 @@ void MainWindow::update_checkBoxToggleDP(bool checked){
     }
 }
 
-
-
 //
 //***Customer Search Page (2)***
 //

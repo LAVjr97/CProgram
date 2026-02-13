@@ -120,6 +120,11 @@ void MainWindow::on_btnSearchOrderOS_clicked(){
 
     order = search::Search::searchOrderID(orderID, orders);
 
+    //Makes a copy of the order. so changes can be canceled or saved
+    orderCopy = *order[0];
+    order.clear();
+    order[0] = &orderCopy;
+
     if(order.empty() == true)
         return;
 
@@ -311,6 +316,8 @@ void MainWindow::on_btnSaveEO_clicked(){
         handleCritcalError();
     }
 
+    orders[curOrderID] = orderCopy;
+
     std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID, orders[curOrderID].getCustomerID());
     std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
     threadOrder.join();
@@ -391,6 +398,11 @@ void MainWindow::on_btnSearchOrderEO_clicked(){
 
     order = search::Search::searchOrderID(orderID, orders);
 
+    orderCopy = *order[0];
+
+    order.clear();
+    order[0] = &orderCopy;
+
     if(order.empty() == true)
         return;
 
@@ -402,6 +414,10 @@ void MainWindow::on_btnSearchOrderEO_clicked(){
     //Set information
     updateCOInformationEO();
     updateModel(modelEO);
+
+    checkBoxPaidEO->setCheckable(true);
+    checkBoxTaxEO->setCheckable(true);
+    checkBoxTaxEO->setEnabled(true);
 
     ui->btnOneRecieptEO->setEnabled(true);
     ui->btnTwoRecieptEO->setEnabled(true);
@@ -488,9 +504,6 @@ void MainWindow::on_tableViewCSREO_clicked(const QModelIndex &index){
         modelOSREO->setItem(i, 4, totalItem);
 
     }
-    checkBoxPaidEO->setCheckable(true);
-    checkBoxTaxEO->setCheckable(true);
-    checkBoxTaxEO->setEnabled(true);
 
     showOrderSearchResultsEO();
     modelCSREO->removeRows(0, modelCSREO->rowCount());
@@ -520,6 +533,10 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
     order.push_back(&orders[curOrderID]);
     updateCOInformationEO();
     updateModel(modelEO);
+
+    checkBoxPaidEO->setCheckable(true);
+    checkBoxTaxEO->setCheckable(true);
+    checkBoxTaxEO->setEnabled(true);
 
     ui->btnOneRecieptEO->setEnabled(true);
     ui->btnTwoRecieptEO->setEnabled(true);

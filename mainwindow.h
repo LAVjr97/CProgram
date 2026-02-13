@@ -60,6 +60,9 @@ public:
 
     std::vector<cust::customer*> customer;
     std::vector<orderInfo::order*> order;
+
+    orderInfo::order orderCopy;
+
     fi::File *manager;
     logger::Logger *logger;
 
@@ -466,7 +469,6 @@ private:
     //
     //Edit Order Page ()
     //
-
     //Order Search PageEO()
     QLineEdit *lineSearchOrderIDEO;
 

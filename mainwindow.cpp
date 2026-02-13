@@ -247,10 +247,11 @@ void MainWindow::clearScreenEO(){
     ui->btnLaundryEO->setEnabled(false);
 
     checkBoxPaidEO->setCheckState(Qt::Unchecked);
+    checkBoxPaidDP->setCheckable(false);
 
-    checkBoxTaxDP->setCheckState(Qt::Unchecked);
-    checkBoxTaxDP->setCheckable(false);
-    checkBoxTaxDP->setEnabled(false);
+    checkBoxTaxEO->setCheckState(Qt::Unchecked);
+    checkBoxTaxEO->setCheckable(false);
+    checkBoxTaxEO->setEnabled(false);
 
     checkBoxPUEO->setCheckState(Qt::Unchecked);
 }
