@@ -36,7 +36,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>9</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="main">
      <widget class="QWidget" name="widgetOptionsMain" native="true">
@@ -44,7 +44,7 @@
        <rect>
         <x>875</x>
         <y>371</y>
-        <width>171</width>
+        <width>191</width>
         <height>291</height>
        </rect>
       </property>
@@ -164,7 +164,7 @@
        <rect>
         <x>370</x>
         <y>140</y>
-        <width>1181</width>
+        <width>1211</width>
         <height>751</height>
        </rect>
       </property>
@@ -974,7 +974,7 @@
              <x>0</x>
              <y>0</y>
              <width>211</width>
-             <height>29</height>
+             <height>34</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayoutTaxDP">
@@ -1090,7 +1090,7 @@
        <rect>
         <x>615</x>
         <y>491</y>
-        <width>691</width>
+        <width>711</width>
         <height>51</height>
        </rect>
       </property>
@@ -1309,16 +1309,16 @@
         <x>745</x>
         <y>460</y>
         <width>431</width>
-        <height>111</height>
+        <height>121</height>
        </rect>
       </property>
       <widget class="QWidget" name="formLayoutWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>10</y>
+         <y>0</y>
          <width>251</width>
-         <height>129</height>
+         <height>121</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayoutCustomerNC">
@@ -1744,7 +1744,7 @@
        <property name="geometry">
         <rect>
          <x>970</x>
-         <y>400</y>
+         <y>360</y>
          <width>211</width>
          <height>391</height>
         </rect>
@@ -2965,7 +2965,7 @@
              <x>0</x>
              <y>0</y>
              <width>209</width>
-             <height>29</height>
+             <height>34</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayoutDiscountlEO">
@@ -3168,7 +3168,7 @@
              <x>0</x>
              <y>0</y>
              <width>211</width>
-             <height>29</height>
+             <height>34</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayoutTaxEO">
@@ -4229,7 +4229,7 @@
        <rect>
         <x>875</x>
         <y>371</y>
-        <width>171</width>
+        <width>191</width>
         <height>291</height>
        </rect>
       </property>
@@ -4482,14 +4482,14 @@
        <rect>
         <x>340</x>
         <y>60</y>
-        <width>1211</width>
+        <width>1281</width>
         <height>741</height>
        </rect>
       </property>
       <widget class="QWidget" name="verticalLayoutWidget_5">
        <property name="geometry">
         <rect>
-         <x>960</x>
+         <x>990</x>
          <y>390</y>
          <width>160</width>
          <height>131</height>
@@ -4543,7 +4543,7 @@
       <widget class="QWidget" name="verticalLayoutWidget_6">
        <property name="geometry">
         <rect>
-         <x>880</x>
+         <x>910</x>
          <y>260</y>
          <width>321</width>
          <height>131</height>
@@ -4622,8 +4622,8 @@
       <widget class="QWidget" name="verticalLayoutWidget_8">
        <property name="geometry">
         <rect>
-         <x>900</x>
-         <y>130</y>
+         <x>890</x>
+         <y>120</y>
          <width>357</width>
          <height>125</height>
         </rect>

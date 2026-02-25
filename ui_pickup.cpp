@@ -110,6 +110,7 @@ void MainWindow::on_btnReturnOS_clicked(){
 void MainWindow::on_btnSearchOrderOS_clicked(){
     int customerID;
     std::string orderID = lineSearchOrderIDOS->text().toStdString();
+    //QString orderIDString;
 
     if(orderID.empty())
         return;
@@ -118,6 +119,8 @@ void MainWindow::on_btnSearchOrderOS_clicked(){
     order.clear();
     lineSearchOrderIDOS->clear();
     clearScreenPU();
+
+    //orderIDString = order[std::stoi(orderID)]->getOrderID() ? QString::number(*order[std::stoi(orderID)]->getOrderID()) : QString("VOID Order");
 
     order = search::Search::searchOrderID(orderID, orders);
 
@@ -358,6 +361,7 @@ void MainWindow::on_btnVoidOrcerEO_clicked()
 
         customers[curCustomerID].voidCustomerOrder(curOrderID, order[0]->getFinalCost());
         order[0]->voidOrder();
+        orders[curOrderID] = orderCopy;
 
         std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID, curCustomerID);
         std::thread threadCust(&fi::File::updateCustomer, manager, curCustomerID);
@@ -531,13 +535,16 @@ void MainWindow::on_tableViewOSREO_clicked(const QModelIndex &index){
         manager->logger->log(logmsg);
         handleCritcalError();
     }
-    order.push_back(&orders[curOrderID]);
-    updateCOInformationEO();
-    updateModel(modelEO);
+
 
     checkBoxPaidEO->setCheckable(true);
     checkBoxTaxEO->setCheckable(true);
     checkBoxTaxEO->setEnabled(true);
+
+
+    order.push_back(&orders[curOrderID]);
+    updateCOInformationEO();
+    updateModel(modelEO);
 
     ui->btnOneRecieptEO->setEnabled(true);
     ui->btnTwoRecieptEO->setEnabled(true);

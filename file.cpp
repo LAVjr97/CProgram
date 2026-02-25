@@ -480,7 +480,7 @@ void File::updateOrder(const int id, const int customerID){
     }
 
     std::filesystem::resize_file(from, 0);
-    std::string message = "Updated order file successfully, Order ID: " + std::to_string(id) + ", Customer ID: " + std::to_string(orders[id].getCustomerID()) + ", Customer Name: " + customers[orders[id].getCustomerID()].getName();
+    std::string message = "Updated order file successfully, Order ID: " + std::to_string(id) + ", Customer ID: " + std::to_string(orders[id].getCustomerID());
     logger->log(message);
 }
 

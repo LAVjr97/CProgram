@@ -232,10 +232,10 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
     customer.push_back(temp); //Customer contains the pointer that points to the current customer that will be worked on
 
     lineSearchCustomerCS ->clear(); //search entry from the customer search page, clears so it looks cleaner
-
+/*
     if(curOrderID != 0){
         size_t prevOrderID = orders[curOrderID - 1].getOrderID().value_or(INVALID_ORDER_ID);
-        if(curOrderID - 1 != prevOrderID)
+        if(curOrderID - 1 != prevOrderID && (prevOrderID != INVALID_ORDER_ID));
             curOrderID = prevOrderID++;
 
         if(orders[curOrderID - 1].getOrderID() == curOrderID){
@@ -246,7 +246,7 @@ void MainWindow::on_tableViewCSR_clicked(const QModelIndex &index){
     }
     else
         manager->logger->log("CurOrderID was 0");
-
+*/
     //Add order to orders
     orders.emplace_back(customer[0]->getCustomerID(), curOrderID);
     order.clear();
