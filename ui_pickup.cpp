@@ -68,6 +68,7 @@ void MainWindow::update_checkBoxToggleEO(bool checked){
         lineOrderTaxEO->setText(QString::number(calculateTax(order[0]->getCost()), 'f', 2));
         order[0]->set_calculateTax();
 
+
         lineOrderTotalEO->setText(QString::number(order[0]->calculateFinalCost(), 'f', 2));
         ui->btnLaundryEO->setEnabled(false);
         ui->btnDryCleanEO->setEnabled(false);
@@ -121,12 +122,13 @@ void MainWindow::on_btnSearchOrderOS_clicked(){
     order = search::Search::searchOrderID(orderID, orders);
 
     //Makes a copy of the order. so changes can be canceled or saved
+
+    if(order.empty())
+        return;
+
     orderCopy = *order[0];
     order.clear();
     order[0] = &orderCopy;
-
-    if(order.empty() == true)
-        return;
 
     customerID = order[0]->getCustomerID();
     customer.push_back(&customers[customerID]);
@@ -398,13 +400,12 @@ void MainWindow::on_btnSearchOrderEO_clicked(){
 
     order = search::Search::searchOrderID(orderID, orders);
 
-    orderCopy = *order[0];
-
-    order.clear();
-    order[0] = &orderCopy;
-
-    if(order.empty() == true)
+    if(order.empty())
         return;
+
+    orderCopy = *order[0];
+   // order.clear();
+    order[0] = &orderCopy;
 
     customerID = order[0]->getCustomerID();
     customer.push_back(&customers[customerID]);

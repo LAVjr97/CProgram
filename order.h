@@ -12,7 +12,9 @@ namespace orderInfo{
     class order{
         public:
             //Constructor
+            order();
             order(int customerID, int orderID);
+            order(std::optional<int> orderID); //Creating a null order
 
             //Loads orders at the start of program
             order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations);
@@ -79,8 +81,8 @@ namespace orderInfo{
             int calculatePieceTotal();
             bool verifyOrderIDs();
             double calculateFinalCost();
-            void set_calculateTax(){tax = (cost * .09375);}
-            void taxReset(){dryClean.clear(); dryClean.resize(1); laundry.clear(); laundry.shrink_to_fit();}
+            void set_calculateTax(){if(taxable) tax = (cost * .09375);}
+            void taxReset(){dryClean.clear(); dryClean.resize(1); laundry.clear(); laundry.resize(1);}
             void voidOrder();
 
             //order& operator=(const order& other);
@@ -94,9 +96,9 @@ namespace orderInfo{
             std::optional<int> orderID;
 
             //[0]: Shirts, [1]: Pants, [2]:Sweaters, [3]:Coats, [4]:Blouses, [5]:2pc Suit, [6]:Jacket, [7]:Vest
-            std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry;
 
             std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean;
+            std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry;
 
             std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations;
 

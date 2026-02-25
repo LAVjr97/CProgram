@@ -310,6 +310,7 @@ private slots:
 
     float calculateTax(float subTotal);
     //void voidOrder(size_t orderIndex);
+    bool emptyLaundryAndDryClean();
 
 
 private:

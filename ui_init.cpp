@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     std::string logFile = "log.txt";
     */
     manager = new fi::File(customerFile, orderFile, priceFile, tempOrderFile, tempCustFile, this->customers, this->orders, this->laundryPrices, this->dryCleanPrices, this->alterationsPrices, this->laundryPos, this->dryCleanPos, this->alterationsPos, logFile);
-    orderCopy = nullptr; // new orderInfo::order(0,0);
+    orderCopy = orderInfo::order(); // new orderInfo::order(0,0);
 
     /*
     manager->checkAndCreateFile(customerFile);

@@ -25,29 +25,12 @@ order::order(int customerID, int orderID){ //used when creating order in the dro
     alterations.resize(1);
 }
 
+order::order(){
+    this->orderID = std::nullopt;
+}
+
+
 // //Constructor used when loading in orders from orderFile into the program memory
-// order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, int, double>>> alterations){
-//     this->orderID = orderID;
-//     this->customerID = customerID;
-//     this->cost = cost;
-//     this->rackNumber = rack;
-//     this->pickedUp = pickedUp;
-//     this->paid = paid;
-//     this->pieceTotal = pieceTotal;
-//     this->discountApplied = discountApplied;
-//     this->discount = discount;
-//     this->taxable = taxable;
-//     this->tax = tax;
-//     this->finalCost = finalCost;
-//     this->deposit = deposit;
-
-//     this->dropOff = new date::Date(dropOffDay, dropOffMonth, dropOffYear, dropOffHour, dropOffMin, dropOffAm_Pm);
-//     this->pickUp = new date::Date(pickUpDay, pickUpMonth, pickUpYear, pickUpHour, pickUpMin, pickUpAm_Pm);
-//     this->laundryO = laundry;
-//     this->dryCleanO = dryClean;
-//     this->alterationsO = alterations;
-// }
-
 order::order(int orderID, int customerID, double cost, int rack, bool pickedUp, bool paid, int pieceTotal, bool discountApplied, double discount, bool taxable, double tax, double finalCost, double deposit, int dropOffDay, int dropOffMonth, int dropOffYear, int dropOffHour, int dropOffMin, std::string dropOffAm_Pm, int pickUpDay, int pickUpMonth, int pickUpYear, int pickUpHour, int pickUpMin, std::string pickUpAm_Pm, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> laundry, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> dryClean, std::vector<std::vector<std::tuple<std::string, std::string, int, double>>> alterations){
     if(orderID != -1)
         this->orderID = orderID;

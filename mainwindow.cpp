@@ -839,11 +839,30 @@ void MainWindow::printReciept(){
     painter.end();
 }
 
+//BUG IS HERE
 float MainWindow::calculateTax(float subTotal){
-    if(checkBoxTaxDP->isChecked())
+    if(order[0]->getTaxable())
         return subTotal * .09375;
     else
         return 0;
+}
+
+bool MainWindow::emptyLaundryAndDryClean(){
+    bool laundryEmpty = true, dryCleanEmpty = true;
+
+    if(!order[0]->getLaundry().empty()){
+        if(!order[0]->getLaundry()[0].empty()){
+            laundryEmpty = false;
+        }
+    }
+
+    if(!order[0]->getDryClean().empty()){
+        if(!order[0]->getDryClean()[0].empty()){
+            dryCleanEmpty = false;
+        }
+    }
+
+    return laundryEmpty || dryCleanEmpty;
 }
 
 
