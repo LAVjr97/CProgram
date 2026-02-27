@@ -297,18 +297,18 @@ void MainWindow::on_btnSaveEO_clicked(){
     if(lineFNameEO->text().isEmpty())
         return;
 
-    orders[curOrderID].setPaid(checkBoxPaidEO->isChecked());
-    orders[curOrderID].setPickUp(checkBoxPUEO->isChecked());
+    order[0]->setPaid(checkBoxPaidEO->isChecked());
+    order[0]->setPickUp(checkBoxPUEO->isChecked());
 
     if(!lineRackEO->text().isEmpty())
-        orders[curOrderID].setRack(lineRackEO->text().toInt());
+        order[0]->setRack(lineRackEO->text().toInt());
     else
-        orders[curOrderID].setRack(-1);
+        order[0]->setRack(-1);
 
     saveModel(modelEO);
     updateModel(modelEO);
 
-    if(curOrderID != orders[curOrderID].getOrderID()){
+    if(curOrderID != order[0]->getOrderID()){
         std::string logmsg = "Critical Error in Saving Edited Order! Mismatch in curOrderID and object OrderID, curOrderID: " + std::to_string(curOrderID) + " Object OrderID: " + (orders[curOrderID].getOrderID() ? std::to_string(*orders[curOrderID].getOrderID()) : "VOID Order");
         manager->logger->log(logmsg);
         handleCritcalError();
@@ -321,7 +321,7 @@ void MainWindow::on_btnSaveEO_clicked(){
         handleCritcalError();
     }
 
-    orders[curOrderID] = orderCopy;
+    orders[curOrderID] = *order[0];
 
     std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID, orders[curOrderID].getCustomerID());
     std::thread threadCust(&fi::File::updateCustomer, manager, orders[curOrderID].getCustomerID());
@@ -361,7 +361,7 @@ void MainWindow::on_btnVoidOrcerEO_clicked()
 
         customers[curCustomerID].voidCustomerOrder(curOrderID, order[0]->getFinalCost());
         order[0]->voidOrder();
-        orders[curOrderID] = orderCopy;
+        orders[curOrderID] = *order[0];
 
         std::thread threadOrder(&fi::File::updateOrder, manager, curOrderID, curCustomerID);
         std::thread threadCust(&fi::File::updateCustomer, manager, curCustomerID);
