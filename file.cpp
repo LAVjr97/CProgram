@@ -204,7 +204,8 @@ int File::checkOrderIDs(){
         curCustomerID = std::stoi(temp);
         std::getline(ss, temp, ',');
 
-        if(curOrderID == prevOrderID){
+
+        if(prevOrderID == curOrderID && (prevOrderID != INVALID_ORDER_ID && curOrderID != INVALID_ORDER_ID)){
             errors++;
             std::string message = "Matching orderIDs found: " + std::to_string(curOrderID) + ", Current Customer ID: " + std::to_string(curCustomerID) + ", Previous Customer ID:" + std::to_string(prevCustomerID);
             logger->log(message);

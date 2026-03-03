@@ -1,0 +1,16 @@
+2026-03-03_10-04-52 - Successfully loaded price data...
+2026-03-03_10-04-52 - Successfully loaded customer data...
+2026-03-03_10-04-52 - Successfully loaded order data...
+2026-03-03_10-08-53 - Successfully saved order data...
+2026-03-03_10-08-53 - Updated customer file successfully, Customer ID: 942, Customer Name: Claudia Alderete
+2026-03-03_10-08-53 - 2 Reciepts printed
+2026-03-03_10-08-53 - Two reciepts printed, order saved
+2026-03-03_10-28-45 - Successfully saved order data...
+2026-03-03_10-28-45 - Updated customer file successfully, Customer ID: 25, Customer Name: Antonio Castillo
+2026-03-03_10-28-45 - 2 Reciepts printed
+2026-03-03_10-28-45 - Two reciepts printed, order saved
+2026-03-03_11-17-26 - Matching orderIDs found: -1, Current Customer ID: -1, Previous Customer ID:-1
+2026-03-03_11-17-26 - Matching orderIDs found: -1, Current Customer ID: -1, Previous Customer ID:-1
+2026-03-03_11-17-26 - Matching orderIDs found: -1, Current Customer ID: -1, Previous Customer ID:-1
+2026-03-03_11-17-26 - Critical Error in Saving Edited Order! Error in File, there are multiple matches of differnt orderIDs: 3 times
+2026-03-03_11-17-26 - File will be saved as a new log!

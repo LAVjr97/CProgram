@@ -1,0 +1,18 @@
+2026-03-03_09-32-55 - Successfully loaded price data...
+2026-03-03_09-32-55 - Successfully loaded customer data...
+2026-03-03_09-32-55 - Successfully loaded order data...
+2026-03-03_09-35-13 - Matching orderIDs found: -1, Current Customer ID: -1, Previous Customer ID:-1
+2026-03-03_09-35-13 - Matching orderIDs found: -1, Current Customer ID: -1, Previous Customer ID:-1
+2026-03-03_09-35-13 - Matching orderIDs found: -1, Current Customer ID: -1, Previous Customer ID:-1
+2026-03-03_09-35-13 - Critical Error in Saving Picked Up Order! Error in File, there are multiple matches of differnt orderIDs: 3 times
+2026-03-03_09-35-13 - Updated customer file successfully, Customer ID: 861, Customer Name: Paloma Medina
+2026-03-03_09-35-13 - Updated order file successfully, Order ID: 3184, Customer ID: 861
+2026-03-03_09-36-04 - Successfully saved order data...
+2026-03-03_09-36-04 - Updated customer file successfully, Customer ID: 861, Customer Name: Paloma Medina
+2026-03-03_09-36-04 - 2 Reciepts printed
+2026-03-03_09-36-04 - Two reciepts printed, order saved
+2026-03-03_10-01-55 - Matching orderIDs found: -1, Current Customer ID: -1, Previous Customer ID:-1
+2026-03-03_10-01-55 - Matching orderIDs found: -1, Current Customer ID: -1, Previous Customer ID:-1
+2026-03-03_10-01-55 - Matching orderIDs found: -1, Current Customer ID: -1, Previous Customer ID:-1
+2026-03-03_10-01-55 - Critical Error in Saving Edited Order! Error in File, there are multiple matches of differnt orderIDs: 3 times
+2026-03-03_10-01-55 - File will be saved as a new log!
